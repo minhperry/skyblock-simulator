@@ -1,0 +1,14 @@
+@import '../../variables.scss';
+
+.home {
+    text-align: center;
+    margin-top: 50px 30px 50px
+}
+
+.home h1 {
+    color: $color-muted
+}
+
+.home p {
+    color: $color-text
+}
