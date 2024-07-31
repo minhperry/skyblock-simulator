@@ -4,7 +4,7 @@ import { Cell, CellState } from '../../../interfaces/cell';
 @Component({
   selector: 'panegame',
   templateUrl: './panegame.component.html',
-  styleUrl: './panegame.component.css'
+  styleUrl: './panegame.component.scss'
 })
 export class PaneGameComponent implements OnInit, OnDestroy {
   grid: Cell[][] = [];

@@ -1,3 +1,5 @@
+@import '../../../variables.scss';
+
 .pane-game-container {
     display: flex;
     justify-content: center;
@@ -9,7 +11,8 @@
     margin: 16px auto;
 }
 
-.left-panel, .right-panel {
+.left-panel,
+.right-panel {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,12 +36,12 @@
 .description p {
     margin: 5px 0;
     font-size: 1em;
-    color: var(--color-text);
+    color: $color-text;
 }
 
 .timer-display {
     font-size: 1.2em;
-    color: var(--color-subtle);
+    color: $color-subtle;
     margin-bottom: 20px;
 }
 

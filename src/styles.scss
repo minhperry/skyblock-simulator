@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'variables';
+
+:root {
+    color-scheme: light dark;
+    color: $color-text;
+}
+
+html,
+body {
+    height: 100%;
+    background-color: $primBackgroundColor;
+    color: $primTextColor;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+@font-face {
+    font-family: 'Minecraft';
+    src: url('../public/fonts/minecraftfont.woff'), url('../public/fonts/MinecraftTen.woff');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}

@@ -5,7 +5,7 @@ import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'numbergame',
   templateUrl: './numbergame.component.html',
-  styleUrl: './numbergame.component.css'
+  styleUrl: './numbergame.component.scss'
 })
 export class NumbergameComponent implements OnInit, OnDestroy {
   grid: Cell[][] = [];
