@@ -1,0 +1,8 @@
+<div class="grid">
+    <div *ngFor="let row of grid; let i = index" class="row">
+        <div *ngFor="let cell of row; let j = index" class="pane" [class]="cell.state"
+            (mousedown)="handleCellClick(i, j)">
+            <span *ngIf="cell.number !== undefined" class="number">{{ cell.number !== 1 ? cell.number : '' }}</span>
+        </div>
+    </div>
+</div>

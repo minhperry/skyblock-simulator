@@ -1,0 +1,16 @@
+<div class="pane-game-container">
+    <div class="left-panel">
+        <div class="description">
+            <h1>Terminal - Panes</h1>
+            <p>Click on the panes to change their color</p>
+            <p>The timer will start when you click the first pane</p>
+        </div>
+        <div class="timer-display">
+            {{ timer.toFixed(1) }}s
+        </div>
+        <button (click)="onRestartButtonClick()">Restart</button>
+    </div>
+    <div class="right-panel">
+        <pane [grid]="grid" (cellClicked)="onCellClicked($event)"></pane>
+    </div>
+</div>

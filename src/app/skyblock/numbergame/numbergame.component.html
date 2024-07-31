@@ -1,0 +1,18 @@
+<div class="number-game-container">
+    <div class="left-panel">
+        <div class="description">
+            <h1>Terminal - Numbers</h1>
+            <p>Click on the panes in ascending order</p>
+            <p>The timer will start when you click the first pane</p>
+            <p>Click Restart after toggling Stupidity to refresh</p>
+        </div>
+        <div class="timer-display">
+            {{ timer.toFixed(1) }}s
+        </div>
+        <button (click)="onRestartButtonClick()">Restart</button>
+        <button (click)="toggleStupidity()">You are {{ !stupid ? 'smart' : 'dumb' }}</button>
+    </div>
+    <div class="right-panel">
+        <pane [grid]="grid" (cellClicked)="onCellClicked($event)"></pane>
+    </div>
+</div>
