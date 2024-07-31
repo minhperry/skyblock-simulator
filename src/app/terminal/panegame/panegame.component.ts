@@ -7,7 +7,7 @@ import { Cell, CellState } from '../../../interfaces/cell';
   styleUrl: './panegame.component.scss'
 })
 export class PaneGameComponent implements OnInit, OnDestroy {
-  grid: Cell[][] = [];
+  grid: Cell<number>[][] = [];
   timer: number = 0;
   intervalId: any;
   started: boolean = false;
@@ -24,7 +24,7 @@ export class PaneGameComponent implements OnInit, OnDestroy {
       this.stopTimer()
   }
 
-  private genRandomOn(grid: Cell[][]): Cell[][] {
+  private genRandomOn(grid: Cell<number>[][]): Cell<number>[][] {
     const totalCells = this.width * this.height;
     const totalOnCells = Math.floor(this.chance * totalCells);
     let onCellsRemaining = totalOnCells;

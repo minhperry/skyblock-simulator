@@ -8,7 +8,7 @@ import { ChangeDetectorRef } from '@angular/core';
   styleUrl: './numbergame.component.scss'
 })
 export class NumbergameComponent implements OnInit, OnDestroy {
-  grid: Cell[][] = [];
+  grid: Cell<number>[][] = [];
   timer: number = 0;
   intervalId: any;
   started: boolean = false;
@@ -31,7 +31,7 @@ export class NumbergameComponent implements OnInit, OnDestroy {
       this.stopTimer()
   }
 
-  private genGrid(): Cell[][] {
+  private genGrid(): Cell<number>[][] {
     const numbers = Array.from({ length: this.size }, (_, i) => i + 1);
 
     for (let i = numbers.length - 1; i > 0; i--) {
@@ -39,14 +39,14 @@ export class NumbergameComponent implements OnInit, OnDestroy {
       [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
     }
 
-    let grid$: Cell[][] = [];
+    let grid$: Cell<number>[][] = [];
     for (let i = 0; i < this.size; i++) {
       const row = Math.floor(i / this.width);
       const col = i % this.width;
       if (col === 0) {
         grid$.push([]);
       }
-      grid$[row].push({ number: numbers[i], state: CellState.OFF });
+      grid$[row].push({ value: numbers[i], state: CellState.OFF });
       this.grid2NumMap.set({ row, col }, numbers[i]);
       this.num2GridMap.set(numbers[i], { row, col });
     }
@@ -77,13 +77,17 @@ export class NumbergameComponent implements OnInit, OnDestroy {
   }
 
   onCellClicked(cell: { row: number, col: number }) {
-    if (!this.started) {
-      this.started = true;
-      this.startTimer();
-    }
-
     const { row, col } = cell;
-    const clickedNumber = this.grid[row][col].number;
+    const clickedNumber = this.grid[row][col].value;
+
+    if (!this.started) {
+      if (clickedNumber !== 1) {
+        return;
+      } else {
+        this.started = true;
+        this.startTimer();
+      }
+    }
 
     if (clickedNumber === this.next) {
       this.grid[row][col].state = CellState.ON;

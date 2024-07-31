@@ -7,7 +7,7 @@ import { Cell } from '../../../interfaces/cell';
   styleUrl: './pane.component.css'
 })
 export class PaneComponent {
-  @Input() grid: Cell[][] = [];
+  @Input() grid: Cell<number>[][] = [];
   @Output() cellClicked = new EventEmitter<{ row: number, col: number }>();
 
   handleCellClick(row: number, col: number) {

@@ -12,6 +12,10 @@ const routes: Routes = [
     path: 'terminal',
     component: TerminalComponent
   },
+  {
+    path: '**',
+    redirectTo: ''
+  }
 ];
 
 @NgModule({

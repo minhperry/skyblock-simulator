@@ -1,6 +1,6 @@
-export interface Cell {
+export interface Cell<T> {
     state: CellState;
-    number?: number;
+    value?: T;
 }
 
 export enum CellState {
