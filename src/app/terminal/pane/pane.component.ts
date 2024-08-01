@@ -4,7 +4,7 @@ import { Cell } from '../../../interfaces/cell';
 @Component({
   selector: 'pane',
   templateUrl: './pane.component.html',
-  styleUrl: './pane.component.css'
+  styleUrl: './pane.component.scss'
 })
 export class PaneComponent {
   @Input() grid: Cell<number>[][] = [];

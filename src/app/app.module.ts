@@ -9,6 +9,7 @@ import { PaneGameComponent } from './terminal/panegame/panegame.component';
 import { NumbergameComponent } from './terminal/numbergame/numbergame.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
+import { ColorerComponent } from './terminal/colorer/colorer.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HomeComponent } from './home/home.component';
     PaneGameComponent,
     NumbergameComponent,
     NavbarComponent,
-    HomeComponent    
+    HomeComponent,
+    ColorerComponent    
   ],
   imports: [
     BrowserModule,

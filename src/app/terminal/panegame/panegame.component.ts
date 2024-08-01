@@ -14,7 +14,6 @@ export class PaneGameComponent implements OnInit, OnDestroy {
 
   width = 7;
   height = 3;
-  chance = 0.2;
 
   ngOnInit(): void {
       this.initializeGrid()
@@ -25,9 +24,7 @@ export class PaneGameComponent implements OnInit, OnDestroy {
   }
 
   private genRandomOn(grid: Cell<number>[][]): Cell<number>[][] {
-    const totalCells = this.width * this.height;
-    const totalOnCells = Math.floor(this.chance * totalCells);
-    let onCellsRemaining = totalOnCells;
+    let onCellsRemaining =  Math.floor(Math.random() * 6) + 2;
 
     while (onCellsRemaining > 0) {
       const row = Math.floor(Math.random() * this.height);
