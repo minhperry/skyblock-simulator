@@ -2,13 +2,29 @@
 
 .home {
     text-align: center;
-    margin-top: 50px 30px 50px
+    margin: 50px 30px 50px;
+
+    h1 {
+        color: $color-muted
+    }
+
+    p {
+        color: $color-text
+    }
 }
 
-.home h1 {
-    color: $color-muted
-}
+.md-wrapper {
+    padding: 0px 30px 50px;
 
-.home p {
-    color: $color-text
+    h1 {
+        margin-left: 30px;
+    }
+
+    .title {
+        text-align: center;
+    }
+
+    li {
+        font-size: 48px;
+    }
 }

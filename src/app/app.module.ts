@@ -10,6 +10,8 @@ import { NumbergameComponent } from './terminal/numbergame/numbergame.component'
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { ColorerComponent } from './terminal/colorer/colorer.component';
+import { MarkdownModule, provideMarkdown } from 'ngx-markdown';
+import { HttpClient, provideHttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,9 +26,12 @@ import { ColorerComponent } from './terminal/colorer/colorer.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MarkdownModule.forRoot({ loader: HttpClient })
   ],
-  providers: [],
+  providers: [
+    provideHttpClient()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

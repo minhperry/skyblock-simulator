@@ -36,7 +36,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/md"
             ],
             "styles": [
               "src/styles.scss"
