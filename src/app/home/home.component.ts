@@ -17,8 +17,8 @@ export class HomeComponent {
 - **Terminal**: Added Numbers game
 ### 0.2.1
 - **Terminal**: Add number solver for stupid people
-# 0.3
-- **Terminal**: Added Same Color game
+# ~~0.3~~ not yet
+- ~~**Terminal**: Added Same Color game~~
 `
 
 }

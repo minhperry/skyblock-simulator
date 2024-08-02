@@ -6,11 +6,13 @@ import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    title: 'Main Menu'
   },
   {
     path: 'terminal',
-    component: TerminalComponent
+    component: TerminalComponent,
+    title: 'Floor 7 Terminals'
   },
   {
     path: '**',
