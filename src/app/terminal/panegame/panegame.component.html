@@ -6,11 +6,11 @@
             <p>The timer will start when you click the first pane</p>
         </div>
         <div class="timer-display">
-            {{ timer.toFixed(1) }}s
+            {{ timer.time().toFixed(1) }}s
         </div>
         <button (click)="onRestartButtonClick()">Restart</button>
     </div>
     <div class="right-panel">
-        <pane [grid]="grid" (cellClicked)="onCellClicked($event)"></pane>
+        <pane [grid]="config.grid" (cellClicked)="onCellClicked($event)"></pane>
     </div>
 </div>

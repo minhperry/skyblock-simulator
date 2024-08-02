@@ -6,8 +6,8 @@ import { Cell } from '../../../interfaces/cell';
   templateUrl: './pane.component.html',
   styleUrl: './pane.component.scss'
 })
-export class PaneComponent {
-  @Input() grid: Cell<number>[][] = [];
+export class PaneComponent<T> {
+  @Input() grid: Cell<T>[][] = [];
   @Output() cellClicked = new EventEmitter<{ row: number, col: number }>();
 
   handleCellClick(row: number, col: number) {

@@ -1,34 +1,41 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Cell, CellState } from '../../../interfaces/cell';
 import { ChangeDetectorRef } from '@angular/core';
+import { GameConfig } from '../../../interfaces/game-config';
+import { TimerService } from '../../../services/timer.service';
 
 @Component({
   selector: 'numbergame',
   templateUrl: './numbergame.component.html',
-  styleUrl: './numbergame.component.scss'
+  styleUrl: './numbergame.component.scss',
+  providers: [
+    {provide: 'timeInMs', useValue: 100},
+    TimerService
+  ]
 })
 export class NumbergameComponent implements OnInit, OnDestroy {
-  grid: Cell<number>[][] = [];
-  timer: number = 0;
-  intervalId: any;
-  started: boolean = false;
-  stupid: boolean = false;
+  config: GameConfig<number> = {
+    grid: [],
+    started: false,
+    width: 7,
+    height: 2
+  }
   next: number = 1;
+  stupid: boolean = false;
+  size: number = this.config.width * this.config.height;
 
-  width = 7;
-  height = 2;
-  size = this.width * this.height;
   grid2NumMap: Map<{ row: number, col: number }, number> = new Map();
   num2GridMap: Map<number, { row: number, col: number }> = new Map();
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef, public timer: TimerService) {
+  }
 
   ngOnInit(): void {
       this.initializeGrid()
   }
 
   ngOnDestroy(): void {
-      this.stopTimer()
+      this.timer.stop()
   }
 
   private genGrid(): Cell<number>[][] {
@@ -41,8 +48,8 @@ export class NumbergameComponent implements OnInit, OnDestroy {
 
     let grid$: Cell<number>[][] = [];
     for (let i = 0; i < this.size; i++) {
-      const row = Math.floor(i / this.width);
-      const col = i % this.width;
+      const row = Math.floor(i / this.config.width);
+      const col = i % this.config.width;
       if (col === 0) {
         grid$.push([]);
       }
@@ -54,54 +61,39 @@ export class NumbergameComponent implements OnInit, OnDestroy {
   }
 
   initializeGrid() {
-    this.grid = this.genGrid();
+    this.config.grid = this.genGrid();
     if (this.stupid) {
       const {row, col} = this.num2GridMap.get(1)!;
-      this.grid[row][col].state = CellState.NEXT;
-    }
-  }
-
-  startTimer() {
-    if (!this.intervalId) {
-      this.intervalId = setInterval(() => {
-        this.timer += 0.1;
-      }, 100);
-    }
-  }
-
-  stopTimer() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
+      this.config.grid[row][col].state = CellState.NEXT;
     }
   }
 
   onCellClicked(cell: { row: number, col: number }) {
     const { row, col } = cell;
-    const clickedNumber = this.grid[row][col].value;
+    const clickedNumber = this.config.grid[row][col].value;
 
-    if (!this.started) {
+    if (!this.config.started) {
       if (clickedNumber !== 1) {
         return;
       } else {
-        this.started = true;
-        this.startTimer();
+        this.config.started = true;
+        this.timer.start();
       }
     }
 
     if (clickedNumber === this.next) {
-      this.grid[row][col].state = CellState.ON;
+      this.config.grid[row][col].state = CellState.ON;
       this.next++;
 
       if (this.stupid && this.next <= this.size) {
         const nxt = this.num2GridMap.get(this.next);
         if (nxt) {
-          this.grid[nxt.row][nxt.col].state = CellState.NEXT;
+          this.config.grid[nxt.row][nxt.col].state = CellState.NEXT;
         }
       }
 
       if (this.next > this.size) {
-        this.stopTimer();
+        this.timer.stop();
       }
     }
   }
@@ -112,16 +104,15 @@ export class NumbergameComponent implements OnInit, OnDestroy {
   }
 
   onRestartButtonClick() {
-    this.stopTimer();
-    this.timer = 0;
-    this.started = false;
+    this.timer.restart()
+    this.config.started = false;
     this.initializeGrid();
     this.next = 1;
     this.reRender();
   }
 
   reRender() {
-    this.grid = [...this.grid];
+    this.config.grid = [...this.config.grid];
     this.cd.detectChanges();
   }
 }
