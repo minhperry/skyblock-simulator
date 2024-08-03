@@ -19,6 +19,8 @@ export class PaneGameComponent implements OnInit, OnDestroy {
     width: 7,
     height: 3
   };
+  min = 1;
+  max = 7;
 
   constructor(public timer: TimerService) {
   }
@@ -31,8 +33,8 @@ export class PaneGameComponent implements OnInit, OnDestroy {
       this.timer.stop()
   }
 
-  private genRandomOn(grid: Cell<null>[][]): Cell<null>[][] {
-    let onCellsRemaining =  Math.floor(Math.random() * 6) + 2;
+  private genRandom(min: number, max: number): void {
+    let onCellsRemaining =  Math.floor(Math.random() * (max + 1)) + min;
 
     while (onCellsRemaining > 0) {
       const row = Math.floor(Math.random() * this.config.height);
@@ -43,14 +45,13 @@ export class PaneGameComponent implements OnInit, OnDestroy {
         onCellsRemaining--;
       }
     }
-    return grid;
   }
 
   initializeGrid() {
     this.config.grid = Array.from({ length: this.config.height }, () => 
       Array.from({ length: this.config.width }, () => ({ state: CellState.OFF }))
     );
-    this.config.grid = this.genRandomOn(this.config.grid);
+    this.genRandom(this.min, this.max); 
   }
 
   onRestartButtonClick() {

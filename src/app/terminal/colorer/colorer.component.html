@@ -1,3 +1,25 @@
-<div class="color-container">
+<div class="game-container">
+    <div class="left-panel">
+        <div class="description">
+            <h1>Terminal - Colors</h1>
+            <p>Click on the panes to change their color.</p>
+            <p>Currently only support left click.</p>
+            <p>The timer will start when you click the first pane</p>
+            <p class="cycle">
+                Cycle:
+                <img src="/textures/blue.png" alt="blue" class="color" /> →
+                <img src="/textures/purple.png" alt="purple" class="color" /> →
+                <img src="/textures/cyan.png" alt="cyan" class="color" /> →
+                <img src="/textures/blue.png" alt="blue" class="color" />
+            </p>
 
+        </div>
+        <div class="timer-display">
+            {{ timer.time().toFixed(1) }}s
+        </div>
+        <button (click)="onRestart()">Restart</button>
+    </div>
+    <div class="right-panel">
+        <pane [grid]="config.grid" (cellClicked)="onCellClick($event)"></pane>
+    </div>
 </div>

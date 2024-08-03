@@ -28,6 +28,18 @@ $size: 48px;
     @include scale('../../../../public/textures/yellow.png');
 }
 
+.grid .blue {
+    @include scale('../../../../public/textures/blue.png');
+}
+
+.grid .purple {
+    @include scale('../../../../public/textures/purple.png');
+}
+
+.grid .cyan {
+    @include scale('../../../../public/textures/cyan.png');
+}
+
 .pane {
     position: relative;
     width: $size;

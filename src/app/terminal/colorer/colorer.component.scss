@@ -1,1 +1,12 @@
 @import '../panegame/panegame.component.scss';
+
+$size: 16px;
+
+p.cycle {
+    font-size: $size;
+
+    img {
+        margin: 2px;
+        vertical-align: middle;
+    }
+}
