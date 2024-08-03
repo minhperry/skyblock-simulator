@@ -1,6 +1,11 @@
 <nav>
     <ul>
         <li *ngFor="let item of links">
-            <a [routerLink]="item.path">{{ item.label }}</a>
+            <a [routerLink]="item.path" [ngClass]="!item.comingSoon ? '' : 'coming-soon'"
+                [innerHTML]="handle(item)"></a>
+        </li>
+        <li class="source-code">
+            <a href="https://github.com/minhperry/skyblock-simulator" target="_blank">[ Source Code ]</a>
+        </li>
     </ul>
 </nav>
