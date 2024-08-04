@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { Cell } from '../../../interfaces/cell';
 
 @Component({
@@ -6,11 +6,33 @@ import { Cell } from '../../../interfaces/cell';
   templateUrl: './pane.component.html',
   styleUrl: './pane.component.scss'
 })
-export class PaneComponent<S, T> {
+export class PaneComponent<T> implements OnChanges {
   @Input() grid: Cell<T>[][] = [];
   @Output() cellClicked = new EventEmitter<{ row: number, col: number }>();
 
+  fontSize: string = '16px';
+
   handleCellClick(row: number, col: number) {
     this.cellClicked.emit({ row, col });
+  }
+
+  ngOnChanges(change: SimpleChanges): void {
+    if (change['grid']) {
+      this.calculateFontSize();
+    }
+  }
+
+  private calculateFontSize() {
+    const totalElements = this.grid.reduce((count, row) => count + row.length, 0);
+
+    if (totalElements > 100) {
+      this.fontSize = '10px';
+    } else if (totalElements > 75) {
+      this.fontSize = '12px';
+    } else if (totalElements > 50) {
+      this.fontSize = '14px';
+    } else {
+      this.fontSize = '16px';
+    }
   }
 }

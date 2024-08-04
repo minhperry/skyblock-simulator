@@ -4,11 +4,22 @@
             <h1>Terminal - Panes</h1>
             <p>Click on the panes to change their color</p>
             <p>The timer will start when you click the first pane</p>
+            <p>From {{minPercent*100}}% up to {{maxPercent*100}}% of the grid is filled.</p>
         </div>
         <div class="timer-display">
             {{ timer.time().toFixed(1) }}s
         </div>
-        <button (click)="onRestartButtonClick()">Restart</button>
+        <button (click)="onRestartButtonClick()">New game</button>
+        <div class="sliders">
+            Width:
+            <mat-slider min="6" max="20" step="1" discrete>
+                <input matSliderThumb [(value)]="config.width">
+            </mat-slider>
+            Height:
+            <mat-slider min="3" max="9" step="1" discrete>
+                <input matSliderThumb [(value)]="config.height">
+            </mat-slider>
+        </div>
     </div>
     <div class="right-panel">
         <pane [grid]="config.grid" (cellClicked)="onCellClicked($event)"></pane>

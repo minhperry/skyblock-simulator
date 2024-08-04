@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, forwardRef, OnDestroy, OnInit } from '@angular/core';
 import { Cell, CellState } from '../../../interfaces/cell';
 import { GameConfig } from '../../../interfaces/game-config';
 import { TimerService } from '../../../services/timer.service';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'panegame',
@@ -19,8 +20,8 @@ export class PaneGameComponent implements OnInit, OnDestroy {
     width: 7,
     height: 3
   };
-  min = 1;
-  max = 7;
+  minPercent = 0.1;
+  maxPercent = 0.35;
 
   constructor(public timer: TimerService) {
   }
@@ -33,16 +34,24 @@ export class PaneGameComponent implements OnInit, OnDestroy {
       this.timer.stop()
   }
 
-  private genRandom(min: number, max: number): void {
-    let onCellsRemaining =  Math.floor(Math.random() * (max + 1)) + min;
+  private getRandomAmount(minP: number, maxP: number): number {
+    const gridSize = this.config.width * this.config.height;
+    const minCells = Math.floor(gridSize * minP);
+    const maxCells = Math.floor(gridSize * maxP);
+    return Math.floor(Math.random() * (maxCells - minCells + 1)) + minCells;
+  }
 
-    while (onCellsRemaining > 0) {
+  private genRandom(minP: number, maxP: number): void {
+    let remains = this.getRandomAmount(minP, maxP);
+
+
+    while (remains > 0) {
       const row = Math.floor(Math.random() * this.config.height);
       const col = Math.floor(Math.random() * this.config.width);
 
       if (this.config.grid[row][col].state === CellState.OFF) {
         this.config.grid[row][col].state = CellState.ON;
-        onCellsRemaining--;
+        remains--;
       }
     }
   }
@@ -51,7 +60,7 @@ export class PaneGameComponent implements OnInit, OnDestroy {
     this.config.grid = Array.from({ length: this.config.height }, () => 
       Array.from({ length: this.config.width }, () => ({ state: CellState.OFF }))
     );
-    this.genRandom(this.min, this.max); 
+    this.genRandom(this.minPercent, this.maxPercent); 
   }
 
   onRestartButtonClick() {

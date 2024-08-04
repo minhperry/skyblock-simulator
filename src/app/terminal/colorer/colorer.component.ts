@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GameConfig } from '../../../interfaces/game-config';
 import { Cell, CellState, next, random } from '../../../interfaces/cell';
 import { TimerService } from '../../../services/timer.service';
+import { MatSliderChange } from '@angular/material/slider';
 
 @Component({
   selector: 'colorgame',
@@ -13,14 +14,19 @@ import { TimerService } from '../../../services/timer.service';
   ]
 })
 export class ColorerComponent implements OnInit, OnDestroy {
-  config: GameConfig<null> = {
-    grid: [],
-    started: false,
-    width: 3,
-    height: 3
-  }
+  edgeSize = 3;
+  config: GameConfig<null> = this.configure();
 
   constructor(public timer: TimerService) {
+  }
+
+  private configure() {
+    return {
+      grid: [],
+      started: false,
+      width: this.edgeSize,
+      height: this.edgeSize
+    }
   }
 
   ngOnInit(): void {
@@ -63,6 +69,7 @@ export class ColorerComponent implements OnInit, OnDestroy {
   }
 
   initGrid(): void {
+    this.config = this.configure();
     this.config.grid = this.generateGrid();
   }
 
@@ -70,5 +77,10 @@ export class ColorerComponent implements OnInit, OnDestroy {
     const unique = new Set();
     this.config.grid.forEach(row => row.forEach(cell => unique.add(cell.state)));
     return unique.size === 1;
+  }
+
+  onEdgeSizeChange(event: Event): void {
+    this.edgeSize ;
+    this.initGrid();
   }
 }

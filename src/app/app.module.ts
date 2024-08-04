@@ -10,8 +10,11 @@ import { NumbergameComponent } from './terminal/numbergame/numbergame.component'
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { ColorerComponent } from './terminal/colorer/colorer.component';
-import { MarkdownModule, provideMarkdown } from 'ngx-markdown';
+import { MarkdownModule } from 'ngx-markdown';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatSliderModule } from '@angular/material/slider';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,10 +30,14 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MarkdownModule.forRoot({ loader: HttpClient })
+    MarkdownModule.forRoot({ loader: HttpClient }),
+    MatSliderModule,
+    FormsModule,
+    ReactiveFormsModule 
   ],
   providers: [
-    provideHttpClient()
+    provideHttpClient(),
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

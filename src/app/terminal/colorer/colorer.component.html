@@ -12,12 +12,17 @@
                 <img src="/textures/cyan.png" alt="cyan" class="color" /> →
                 <img src="/textures/blue.png" alt="blue" class="color" />
             </p>
-
         </div>
         <div class="timer-display">
             {{ timer.time().toFixed(1) }}s
         </div>
-        <button (click)="onRestart()">Restart</button>
+        <button (click)="onRestart()">New game</button>
+        <div class="sliders">
+            Side:
+            <mat-slider min="2" max="10" step="1" discrete>
+                <input matSliderThumb [(value)]="edgeSize">
+            </mat-slider>
+        </div>
     </div>
     <div class="right-panel">
         <pane [grid]="config.grid" (cellClicked)="onCellClick($event)"></pane>

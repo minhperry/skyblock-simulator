@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
 import { Cell, CellState } from '../../../interfaces/cell';
 import { ChangeDetectorRef } from '@angular/core';
 import { GameConfig } from '../../../interfaces/game-config';
@@ -22,7 +22,8 @@ export class NumbergameComponent implements OnInit, OnDestroy {
   }
   next: number = 1;
   stupid: boolean = false;
-  size: number = this.config.width * this.config.height;
+  
+  private size(): number { return this.config.width * this.config.height; }
 
   grid2NumMap: Map<{ row: number, col: number }, number> = new Map();
   num2GridMap: Map<number, { row: number, col: number }> = new Map();
@@ -39,7 +40,8 @@ export class NumbergameComponent implements OnInit, OnDestroy {
   }
 
   private genGrid(): Cell<number>[][] {
-    const numbers = Array.from({ length: this.size }, (_, i) => i + 1);
+    const size = this.size();
+    const numbers = Array.from({ length: size }, (_, i) => i + 1);
 
     for (let i = numbers.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -47,7 +49,7 @@ export class NumbergameComponent implements OnInit, OnDestroy {
     }
 
     let grid$: Cell<number>[][] = [];
-    for (let i = 0; i < this.size; i++) {
+    for (let i = 0; i < size; i++) {
       const row = Math.floor(i / this.config.width);
       const col = i % this.config.width;
       if (col === 0) {
@@ -60,15 +62,30 @@ export class NumbergameComponent implements OnInit, OnDestroy {
     return grid$;
   }
 
-  initializeGrid() {
-    this.config.grid = this.genGrid();
+  initializeGrid(genNew: boolean = true) {
+    this.config.grid = genNew ? this.genGrid() : this.config.grid;
+
+    if (this.next > this.size()) return
+    if (this.next - 1 > this.size()) return
+
+    const {row, col} = this.num2GridMap.get(this.next)!;    
+    const {row: orow, col: ocol} = this.num2GridMap.get(this.next + 1)!;
+
     if (this.stupid) {
-      const {row, col} = this.num2GridMap.get(1)!;
       this.config.grid[row][col].state = CellState.NEXT;
+      this.config.grid[orow][ocol].state = CellState.OVERNEXT;
+    } else {
+      this.config.grid[row][col].state = CellState.OFF;
+      this.config.grid[orow][ocol].state = CellState.OFF;
     }
   }
 
+  private existAll(numArr: number[]): boolean {
+    return numArr.every(num => num != undefined);
+  }
+
   onCellClicked(cell: { row: number, col: number }) {
+    const size = this.size();
     const { row, col } = cell;
     const clickedNumber = this.config.grid[row][col].value;
 
@@ -85,14 +102,19 @@ export class NumbergameComponent implements OnInit, OnDestroy {
       this.config.grid[row][col].state = CellState.ON;
       this.next++;
 
-      if (this.stupid && this.next <= this.size) {
+      if (this.stupid && this.next <= size) {
         const nxt = this.num2GridMap.get(this.next);
         if (nxt) {
           this.config.grid[nxt.row][nxt.col].state = CellState.NEXT;
         }
+
+        const ovnxt = this.num2GridMap.get(this.next + 1);
+        if (ovnxt && this.next + 1 <= size) {
+          this.config.grid[ovnxt.row][ovnxt.col].state = CellState.OVERNEXT;
+        }
       }
 
-      if (this.next > this.size) {
+      if (this.next > size) {
         this.timer.stop();
       }
     }
@@ -100,19 +122,13 @@ export class NumbergameComponent implements OnInit, OnDestroy {
 
   toggleStupidity() {
     this.stupid = !this.stupid;
-    this.reRender();
+    this.initializeGrid(false);
   }
 
   onRestartButtonClick() {
     this.timer.restart()
     this.config.started = false;
-    this.initializeGrid();
+    this.initializeGrid(true);
     this.next = 1;
-    this.reRender();
-  }
-
-  reRender() {
-    this.config.grid = [...this.config.grid];
-    this.cd.detectChanges();
   }
 }

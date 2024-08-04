@@ -7,6 +7,7 @@ export enum CellState {
     ON = 'green',
     OFF = 'red',
     NEXT = 'yellow',
+    OVERNEXT = 'orange',
     ONE = 'blue',
     TWO = 'purple',
     THREE = 'cyan',

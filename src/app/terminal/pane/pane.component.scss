@@ -40,6 +40,10 @@ $size: 48px;
     @include scale('../../../../public/textures/cyan.png');
 }
 
+.grid .orange {
+    @include scale('../../../../public/textures/orange.png');
+}
+
 .pane {
     position: relative;
     width: $size;
@@ -57,6 +61,6 @@ $size: 48px;
     position: absolute;
     bottom: -3px;
     right: -3px;
-    font-size: 19px;
+    font-size: 16px;
     font-family: 'Minecraft';
 }

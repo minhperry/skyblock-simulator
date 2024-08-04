@@ -7,8 +7,9 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    max-width: 800px;
+    max-width: 2000px;
     margin: 16px auto;
+    width: fit-content;
 }
 
 .left-panel,
@@ -49,15 +50,16 @@ button {
     padding: 8px 16px;
     font-size: 1em;
     color: #fff;
-    background-color: #444;
-    border: 1px solid #555;
+    border: 1px solid #ffffff29;
+    background-color: $color-base;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
-}
+    transition: background-color 0.3s, border 0.3s;
 
-button:hover {
-    background-color: #555;
+    &:hover {
+        border: 1px solid #fff;
+        background-color: #ffffff44;
+    }
 }
 
 .right-panel {
