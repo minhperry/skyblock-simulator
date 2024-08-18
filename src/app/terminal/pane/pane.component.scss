@@ -1,11 +1,4 @@
-$size: 48px;
-
-@mixin scale($path) {
-    background-image: url($path);
-    background-size: $size $size;
-    background-repeat: no-repeat;
-    background-position: center;
-}
+@import '../commons/panes.scss';
 
 .grid {
     display: grid;
@@ -14,34 +7,6 @@ $size: 48px;
 .row {
     display: flex;
     flex-direction: row;
-}
-
-.grid .green {
-    @include scale('../../../../public/textures/green.png');
-}
-
-.grid .red {
-    @include scale('../../../../public/textures/red.png');
-}
-
-.grid .yellow {
-    @include scale('../../../../public/textures/yellow.png');
-}
-
-.grid .blue {
-    @include scale('../../../../public/textures/blue.png');
-}
-
-.grid .purple {
-    @include scale('../../../../public/textures/purple.png');
-}
-
-.grid .cyan {
-    @include scale('../../../../public/textures/cyan.png');
-}
-
-.grid .orange {
-    @include scale('../../../../public/textures/orange.png');
 }
 
 .pane {
