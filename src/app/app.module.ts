@@ -15,6 +15,8 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StartswithComponent } from './startswith/startswith.component';
+import { CertaincolorComponent } from './certaincolor/certaincolor.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NumbergameComponent,
     NavbarComponent,
     HomeComponent,
-    ColorerComponent    
+    ColorerComponent,
+    StartswithComponent,
+    CertaincolorComponent    
   ],
   imports: [
     BrowserModule,
