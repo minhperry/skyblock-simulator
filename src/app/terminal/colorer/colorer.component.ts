@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GameConfig } from '../../../interfaces/game-config';
-import { Cell, CellState, next, random } from '../../../interfaces/cell';
+import { Cell, next, random } from '../../../interfaces/cell';
 import { TimerService } from '../../../services/timer.service';
-import { MatSliderChange } from '@angular/material/slider';
 
 @Component({
   selector: 'colorgame',
