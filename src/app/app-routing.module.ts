@@ -16,7 +16,7 @@ const routes: Routes = [
     title: 'Floor 7 Terminals'
   },
   {
-    path: 'calc',
+    path: 'cowvsele',
     component: CalculatorComponent,
     title: 'Calculator'
   },

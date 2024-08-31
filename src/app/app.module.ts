@@ -25,6 +25,7 @@ import { FarmingFortunesComponent } from './calculator/ff.comp';
 import { TextableSliderComponent } from './calculator/farming-fortune/reusables/textable-slider.component';
 import { TextableCheckboxComponent } from './calculator/farming-fortune/reusables/textable-checkbox.component';
 import { RadioComponent } from './calculator/farming-fortune/reusables/radio.component';
+import { LiveMpComponent } from './live-mp/live-mp.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { RadioComponent } from './calculator/farming-fortune/reusables/radio.com
     FarmingFortunesComponent,
     TextableSliderComponent,
     TextableCheckboxComponent,
-    RadioComponent
+    RadioComponent,
+    LiveMpComponent
   ],
   imports: [
     BrowserModule,
