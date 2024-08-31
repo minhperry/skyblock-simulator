@@ -110,15 +110,25 @@ export class FarmingFortuneComponent {
     let ff = this.totalStr / 20 * 0.7;
     return this.round(ff);
   }
-
   get mCowFf() {
     return this.round(110 + this.fFortune);
   }
-
   get eleFf() {
     return 150;
   }
 
+  isWinner(item: string): boolean {
+    return this.getWinner() === item;
+  }
+
+  private getWinner(): 'mcow' | 'ele' | null {
+    if (this.mCowFf > this.eleFf) {
+      return 'mcow';
+    } else if (this.eleFf > this.mCowFf) {
+      return 'ele';
+    }
+    return null;
+  }
 
   private round(num: number) {
     return Math.round(num * 100) / 100;

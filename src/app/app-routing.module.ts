@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TerminalComponent } from './terminal/terminal.component';
 import { HomeComponent } from './home/home.component';
 import { CalculatorComponent } from './calculator/calculator.component';
+import { LiveMpComponent } from './live-mp/live-mp.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,11 @@ const routes: Routes = [
     path: 'cowvsele',
     component: CalculatorComponent,
     title: 'Calculator'
+  }, 
+  {
+    path: 'livemp',
+    component: LiveMpComponent,
+    title: 'Live Magical Power Display'
   },
   {
     path: '**',

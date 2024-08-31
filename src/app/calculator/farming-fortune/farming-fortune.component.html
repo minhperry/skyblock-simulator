@@ -154,7 +154,6 @@
         </div>
     </div>
 
-
     <span class="final mt-3">
         Total:
         <div class="numb">
@@ -163,12 +162,10 @@
         </div>
     </span>
 
-
-
     <div class="container">
         <div class="row">
             <div class="col-md-6 d-flex align-items-center">
-                <div class="image-text-container">
+                <div class="image-text-container" [ngClass]="{'highlight': isWinner('mcow')}">
                     <div class="image mcow"></div>
                     <div class="text">
                         {{ mCowFf }}
@@ -177,7 +174,7 @@
                 </div>
             </div>
             <div class="col-md-6 d-flex align-items-center">
-                <div class="image-text-container">
+                <div class="image-text-container" [ngClass]="{'highlight': isWinner('ele')}">
                     <div class="image ele"></div>
                     <div class="text">
                         {{ eleFf }}
