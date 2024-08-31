@@ -17,6 +17,13 @@ import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StartswithComponent } from './startswith/startswith.component';
 import { CertaincolorComponent } from './certaincolor/certaincolor.component';
+import { CalculatorComponent } from './calculator/calculator.component';
+import { FarmingFortuneComponent } from './calculator/farming-fortune/farming-fortune.component';
+import { MatIconModule } from '@angular/material/icon';
+import { StrengthComponent } from './calculator/strength.comp';
+import { FarmingFortunesComponent } from './calculator/ff.comp';
+import { TextableSliderComponent } from './calculator/farming-fortune/reusables/textable-slider.component';
+import { TextableCheckboxComponent } from './calculator/farming-fortune/reusables/textable-checkbox.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +36,13 @@ import { CertaincolorComponent } from './certaincolor/certaincolor.component';
     HomeComponent,
     ColorerComponent,
     StartswithComponent,
-    CertaincolorComponent    
+    CertaincolorComponent,
+    CalculatorComponent,
+    FarmingFortuneComponent,
+    StrengthComponent,
+    FarmingFortunesComponent,
+    TextableSliderComponent,
+    TextableCheckboxComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +50,8 @@ import { CertaincolorComponent } from './certaincolor/certaincolor.component';
     MarkdownModule.forRoot({ loader: HttpClient }),
     MatSliderModule,
     FormsModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    MatIconModule
   ],
   providers: [
     provideHttpClient(),

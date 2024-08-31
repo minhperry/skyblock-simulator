@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TerminalComponent } from './terminal/terminal.component';
 import { HomeComponent } from './home/home.component';
+import { CalculatorComponent } from './calculator/calculator.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,11 @@ const routes: Routes = [
     path: 'terminal',
     component: TerminalComponent,
     title: 'Floor 7 Terminals'
+  },
+  {
+    path: 'calc',
+    component: CalculatorComponent,
+    title: 'Calculator'
   },
   {
     path: '**',
