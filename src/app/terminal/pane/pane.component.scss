@@ -14,6 +14,7 @@
     width: $size;
     height: $size;
     margin: 3px;
+    user-select: none;
 
     &:hover {
         cursor: pointer;
@@ -27,5 +28,5 @@
     bottom: -3px;
     right: -3px;
     font-size: 16px;
-    font-family: 'Minecraft';
+    font-family: 'Minecraft', serif;
 }

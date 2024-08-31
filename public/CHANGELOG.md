@@ -15,4 +15,7 @@
 ### 0.3.2
 - **Terminal**: Make expandable games
 # 0.4
-- **Calculator**: Adds a Mooshroom Cow vs Elephant calculator 
+- **MCow vs Elephant**: Adds a Mooshroom Cow vs Elephant calculator 
+### 0.4.1
+- **MCow vs Elephant**: Adds a "winner" border
+- **Terminal**: Makes number text not selectable 
