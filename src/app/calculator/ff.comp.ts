@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   template: `
     <p class="ff">☘</p>
   `,
-  styles: ['.ff { color: #ffaa00; }']
+  styles: ['.ff { color: #ffaa00; display: inline;}']
 })
 export class FarmingFortunesComponent {}
 

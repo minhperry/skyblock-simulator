@@ -1,29 +1,31 @@
 <div class="wrapper container ">
+    <ng-container *ngFor="let sl of sliders">
+        <slider [min]="sl.min ?? 0" [max]="sl.max" [step]="sl.step"
+            [label]="sl.label"
+            [preString]="sl.preString"
+            [extraStr]="sl.extraStr ?? ''"
+            [fromValue]="sl.func"
+            [display]="sl.display ?? defaultDisplay"
+            [(value)]="sl.value"
+            (valueChange)="calcTotal()"/>
+    </ng-container>
 
-    <slider [min]="0" [max]="9" [label]="'blaze-slayer'"
-        [preString]="'Blaze Slayer Level'"
-        [fromValue]="fromBlazeSlayer"
-        [(value)]="blaze"
-        (valueChange)="calcTotal()"/>
 
-    <slider [min]="0" [max]="50" [label]="'foraging'"
-        [preString]="'Foraging Level'"
-        [fromValue]="fromForaging"
-        [(value)]="foraging"
-        (valueChange)="calcTotal()"/>
-
-    <slider [min]="0" [max]="5" [label]="'fstr-perk'"
-        [preString]="'Forbidden Strength Perk Level'"
-        [fromValue]="fromFstrPerk"
-        [(value)]="fStr"
-        (valueChange)="calcTotal()"/>
-
-    <checkbox [check]="sharkNecklace" [label]="'rstn'"
-        [text]="'Razor Shark Tooth Necklace'"
-        (checkChange)="logState()" />
+    <ng-container *ngFor="let box of checkboxes; let i = index">
+        <checkbox [check]="box.check" [label]="box.label"
+            [value]="box.value"
+            [text]="box.text"
+            (checkChange)="onStateChange($event, i)" />
+    </ng-container>
 
     <p> Your total strength: {{totalStr}}
         <str />
+    </p>
+
+    <p>
+        This setup assumes you have the same setup for both pets: same farming armor and equipment not on any
+        <str /> reforge, only
+        <ff /> reforge.
     </p>
 
 </div>
