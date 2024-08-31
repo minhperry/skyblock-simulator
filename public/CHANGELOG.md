@@ -14,3 +14,5 @@
 - **Navbar**: Rework navbar
 ### 0.3.2
 - **Terminal**: Make expandable games
+# 0.4
+- **Calculator**: Adds a Mooshroom Cow vs Elephant calculator 

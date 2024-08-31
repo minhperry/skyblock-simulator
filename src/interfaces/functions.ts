@@ -7,4 +7,4 @@ export type NumStringFunc = BinaryFunction<number, string>;
 
 export type NumOrZero = number | 0;
 
-export const defaultFunction: NumNumFunc = (v) => v;
+export const identity: NumNumFunc = (v) => v;

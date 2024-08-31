@@ -1,0 +1,71 @@
+.accordion {
+    margin-bottom: 20px;
+}
+
+.text {
+    span {
+        display: flex;
+        justify-content: flex-start;
+
+        .numb {
+            margin-left: auto;
+        }
+    }
+}
+
+.final {
+    display: flex;
+    justify-content: flex-start;
+
+    font-size: 1.7rem;
+
+    .numb {
+        margin-left: auto;
+    }
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: inherit;
+}
+
+
+.container {
+    .row {
+        .col-md-6 {
+
+            .image-text-container {
+                display: flex;
+                align-items: center;
+                padding: 5px;
+                margin: 15px;
+                width: 100%;
+
+                border: 3px rgb(113, 113, 113) solid;
+                border-radius: 10px;
+
+                .image {
+                    width: 128px;
+                    height: 118px;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    margin-right: 10px;
+                    transform: scale(0.7);
+
+                    &.mcow {
+                        background-image: url('/pets/mcow.png');
+                    }
+
+                    &.ele {
+                        background-image: url('/pets/elephant.png');
+                    }
+                }
+
+                .text {
+                    flex: 1;
+                    font-size: 18px;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}

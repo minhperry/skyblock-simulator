@@ -24,6 +24,7 @@ import { StrengthComponent } from './calculator/strength.comp';
 import { FarmingFortunesComponent } from './calculator/ff.comp';
 import { TextableSliderComponent } from './calculator/farming-fortune/reusables/textable-slider.component';
 import { TextableCheckboxComponent } from './calculator/farming-fortune/reusables/textable-checkbox.component';
+import { RadioComponent } from './calculator/farming-fortune/reusables/radio.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { TextableCheckboxComponent } from './calculator/farming-fortune/reusable
     StrengthComponent,
     FarmingFortunesComponent,
     TextableSliderComponent,
-    TextableCheckboxComponent
+    TextableCheckboxComponent,
+    RadioComponent
   ],
   imports: [
     BrowserModule,

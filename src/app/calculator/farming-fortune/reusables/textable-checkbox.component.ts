@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
       <label [for]="label" class="form-label">
           <input type="checkbox" [(checked)]="check" (change)="onCheckboxChange($event)" ngDefaultControl>
           <span [innerHTML]="text"> </span> 
-          <div class="res">{{ value }} <str /></div>
+          <div class="res">{{ check ? value : 0}} <str /></div>
       </label>
       </div>
     `,

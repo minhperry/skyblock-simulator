@@ -1,33 +1,43 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { RadioMapItem } from "../../../../interfaces/input";
 
 @Component({
   selector: 'radio',
   template: `
-    <div class="radio-group">
-      <label *ngFor="let option of options">
-        <input type="radio" 
-               [value]="option.value" 
-               [name]="name"
-               [checked]="option.value === selectedValue"
-               (change)="onSelectionChange(option.value)" />
-        <span [innerHTML]="option.text"></span>
-      </label>
+    <div class="title">
+        <span class="title-text">{{title}}</span>
+        <span class="choice">{{choice}} <str/></span>
+    </div>
+    <div class="options">
+        <label *ngFor="let option of options" class="option">
+            <input type="radio" 
+                [value]="option.value" 
+                [name]="label"
+                [checked]="option.value === choice"
+                (change)="onSelectionChange(option.value)" />
+            <span [innerHTML]="option.text"></span>
+        </label>
     </div>
   `,
   styles: [
-    '.radio-group label { display: block; margin-bottom: 0.5em; }',
-    'input[type="radio"] { margin-right: 0.5em; }'
+    '.title { display: flex; }',
+    '.title-text { margin-right: auto; font-size: 1.2em; }',
+    '.options { display: flex; flex-direction: column; }',
+    '.option { margin-left: 1em; }',
+    'input[type="radio"] { margin-right: 0.5em; }',
+    '.choice { margin-left: auto; }'
   ]
 })
 export class RadioComponent {
-  @Input() options: { value: any, text: string }[] = [];
-  @Input() name: string = '';
-  @Input() selectedValue: any;
+  @Input() options: RadioMapItem[] = [];
+  @Input() title!: string;
+  @Input() label!: string;
+  @Input() choice: any;
 
-  @Output() selectionChange = new EventEmitter<any>();
+  @Output() choiceChange = new EventEmitter<any>();
 
   onSelectionChange(value: any) {
-    this.selectedValue = value;
-    this.selectionChange.emit(value);
+    this.choice = value;
+    this.choiceChange.emit(value);
   }
 }
