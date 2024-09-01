@@ -12,7 +12,9 @@
           "skipTests": true
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "standalone": false,
+          "skipTests": true,
+          "path": "src/directives"
         },
         "@schematics/angular:pipe": {
           "standalone": false

@@ -26,6 +26,8 @@ import { TextableSliderComponent } from './calculator/farming-fortune/reusables/
 import { TextableCheckboxComponent } from './calculator/farming-fortune/reusables/textable-checkbox.component';
 import { RadioComponent } from './calculator/farming-fortune/reusables/radio.component';
 import { LiveMpComponent } from './live-mp/live-mp.component';
+import { MatTableModule} from "@angular/material/table";
+import { MatButtonModule } from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -48,15 +50,17 @@ import { LiveMpComponent } from './live-mp/live-mp.component';
     RadioComponent,
     LiveMpComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MarkdownModule.forRoot({ loader: HttpClient }),
-    MatSliderModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatIconModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        MarkdownModule.forRoot({loader: HttpClient}),
+        MatSliderModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTableModule
+    ],
   providers: [
     provideHttpClient(),
     provideAnimationsAsync()

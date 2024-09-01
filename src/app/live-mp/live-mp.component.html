@@ -1,1 +1,28 @@
-<p>live-mp works!</p>
+<div class="container" data-bs-theme="dark">
+
+    <div class="input-group mb-3 mt-3">
+        <input type="number" class="form-control" min="0" max="999999"
+               placeholder="Your magical power"
+               aria-label="MP" aria-describedby="magical-power"
+               [(ngModel)]="magicalPower" (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
+               >
+        <span class="input-group-text" id="magical-power">Magical Power</span>
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th *ngFor="let column of columnConfigs" [ngStyle]="column.styles" class="text-center align-middle">
+                <span *ngIf="column.unicode" [innerHTML]="toHex(column.unicode)"> </span>
+                <span class="d-none d-lg-inline">{{ column.headerText }}</span>
+            </th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr *ngFor="let stone of stats">
+            <td *ngFor="let col of columnConfigs" [ngStyle]="{'color': col.styles?.color}" class="text-center align-middle">
+                {{ col.key !== 'name' ? calculate(stone, col.key) : getBasePowerValue(stone, col.key) }}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
