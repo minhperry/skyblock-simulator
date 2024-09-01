@@ -15,8 +15,8 @@ export class NavbarComponent {
   links: Link[] = [
     { path: '/', label: 'Home' },
     { path: '/terminal', label: 'Terminal' },
-    { path: '/cowvsele', label: 'Pet Compare' }, 
-    { path: '/livemp', label: 'Live MP Display' },
+    { path: '/cowvsele', label: 'Farming' },
+    { path: '/livemp', label: 'Live MP' },
     { path: '/dunngeon', label: 'Dungeon', comingSoon: true },
     { path: '/experiment', label: 'Experiment', comingSoon: true },
   ]

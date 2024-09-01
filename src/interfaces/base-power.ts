@@ -12,15 +12,11 @@ export interface BasePower {
     vitality?: number;
 }
 
-export interface UniqueBonus {
-    bonus: BasePower
-}
-
 export interface PowerStone {
     id: string;
     name: string;
     basePower: BasePower;
-    bonus?: UniqueBonus
+    bonus?: BasePower
 }
 
 export enum Color {
@@ -87,21 +83,29 @@ export const Stats: PowerStone[] = [
     {
         id: 'silky', name: 'Silky', basePower: {
             speed: 5, critDmg: 95
+        }, bonus: {
+            atkSpd: 5
         }
     },
     {
         id: 'sweet', name: 'Sweet', basePower: {
             def: 45, speed: 10, health: 45
+        }, bonus: {
+            speed: 5
         }
     },
     {
         id: 'adept', name: 'Adept', basePower: {
             def: 40, health: 50, int: 10
+        }, bonus: {
+            health: 100, def: 50
         }
     },
     {
         id: 'bloody', name: 'Bloody', basePower: {
             strength: 45, critDmg: 45, int: 10
+        }, bonus: {
+            atkSpd: 10
         }
     },
     {
@@ -112,16 +116,22 @@ export const Stats: PowerStone[] = [
     {
         id: 'itchy', name: 'Itchy', basePower: {
             strength: 30, speed: 5, critDmg: 35, atkSpd: 30
+        }, bonus: {
+            strength: 15, critDmg: 15
         }
     },
     {
         id: 'mythical', name: 'Mythical', basePower: {
             strength: 17, def: 17, speed: 8, health: 17, critChance: 17, critDmg: 17, int: 17
+        }, bonus: {
+            strength: 40, health: 150
         }
     },
     {
         id: 'shaded', name: 'Shaded', basePower: {
             strength: 20, speed: 5, critDmg: 75
+        }, bonus: {
+            atkSpd: 3
         }
     },
     {
@@ -137,11 +147,15 @@ export const Stats: PowerStone[] = [
     {
         id: 'demonic', name: 'Demonic', basePower: {
             strength: 23, int: 77
+        }, bonus: {
+            critDmg: 50
         }
     },
     {
         id: 'hurtful', name: 'Hurtful', basePower: {
             strength: 20, critDmg: 80
+        }, bonus: {
+            atkSpd: 15
         }
     },
     {
@@ -152,26 +166,36 @@ export const Stats: PowerStone[] = [
     {
         id: 'sanguisuge', name: 'Sanguisuge', basePower: {
             strength: 50, health: 15, critDmg: 20, mending: 15
+        }, bonus: {
+            int: 100
         }
     },
     {
         id: 'frozen', name: 'Frozen', basePower: {
             def: 50
+        }, bonus: {
+            trueDef: 10
         }
     },
     {
         id: 'healthy', name: 'Healthy', basePower: {
             health: 100
+        }, bonus: {
+            health: 200
         }
     },
     {
         id: 'slender', name: 'Slender', basePower: {
             strength: 25, def: 25, speed: 5, health: 25, critDmg: 25, int: 25, atkSpd: 15
+        }, bonus: {
+            health: 100, strength: 50
         }
     },
     {
         id: 'strong', name: 'Strong', basePower: {
             strength: 50, critDmg: 50
+        }, bonus: {
+            strength: 25, critDmg: 25
         }
     },
     {
@@ -182,6 +206,8 @@ export const Stats: PowerStone[] = [
     {
         id: 'crumbly', name: 'Crumbly', basePower: {
             health: 30, int: 15, trueDef: 10, mending: 30, vitality: 30
+        }, bonus: {
+            speed: 25
         }
     },
     {
