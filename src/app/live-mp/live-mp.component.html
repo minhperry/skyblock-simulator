@@ -1,6 +1,6 @@
 <div class="container" data-bs-theme="dark">
 
-    <div class="input-group mb-3 mt-3">
+    <div class="input-group mb-3 mt-3 sticky-top">
         <input type="number" class="form-control" min="0" max="999999"
                placeholder="Your magical power"
                aria-label="MP" aria-describedby="magical-power"
@@ -8,10 +8,10 @@
                >
         <span class="input-group-text" id="magical-power">Magical Power</span>
     </div>
-    <table class="table table-hover">
+    <table class="table table-hover table-sm">
         <thead>
         <tr>
-            <th *ngFor="let column of columnConfigs" [ngStyle]="column.styles" class="text-center align-middle">
+            <th *ngFor="let column of columnConfigs" [ngStyle]="column.styles" class="text-center align-middle sticky-top">
                 <span *ngIf="column.unicode" [innerHTML]="toHex(column.unicode)"> </span>
                 <span class="d-none d-lg-inline">{{ column.headerText }}</span>
             </th>
