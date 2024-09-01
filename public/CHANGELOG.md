@@ -15,7 +15,10 @@
 ### 0.3.2
 - **Terminal**: Make expandable games
 # 0.4
-- **MCow vs Elephant**: Adds a Mooshroom Cow vs Elephant calculator 
+- **Pet Compare**: Adds a Mooshroom Cow vs Elephant calculator 
 ### 0.4.1
-- **MCow vs Elephant**: Adds a "winner" border
+- **Pet Compare**: Adds a "winner" border
 - **Terminal**: Makes number text not selectable 
+### 0.4.2
+- **Live MP**: Add real-time MP calculator
+- **Pet Compare**: Fix max level blaze level

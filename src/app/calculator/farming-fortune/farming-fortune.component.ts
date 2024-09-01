@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CheckBoxItem, RadioItem, SliderItem } from '../../../interfaces/input';
-import { identity, NumNumFunc, NumStringFunc } from '../../../interfaces/functions';
+import { identity, NumStringFunc } from '../../../interfaces/functions';
 
 @Component({
   selector: 'farming-fortune',
@@ -13,7 +13,7 @@ export class FarmingFortuneComponent {
   sliders: SliderItem[] = [
     {
       label: 'blaze-slayer', preString: 'Blaze Slayer Level', value: 0,
-      max: 6, step: 1, func: (v) => v < 2 ? 0 : (v < 6 ? 1 : 2) 
+      max: 9, step: 1, func: (v) => v < 2 ? 0 : (v < 6 ? 1 : 2)
     }, {
       label: 'foraging', preString: 'Foraging Level', value: 0,
       max: 50, step: 1, func: (v) => v <= 14 ? v : 14 + 2 * (v - 14)
@@ -51,7 +51,7 @@ export class FarmingFortuneComponent {
   ]
 
   radios: RadioItem[] = [
-    { 
+    {
       title: 'Burststopper Line',
       label: 'bst',
       choice: 0, options: [
@@ -82,7 +82,7 @@ export class FarmingFortuneComponent {
     this.radios[index].choice = value;
     this.calcTotal();
   }
-  
+
   totalStr: number = 0;
   calcTotal() {
     this.totalStr = 0;
@@ -103,7 +103,7 @@ export class FarmingFortuneComponent {
   }
   get strengthFromMP() {
     // https://wiki.hypixel.net/Powers#Stat_Calculation
-    let str = 0.75 * 1 * 719.28 * Math.pow(Math.log(1 + (0.0019 * this.$mp)), 1.2);
+    let str = 0.75 * 719.28 * Math.pow(Math.log(1 + (0.0019 * this.$mp)), 1.2);
     return this.round(str);
   }
   get fFortune() {
