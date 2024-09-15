@@ -1,7 +1,13 @@
 $hover-border: rgba(255, 255, 255, 0.7);
+$disabled-color: rgba(117, 117, 117, 0.6);
 
-.completed {
-    text-decoration: line-through;
+.completed,  {
+    color: $disabled-color
+}
+
+input.form-control:disabled, input.form-control:disabled::placeholder {
+    background-color: inherit;
+    color: $disabled-color
 }
 
 .form-control {

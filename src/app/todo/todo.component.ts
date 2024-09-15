@@ -89,17 +89,23 @@ export class TodoComponent implements OnInit{
         this.saveCategories();
     }
 
-    deleteTodo(parent: Nullable<TodoNode[]>, index: number) {
-        if (parent) {
-            parent.splice(index, 1);
+    deleteTodo(node: Nullable<TodoNode[]>, index: number) {
+        if (node) {
+            node.splice(index, 1);
         }
         this.saveCategories();
     }
 
     toggleCheck(todo: TodoNode, parent?: Nullable<TodoNode>) {
+        const ogState = todo.completed
         todo.completed = !todo.completed;
-        this.checkChildren(todo, todo.completed)
-        if (parent) { this.checkParents(parent); }
+
+        if (todo.completed) {
+            this.checkChildren(todo, todo.completed)
+        }
+        if (parent && ogState !== todo.completed) {
+            this.checkParents(parent);
+        }
         this.saveCategories();
     }
 
@@ -121,8 +127,13 @@ export class TodoComponent implements OnInit{
         node.children.forEach((ch) => this.checkChildren(ch, check))
     }
 
-    private checkParents(parent: TodoNode) {
-        parent.completed = parent.children.every(child => child.completed)
+    private checkParents(node: TodoNode) {
+        console.log('node is: ', node.text)
+        if (node.children.length === 1) {
+            node.completed = node.children[0].completed
+        } else {
+            node.completed = node.children.every(child => child.completed)
+        }
     }
 
     private calculateNextId(nodes: TodoNode[]): number {

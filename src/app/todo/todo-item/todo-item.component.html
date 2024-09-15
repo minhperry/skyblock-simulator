@@ -6,7 +6,9 @@
                    (ngModelChange)="save()"
                    class="form-control d-inline-block"
                    [class.completed]="todo.completed"
-                   placeholder="Enter task">
+                   placeholder="Enter task"
+                   [disabled]="todo.completed"
+            >
         </div>
         <div class="ms-2">
             <button class="btn btn-secondary btn-sm m-1" (click)="addChild()">
