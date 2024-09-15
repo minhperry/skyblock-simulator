@@ -28,6 +28,8 @@ import { RadioComponent } from './calculator/farming-fortune/reusables/radio.com
 import { LiveMpComponent } from './live-mp/live-mp.component';
 import { MatTableModule} from "@angular/material/table";
 import { MatButtonModule } from "@angular/material/button";
+import { TodoComponent } from './todo/todo.component';
+import { TodoItemComponent } from './todo/todo-item/todo-item.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { MatButtonModule } from "@angular/material/button";
     TextableSliderComponent,
     TextableCheckboxComponent,
     RadioComponent,
-    LiveMpComponent
+    LiveMpComponent,
+    TodoComponent,
+    TodoItemComponent
   ],
     imports: [
         BrowserModule,
