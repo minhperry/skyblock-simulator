@@ -30,6 +30,7 @@ import { MatTableModule} from "@angular/material/table";
 import { MatButtonModule } from "@angular/material/button";
 import { TodoComponent } from './todo/todo.component';
 import { TodoItemComponent } from './todo/todo-item/todo-item.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { TodoItemComponent } from './todo/todo-item/todo-item.component';
     RadioComponent,
     LiveMpComponent,
     TodoComponent,
-    TodoItemComponent
+    TodoItemComponent,
+    AboutComponent
   ],
     imports: [
         BrowserModule,
