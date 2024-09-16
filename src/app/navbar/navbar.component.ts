@@ -17,8 +17,7 @@ export class NavbarComponent {
     { path: '/terminal', label: 'Terminal' },
     { path: '/cowvsele', label: 'Farming' },
     { path: '/livemp', label: 'Live MP' },
-    { path: '/dunngeon', label: 'Dungeon', comingSoon: true },
-    { path: '/experiment', label: 'Experiment', comingSoon: true },
+    { path: '/todo', label: 'To Do'}
   ]
 
   handle(link: Link) {

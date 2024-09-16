@@ -5,9 +5,13 @@ $disabled-color: rgba(117, 117, 117, 0.6);
     color: $disabled-color
 }
 
-input.form-control:disabled, input.form-control:disabled::placeholder {
-    background-color: inherit;
-    color: $disabled-color
+input {
+    &.form-control {
+        &:disabled, &:disabled::placeholder {
+            background-color: inherit;
+            color: $disabled-color
+        }
+    }
 }
 
 .form-control {
@@ -19,13 +23,14 @@ input.form-control:disabled, input.form-control:disabled::placeholder {
 }
 
 .long-press {
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
+    background-color: #ff6b6b !important;
+    transition: all 800ms ease-in-out;
 }
 
 .list-group-item {
+    padding: 0.25rem 0.275rem;
 
-    &:hover {
+    &:hover, &:focus-within {
         border-color: $hover-border
     }
 

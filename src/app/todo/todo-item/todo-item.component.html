@@ -10,7 +10,7 @@
                    [disabled]="todo.completed"
             >
         </div>
-        <div class="ms-2">
+        <div class="ms-2 d-flex align-items-center">
             <button class="btn btn-secondary btn-sm m-1" (click)="addChild()">
                 <i class="bi bi-plus-square"></i>
             </button>
@@ -18,8 +18,7 @@
                     (mousedown)="doPressing()"
                     (mouseleave)="stopPressing()"
                     (mouseup)="stopPressing()"
-                    [class.long-press]="isPressing"
-                    data-bs-toggle="tooltip" data-bs-title="Hold to delete">
+                    [class.long-press]="isPressing">
                 <i class="bi bi-trash"></i>
             </button>
         </div>

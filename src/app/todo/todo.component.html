@@ -12,7 +12,8 @@
                     <h2>This is your Skyblock or anything really todo list!</h2>
                     <p>
                         Like, you can use this for marking some items you are grinding for, like 655 for example.
-                        Or, really, anything in real life can be applied too, your shopping list, exam revisal topics, etc...
+                        Or, really, anything in real life can be applied too, your shopping list, exam revisal topics,
+                        etc...
                     </p>
 
                     <h4>Categories</h4>
@@ -56,10 +57,12 @@
         </div>
     </div>
 
-    <h3>Categories</h3>
-    <button class="btn btn-primary" (click)="addCategory()">
-        <i class="bi bi-folder-plus"></i>
-    </button>
+    <div class="title-btn d-flex align-items-center">
+        <h3>Categories</h3>
+        <button class="btn btn-primary" (click)="addCategory()">
+            <i class="bi bi-folder-plus"></i>
+        </button>
+    </div>
 
     <div class="mb-3">
         <ul class="list-group mt-3">
@@ -86,13 +89,15 @@
     </div>
 
     <div *ngIf="selectedCategory" class="mt-5 mb-5">
-        <h4>{{ selectedCategory.name }}</h4>
-        <button class="btn btn-primary mb-3" (click)="addTodo()">
-            <i class="bi bi-plus-circle"></i>
-        </button>
+        <div class="title-btn d-flex align-items-center mb-3">
+            <h4>{{ selectedCategory.name }}</h4>
+            <button class="btn btn-primary" (click)="addTodo()">
+                <i class="bi bi-plus-circle"></i>
+            </button>
+        </div>
         <ul class="list-group">
             <ng-container *ngFor="let todo of selectedCategory.todos; let i = index">
-                <app-todo-item [todo]="todo" [siblingsRef]="selectedCategory.todos" [index]="i" />
+                <app-todo-item [todo]="todo" [siblingsRef]="selectedCategory.todos" [index]="i"/>
             </ng-container>
         </ul>
     </div>

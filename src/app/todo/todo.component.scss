@@ -17,3 +17,14 @@
 .accordion-button:not(.collapsed) {
     background-color: inherit;
 }
+
+.title-btn {
+    .btn {
+        margin-left: auto;
+    }
+
+    h3, h4 {
+        margin-bottom: 0;
+    }
+
+}
