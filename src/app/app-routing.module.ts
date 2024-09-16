@@ -5,6 +5,7 @@ import {HomeComponent} from './home/home.component';
 import {CalculatorComponent} from './calculator/calculator.component';
 import {LiveMpComponent} from './live-mp/live-mp.component';
 import {TodoComponent} from "./todo/todo.component";
+import {AboutComponent} from "./about/about.component";
 
 const routes: Routes = [
     {
@@ -31,6 +32,11 @@ const routes: Routes = [
         path: 'todo',
         component: TodoComponent,
         title: 'To Do List'
+    },
+    {
+        path: 'about',
+        component: AboutComponent,
+        title: 'About'
     },
     {
         path: '**',

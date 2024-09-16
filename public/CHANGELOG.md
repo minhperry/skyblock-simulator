@@ -22,3 +22,7 @@
 ### 0.4.2
 - **Live MP**: Add real-time MP calculator
 - **Pet Compare**: Fix max level blaze level
+# 0.5
+- **To Do**: A simple todo app
+- **Navbar**: Migrated to bootstrap navbar.
+- **About**: About component to simply explain what the site is

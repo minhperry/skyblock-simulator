@@ -2,6 +2,11 @@
     padding: 3px;
 }
 
+.long-press {
+    background-color: #ff6b6b !important;
+    transition: all 800ms ease-in-out;
+}
+
 .form-control {
     border: 0;
 
@@ -26,5 +31,4 @@
     h3, h4 {
         margin-bottom: 0;
     }
-
 }
