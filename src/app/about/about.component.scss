@@ -3,6 +3,17 @@
     line-height: 1.6;
 }
 
+.hidden {
+    color: #191724;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+
+    &:hover {
+        background-color: #685e93;
+    }
+}
+
 .container {
     width: 80%;
     margin: auto;
