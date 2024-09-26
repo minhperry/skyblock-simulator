@@ -127,8 +127,8 @@ export class TodoComponent implements OnInit{
         node.children.forEach((ch) => this.checkChildren(ch, check))
     }
 
-    private checkParents(node: TodoNode) {
-        console.log('node is: ', node.text)
+    private checkParents(node: Nullable<TodoNode>) {
+        if (!node) return;
         if (node.children.length === 1) {
             node.completed = node.children[0].completed
         } else {

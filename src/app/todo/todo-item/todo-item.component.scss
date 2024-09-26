@@ -37,4 +37,16 @@ input {
     &:hover ul {
         border-color: $hover-border
     }
+
+    &:hover .btn-wrap, &:focus-within .btn-wrap {
+        display: flex;
+    }
+}
+
+.btn-wrap {
+    display: none;
+
+    &:hover {
+        display: flex;
+    }
 }

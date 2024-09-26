@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
 
-        <a class="navbar-brand" href="https://www.twitch.tv/anny">Annything</a>
+        <a class="navbar-brand" href="/">Skyblock Website</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -9,8 +9,52 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li *ngFor="let item of links" class="nav-item">
-                    <a [routerLink]="item.path" class="nav-link"> {{ item.label }} </a>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Terminal
+                    </a>
+                   <ul class="dropdown-menu">
+                       <li><a class="dropdown-item" routerLink="/terminal/panes">Panes</a></li>
+                       <li><a class="dropdown-item" routerLink="/terminal/numbers">Numbers</a></li>
+                       <li><a class="dropdown-item" routerLink="/terminal/colors">Colors</a></li>
+
+                       <li><hr class="dropdown-divider"></li>
+                       <li><a class="dropdown-item" routerLink="/terminal">All</a></li>
+                   </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Skills
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item">
+                            <a class="dropdown-item" href="#">
+                                Farming &raquo;
+                            </a>
+                            <ul class="dropdown-menu dropdown-submenu">
+                                <li><a class="dropdown-item" routerLink="/cowvsele">Moocow vs Elephant</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-item">
+                            <a class="dropdown-item" href="#">
+                                Combat &raquo;
+                            </a>
+                            <ul class="dropdown-menu dropdown-submenu">
+                                <li><a class="dropdown-item" routerLink="/livemp">Live MP</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-item">
+                            <a class="dropdown-item" href="#">
+                                Mining &raquo;
+                            </a>
+                            <ul class="dropdown-menu dropdown-submenu">
+                                <li><a class="dropdown-item" routerLink="/livemp">Effective Fortune</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -18,12 +62,13 @@
                         Misc
                     </a>
                     <ul class="dropdown-menu">
+                        <li><a routerLink="todo" class="dropdown-item">To-do</a></li>
+                        <li><hr class="dropdown-divider"></li>
                         <li><a href="https://github.com/minhperry/skyblock-simulator"
                                target="_blank" class="dropdown-item">
                                 Source Code
                             </a>
                         </li>
-                        <li><hr class="dropdown-divider"></li>
                         <li><a routerLink="about" class="dropdown-item">About</a></li>
                     </ul>
                 </li>

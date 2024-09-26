@@ -6,6 +6,10 @@ import {CalculatorComponent} from './calculator/calculator.component';
 import {LiveMpComponent} from './live-mp/live-mp.component';
 import {TodoComponent} from "./todo/todo.component";
 import {AboutComponent} from "./about/about.component";
+import {PaneGameComponent} from "./terminal/panegame/panegame.component";
+import {NumbergameComponent} from "./terminal/numbergame/numbergame.component";
+import {CertaincolorComponent} from "./certaincolor/certaincolor.component";
+import {ColorerComponent} from "./terminal/colorer/colorer.component";
 
 const routes: Routes = [
     {
@@ -15,8 +19,25 @@ const routes: Routes = [
     },
     {
         path: 'terminal',
-        component: TerminalComponent,
-        title: 'Floor 7 Terminals'
+        title: 'Floor 7 Terminals',
+        children: [
+            {
+                path: 'panes',
+                component: PaneGameComponent
+            },
+            {
+                path: 'numbers',
+                component: NumbergameComponent
+            },
+            {
+                path: 'colors',
+                component: ColorerComponent
+            },
+            {
+                path: '**',
+                component: TerminalComponent
+            }
+        ]
     },
     {
         path: 'cowvsele',
