@@ -2,11 +2,21 @@
     <div class="grizzler">
         <div (click)="handleClick(i)"
              *ngFor="let cell of content; let i = index"
-             [ngClass]="cell" class="grid-item">
+             [ngClass]="['grid-item', cell]">
+        </div>
+    </div>
+    <div style="margin: 1rem"></div>
+    <div class="grizzler">
+        <div *ngFor="let cell of getFruitContents(); let i = index"
+             [ngClass]="['grid-item', cell]">
         </div>
     </div>
 </div>
 
-<div class="q">{{ printQueue() }}</div>
+<div class="q">{{ Q.queue }}</div>
+<div class="q">{{ Qstr.queue }}</div>
+<p class="points">Points: {{ points }}</p>
+<p>Turn: {{ turn }} / 15</p>
 
 <button (click)="restart()">Restart</button>
+<button (click)="show()">Show all</button>

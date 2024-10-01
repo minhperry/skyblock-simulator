@@ -12,8 +12,13 @@ export enum Fruit {
 export enum Bomb { BOMB = "bomb" }
 export enum Rum { RUM = "rum" }
 export enum State {
-    CLICKED = "clicked",
-    HIDDEN = "sand"
+    HIDDEN = "sand",
+    DESTROYED = "gone"
 }
 
 export type FruitCell = Fruit | Bomb | Rum | State
+
+export function isFruit(fruit: FruitCell): boolean {
+    return Object.values(Fruit).includes(fruit as Fruit);
+}
+

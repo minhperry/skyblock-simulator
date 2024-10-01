@@ -40,7 +40,7 @@ export class Queue<T> implements IQueue<T> {
         return this.storage[this.storage.length - 1];
     }
 
-    getQueue(): T[] {
+    get queue(): T[] {
         return [...this.storage]
     }
 
