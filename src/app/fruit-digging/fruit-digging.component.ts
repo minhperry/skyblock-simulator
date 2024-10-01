@@ -17,6 +17,7 @@ export class FruitDiggingComponent implements OnInit {
     content = new Array(49).fill(State.HIDDEN)
 
     private prevent = false;
+    private clickedCoconut = false
     private half = false;
     private onehalf = false;
 
@@ -40,6 +41,34 @@ export class FruitDiggingComponent implements OnInit {
         this.generateGrid()
     }
 
+    get states(): string {
+        return `prevent=${this.emoji(this.prevent)}, onehalf=${this.emoji(this.onehalf)}, ` +
+            `half=${this.emoji(this.half)}, clickCoconut=${this.emoji(this.clickedCoconut)}`;
+    }
+
+    handleClick(index: number) {
+        if (this.content[index] !== State.HIDDEN) return
+        if (this.turn > 15) return;
+
+        let prev = this.prevent
+        const cell = this.fruitContent[index];
+        this.Q.enqueue(cell)
+        this.content[index] = cell;
+        if (isFruit(cell))
+            this.processFruit(cell, index)
+        else if (cell === Bomb.BOMB) {
+            this.clickedCoconut = false
+            if (!prev) {
+                this.destroyAdjacentFruits(index)
+            }
+        }
+        if (prev) {
+            if (!this.clickedCoconut)
+                this.prevent = false
+        }
+        this.turn++
+    }
+
     generateGrid() {
         for (let i = 0; i <= 49; i++) {
             const available = Object.entries(this.freq).flatMap(
@@ -60,26 +89,8 @@ export class FruitDiggingComponent implements OnInit {
         this.replaceSomeWithRum()
     }
 
-    handleClick(index: number) {
-        if (this.content[index] !== State.HIDDEN) return
-        if (this.turn > 15) return;
-
-        let prev = this.prevent
-        const cell = this.fruitContent[index];
-        this.Q.enqueue(cell)
-        this.content[index] = cell;
-        if (isFruit(cell))
-            this.processFruit(cell, index)
-        else if (cell === Bomb.BOMB) {
-            if (!prev) {
-                this.destroyAdjacentFruits(index)
-            }
-        }
-        if (prev) {
-            this.prevent = false
-        }
-        this.turn++
-
+    private emoji(val: boolean) {
+        if (val) return "✅"; else return "❌";
     }
 
     restart() {
@@ -106,6 +117,7 @@ export class FruitDiggingComponent implements OnInit {
         this.half = false
         this.onehalf = false
         this.prevent = false
+        this.clickedCoconut = false
     }
 
     private processFruit(content: FruitCell, index: number) {
@@ -133,6 +145,7 @@ export class FruitDiggingComponent implements OnInit {
             case Fruit.COCONUT:
                 toAdd = 100;
                 this.prevent = true
+                this.clickedCoconut = true
                 this.onehalf = false
                 this.half = false
                 break;
@@ -151,8 +164,6 @@ export class FruitDiggingComponent implements OnInit {
                 toAdd = 1200;
                 this.half = true
                 break
-            case Bomb.BOMB:
-                this.resetAbilities()
         }
         console.log("after swich: prevent=", this.prevent)
 
@@ -169,7 +180,8 @@ export class FruitDiggingComponent implements OnInit {
         const validAdj = adjIdx
             .filter(adjIndex => this.content[adjIndex] === State.HIDDEN) // only take ones that are hidden
             .map(adjIndex => this.fruitContent[adjIndex]) // then map to fruitContent
-            .filter(fruit => fruit !== Bomb.BOMB); // and filtering out bombs
+            .filter(fruit => fruit !== Bomb.BOMB) // and filtering out bombs
+            .filter(fruit => fruit != Rum.RUM)
 
         if (validAdj.length > 0) {
             const randomFruit = validAdj[Math.floor(Math.random() * validAdj.length)];
