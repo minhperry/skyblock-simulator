@@ -27,7 +27,7 @@ export class RollingNumberComponent {
 
     public getMargin(index: number): string {
         const currentDigit = this.rollingCharacters[index] || 0;
-        const marginTop = -currentDigit * this.size; // Negative offset based on the current digit
+        const marginTop = -(9 - currentDigit) * this.size; // Negative offset based on the current digit
         return `${marginTop}px`;
     }
 }
