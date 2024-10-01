@@ -19,9 +19,7 @@ export class RollingNumberComponent {
     }
 
     private updateRollingCharacters(newValue: number) {
-        setTimeout(() => {
-            this.rollingCharacters = newValue.toString().split('').map(Number);
-        }, 0);
+        this.rollingCharacters = newValue.toString().split('').map(Number);
     }
 
     public getMargin(index: number): string {
