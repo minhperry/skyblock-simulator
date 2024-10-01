@@ -1,0 +1,12 @@
+<div class="container d-flex justify-content-center">
+    <div class="grizzler">
+        <div (click)="handleClick(i)"
+             *ngFor="let cell of content; let i = index"
+             [ngClass]="cell" class="grid-item">
+        </div>
+    </div>
+</div>
+
+<div class="q">{{ printQueue() }}</div>
+
+<button (click)="restart()">Restart</button>

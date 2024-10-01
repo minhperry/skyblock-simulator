@@ -8,8 +8,8 @@ import {TodoComponent} from "./todo/todo.component";
 import {AboutComponent} from "./about/about.component";
 import {PaneGameComponent} from "./terminal/panegame/panegame.component";
 import {NumbergameComponent} from "./terminal/numbergame/numbergame.component";
-import {CertaincolorComponent} from "./certaincolor/certaincolor.component";
 import {ColorerComponent} from "./terminal/colorer/colorer.component";
+import {FruitDiggingComponent} from "./fruit-digging/fruit-digging.component";
 
 const routes: Routes = [
     {
@@ -58,6 +58,11 @@ const routes: Routes = [
         path: 'about',
         component: AboutComponent,
         title: 'About'
+    },
+    {
+        path: 'fruit',
+        component: FruitDiggingComponent,
+        title: 'Fruit Digging Game'
     },
     {
         path: '**',

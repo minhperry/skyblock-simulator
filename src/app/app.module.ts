@@ -31,7 +31,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { TodoComponent } from './todo/todo.component';
 import { TodoItemComponent } from './todo/todo-item/todo-item.component';
 import { AboutComponent } from './about/about.component';
-import { EffectiveFortuneComponent } from './effective-fortune/effective-fortune.component';
+import { FruitDiggingComponent } from './fruit-digging/fruit-digging.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,7 @@ import { EffectiveFortuneComponent } from './effective-fortune/effective-fortune
     TodoComponent,
     TodoItemComponent,
     AboutComponent,
-    EffectiveFortuneComponent
+    FruitDiggingComponent
   ],
     imports: [
         BrowserModule,

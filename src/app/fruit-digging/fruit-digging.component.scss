@@ -1,0 +1,73 @@
+$grid-size: 3rem;
+
+.container {
+    margin-top: 2.5rem;
+}
+
+.grizzler {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    grid-gap: 0.5rem;
+}
+
+.q {
+    width: 100%;
+    overflow-wrap: break-word;
+}
+
+.grid-item {
+    border: 2px solid #444;
+    height: $grid-size;
+    width: $grid-size;
+    font-size: 1.2em;
+    background-size: contain;
+
+    &:hover {
+        border: 2px solid #fff;
+    }
+}
+
+.mango {
+    background-image: url('/fruits/mango.png');
+}
+
+.apple {
+    background-image: url('/fruits/apple.png');
+}
+
+.watermelon {
+    background-image: url('/fruits/watermelon.png');
+}
+
+.pomegranate {
+    background-image: url('/fruits/pomegranate.png');
+}
+
+.coconut {
+    background-image: url('/fruits/coconut.png');
+}
+
+.cherry {
+    background-image: url('/fruits/cherry.png');
+}
+
+.dragonfruit {
+    background-image: url('/fruits/dragonfruit.png');
+}
+
+.durian {
+    background-image: url('/fruits/durian.png');
+}
+
+.bomb {
+    background-image: url('/fruits/bomb.png');
+}
+
+.rum {
+    background-image: url("/fruits/rum.png");
+}
+
+.sand {
+    background-image: url("/fruits/sand.png");
+}
