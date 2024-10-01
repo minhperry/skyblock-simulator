@@ -6,8 +6,8 @@ import {Component, Input} from '@angular/core';
     styleUrls: ['./rolling-number.component.scss']
 })
 export class RollingNumberComponent {
-    private _value: number = 0; // The current number to display
-    public rollingCharacters: number[] = []; // Array for the current number's digits
+    public rollingCharacters: number[] = [];
+    private _value: number = 0;
     private size: number = 30;
 
     @Input()
@@ -19,7 +19,6 @@ export class RollingNumberComponent {
     }
 
     private updateRollingCharacters(newValue: number) {
-        // Delay the update to allow CSS transitions to apply smoothly
         setTimeout(() => {
             this.rollingCharacters = newValue.toString().split('').map(Number);
         }, 0);
@@ -27,7 +26,7 @@ export class RollingNumberComponent {
 
     public getMargin(index: number): string {
         const currentDigit = this.rollingCharacters[index] || 0;
-        const marginTop = -(9 - currentDigit) * this.size; // Negative offset based on the current digit
+        const marginTop = -(9 - currentDigit) * this.size;
         return `${marginTop}px`;
     }
 }
