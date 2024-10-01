@@ -32,6 +32,8 @@ import { TodoComponent } from './todo/todo.component';
 import { TodoItemComponent } from './todo/todo-item/todo-item.component';
 import { AboutComponent } from './about/about.component';
 import { FruitDiggingComponent } from './fruit-digging/fruit-digging.component';
+import { RollingNumberComponent } from './animation/rolling-number/rolling-number.component';
+import { TestComponent } from './test/test.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,9 @@ import { FruitDiggingComponent } from './fruit-digging/fruit-digging.component';
     TodoComponent,
     TodoItemComponent,
     AboutComponent,
-    FruitDiggingComponent
+    FruitDiggingComponent,
+    RollingNumberComponent,
+    TestComponent
   ],
     imports: [
         BrowserModule,

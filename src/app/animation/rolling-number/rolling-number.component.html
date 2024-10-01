@@ -1,0 +1,9 @@
+<div class="animated-rolling-number">
+    <ng-container *ngFor="let char of rollingCharacters; let i = index">
+        <div class="animated-rolling-character" [style.margin-top]="getMargin(i)">
+            <div *ngFor="let digit of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]">
+                {{ digit }}
+            </div>
+        </div>
+    </ng-container>
+</div>

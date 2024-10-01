@@ -143,7 +143,7 @@ export class FruitDiggingComponent implements OnInit {
                 this.onehalf = true
                 break;
             case Fruit.COCONUT:
-                toAdd = 100;
+                toAdd = 200;
                 this.prevent = true
                 this.clickedCoconut = true
                 this.onehalf = false
@@ -165,7 +165,6 @@ export class FruitDiggingComponent implements OnInit {
                 this.half = true
                 break
         }
-        console.log("after swich: prevent=", this.prevent)
 
         if (ohalfLast) { toAdd *= 1.5 }
         if (halfLast) { toAdd *= 0.5 }

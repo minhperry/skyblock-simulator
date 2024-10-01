@@ -1,0 +1,13 @@
+<rolling-number [value]="currentViewCount"></rolling-number>
+
+<p>Value: {{ currentViewCount }}</p>
+
+<ng-container *ngFor="let i of [1, 10, 100, 1000, 10000]">
+    <button (click)="add(i)">
+        +{{ i }}
+    </button>
+    <button (click)="subtract(i)">
+        -{{ i }}
+    </button>
+    <br/>
+</ng-container>

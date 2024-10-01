@@ -1,0 +1,25 @@
+$size: 30px;
+
+.animated-rolling-number {
+    position: relative;
+    height: 10 * $size; // Fixed height to match the total digit height
+    overflow: hidden; // Hide overflow to ensure only one digit is visible
+    display: flex; // Use flexbox for alignment
+}
+
+.animated-rolling-character {
+    height: 10 * $size; // Enough height to accommodate all digits (10 * 30px)
+    display: flex; // Use flex to align digits vertically
+    flex-direction: column; // Stack digits vertically
+    transition: margin-top 2s; // Smooth transition for margin-top
+    font-size: $size; // Set the font size
+    margin-top: 0;
+
+    div {
+        height: $size; // Fixed height for each digit
+        display: flex; // Use flex for alignment
+        align-items: center; // Center the digit vertically
+        justify-content: center; // Center the digit horizontally
+
+    }
+}
