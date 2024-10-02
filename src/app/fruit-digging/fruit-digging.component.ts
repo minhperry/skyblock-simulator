@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Bomb, Fruit, FruitCell, isFruit, Rum, State} from "../../interfaces/fruit-game";
+import {Bomb, Fruit, FruitCell, Rum, State} from "../../interfaces/fruit-game";
 import {Queue} from "../../interfaces/collections";
 import {Nullable} from "../../interfaces/todo";
 
@@ -16,13 +16,8 @@ export class FruitDiggingComponent implements OnInit {
     points: number = 0; turn: number = 0;
     content = new Array(49).fill(State.HIDDEN)
 
-    private prevent = false;
-    private clickedCoconut = false
-    private half = false;
-    private onehalf = false;
-
     private apples: number = 0
-    private lastFruit: Nullable<FruitCell> = null
+    protected lastFruit: Nullable<FruitCell> = null
 
     private fruitContent: FruitCell[] = new Array(49).fill(null)
     private freq: { [key in Fruit | Bomb]: number } = {
@@ -42,31 +37,16 @@ export class FruitDiggingComponent implements OnInit {
         this.points = 0
     }
 
-    get states(): string {
-        return `prevent=${this.emoji(this.prevent)}, onehalf=${this.emoji(this.onehalf)}, ` +
-            `half=${this.emoji(this.half)}, clickCoconut=${this.emoji(this.clickedCoconut)}`;
-    }
 
     handleClick(index: number) {
         if (this.content[index] !== State.HIDDEN) return
         if (this.turn > 15) return;
 
-        let prev = this.prevent
         const cell = this.fruitContent[index];
         this.Q.enqueue(cell)
         this.content[index] = cell;
-        if (isFruit(cell) || cell === Rum.RUM)
-            this.processFruit(cell, index)
-        else if (cell === Bomb.BOMB) {
-            this.resetAbilities()
-            if (!prev) {
-                this.destroyAdjacentFruits(index)
-            }
-        }
-        if (prev) {
-            if (!this.clickedCoconut)
-                this.prevent = false
-        }
+        this.processFruit(cell, index)
+        this.lastFruit = cell
         this.turn++
     }
 
@@ -90,10 +70,6 @@ export class FruitDiggingComponent implements OnInit {
         this.replaceSomeWithRum()
     }
 
-    private emoji(val: boolean) {
-        if (val) return "✅"; else return "❌";
-    }
-
     restart() {
         this.generateGrid()
         this.Q.clear()
@@ -102,7 +78,6 @@ export class FruitDiggingComponent implements OnInit {
         this.points = 0
         this.apples = 0
         this.turn = 0
-        this.resetAbilities()
         this.lastFruit = null
     }
 
@@ -114,64 +89,54 @@ export class FruitDiggingComponent implements OnInit {
         return this.fruitContent
     }
 
-    private resetAbilities(): void {
-        this.half = false
-        this.onehalf = false
-        this.prevent = false
-        this.clickedCoconut = false
-    }
-
     private processFruit(content: FruitCell, index: number) {
         let toAdd = 0
-        let [halfLast, ohalfLast] = [this.half, this.onehalf]
 
         switch (content) {
             case Fruit.MANGO:
                 toAdd = 300;
-                this.resetAbilities()
                 break;
             case Fruit.APPLE:
                 toAdd = (this.apples++) * 100;
-                this.resetAbilities()
                 break;
             case Fruit.WATERMELON:
                 toAdd = 100;
                 this.blowUpAdjacent(index)
-                this.resetAbilities()
                 break;
             case Fruit.POMEGRANATE:
                 toAdd = 200;
-                this.onehalf = true
                 break;
             case Fruit.COCONUT:
                 toAdd = 200;
-                this.prevent = true
-                this.clickedCoconut = true
-                this.onehalf = false
-                this.half = false
                 break;
             case Fruit.CHERRY:
                 toAdd = 200;
                 if (this.lastFruit === Fruit.CHERRY) {
-                    toAdd = 500;
+                    toAdd = 500
                 }
-                this.resetAbilities()
                 break;
             case Fruit.DURIAN:
                 toAdd = 800;
-                this.half = true
                 break;
             case Fruit.DRAGONFRUIT:
                 toAdd = 1200;
-                this.half = true
                 break
             case Rum.RUM:
-                this.resetAbilities()
                 break;
+            case Bomb.BOMB:
+                if (this.lastFruit !== Fruit.COCONUT) {
+                    this.destroySomeAdjacentFruits(index)
+                }
         }
 
-        if (ohalfLast) { toAdd *= 1.5 }
-        if (halfLast) { toAdd *= 0.5 }
+        switch (this.lastFruit) {
+            case Fruit.POMEGRANATE:
+                toAdd *= 1.5
+                break
+            case Fruit.DRAGONFRUIT: case Fruit.DURIAN:
+                toAdd *= 0.5
+                break
+        }
 
         this.points += toAdd
         this.Qstr.enqueue("+" + toAdd)
@@ -226,7 +191,7 @@ export class FruitDiggingComponent implements OnInit {
         }
     }
 
-    private destroyAdjacentFruits(index: number): void {
+    private destroySomeAdjacentFruits(index: number): void {
         const adjacentIndices = this.getAdjacentIndices(index);
 
         // Filter only the hidden fruits (non-bomb) that can be destroyed

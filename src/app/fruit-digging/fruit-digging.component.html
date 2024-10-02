@@ -15,9 +15,9 @@
 
 <div class="q">{{ Q.queue }}</div>
 <div class="q">{{ Qstr.queue }}</div>
-<p class="points">Points: <rolling-number [value]="points" /></p>
+<p class="points">Points: <rolling-number [value]="points" [transitionInMs]="750" /></p>
 <p>Turn: {{ turn }} / 15</p>
-<p>States: {{ states }}</p>
+<p>Last clicked: {{ lastFruit }}</p>
 
 <button (click)="restart()">Restart</button>
 <button (click)="show()">Show all</button>
