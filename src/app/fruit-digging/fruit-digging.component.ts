@@ -39,6 +39,7 @@ export class FruitDiggingComponent implements OnInit {
 
     ngOnInit() {
         this.generateGrid()
+        this.points = 0
     }
 
     get states(): string {
@@ -54,10 +55,10 @@ export class FruitDiggingComponent implements OnInit {
         const cell = this.fruitContent[index];
         this.Q.enqueue(cell)
         this.content[index] = cell;
-        if (isFruit(cell))
+        if (isFruit(cell) || cell === Rum.RUM)
             this.processFruit(cell, index)
         else if (cell === Bomb.BOMB) {
-            this.clickedCoconut = false
+            this.resetAbilities()
             if (!prev) {
                 this.destroyAdjacentFruits(index)
             }
@@ -164,6 +165,9 @@ export class FruitDiggingComponent implements OnInit {
                 toAdd = 1200;
                 this.half = true
                 break
+            case Rum.RUM:
+                this.resetAbilities()
+                break;
         }
 
         if (ohalfLast) { toAdd *= 1.5 }
@@ -176,11 +180,10 @@ export class FruitDiggingComponent implements OnInit {
 
     private blowUpAdjacent(index: number): void {
         const adjIdx = this.getAdjacentIndices(index);
-        const validAdj = adjIdx
+        let validAdj = adjIdx
             .filter(adjIndex => this.content[adjIndex] === State.HIDDEN) // only take ones that are hidden
             .map(adjIndex => this.fruitContent[adjIndex]) // then map to fruitContent
-            .filter(fruit => fruit !== Bomb.BOMB) // and filtering out bombs
-            .filter(fruit => fruit != Rum.RUM)
+            .filter(fruit => fruit !== Bomb.BOMB && fruit !== Rum.RUM) // and filtering out bombs and rums
 
         if (validAdj.length > 0) {
             const randomFruit = validAdj[Math.floor(Math.random() * validAdj.length)];
@@ -225,11 +228,21 @@ export class FruitDiggingComponent implements OnInit {
 
     private destroyAdjacentFruits(index: number): void {
         const adjacentIndices = this.getAdjacentIndices(index);
-        for (const adjIndex of adjacentIndices) {
-            const fruit = this.fruitContent[adjIndex]
-            if (this.content[adjIndex] === State.HIDDEN && fruit !== Bomb.BOMB) {
-                this.content[adjIndex] = State.DESTROYED; // Set state to DESTROYED
-            }
+
+        // Filter only the hidden fruits (non-bomb) that can be destroyed
+        const destroyableFruits = adjacentIndices.filter(adjIndex =>
+            this.content[adjIndex] === State.HIDDEN && this.fruitContent[adjIndex] !== Bomb.BOMB
+        );
+
+        // Define how many to destroy - in this case, we destroy 50% of the adjacent fruits
+        const numToDestroy = Math.floor(destroyableFruits.length / 2);
+
+        // Shuffle the destroyableFruits to pick a random subset
+        this.shuffle(destroyableFruits);
+
+        // Destroy the selected number of fruits
+        for (let i = 0; i < numToDestroy; i++) {
+            this.content[destroyableFruits[i]] = State.DESTROYED;
         }
     }
 

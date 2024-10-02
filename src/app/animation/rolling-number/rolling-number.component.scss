@@ -7,11 +7,11 @@ $size: 30px;
     display: flex;
 }
 
-.animated-rolling-character {
+.animated-rolling-character, {
     height: 10 * $size;
     display: flex;
     flex-direction: column;
-    transition: margin-top 0.5s;
+    // transition: margin-top 0.5s;
     font-size: $size;
 
     div {
@@ -20,4 +20,9 @@ $size: 30px;
         align-items: center;
         justify-content: center;
     }
+}
+
+.non-digit-character {
+    display: flex;
+    font-size: $size;
 }

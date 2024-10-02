@@ -1,13 +1,18 @@
-<rolling-number [value]="currentViewCount"></rolling-number>
+<rolling-number [value]="currentViewCount" [transitionInMs]="time"></rolling-number>
 
 <p>Value: {{ currentViewCount }}</p>
 
-<ng-container *ngFor="let i of [1, 10, 100, 1000, 10000]">
-    <button (click)="add(i)">
-        +{{ i }}
-    </button>
-    <button (click)="subtract(i)">
-        -{{ i }}
-    </button>
-    <br/>
-</ng-container>
+
+
+<input type="number" [(ngModel)]="time" />
+<button (click)="toggle = !toggle">Toggle</button>
+
+
+<input type="number" [(ngModel)]="i" />
+<button (click)="add(i)">
+    +{{ i }}
+</button>
+<button (click)="subtract(i)">
+    -{{ i }}
+</button>
+<br/>

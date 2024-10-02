@@ -7,11 +7,15 @@ import {Component} from '@angular/core';
 })
 export class TestComponent {
     currentViewCount: number = 17384;
+    toggle = false
+    time: number = 200;
+    i: number = 0
 
     constructor() {
         // Simulate value updates every few seconds
         setInterval(() => {
-            this.currentViewCount = this.getRandomViewCount(); // Update with a random count
+            if (this.toggle)
+                this.currentViewCount = this.getRandomViewCount(); // Update with a random count
         }, 1000); // Update every 5 seconds
     }
 
