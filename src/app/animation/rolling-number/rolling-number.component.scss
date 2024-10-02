@@ -2,7 +2,7 @@ $size: 30px;
 
 .animated-rolling-number {
     position: relative;
-    height: 10 * $size;
+    height: $size;
     overflow: hidden;
     display: flex;
 }
@@ -11,9 +11,8 @@ $size: 30px;
     height: 10 * $size;
     display: flex;
     flex-direction: column;
-    transition: margin-top 2s;
+    transition: margin-top 0.5s;
     font-size: $size;
-    // margin-top: 0;
 
     div {
         height: $size;

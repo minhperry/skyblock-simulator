@@ -1,5 +1,5 @@
 <div class="animated-rolling-number">
-    <ng-container *ngFor="let char of rollingCharacters; let i = index">
+    <ng-container *ngFor="let _ of rollingCharacters; trackBy: tbI;let i = index">
         <div class="animated-rolling-character" [style.margin-top]="getMargin(i)">
             <div *ngFor="let digit of [9,8,7,6,5,4,3,2,1,0]">
                 {{ digit }}

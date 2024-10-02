@@ -27,4 +27,6 @@ export class RollingNumberComponent {
         const marginTop = -(9 - currentDigit) * this.size;
         return `${marginTop}px`;
     }
+
+    tbI = (i: number) => {return i}
 }

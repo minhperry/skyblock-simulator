@@ -8,11 +8,11 @@ import {Component} from '@angular/core';
 export class TestComponent {
     currentViewCount: number = 17384;
 
-    _constructor() {
+    constructor() {
         // Simulate value updates every few seconds
         setInterval(() => {
             this.currentViewCount = this.getRandomViewCount(); // Update with a random count
-        }, 5000); // Update every 5 seconds
+        }, 1000); // Update every 5 seconds
     }
 
     add(int: number) {
