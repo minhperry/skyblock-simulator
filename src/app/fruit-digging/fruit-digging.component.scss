@@ -93,6 +93,12 @@ $grid-size: 3rem;
     background-image: url("/fruits/gone.png");
 }
 
+.shovel {
+    height: $grid-size - 0.5rem;
+    width: $grid-size - 0.5rem;
+    background-size: contain;
+}
+
 .anchor {
     background-image: url("/fruits/shovels/anchor.png");
 }

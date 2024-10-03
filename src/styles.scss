@@ -66,3 +66,32 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 
+.mc {
+    &.red {
+        color: #FF5555 !important;
+    }
+
+    &.aqua {
+        color: #55FFFF !important;
+    }
+
+    &.gold {
+        color: #FFAA00 !important;
+    }
+
+    &.green {
+        color: #55FF55 !important;
+    }
+
+    &.blue {
+        color: #5555FF !important;
+    }
+
+    &.purple {
+        color: #AA00AA !important;
+    }
+
+    &.pink {
+        color: #FF55FF !important;
+    }
+}

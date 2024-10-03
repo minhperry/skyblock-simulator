@@ -5,6 +5,7 @@
                 <div (click)="handleClick(i)"
                      *ngFor="let cell of content; let i = index"
                      [ngClass]="['grid-item', cell]">
+                    <div *ngIf="debug" style="color: blue">{{ i }}</div>
                 </div>
             </div>
         </div>
@@ -21,6 +22,14 @@
 <!--div class="q">{{ Q.queue }}</div-->
 <p class="points">Points: <rolling-number [value]="points" [transitionInMs]="750" /> {{ reason }}</p>
 <p>Turn: {{ turn }} / 15</p>
+<div [innerHTML]="shovelMessage"></div>
+
+<div class="d-flex align-content-center">
+    <div [ngClass]="[shovelMode, 'grid-item']" (click)="changeMode()"></div>
+    <div class="user-select-none">{{ shovelModeDesc }}</div>
+</div>
+
+<br>
 <div>Last clicked: <div [ngClass]="['grid-item', lastFruit ?? '', 'last']"></div></div>
 
 <button (click)="restart()">Restart</button>
