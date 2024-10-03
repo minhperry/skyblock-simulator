@@ -69,7 +69,9 @@ export class FruitDiggingComponent implements OnInit {
         this.turn = 0
         this.lastFruit = null
         this.reason = '~'
-        console.clear()
+        this.shovelMode = ShovelMode.MINES
+        this.shovelModeDesc = 'How many mines are around.'
+        this.shovelMessage = ''
     }
 
     show() {
@@ -79,6 +81,7 @@ export class FruitDiggingComponent implements OnInit {
     getFruitContents() {
         return this.fruitContent
     }
+
 
     handleClick(index: number) {
         if (this.content[index] !== State.HIDDEN) return
@@ -154,15 +157,18 @@ export class FruitDiggingComponent implements OnInit {
                 this.reason = '+1200'
                 break
             case Rum.RUM:
-                toAdd = 2
-                this.reason = '+2 ❌⛏❌' // 1 "encouraging point"
+                toAdd = 8
+                this.reason = '+8 ❌⛏❌' // 4 "encouraging point"
                 break;
             case Bomb.BOMB:
+                // encouraging points, 2 when exploded, 4 when saved by coconut
                 if (this.lastFruit !== Fruit.COCONUT) {
-                    this.reason = '+0 💣'
+                    toAdd = 2
+                    this.reason = '+2 💣'
                     this.destroySomeAdjacentFruits(index)
                 } else {
-                    this.reason = '+0 🥥🛟'
+                    toAdd = 4
+                    this.reason = '+4 🥥🛟'
                 }
         }
 
@@ -187,14 +193,14 @@ export class FruitDiggingComponent implements OnInit {
             .filter(adjIndex => this.content[adjIndex] === State.HIDDEN) // only take ones that are hidden
             .map(adjIndex => this.fruitContent[adjIndex]) // then map to fruitContent
             .filter(fruit => fruit !== Bomb.BOMB && fruit !== Rum.RUM) // and filtering out bombs and rums
-        console.log("adjacentIndex", adjIdx, "\nvalidAdj", validAdjFruits)
+        // console.log("adjacentIndex", adjIdx, "\nvalidAdj", validAdjFruits)
 
         if (validAdjFruits.length > 0) {
             const randomFruit = validAdjFruits[Math.floor(Math.random() * validAdjFruits.length)];
             let toAdd = 0;
 
             const blownUpIndex = adjIdx.find(adjIndex => this.fruitContent[adjIndex] === randomFruit);
-            console.log("blowing up", blownUpIndex, "with fruit", this.fruitContent[blownUpIndex!])
+            // console.log("blowing up", blownUpIndex, "with fruit", this.fruitContent[blownUpIndex!])
             if (blownUpIndex !== undefined) {
                 setTimeout(() => {
                     this.content[blownUpIndex] = randomFruit;
@@ -270,6 +276,11 @@ export class FruitDiggingComponent implements OnInit {
         return adjacentIndices;
     }
 
+    private getAdjacentFruitIndicies(index: number): number[] {
+        return this.getAdjacentIndices(index)
+            .filter((i) => this.fruitContent[i] !== Bomb.BOMB && this.fruitContent[i] !== Rum.RUM)
+    }
+
     private shuffle(array: any[]) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -296,10 +307,10 @@ export class FruitDiggingComponent implements OnInit {
                 this.countAdjacentMines(index)
                 break;
             case ShovelMode.ANCHOR:
-                this.getAdjHighestFruit(index)
+                this.getAdjLowestFruit(index)
                 break
             case ShovelMode.TREASURE:
-                this.getNearestLowestPoint(index)
+                this.getAdjHighestPts(index)
                 break
         }
     }
@@ -312,27 +323,41 @@ export class FruitDiggingComponent implements OnInit {
             `<b class="mc red">BOMB!</b> There are <span class="mc red">${count}</span> nearby bombs!`
     }
 
-    private getAdjHighestFruit(index: number) {
-        const adjacentFruitIndices = this.getAdjacentIndices(index);
-        let highestFruitIdx = adjacentFruitIndices[0]
+    private getAdjLowestFruit(index: number) {
+        const adjacentFruitIndices = this.getAdjacentFruitIndicies(index);
+        let lowestIdx = adjacentFruitIndices[0]
         for (let idx of adjacentFruitIndices) {
-            if (this.getBasePoints(this.fruitContent[highestFruitIdx]) < this.getBasePoints(this.fruitContent[idx])) {
-                highestFruitIdx = idx
+            if (this.getBasePointsAsFruitAtIndex(lowestIdx) >= this.getBasePointsAsFruitAtIndex(idx)) {
+                lowestIdx = idx
             }
         }
+        console.log("adjIndicies", adjacentFruitIndices,)
         this.shovelMessage =
-            `<b class="mc aqua">ANCHOR!</b> The highest scoring fruit adjacent is: ${this.fruitContent[highestFruitIdx]}}`
+            `<b class="mc aqua">ANCHOR!</b> The lowest scoring fruit adjacent is ${this.getRelativeIndex(index, lowestIdx)}`
     }
 
-    private getNearestLowestPoint(index: number) {
-        const adjacentFruitIndices = this.getAdjacentIndices(index);
-        let lowestFruitIdx = adjacentFruitIndices[0]
+    private getAdjHighestPts(index: number) {
+        const adjacentFruitIndices = this.getAdjacentFruitIndicies(index)
+            .filter((i) => this.content[i] === State.HIDDEN)
+        let highestIdx = adjacentFruitIndices[0]
         for (let idx of adjacentFruitIndices) {
-            if (this.getBasePoints(this.fruitContent[lowestFruitIdx]) > this.getBasePoints(this.fruitContent[idx])) {
-                lowestFruitIdx = idx
+            if (this.getBasePointsAsFruitAtIndex(highestIdx) <= this.getBasePointsAsFruitAtIndex(idx)) {
+                highestIdx = idx
             }
         }
-        console.log(`The lowest scoring fruit adjacent is: ${lowestFruitIdx}`);
+
+        // Undefined when adjFruitIndicies has no more surrounding fruit. Ignore the bs it said
+        if (this.fruitContent[highestIdx] === undefined) {
+            this.shovelMessage =
+                `<b class="mc gold">TREASURE!</b> There are no fruits nearby!`
+            return
+        }
+
+        let fruitMsg = this.capitalize(this.fruitContent[highestIdx])
+
+        let fruitColor = this.getFruitColor(this.fruitContent[highestIdx])
+        this.shovelMessage =
+            `<b class="mc gold">TREASURE!</b> There is a <span class="mc ${fruitColor}">${fruitMsg}</span> nearby!`
     }
 
     private getRelativeIndex(_this: number, _of: number) {
@@ -340,13 +365,19 @@ export class FruitDiggingComponent implements OnInit {
         let [ofRow, ofCol] = [Math.floor(_of / 7), _of % 7]
         let [dRow, dCol] = [thisRow - ofRow, thisCol - ofCol]
 
+        console.log("this:", [thisRow, thisCol], "of:", [ofRow, ofCol], "diff:", [dRow, dCol])
+
         let retStr = ''
-        if (dCol === -1) retStr += '1 left'; else if (dCol === 1) retStr += '1 right'
-        if (dRow === -1) retStr += '1 up'; else if (dRow === 1) retStr += '1 down'
+        if (dCol === 1) retStr += '←'; else if (dCol === -1) retStr += '→'
+        if (dRow === 1) retStr += '↑'; else if (dRow === -1) retStr += '↓'
         return retStr
     }
 
-    private getBasePoints(fruit: FruitCell) {
+    private getBasePointsAsFruitAtIndex(index: number) {
+        return this.getBasePoints(this.fruitContent[index] as Fruit)
+    }
+
+    private getBasePoints(fruit: Fruit) {
         switch (fruit) {
             case Fruit.MANGO:
                 return 300;
@@ -361,12 +392,10 @@ export class FruitDiggingComponent implements OnInit {
                 return 800;
             case Fruit.DRAGONFRUIT:
                 return 1200;
-            default:
-                return 0
         }
     }
 
-    private getFruitColor(fruit: Fruit) {
+    private getFruitColor(fruit: FruitCell) {
         switch (fruit) {
             case Fruit.MANGO:
             case Fruit.APPLE:
@@ -380,6 +409,8 @@ export class FruitDiggingComponent implements OnInit {
                 return "purple";
             case Fruit.DRAGONFRUIT:
                 return "pink";
+            default:
+                return ""
         }
     }
 

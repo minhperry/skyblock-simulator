@@ -21,7 +21,10 @@
 
 <!--div class="q">{{ Q.queue }}</div-->
 <p class="points">Points: <rolling-number [value]="points" [transitionInMs]="750" /> {{ reason }}</p>
-<p>Turn: {{ turn }} / 15</p>
+<p>Turn:
+    <rolling-number [value]="turn" [transitionInMs]="500"/>
+    / 15
+</p>
 <div [innerHTML]="shovelMessage"></div>
 
 <div class="d-flex align-content-center">
@@ -30,7 +33,15 @@
 </div>
 
 <br>
-<div>Last clicked: <div [ngClass]="['grid-item', lastFruit ?? '', 'last']"></div></div>
+<div class="d-inline-block">
+    Last clicked:
+    <div [ngClass]="['grid-item', lastFruit ?? '', 'last']"></div>
+    <br>
+    Click queue:
+    <ng-container *ngFor="let item of Q.queue">
+        <div [ngClass]="['grid-item', item]"></div>
+    </ng-container>
+</div>
 
 <button (click)="restart()">Restart</button>
 <button (click)="show()">Show all</button>
