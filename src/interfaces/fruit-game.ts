@@ -18,7 +18,9 @@ export enum State {
 
 export type FruitCell = Fruit | Bomb | Rum | State
 
-export function isFruit(fruit: FruitCell): boolean {
-    return Object.values(Fruit).includes(fruit as Fruit);
+export enum ShovelMode {
+    ANCHOR = "anchor",
+    MINES = "mines",
+    TREASURE = "treasure",
 }
 

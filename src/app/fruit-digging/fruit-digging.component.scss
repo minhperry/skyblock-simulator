@@ -1,14 +1,26 @@
 $grid-size: 3rem;
 
-.container {
-    margin-top: 2.5rem;
+.container-sm {
+    margin-top: 20px;
 }
 
 .grizzler {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
-    grid-gap: 0.5rem;
+    grid-gap: 0.25rem;
+
+    &:first-child {
+        margin-bottom: 0.5rem;
+    }
+}
+
+.grz-wrapper {
+    width: fit-content;
+}
+
+.otherboard {
+    scale: 85%;
 }
 
 .q {
@@ -17,14 +29,14 @@ $grid-size: 3rem;
 }
 
 .grid-item {
-    border: 2px solid #444;
     height: $grid-size;
     width: $grid-size;
-    font-size: 1.2em;
+    font-size: 1.2rem;
     background-size: contain;
 
-    &:hover {
-        border: 2px solid #fff;
+    &.last {
+        height: $grid-size * 0.65;
+        width: $grid-size * 0.65;
     }
 }
 
@@ -70,8 +82,25 @@ $grid-size: 3rem;
 
 .sand {
     background-image: url("/fruits/sand.png");
+
+    &:hover, &:focus {
+        background-image: url("/fruits/redsand.png");
+        cursor: pointer;
+    }
 }
 
 .gone {
     background-image: url("/fruits/gone.png");
+}
+
+.anchor {
+    background-image: url("/fruits/shovels/anchor.png");
+}
+
+.mines {
+    background-image: url("/fruits/shovels/mines.png");
+}
+
+.treasure {
+    background-image: url("/fruits/shovels/treasure.png");
 }

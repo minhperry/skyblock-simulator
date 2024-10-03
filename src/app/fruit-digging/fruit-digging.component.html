@@ -1,25 +1,30 @@
-<div class="container d-flex justify-content-center">
-    <div class="grizzler">
-        <div (click)="handleClick(i)"
-             *ngFor="let cell of content; let i = index"
-             [ngClass]="['grid-item', cell]">
+<div class="container-sm d-flex justify-content-center">
+    <div class="row d-flex justify-content-center">
+        <div class="grz-wrapper d-flex">
+            <div class="grizzler">
+                <div (click)="handleClick(i)"
+                     *ngFor="let cell of content; let i = index"
+                     [ngClass]="['grid-item', cell]">
+                </div>
+            </div>
         </div>
-    </div>
-    <div style="margin: 1rem"></div>
-    <div class="grizzler">
-        <div *ngFor="let cell of getFruitContents(); let i = index"
-             [ngClass]="['grid-item', cell]">
+        <div *ngIf="debug" class="grz-wrapper d-flex otherboard">
+            <div class="grizzler">
+                <div *ngFor="let cell of getFruitContents(); let i = index"
+                     [ngClass]="['grid-item', cell]">
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="q">{{ Q.queue }}</div>
-<div class="q">{{ Qstr.queue }}</div>
-<p class="points">Points: <rolling-number [value]="points" [transitionInMs]="750" /></p>
+<!--div class="q">{{ Q.queue }}</div-->
+<p class="points">Points: <rolling-number [value]="points" [transitionInMs]="750" /> {{ reason }}</p>
 <p>Turn: {{ turn }} / 15</p>
-<p>Last clicked: {{ lastFruit }}</p>
+<div>Last clicked: <div [ngClass]="['grid-item', lastFruit ?? '', 'last']"></div></div>
 
 <button (click)="restart()">Restart</button>
 <button (click)="show()">Show all</button>
+<button (click)="debug = !debug">show other board</button>
 
 

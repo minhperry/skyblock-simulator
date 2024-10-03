@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Bomb, Fruit, FruitCell, Rum, State} from "../../interfaces/fruit-game";
-import {Queue} from "../../interfaces/collections";
+import {Bomb, Fruit, FruitCell, Rum, ShovelMode, State} from "../../interfaces/fruit-game";
 import {Nullable} from "../../interfaces/todo";
 
 // https://wiki.hypixel.net/Carnival#Fruit_Digging
@@ -10,15 +9,17 @@ import {Nullable} from "../../interfaces/todo";
     styleUrl: './fruit-digging.component.scss'
 })
 export class FruitDiggingComponent implements OnInit {
-    Q = new Queue<FruitCell>()
-    Qstr = new Queue<string>()
+    // Q = new Queue<FruitCell>()
+    debug = false
 
     points: number = 0; turn: number = 0;
     content = new Array(49).fill(State.HIDDEN)
 
     private apples: number = 0
     protected lastFruit: Nullable<FruitCell> = null
+    public reason: string = '~'
 
+    protected shovelMode: ShovelMode = ShovelMode.MINES
     private fruitContent: FruitCell[] = new Array(49).fill(null)
     private freq: { [key in Fruit | Bomb]: number } = {
         [Fruit.MANGO]: 10,
@@ -37,13 +38,12 @@ export class FruitDiggingComponent implements OnInit {
         this.points = 0
     }
 
-
     handleClick(index: number) {
         if (this.content[index] !== State.HIDDEN) return
-        if (this.turn > 15) return;
+        if (this.turn >= 15) return;
 
         const cell = this.fruitContent[index];
-        this.Q.enqueue(cell)
+        // this.Q.enqueue(cell)
         this.content[index] = cell;
         this.processFruit(cell, index)
         this.lastFruit = cell
@@ -72,13 +72,13 @@ export class FruitDiggingComponent implements OnInit {
 
     restart() {
         this.generateGrid()
-        this.Q.clear()
-        this.Qstr.clear()
+        // this.Q.clear()
         this.content.fill(State.HIDDEN)
         this.points = 0
         this.apples = 0
         this.turn = 0
         this.lastFruit = null
+        this.reason = '~'
     }
 
     show() {
@@ -95,51 +95,68 @@ export class FruitDiggingComponent implements OnInit {
         switch (content) {
             case Fruit.MANGO:
                 toAdd = 300;
+                this.reason = '+300'
                 break;
             case Fruit.APPLE:
-                toAdd = (this.apples++) * 100;
+                toAdd = (this.apples) * 100;
+                this.reason = `+${toAdd} ${this.apples}x 🍎`
+                this.apples++
                 break;
             case Fruit.WATERMELON:
                 toAdd = 100;
+                this.reason = '+100'
                 this.blowUpAdjacent(index)
                 break;
             case Fruit.POMEGRANATE:
                 toAdd = 200;
+                this.reason = '+200'
                 break;
             case Fruit.COCONUT:
                 toAdd = 200;
+                this.reason = '+200'
                 break;
             case Fruit.CHERRY:
-                toAdd = 200;
                 if (this.lastFruit === Fruit.CHERRY) {
                     toAdd = 500
+                    this.reason = '+500 🍒🍒'
+                } else {
+                    toAdd = 200;
+                    this.reason = '+200'
                 }
                 break;
             case Fruit.DURIAN:
                 toAdd = 800;
+                this.reason = '+800'
                 break;
             case Fruit.DRAGONFRUIT:
                 toAdd = 1200;
+                this.reason = '+1200'
                 break
             case Rum.RUM:
+                toAdd = 1
+                this.reason = '+1 ❌⛏❌' // 1 "encouraging point"
                 break;
             case Bomb.BOMB:
                 if (this.lastFruit !== Fruit.COCONUT) {
+                    this.reason = '+0 💣'
                     this.destroySomeAdjacentFruits(index)
+                } else {
+                    this.reason = '+0 🥥🛟'
                 }
         }
 
         switch (this.lastFruit) {
             case Fruit.POMEGRANATE:
                 toAdd *= 1.5
+                this.reason += ' x1.5 🎉'
                 break
             case Fruit.DRAGONFRUIT: case Fruit.DURIAN:
                 toAdd *= 0.5
+                this.reason += ` x0.5 🌵`
                 break
         }
 
         this.points += toAdd
-        this.Qstr.enqueue("+" + toAdd)
         this.lastFruit = content
     }
 
@@ -163,6 +180,7 @@ export class FruitDiggingComponent implements OnInit {
                     break;
                 case Fruit.WATERMELON:
                     toAdd = 100 / 2;
+                    this.blowUpAdjacent(index)
                     break;
                 case Fruit.POMEGRANATE:
                     toAdd = 200 / 2;
@@ -182,7 +200,7 @@ export class FruitDiggingComponent implements OnInit {
             }
 
             this.points += toAdd;
-            this.Qstr.enqueue("blow+" + toAdd)
+            this.reason += ` +${toAdd} 🍉`;
 
             const blownUpIndex = adjIdx.find(adjIndex => this.fruitContent[adjIndex] === randomFruit);
             if (blownUpIndex !== undefined) {
@@ -247,5 +265,9 @@ export class FruitDiggingComponent implements OnInit {
 
     private randomInterval(min: number, max: number) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    private capitalize(str: string): string {
+        return str.charAt(0).toUpperCase() + str.slice(1);
     }
 }
