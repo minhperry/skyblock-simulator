@@ -1,21 +1,20 @@
-$size: 30px;
+// $size: 30px;
 
 .animated-rolling-number {
     position: relative;
-    height: $size;
+    // height: $size;
     overflow: hidden;
     display: flex;
 }
 
 .animated-rolling-character, {
-    height: 10 * $size;
+    // height: 10 * $size;
     display: flex;
     flex-direction: column;
-    // transition: margin-top 0.5s;
-    font-size: $size;
+    //font-size: $size;
 
     div {
-        height: $size;
+        // height: $size;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -24,5 +23,5 @@ $size: 30px;
 
 .non-digit-character {
     display: flex;
-    font-size: $size;
+    //font-size: $size;
 }

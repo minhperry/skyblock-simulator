@@ -9,10 +9,11 @@ import {identity} from "rxjs";
 export class RollingNumberComponent {
     public rollingCharacters: string[] = [];
     readonly identity = identity<number>;
-    private size: number = 30;
     private _value: number = -1;
 
     @Input() transitionInMs: number = 200;
+
+    @Input() size: number = 30
 
     @Input()
     set value(newValue: number) {

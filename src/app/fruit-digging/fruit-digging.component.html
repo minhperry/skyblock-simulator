@@ -1,50 +1,45 @@
-<div class="container-sm d-flex justify-content-center">
-    <div class="row d-flex justify-content-center">
-        <div class="grz-wrapper d-flex">
-            <div class="grizzler">
-                <div (click)="handleClick(i)"
-                     *ngFor="let cell of content; let i = index"
-                     [ngClass]="['grid-item', cell]">
-                    <div *ngIf="debug" style="color: blue">{{ i }}</div>
-                </div>
-            </div>
-        </div>
-        <div *ngIf="debug" class="grz-wrapper d-flex otherboard">
-            <div class="grizzler">
-                <div *ngFor="let cell of getFruitContents(); let i = index"
-                     [ngClass]="['grid-item', cell]">
-                </div>
+<div class="container-sm d-flex justify-content-center flex-column flex-md-row" data-bs-theme="dark">
+    <div class="grz-wrapper d-flex mx-auto">
+        <div class="grizzler">
+            <div (click)="handleClick(i)"
+                 *ngFor="let cell of content; let i = index"
+                 [ngClass]="['grid-item', cell]">
+                <div *ngIf="debug" style="color: blue">{{ i }}</div>
             </div>
         </div>
     </div>
+
+    <div class="d-flex container align-items-center flex-column mt-3 mt-md-0 second-div">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+            <rolling-number [value]="points" [transitionInMs]="750" [size]="28"/>
+
+            <div> {{ reason }}</div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-center my-2 bordered"
+             (click)="changeMode()"
+        >
+            <div [ngClass]="[shovelMode, 'grid-item']"></div>
+            <div class="user-select-none ms-2" [innerHTML]="shovelModeDesc"></div>
+        </div>
+
+        <div class="my-2">
+            <div [innerHTML]="shovelMessage"></div>
+        </div>
+
+
+        <div class="grid3x5">
+            <!-- Loop through 15 divs and conditionally apply classes based on the current turn -->
+            <div *ngFor="let i of [].constructor(15); let idx = index" class="counter">
+                <div [ngClass]="['shovel', 'scaled', shovelMode, idx < (15 - turn) ? '' : 'touched']"></div>
+                </div>
+        </div>
+
+        <div class="d-flex justify-content-center my-2">
+            <button class="btn btn-primary mx-2" (click)="restart()">Restart</button>
+            <button class="btn btn-secondary mx-2" (click)="show()">Show all</button>
+            </div>
+        </div>
 </div>
-
-<!--div class="q">{{ Q.queue }}</div-->
-<p class="points">Points: <rolling-number [value]="points" [transitionInMs]="750" /> {{ reason }}</p>
-<p>Turn:
-    <rolling-number [value]="turn" [transitionInMs]="500"/>
-    / 15
-</p>
-<div [innerHTML]="shovelMessage"></div>
-
-<div class="d-flex align-content-center">
-    <div [ngClass]="[shovelMode, 'grid-item']" (click)="changeMode()"></div>
-    <div class="user-select-none">{{ shovelModeDesc }}</div>
-</div>
-
-<br>
-<div class="d-inline-block">
-    Last clicked:
-    <div [ngClass]="['grid-item', lastFruit ?? '', 'last']"></div>
-    <br>
-    Click queue:
-    <ng-container *ngFor="let item of Q.queue">
-        <div [ngClass]="['grid-item', item]"></div>
-    </ng-container>
-</div>
-
-<button (click)="restart()">Restart</button>
-<button (click)="show()">Show all</button>
-<button (click)="debug = !debug">show other board</button>
 
 

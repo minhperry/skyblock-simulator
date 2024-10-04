@@ -13,7 +13,9 @@ export class FruitDiggingComponent implements OnInit {
     Q = new Queue<FruitCell>()
     debug = false
 
-    points: number = 0; turn: number = 0;
+    points: number = 0;
+    turn: number = 0;
+    zeroto15 = Array.from(Array(15), (x, i) => i + 1)
     content = new Array(49).fill(State.HIDDEN)
 
     private apples: number = 0
@@ -21,8 +23,8 @@ export class FruitDiggingComponent implements OnInit {
     public reason: string = '~'
 
     protected shovelMode: ShovelMode = ShovelMode.MINES
-    protected shovelModeDesc = 'How many mines are around.'
-    protected shovelMessage: string = ''
+    protected shovelModeDesc = this.getModeDesc(this.shovelMode)
+    protected shovelMessage: string = '-'
 
     private fruitContent: FruitCell[] = new Array(49).fill(null)
     private freq: { [key in Fruit | Bomb]: number } = {
@@ -70,8 +72,8 @@ export class FruitDiggingComponent implements OnInit {
         this.lastFruit = null
         this.reason = '~'
         this.shovelMode = ShovelMode.MINES
-        this.shovelModeDesc = 'How many mines are around.'
-        this.shovelMessage = ''
+        this.shovelModeDesc = this.getModeDesc(this.shovelMode)
+        this.shovelMessage = '-'
     }
 
     show() {
@@ -91,6 +93,10 @@ export class FruitDiggingComponent implements OnInit {
         this.content[index] = cell;
         this.processFruit(cell, index)
         this.triggerDowsing(index)
+        if (cell === Rum.RUM) {
+            this.shovelMessage =
+                `<b class="mc red">RUM!</b> Dowsing disabled for a turn!`
+        }
         this.lastFruit = cell
         this.Q.enqueue(cell)
         this.turn++
@@ -100,16 +106,25 @@ export class FruitDiggingComponent implements OnInit {
         switch (this.shovelMode) {
             case ShovelMode.MINES:
                 this.shovelMode = ShovelMode.ANCHOR;
-                this.shovelModeDesc = "Relative location of the lowest scoring fruit."
                 break
             case ShovelMode.ANCHOR:
                 this.shovelMode = ShovelMode.TREASURE;
-                this.shovelModeDesc = "Highest scoring fruit."
                 break
             case ShovelMode.TREASURE:
                 this.shovelMode = ShovelMode.MINES;
-                this.shovelModeDesc = "How many mines are around."
                 break
+        }
+        this.shovelModeDesc = this.getModeDesc(this.shovelMode)
+    }
+
+    private getModeDesc(mode: ShovelMode) {
+        switch (mode) {
+            case ShovelMode.ANCHOR:
+                return "Relative location of the lowest scoring fruit."
+            case ShovelMode.TREASURE:
+                return "Highest scoring fruit."
+            case ShovelMode.MINES:
+                return "How many mines are around."
         }
     }
 
@@ -158,7 +173,7 @@ export class FruitDiggingComponent implements OnInit {
                 break
             case Rum.RUM:
                 toAdd = 8
-                this.reason = '+8 ❌⛏❌' // 4 "encouraging point"
+                this.reason = '+8 ❌' // 8 "encouraging point"
                 break;
             case Bomb.BOMB:
                 // encouraging points, 2 when exploded, 4 when saved by coconut
@@ -193,14 +208,12 @@ export class FruitDiggingComponent implements OnInit {
             .filter(adjIndex => this.content[adjIndex] === State.HIDDEN) // only take ones that are hidden
             .map(adjIndex => this.fruitContent[adjIndex]) // then map to fruitContent
             .filter(fruit => fruit !== Bomb.BOMB && fruit !== Rum.RUM) // and filtering out bombs and rums
-        // console.log("adjacentIndex", adjIdx, "\nvalidAdj", validAdjFruits)
 
         if (validAdjFruits.length > 0) {
             const randomFruit = validAdjFruits[Math.floor(Math.random() * validAdjFruits.length)];
             let toAdd = 0;
 
             const blownUpIndex = adjIdx.find(adjIndex => this.fruitContent[adjIndex] === randomFruit);
-            // console.log("blowing up", blownUpIndex, "with fruit", this.fruitContent[blownUpIndex!])
             if (blownUpIndex !== undefined) {
                 setTimeout(() => {
                     this.content[blownUpIndex] = randomFruit;
@@ -241,6 +254,7 @@ export class FruitDiggingComponent implements OnInit {
         }
     }
 
+    // Bug: Bomb can explode 0 tiles
     private destroySomeAdjacentFruits(index: number): void {
         const adjacentIndices = this.getAdjacentIndices(index);
 
@@ -250,7 +264,8 @@ export class FruitDiggingComponent implements OnInit {
         );
 
         // Define how many to destroy - in this case, we destroy 50% of the adjacent fruits
-        const numToDestroy = Math.floor(destroyableFruits.length / 2);
+        let numToDestroy = Math.floor(destroyableFruits.length / 2)
+        numToDestroy = numToDestroy > 0 ? numToDestroy : 1
 
         // Shuffle the destroyableFruits to pick a random subset
         this.shuffle(destroyableFruits);
@@ -324,14 +339,22 @@ export class FruitDiggingComponent implements OnInit {
     }
 
     private getAdjLowestFruit(index: number) {
-        const adjacentFruitIndices = this.getAdjacentFruitIndicies(index);
+        const adjacentFruitIndices = this.getAdjacentFruitIndicies(index)
+            .filter((i) => this.content[i] === State.HIDDEN)
         let lowestIdx = adjacentFruitIndices[0]
         for (let idx of adjacentFruitIndices) {
             if (this.getBasePointsAsFruitAtIndex(lowestIdx) >= this.getBasePointsAsFruitAtIndex(idx)) {
                 lowestIdx = idx
             }
         }
-        console.log("adjIndicies", adjacentFruitIndices,)
+
+        // same edge case as highest
+        if (this.fruitContent[lowestIdx] === undefined) {
+            this.shovelMessage =
+                `<b class="mc aqua">ANCHOR!</b> There are no fruits nearby!`
+            return
+        }
+
         this.shovelMessage =
             `<b class="mc aqua">ANCHOR!</b> The lowest scoring fruit adjacent is ${this.getRelativeIndex(index, lowestIdx)}`
     }
@@ -364,8 +387,6 @@ export class FruitDiggingComponent implements OnInit {
         let [thisRow, thisCol] = [Math.floor(_this / 7), _this % 7]
         let [ofRow, ofCol] = [Math.floor(_of / 7), _of % 7]
         let [dRow, dCol] = [thisRow - ofRow, thisCol - ofCol]
-
-        console.log("this:", [thisRow, thisCol], "of:", [ofRow, ofCol], "diff:", [dRow, dCol])
 
         let retStr = ''
         if (dCol === 1) retStr += '←'; else if (dCol === -1) retStr += '→'
@@ -421,4 +442,6 @@ export class FruitDiggingComponent implements OnInit {
     private capitalize(str: string): string {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
+
+    protected readonly Array = Array;
 }

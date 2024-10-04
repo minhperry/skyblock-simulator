@@ -15,8 +15,19 @@ $grid-size: 3rem;
     }
 }
 
+.grid3x5 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: 0;
+}
+
 .grz-wrapper {
     width: fit-content;
+}
+
+.second-div {
+    max-width: 450px;
 }
 
 .otherboard {
@@ -107,6 +118,25 @@ $grid-size: 3rem;
     background-image: url("/fruits/shovels/mines.png");
 }
 
+.touched {
+    filter: blur(3px) grayscale(1);
+}
+
 .treasure {
     background-image: url("/fruits/shovels/treasure.png");
+}
+
+
+.counter {
+    padding: 0;
+}
+
+.scaled {
+    scale: 75%;
+}
+
+.bordered {
+    border: 0.3rem solid rgba(68, 68, 68, 0.7);
+    padding: 3px 6px;
+    border-radius: 6px;
 }
