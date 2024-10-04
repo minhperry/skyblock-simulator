@@ -36,10 +36,18 @@
         </div>
 
         <div class="d-flex justify-content-center my-2">
-            <button class="btn btn-primary mx-2" (click)="restart()">Restart</button>
-            <button class="btn btn-secondary mx-2" (click)="show()">Show all</button>
+            <button class="btn btn-outline-primary mx-2" (click)="restart()">Restart</button>
+            <button class="btn btn-outline-secondary mx-2" (click)="show()">Show all</button>
+            <button class="btn btn-outline-warning mx-2" (click)="debug=!debug">Toggle debug</button>
+            </div>
+    </div>
+    <div class="d-flex mx-auto" *ngIf="debug">
+        <div class="grizzler">
+            <div *ngFor="let cell of getFruitContents(); let i = index"
+                 [ngClass]="['grid-item', cell]">
             </div>
         </div>
+    </div>
 </div>
 
 
