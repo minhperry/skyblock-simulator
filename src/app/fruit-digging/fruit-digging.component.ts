@@ -15,7 +15,7 @@ export class FruitDiggingComponent implements OnInit {
 
     points: number = 0;
     turn: number = 0;
-    zeroto15 = Array.from(Array(15), (x, i) => i + 1)
+    lastClicked = 0
     content = new Array(49).fill(State.HIDDEN)
 
     private apples: number = 0
@@ -84,10 +84,15 @@ export class FruitDiggingComponent implements OnInit {
         return this.fruitContent
     }
 
-
     handleClick(index: number) {
         if (this.content[index] !== State.HIDDEN) return
         if (this.turn >= 15) return;
+
+        let now = Date.now();
+        if (now - this.lastClicked < 3000) {
+            return;
+        }
+        this.lastClicked = Date.now()
 
         const cell = this.fruitContent[index];
         this.content[index] = cell;
