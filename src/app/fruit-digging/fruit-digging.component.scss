@@ -1,8 +1,25 @@
-$grid-size: 3rem;
-
-@media (max-width: 360px) {
-    $grid-size: 2rem;
+:host {
+    --grid-size: 3rem;
 }
+
+@media (max-width: 390px) {
+    :host {
+        --grid-size: 2.75rem;
+    }
+}
+
+@media (max-width: 350px) {
+    :host {
+        --grid-size: 2.5rem;
+    }
+}
+
+@media (max-width: 320px) {
+    :host {
+        --grid-size: 2.25rem;
+    }
+}
+
 
 @mixin grid($col, $row, $gap: 0) {
     display: grid;
@@ -55,8 +72,8 @@ $grid-size: 3rem;
 }
 
 .grid-item {
-    height: $grid-size;
-    width: $grid-size;
+    height: var(--grid-size);
+    width: var(--grid-size);
     font-size: 1.2rem;
     background-size: contain;
 }
@@ -115,8 +132,8 @@ $grid-size: 3rem;
 }
 
 .shovel {
-    height: $grid-size;
-    width: $grid-size;
+    height: var(--grid-size);
+    width: var(--grid-size);
     background-size: contain;
     background-repeat: no-repeat;
 }
