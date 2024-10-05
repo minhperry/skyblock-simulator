@@ -349,7 +349,7 @@ export class FruitDiggingComponent implements OnInit {
         const adjacentFruitIndices = this.getAdjacentFruitIndicies(index)
             .filter((i) => this.content[i] === State.HIDDEN)
 
-        if (adjacentFruitIndices === []) {
+        if (adjacentFruitIndices.length === 0) {
             this.shovelMessage =
                 `<b class="mc aqua">ANCHOR!</b> There are no fruits nearby!`
             return
@@ -370,7 +370,7 @@ export class FruitDiggingComponent implements OnInit {
         const adjacentFruitIndices = this.getAdjacentFruitIndicies(index)
             .filter((i) => this.content[i] === State.HIDDEN)
 
-        if (adjacentFruitIndices === []) {
+        if (adjacentFruitIndices.length === 0) {
             this.shovelMessage =
                 `<b class="mc gold">TREASURE!</b> There are no fruits nearby!`
             return
