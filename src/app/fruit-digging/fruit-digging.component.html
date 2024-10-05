@@ -1,25 +1,32 @@
 <div class="container-sm d-flex justify-content-center flex-column flex-md-row" data-bs-theme="dark">
-    <div class="grz-wrapper d-flex mx-auto">
-        <div class="grizzler">
+    <div class="grz-wrapper mx-auto position-relative align-items-center d-flex">
+        <div class="grid7x7 original">
             <div (click)="handleClick(i)"
                  *ngFor="let cell of content; let i = index"
-                 [ngClass]="['grid-item', cell]">
-                <div *ngIf="debug" style="color: blue">{{ i }}</div>
+                 [ngClass]="['grid-item', cell, ]">
+                <div class="user-select-none scaled" *ngIf="debug" style="color: blue; font-weight: bold">{{ i }}
+                </div>
+            </div>
+        </div>
+
+        <div class="grid7x7 reference" *ngIf="debug">
+            <div *ngFor="let cell of getFruitContents(); let i = index"
+                 [ngClass]="['grid-item', cell, 'scaled']">
             </div>
         </div>
     </div>
 
-    <div class="d-flex container align-items-center flex-column mt-3 mt-md-0 second-div">
-        <div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="d-flex container align-items-center flex-column justify-content-center mt-3 mt-md-0 second-div">
+        <div class="d-flex flex-column justify-content-center my-2">
             <rolling-number [value]="points" [transitionInMs]="750" [size]="28"/>
 
-            <div> {{ reason }}</div>
+            <div class="d-flex justify-content-center"> {{ reason }}</div>
         </div>
 
-        <div class="d-flex align-items-center justify-content-center my-2 bordered"
+        <div class="d-flex align-items-center justify-content-center bordered"
              (click)="changeMode()"
         >
-            <div [ngClass]="[shovelMode, 'grid-item']"></div>
+            <div [ngClass]="[shovelMode, 'shovel']"></div>
             <div class="user-select-none ms-2" [innerHTML]="shovelModeDesc"></div>
         </div>
 
@@ -37,17 +44,8 @@
 
         <div class="d-flex justify-content-center my-2">
             <button class="btn btn-outline-primary mx-2" (click)="restart()">Restart</button>
-            <button class="btn btn-outline-secondary mx-2" (click)="show()">Show all</button>
-            <button class="btn btn-outline-warning mx-2" (click)="debug=!debug">Toggle debug</button>
+            <button class="btn btn-outline-secondary mx-2" (click)="show()">Show</button>
+            <button class="btn btn-outline-warning mx-2" (click)="debug=!debug">Debug</button>
             </div>
-    </div>
-    <div class="d-flex mx-auto" *ngIf="debug">
-        <div class="grizzler">
-            <div *ngFor="let cell of getFruitContents(); let i = index"
-                 [ngClass]="['grid-item', cell]">
-            </div>
-        </div>
     </div>
 </div>
-
-

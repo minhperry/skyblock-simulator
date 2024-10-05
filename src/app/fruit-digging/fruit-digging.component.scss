@@ -1,42 +1,57 @@
 $grid-size: 3rem;
 
+@media (max-width: 360px) {
+    $grid-size: 2rem;
+}
+
+@mixin grid($col, $row, $gap: 0) {
+    display: grid;
+    grid-template-columns: repeat($col, 1fr);
+    grid-template-rows: repeat($row, 1fr);
+    grid-gap: $gap;
+}
+
 .container-sm {
     margin-top: 20px;
 }
 
-.grizzler {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(7, 1fr);
-    grid-gap: 0.25rem;
+.grid7x7 {
+    @include grid(7, 7, 0.25rem);
 
-    &:first-child {
-        margin-bottom: 0.5rem;
+    &.original {
+        z-index: 1;
+    }
+
+    &.reference {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        pointer-events: none;
+        opacity: 0.5;
     }
 }
 
 .grid3x5 {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    grid-gap: 0;
+    @include grid(5, 3, 0);
 }
 
-.grz-wrapper {
-    width: fit-content;
-}
 
 .second-div {
     max-width: 450px;
 }
 
-.otherboard {
-    scale: 85%;
+.original {
+    position: relative;
 }
 
-.q {
+.overlayed {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    overflow-wrap: break-word;
+    height: 100%;
+    pointer-events: none;
 }
 
 .grid-item {
@@ -44,11 +59,6 @@ $grid-size: 3rem;
     width: $grid-size;
     font-size: 1.2rem;
     background-size: contain;
-
-    &.last {
-        height: $grid-size * 0.65;
-        width: $grid-size * 0.65;
-    }
 }
 
 .mango {
@@ -94,7 +104,7 @@ $grid-size: 3rem;
 .sand {
     background-image: url("/fruits/sand.png");
 
-    &:hover, &:focus {
+    &:hover {
         background-image: url("/fruits/redsand.png");
         cursor: pointer;
     }
@@ -105,9 +115,10 @@ $grid-size: 3rem;
 }
 
 .shovel {
-    height: $grid-size - 0.5rem;
-    width: $grid-size - 0.5rem;
+    height: $grid-size;
+    width: $grid-size;
     background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .anchor {

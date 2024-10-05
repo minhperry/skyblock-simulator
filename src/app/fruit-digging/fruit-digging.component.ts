@@ -120,7 +120,7 @@ export class FruitDiggingComponent implements OnInit {
     private getModeDesc(mode: ShovelMode) {
         switch (mode) {
             case ShovelMode.ANCHOR:
-                return "Relative location of the lowest scoring fruit."
+                return "Location of lowest scoring fruit."
             case ShovelMode.TREASURE:
                 return "Highest scoring fruit."
             case ShovelMode.MINES:
