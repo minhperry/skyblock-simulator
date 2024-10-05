@@ -362,8 +362,12 @@ export class FruitDiggingComponent implements OnInit {
             }
         }
 
+        let fruit = this.fruitContent[lowestIdx]
+        let fruitMsg = this.capitalize(fruit)
+        let fruitColor = this.getFruitColor(fruit)
+        let relativeIdx = this.getRelativeIndex(index, lowestIdx)
         this.shovelMessage =
-            `<b class="mc aqua">ANCHOR!</b> The lowest scoring fruit adjacent is ${this.getRelativeIndex(index, lowestIdx)}`
+            `<b class="mc aqua">ANCHOR!</b> There is one <span class="mc ${fruitColor}">${fruitMsg}</span> at ${relativeIdx}`
     }
 
     private getAdjHighestPts(index: number) {
@@ -383,11 +387,11 @@ export class FruitDiggingComponent implements OnInit {
             }
         }
 
-        let fruitMsg = this.capitalize(this.fruitContent[highestIdx])
-
-        let fruitColor = this.getFruitColor(this.fruitContent[highestIdx])
+        let fruit = this.fruitContent[highestIdx]
+        let fruitMsg = this.capitalize(fruit)
+        let fruitColor = this.getFruitColor(fruit)
         this.shovelMessage =
-            `<b class="mc gold">TREASURE!</b> There is a <span class="mc ${fruitColor}">${fruitMsg}</span> nearby!`
+            `<b class="mc gold">TREASURE!</b> There is a(n) <span class="mc ${fruitColor}">${fruitMsg}</span> nearby!`
     }
 
     private getRelativeIndex(_this: number, _of: number) {
