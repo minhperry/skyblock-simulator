@@ -37,6 +37,7 @@
 
     &.original {
         z-index: 1;
+        position: relative;
     }
 
     &.reference {
@@ -58,18 +59,7 @@
     max-width: 450px;
 }
 
-.original {
-    position: relative;
-}
 
-.overlayed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
 
 .grid-item {
     height: var(--grid-size);

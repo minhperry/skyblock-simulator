@@ -89,7 +89,7 @@ export class FruitDiggingComponent implements OnInit {
         if (this.turn >= 15) return;
 
         let now = Date.now();
-        if (now - this.lastClicked < 3000) {
+        if (now - this.lastClicked < 1500) {
             return;
         }
         this.lastClicked = Date.now()
@@ -97,11 +97,13 @@ export class FruitDiggingComponent implements OnInit {
         const cell = this.fruitContent[index];
         this.content[index] = cell;
         this.processFruit(cell, index)
+
         this.triggerDowsing(index)
         if (cell === Rum.RUM) {
             this.shovelMessage =
                 `<b class="mc red">RUM!</b> Dowsing disabled for a turn!`
         }
+
         this.lastFruit = cell
         this.Q.enqueue(cell)
         this.turn++
@@ -346,18 +348,18 @@ export class FruitDiggingComponent implements OnInit {
     private getAdjLowestFruit(index: number) {
         const adjacentFruitIndices = this.getAdjacentFruitIndicies(index)
             .filter((i) => this.content[i] === State.HIDDEN)
+
+        if (adjacentFruitIndices === []) {
+            this.shovelMessage =
+                `<b class="mc aqua">ANCHOR!</b> There are no fruits nearby!`
+            return
+        }
+
         let lowestIdx = adjacentFruitIndices[0]
         for (let idx of adjacentFruitIndices) {
             if (this.getBasePointsAsFruitAtIndex(lowestIdx) >= this.getBasePointsAsFruitAtIndex(idx)) {
                 lowestIdx = idx
             }
-        }
-
-        // same edge case as highest
-        if (this.fruitContent[lowestIdx] === undefined) {
-            this.shovelMessage =
-                `<b class="mc aqua">ANCHOR!</b> There are no fruits nearby!`
-            return
         }
 
         this.shovelMessage =
@@ -367,18 +369,18 @@ export class FruitDiggingComponent implements OnInit {
     private getAdjHighestPts(index: number) {
         const adjacentFruitIndices = this.getAdjacentFruitIndicies(index)
             .filter((i) => this.content[i] === State.HIDDEN)
+
+        if (adjacentFruitIndices === []) {
+            this.shovelMessage =
+                `<b class="mc gold">TREASURE!</b> There are no fruits nearby!`
+            return
+        }
+
         let highestIdx = adjacentFruitIndices[0]
         for (let idx of adjacentFruitIndices) {
             if (this.getBasePointsAsFruitAtIndex(highestIdx) <= this.getBasePointsAsFruitAtIndex(idx)) {
                 highestIdx = idx
             }
-        }
-
-        // Undefined when adjFruitIndicies has no more surrounding fruit. Ignore the bs it said
-        if (this.fruitContent[highestIdx] === undefined) {
-            this.shovelMessage =
-                `<b class="mc gold">TREASURE!</b> There are no fruits nearby!`
-            return
         }
 
         let fruitMsg = this.capitalize(this.fruitContent[highestIdx])
