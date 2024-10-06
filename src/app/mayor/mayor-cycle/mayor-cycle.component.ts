@@ -12,6 +12,7 @@ export class MayorCycleComponent implements OnInit{
 
     currentTime: number = Math.floor(Date.now() / 1000);
     eventOffset = 15 * MINUTE
+    timezoneOffset = 0
 
     mayors: Mayor[] = [
         { name: 'Finnegan', imageSrc: '/mayor/finnegan.png' },
@@ -22,16 +23,39 @@ export class MayorCycleComponent implements OnInit{
         { name: 'Mayor 6' },
     ];
 
+    loadTimezoneOffset(): void {
+        const savedOffset = localStorage.getItem('timezoneOffset');
+        if (savedOffset !== null) {
+            this.timezoneOffset = +savedOffset * HOUR;
+        }
+    }
+
+    saveTimezoneOffset(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        const value = input.value;
+        this.timezoneOffset = +value * HOUR;
+        localStorage.setItem('timezoneOffset', value);
+    }
+
+    getHourText() {
+        const offset = this.timezoneOffset / HOUR;
+        const absTime = Math.abs(offset);
+        const hrText = absTime === 1 ? 'hour' : 'hours'
+        return `${offset} ${hrText}`;
+    }
+
     ngOnInit(): void {
         this.updateTime();
-        setInterval(() => this.updateTime(), 1000); // Update every second
+        this.loadTimezoneOffset()
+        setInterval(() => this.updateTime(), 1000);
     }
 
     getLocalTime(unixTime: number): string {
-        const localDate = new Date(unixTime * 1000);
-        const offset = localDate.getTimezoneOffset() * MINUTE; // Offset in seconds
-        const localTime = unixTime - offset;
-        return new Date(localTime * 1000).toLocaleString();
+        const adjustedTime = unixTime + this.timezoneOffset;
+        return new Date(adjustedTime * 1000).toLocaleString([], {
+            hour: '2-digit', minute: '2-digit',
+            day: 'numeric', year: 'numeric', month: "numeric"
+        });
     }
 
     getMayorStartTime(index: number): number {
@@ -67,8 +91,7 @@ export class MayorCycleComponent implements OnInit{
             if (tooltipContent) {
                 tooltipContent.innerText = `${mayor.name}'s Perks`; // Replace with dynamic perks content
             }
-            tooltip.style.left = `${event.pageX}px`;
-            tooltip.style.top = `${event.pageY - 50}px`;
+            this.updateTooltipPosition(event);
             tooltip.classList.add('show');
         }
     }
@@ -85,4 +108,14 @@ export class MayorCycleComponent implements OnInit{
             this.showPerks(event, mayor);
         }
     }
+
+    updateTooltipPosition(event: MouseEvent): void {
+        const tooltip = document.getElementById('perks-popup');
+        if (tooltip) {
+            tooltip.style.left = `${event.pageX + 5}px`; // Offset tooltip slightly to the right
+            tooltip.style.top = `${event.pageY + 10}px`; // Offset tooltip slightly down
+        }
+    }
+
+    protected readonly HOUR = HOUR;
 }

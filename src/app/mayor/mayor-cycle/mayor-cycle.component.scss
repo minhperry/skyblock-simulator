@@ -2,8 +2,12 @@
     position: relative;
 }
 
-.mayor-img.active {
-    border: 2px solid gold;
+.mayor-img {
+    max-height: 35vh;
+
+    &.active {
+        border: 2px solid gold;
+    }
 }
 
 #perks-popup {
