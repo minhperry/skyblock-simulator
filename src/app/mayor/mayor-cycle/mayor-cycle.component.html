@@ -4,35 +4,22 @@
             <h3>Mayor Cycle (Local Time)</h3>
         </div>
     </div>
-
-    <!-- Timezone Slider -->
-    <div class="row justify-content-center mb-4">
-        <div class="col-md-6">
-            <label for="timezone-slider" class="form-label text-light">
-                Timezone offset (<a href="https://everytimezone.com/">Between you and UTC/GMT</a>):
-                <span>{{ getHourText() }}</span>
-            </label>
-            <input id="timezone-slider" type="range" class="form-range" min="-12" max="14" step="0.5"
-                   [value]="timezoneOffset / HOUR" (input)="saveTimezoneOffset($event)">
-        </div>
-    </div>
-
-    <div class="row justify-content-center">
+    <div class="row justify-content-center row-gap-3">
         <div class="col-lg-2 col-md-4 col-6" *ngFor="let mayor of mayors; let i = index">
             <div class="mayor-container p-2 mb-4 border rounded text-center"
                  [ngClass]="{'active': isMayorActive(i)}">
                 <div *ngIf="mayor.imageSrc">
                     <img [src]="mayor.imageSrc"
                          alt="{{mayor.name}}"
-                         class="img-fluid mayor-img"
+                         class="img-fluid mayor-img user-select-none"
                          (mouseenter)="showPerks($event, mayor)"
                          (mouseleave)="hidePerks()"
                          (mousemove)="updateTooltipPosition($event)"
                          (click)="togglePerks($event, mayor)"
                          >
                 </div>
-                <div *ngIf="!mayor.imageSrc" class="mayor-unknown">
-                    <span>❓</span>
+                <div *ngIf="!mayor.imageSrc" class="mayor-unknown user-select-none">
+                    <span>{{ mayor.name }}</span>
                 </div>
                 <p class="text-light">{{ getLocalTime(getMayorStartTime(i)) }}</p>
 
