@@ -16,7 +16,7 @@ export class MayorCycleComponent implements OnInit{
 
     mayors: Mayor[] = [
         { name: 'Finnegan', imageSrc: '/mayor/finnegan.png' },
-        { name: 'Marina', imageSrc: '/mayor/marina.png', eventDuration: HOUR },
+        {name: 'Marina', imageSrc: '/mayor/marina.png', eventDuration: 60},
         { name: 'Mayor 3' },
         { name: 'Cole', imageSrc: '/mayor/cole.png', eventDuration: 140 },
         { name: 'Mayor 5' },
@@ -78,6 +78,7 @@ export class MayorCycleComponent implements OnInit{
 
     isEventActive(mayor: Mayor, index: number): boolean {
         const eventStartTime = this.getMayorEventTime(index);
+        console.log(eventStartTime);
         if (mayor.eventDuration) {
             return this.currentTime >= eventStartTime && this.currentTime < eventStartTime + (mayor.eventDuration * MINUTE);
         }

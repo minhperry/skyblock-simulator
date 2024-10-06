@@ -4,20 +4,20 @@
 
 .mayor-img {
     max-height: 35vh;
+}
 
-    &.active {
-        border: 2px solid gold;
-    }
+.active {
+    background-color: rgba(208, 208, 208, 0.1);
 }
 
 #perks-popup {
     display: none;
     position: absolute;
     z-index: 1000;
-}
 
-#perks-popup.show {
-    display: block;
+    &.show {
+        display: block;
+    }
 }
 
 .mayor-unknown {

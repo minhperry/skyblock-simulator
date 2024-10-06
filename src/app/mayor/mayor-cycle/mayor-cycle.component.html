@@ -18,14 +18,13 @@
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-lg-2 col-md-3 col-6" *ngFor="let mayor of mayors; let i = index">
+        <div class="col-lg-2 col-md-4 col-6" *ngFor="let mayor of mayors; let i = index">
             <div class="mayor-container p-2 mb-4 border rounded text-center"
-                 [ngClass]="{'bg-dark': isMayorActive(i)}">
+                 [ngClass]="{'active': isMayorActive(i)}">
                 <div *ngIf="mayor.imageSrc">
                     <img [src]="mayor.imageSrc"
                          alt="{{mayor.name}}"
                          class="img-fluid mayor-img"
-                         [ngClass]="{'active': isMayorActive(i)}"
                          (mouseenter)="showPerks($event, mayor)"
                          (mouseleave)="hidePerks()"
                          (mousemove)="updateTooltipPosition($event)"
