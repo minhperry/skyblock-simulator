@@ -1,0 +1,23 @@
+.mayor-container {
+    position: relative;
+}
+
+.mayor-img.active {
+    border: 2px solid gold;
+}
+
+#perks-popup {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+}
+
+#perks-popup.show {
+    display: block;
+}
+
+.mayor-unknown {
+    font-size: 2rem;
+    color: #ccc;
+    text-align: center;
+}

@@ -11,6 +11,7 @@ import {NumbergameComponent} from "./terminal/numbergame/numbergame.component";
 import {ColorerComponent} from "./terminal/colorer/colorer.component";
 import {FruitDiggingComponent} from "./fruit-digging/fruit-digging.component";
 import {TestComponent} from "./test/test.component";
+import {MayorCycleComponent} from "./mayor/mayor-cycle/mayor-cycle.component";
 
 const routes: Routes = [
     {
@@ -69,6 +70,11 @@ const routes: Routes = [
         path: 'test',
         component: TestComponent,
         title: 'Test'
+    },
+    {
+        path: 'jerry',
+        component: MayorCycleComponent,
+        title: 'Mayor Jerry Cycle'
     },
     {
         path: '**',
