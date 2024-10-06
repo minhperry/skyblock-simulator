@@ -7,7 +7,7 @@ import {DAY, HOUR, Mayor, MINUTE} from "../../../interfaces/jerry";
   styleUrl: './mayor-cycle.component.scss'
 })
 export class MayorCycleComponent implements OnInit{
-    cycleStartTime: number = 1728220500;
+    cycleStartTime: number = 1728227700
     jerryEndTime = this.cycleStartTime + 5 * DAY + 4 * HOUR
 
     currentTime: number = Math.floor(Date.now() / 1000);
@@ -16,9 +16,9 @@ export class MayorCycleComponent implements OnInit{
 
     mayors: Mayor[] = [
         { name: 'Finnegan', imageSrc: '/mayor/finnegan.png' },
-        {name: 'Marina', imageSrc: '/mayor/marina.png', eventDuration: 60},
+        {name: 'Marina', imageSrc: '/mayor/marina.png', eventDuration: 60, eventMessage: 'Fishing Festival!'},
         { name: 'Mayor 3' },
-        { name: 'Cole', imageSrc: '/mayor/cole.png', eventDuration: 140 },
+        {name: 'Cole', imageSrc: '/mayor/cole.png', eventDuration: 140, eventMessage: 'Mining Fiesta!'},
         { name: 'Mayor 5' },
         { name: 'Mayor 6' },
     ];

@@ -36,9 +36,8 @@
                 </div>
                 <p class="text-light">{{ getLocalTime(getMayorStartTime(i)) }}</p>
 
-                <!-- Event timing for Cole & Marina -->
                 <p *ngIf="isEventActive(mayor, i)" class="text-info">
-                    {{ mayor.name }} event active!
+                    {{ mayor.eventMessage }}
                 </p>
             </div>
         </div>
