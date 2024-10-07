@@ -12,13 +12,16 @@ export class MayorCycleComponent implements OnInit{
 
     currentTime: number = Math.floor(Date.now() / 1000);
     eventOffset = 15 * MINUTE
+    cycleLength = 6 * HOUR
 
     mayors: Mayor[] = [];
     private mayorNames = ['Finnegan', 'Marina', '#3', 'Cole', '#5', '#6']
+    private fullMayors: string[] = []
 
     ngOnInit(): void {
         this.updateTime();
-        this.mayors = this.mayorNames.map(name => {
+        this.extendMayorNamesUntilJerryEnd()
+        this.mayors = this.fullMayors.map(name => {
             const data = mayorData[name];
             return {
                 name: name,
@@ -62,6 +65,18 @@ export class MayorCycleComponent implements OnInit{
             return this.currentTime >= eventStartTime && this.currentTime < eventStartTime + (mayor.eventDuration * MINUTE);
         }
         return false;
+    }
+
+    extendMayorNamesUntilJerryEnd(): void {
+        // Calculate the number of 6-hour slots between cycleStartTime and jerryEndTime
+        const totalDuration = this.jerryEndTime - this.absoluteStartTime;
+        const totalSlots = Math.floor(totalDuration / this.cycleLength);
+
+        // Repeat the baseMayorNames array until the total number of slots is filled
+        for (let i = 0; i <= totalSlots; i++) {
+            const mayorIndex = i % this.mayorNames.length;
+            this.fullMayors.push(this.mayorNames[mayorIndex]);
+        }
     }
 
     showPerks(event: MouseEvent, mayor: Mayor): void {
