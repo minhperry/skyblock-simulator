@@ -15,7 +15,7 @@ export class MayorCycleComponent implements OnInit{
     cycleLength = 6 * HOUR
 
     mayors: Mayor[] = [];
-    private mayorNames = ['Finnegan', 'Marina', 'Paul', 'Cole', '??', '??']
+    private mayorNames = ['Finnegan', 'Marina', 'Paul', 'Cole', 'Aatrox', 'Diana']
     private fullMayors: string[] = []
 
     ngOnInit(): void {
@@ -45,11 +45,37 @@ export class MayorCycleComponent implements OnInit{
         return this.absoluteStartTime + (index * 6 * HOUR);
     }
 
-    getMayorEventTime(index: number): number {
+    getMayorEndTime(index: number): number {
+        return this.getMayorStartTime(index) + 6 * HOUR;
+    }
+
+    getRelativeTime(index: number): string {
+        const startTime = this.getMayorStartTime(index);
+        const endTime = this.getMayorEndTime(index);
+
+        const timeDiffStart = startTime - this.currentTime;
+        const timeDiffEnd = endTime - this.currentTime;
+
+        if (timeDiffStart > 0) {
+            return `In ${this.formatTimeDifference(timeDiffStart)}`;
+        } else if (timeDiffEnd > 0) {
+            return `Ends in ${this.formatTimeDifference(timeDiffEnd)}`;
+        } else {
+            return `Ended ${this.formatTimeDifference(-timeDiffEnd)} ago`;
+        }
+    }
+
+    private formatTimeDifference(timeInSeconds: number): string {
+        const hours = Math.floor(timeInSeconds / HOUR);
+        const minutes = Math.floor((timeInSeconds % HOUR) / MINUTE);
+        return `${hours}h${minutes}m`;
+    }
+
+    private getMayorEventTime(index: number): number {
         return this.getMayorStartTime(index) + this.eventOffset;
     }
 
-    updateTime(): void {
+    private updateTime(): void {
         this.currentTime = Math.floor(Date.now() / 1000);
     }
 
@@ -82,7 +108,7 @@ export class MayorCycleComponent implements OnInit{
         return 'Event ended';
     }
 
-    extendMayorNamesUntilJerryEnd(): void {
+    private extendMayorNamesUntilJerryEnd(): void {
         const totalDuration = this.jerryEndTime - this.absoluteStartTime;
         const totalSlots = Math.floor(totalDuration / this.cycleLength);
 

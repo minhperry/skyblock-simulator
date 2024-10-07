@@ -25,7 +25,7 @@
                     {{ getLocalTime(getMayorStartTime(i)) }}
                 </p>
                 <p>
-                    sex
+                    {{ getRelativeTime(i) }}
                 </p>
 
                 <p *ngIf="isEventActive(mayor, i)" class="text-info">
