@@ -26,3 +26,11 @@
 - **To Do**: A simple todo app
 - **Navbar**: Migrated to bootstrap navbar.
 - **About**: About component to simply explain what the site is
+
+# 0.6
+
+- **Jerry**: A calendar-ish Jerry mayor cycle display
+
+### 0.6.1
+
+- **Jerry**: Added relative time
