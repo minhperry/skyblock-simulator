@@ -15,7 +15,7 @@ export class MayorCycleComponent implements OnInit{
     cycleLength = 6 * HOUR
 
     mayors: Mayor[] = [];
-    private mayorNames = ['Finnegan', 'Marina', '#3', 'Cole', '#5', '#6']
+    private mayorNames = ['Finnegan', 'Marina', '??', 'Cole', '??', '??']
     private fullMayors: string[] = []
 
     ngOnInit(): void {

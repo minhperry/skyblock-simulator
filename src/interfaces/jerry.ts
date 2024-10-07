@@ -20,7 +20,7 @@ export const mayorData:
             perks?: Perk[]
         }
     } = {
-    '#3': {
+    'Aatrox': {
         imageSrc: '/mayor/aatrox.png',
         perks: [
             {
@@ -55,7 +55,7 @@ export const mayorData:
             }
         ]
     },
-    '#5': {
+    'Diana': {
         imageSrc: '/mayor/diana.png',
         perks: [
             {
@@ -111,7 +111,7 @@ export const mayorData:
             }
         ]
     },
-    '#6': {
+    'Paul': {
         imageSrc: '/mayor/paul.png',
         perks: [
             {
@@ -123,6 +123,15 @@ export const mayorData:
             }, {
                 name: 'EZPZ',
                 desc: '10 bonus score on dungeon runs.'
+            }
+        ]
+    },
+    '??': {
+        imageSrc: '/mayor/unknown2.png',
+        perks: [
+            {
+                name: '??',
+                desc: '???? ??? ????? ??? ඞ ?????'
             }
         ]
     }
