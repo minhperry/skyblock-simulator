@@ -57,11 +57,11 @@ export class MayorCycleComponent implements OnInit{
         const timeDiffEnd = endTime - this.currentTime;
 
         if (timeDiffStart > 0) {
-            return `In ${this.formatTimeDifference(timeDiffStart)}`;
+            return `<p class="text-success">In ${this.formatTimeDifference(timeDiffStart)}</p>`;
         } else if (timeDiffEnd > 0) {
-            return `Ends in ${this.formatTimeDifference(timeDiffEnd)}`;
+            return `<p class="text-light"><b>Ends in ${this.formatTimeDifference(timeDiffEnd)}</b></p>`;
         } else {
-            return `Ended ${this.formatTimeDifference(-timeDiffEnd)} ago`;
+            return `<p class="text-danger">${this.formatTimeDifference(-timeDiffEnd)} ago</p>`;
         }
     }
 
