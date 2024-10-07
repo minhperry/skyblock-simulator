@@ -24,7 +24,7 @@
                 <p class="text-light">{{ getLocalTime(getMayorStartTime(i)) }}</p>
 
                 <p *ngIf="isEventActive(mayor, i)" class="text-info">
-                    {{ mayor.eventMessage }}
+                    {{ mayor.eventName }}: {{ getTimeLeftUntilEventEnds(mayor, i) }}
                 </p>
             </div>
         </div>

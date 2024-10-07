@@ -2,7 +2,7 @@ export interface Mayor {
     name: string,
     imageSrc?: string,
     eventDuration?: number,
-    eventMessage?: string,
+    eventName?: string,
     perks?: Perk[]
 }
 
@@ -38,7 +38,7 @@ export const mayorData:
     'Cole': {
         imageSrc: '/mayor/cole.png',
         eventDuration: 140,
-        eventMessage: 'Mining Fiesta!',
+        eventMessage: 'Mining Fiesta',
         perks: [
             {
                 name: 'Mining Fiesta',
@@ -94,7 +94,7 @@ export const mayorData:
     'Marina': {
         imageSrc: '/mayor/marina.png',
         eventDuration: 60,
-        eventMessage: 'Fishing Festival!',
+        eventMessage: 'Fishing Festival',
         perks: [
             {
                 name: 'Double Trouble',

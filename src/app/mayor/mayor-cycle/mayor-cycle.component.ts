@@ -27,7 +27,7 @@ export class MayorCycleComponent implements OnInit{
                 name: name,
                 imageSrc: data?.imageSrc,
                 eventDuration: data?.eventDuration,
-                eventMessage: data?.eventMessage,
+                eventName: data?.eventMessage,
                 perks: data?.perks
             } as Mayor;
         })
@@ -67,12 +67,25 @@ export class MayorCycleComponent implements OnInit{
         return false;
     }
 
+    getTimeLeftUntilEventEnds(mayor: Mayor, index: number): string {
+        if (mayor.eventDuration === undefined) return '';
+        const eventStartTime = this.getMayorEventTime(index);
+        const eventEndTime = eventStartTime + (mayor.eventDuration * MINUTE);
+        const timeLeft = eventEndTime - this.currentTime;
+
+        if (timeLeft > 0) {
+            const hours = Math.floor(timeLeft / HOUR);
+            const minutes = Math.floor((timeLeft % HOUR) / MINUTE);
+            const seconds = Math.floor((timeLeft % MINUTE));
+            return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        return 'Event ended';
+    }
+
     extendMayorNamesUntilJerryEnd(): void {
-        // Calculate the number of 6-hour slots between cycleStartTime and jerryEndTime
         const totalDuration = this.jerryEndTime - this.absoluteStartTime;
         const totalSlots = Math.floor(totalDuration / this.cycleLength);
 
-        // Repeat the baseMayorNames array until the total number of slots is filled
         for (let i = 0; i <= totalSlots; i++) {
             const mayorIndex = i % this.mayorNames.length;
             this.fullMayors.push(this.mayorNames[mayorIndex]);
