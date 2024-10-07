@@ -42,7 +42,7 @@ export const mayorData:
         perks: [
             {
                 name: 'Mining Fiesta',
-                desc: 'A fiesta for 7 Skyblock Days. Gains 75 Mining Wisdom, 2x drops, Refined Minerals and Glossy Gmestones.'
+                desc: 'A fiesta for 7 Skyblock Days. Gains 75 Mining Wisdom, 2x drops, Refined Minerals and Glossy Gemstones.'
             }, {
                 name: 'Mining XP Buff',
                 desc: '60 Mining Wisdom on public islands.'
@@ -66,10 +66,10 @@ export const mayorData:
                 desc: '25 Pet Luck.'
             }, {
                 name: 'Mythological Ritual',
-                desc: 'Mytho mobs will rises from the earth. Chimera time!'
+                desc: 'Mytho mobs will rises from the ground. Chimera time!'
             }, {
                 name: 'Sharing is Caring',
-                desc: '3 EXP Shared Pets active at once. EXP Share rate is increased by 10%'
+                desc: '3 EXP Shared Pets active at once. EXP Share rate is increased by 10%.'
             }
         ]
     },
@@ -115,7 +115,7 @@ export const mayorData:
         imageSrc: '/mayor/paul.png',
         perks: [
             {
-                name: 'Bennet Arthur',
+                name: 'Bennett Arthur',
                 desc: 'Blessings are 25% stronger.'
             }, {
                 name: 'Marauder',

@@ -1,7 +1,7 @@
 <div class="container py-4">
     <div class="row">
         <div class="col text-center mb-3">
-            <h3>Jerry Mayor Cycle (Your Local Time)</h3>
+            <h3>Jerry Mayor Cycle October 2024 (Your Local Time)</h3>
         </div>
     </div>
     <div class="row justify-content-center row-gap-3">
@@ -21,7 +21,12 @@
                 <div *ngIf="!mayor.imageSrc" class="mayor-unknown user-select-none">
                     <span>{{ mayor.name }}</span>
                 </div>
-                <p class="text-light">{{ getLocalTime(getMayorStartTime(i)) }}</p>
+                <p class="text-light">
+                    {{ getLocalTime(getMayorStartTime(i)) }}
+                </p>
+                <p>
+                    sex
+                </p>
 
                 <p *ngIf="isEventActive(mayor, i)" class="text-info">
                     {{ mayor.eventName }}: {{ getTimeLeftUntilEventEnds(mayor, i) }}
