@@ -3,7 +3,7 @@ export interface Mayor {
     imageSrc?: string,
     eventDuration?: number,
     eventName?: string,
-    perks?: Perk[]
+    perks?: Perk[],
 }
 
 export interface Perk {

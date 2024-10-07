@@ -97,11 +97,17 @@ export class MayorCycleComponent implements OnInit{
         if (tooltip) {
             const tooltipContent = document.getElementById('perks-content');
             if (tooltipContent) {
-                //const perksList = mayor.perks ? mayor.perks.map(perk => `<strong>${perk.name}</strong>: ${perk.desc}`).join('<br>') : 'No perks available.';
-                //tooltipContent.innerHTML = `${mayor.name}'s Perks:<br>${perksList}`;
-                tooltipContent.innerHTML = mayor.perks?.map(perk =>
+                let perksList = mayor.perks?.map(perk =>
                     `<div><b class="mc green">${perk.name}</b><br><p>${perk.desc}</p></div>`
                 ).join('') || '';
+
+                if (mayor.eventDuration) {
+                    const eventStartTime = this.getMayorEventTime(this.mayors.indexOf(mayor));
+                    const formattedEventStartTime = this.getLocalTime(eventStartTime);
+                    perksList += `<div class="mt-2"><b class="mc blue">${mayor.eventName} starts at ${formattedEventStartTime}</b></div>`;
+                }
+
+                tooltipContent.innerHTML = perksList
             }
             this.updateTooltipPosition(event);
             tooltip.classList.add('show');
