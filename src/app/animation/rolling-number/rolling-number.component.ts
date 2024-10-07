@@ -13,7 +13,7 @@ export class RollingNumberComponent {
 
     @Input() transitionInMs: number = 200;
 
-    @Input() size: number = 30
+    @Input() size: string = '30px'
 
     @Input()
     set value(newValue: number) {
@@ -28,19 +28,19 @@ export class RollingNumberComponent {
         this.rollingCharacters = newValue.toString().split('')
     }
 
+
     public getMargin(index: number): string {
         const currentChar = this.rollingCharacters[index];
         if (this.isDigit(currentChar)) {
             const currentDigit = parseInt(currentChar, 10);
-            const marginTop = -(9 - currentDigit) * this.size;
-            return `${marginTop}px`;
+            return `calc(-${9 - currentDigit} * ${this.size})`;
         }
-        return '0'; // No margin adjustment for non-digit characters
+        return '0';
     }
 
     public getTransition(index: number): string {
         const currentChar = this.rollingCharacters[index];
-        return this.isDigit(currentChar) ? `${this.transitionInMs}ms` : 'none'; // No transition for non-digit characters
+        return this.isDigit(currentChar) ? `${this.transitionInMs}ms` : 'none';
     }
 
     public isDigit(char: string): boolean {

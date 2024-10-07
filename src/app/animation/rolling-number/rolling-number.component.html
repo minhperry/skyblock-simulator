@@ -1,18 +1,18 @@
-<div class="animated-rolling-number d-flex justify-content-center" [style.height.px]="size">
+<div class="animated-rolling-number d-flex justify-content-center" [style.height]="size">
     <ng-container *ngFor="let char of rollingCharacters; trackBy: identity; let i = index">
         <div *ngIf="isDigit(char); else nonDigitTemplate"
              [style.margin-top]="getMargin(i)"
              [style.transition]="'margin-top ' + getTransition(i) + ' ease-in-out'"
-             [style.height.px]="10 * size"
-             [style.font-size.px]="size"
+             [style.height]="'calc(10 * ' + size + ')'"
+             [style.font-size]="size"
              class="animated-rolling-character"
         >
-            <div *ngFor="let digit of [9,8,7,6,5,4,3,2,1,0]" [style.height.px]="size">
+            <div *ngFor="let digit of [9,8,7,6,5,4,3,2,1,0]" [style.height]="size">
                 {{ digit }}
             </div>
         </div>
         <ng-template #nonDigitTemplate>
-            <div class="non-digit-character" [style.font-size.px]="size">{{ char }}</div>
+            <div class="non-digit-character" [style.font-size]="size">{{ char }}</div>
         </ng-template>
     </ng-container>
 </div>
