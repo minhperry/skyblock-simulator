@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DAY, HOUR, Mayor, MINUTE} from "../../../interfaces/jerry";
+import {DAY, HOUR, Mayor, mayorData, MINUTE} from "../../../interfaces/jerry";
 
 @Component({
   selector: 'app-mayor-cycle',
@@ -13,33 +13,21 @@ export class MayorCycleComponent implements OnInit{
     currentTime: number = Math.floor(Date.now() / 1000);
     eventOffset = 15 * MINUTE
 
-    mayors: Mayor[] = [
-        { name: 'Finnegan', imageSrc: '/mayor/finnegan.png' },
-        {name: 'Marina', imageSrc: '/mayor/marina.png', eventDuration: 60, eventMessage: 'Fishing Festival!'},
-        {name: '#3'},
-        {name: 'Cole', imageSrc: '/mayor/cole.png', eventDuration: 140, eventMessage: 'Mining Fiesta!'},
-        {name: '#5'},
-        {name: '#6'},
-        {name: 'Finnegan', imageSrc: '/mayor/finnegan.png'},
-        {name: 'Marina', imageSrc: '/mayor/marina.png', eventDuration: 60, eventMessage: 'Fishing Festival!'},
-        {name: '#3'},
-        {name: 'Cole', imageSrc: '/mayor/cole.png', eventDuration: 140, eventMessage: 'Mining Fiesta!'},
-        {name: '#5'},
-        {name: '#6'},
-        {name: 'Finnegan', imageSrc: '/mayor/finnegan.png'},
-        {name: 'Marina', imageSrc: '/mayor/marina.png', eventDuration: 60, eventMessage: 'Fishing Festival!'},
-        {name: '#3'},
-        {name: 'Cole', imageSrc: '/mayor/cole.png', eventDuration: 140, eventMessage: 'Mining Fiesta!'},
-        {name: '#5'},
-        {name: '#6'},
-        {name: 'Finnegan', imageSrc: '/mayor/finnegan.png'},
-        {name: 'Marina', imageSrc: '/mayor/marina.png', eventDuration: 60, eventMessage: 'Fishing Festival!'},
-        {name: '#3'},
-    ];
-
+    mayors: Mayor[] = [];
+    private mayorNames = ['Finnegan', 'Marina', '#3', 'Cole', '#5', '#6']
 
     ngOnInit(): void {
         this.updateTime();
+        this.mayors = this.mayorNames.map(name => {
+            const data = mayorData[name];
+            return {
+                name: name,
+                imageSrc: data?.imageSrc,
+                eventDuration: data?.eventDuration,
+                eventMessage: data?.eventMessage,
+                perks: data?.perks
+            } as Mayor;
+        })
         setInterval(() => this.updateTime(), 1000);
     }
 
@@ -81,7 +69,11 @@ export class MayorCycleComponent implements OnInit{
         if (tooltip) {
             const tooltipContent = document.getElementById('perks-content');
             if (tooltipContent) {
-                tooltipContent.innerText = `${mayor.name}'s Perks`;
+                //const perksList = mayor.perks ? mayor.perks.map(perk => `<strong>${perk.name}</strong>: ${perk.desc}`).join('<br>') : 'No perks available.';
+                //tooltipContent.innerHTML = `${mayor.name}'s Perks:<br>${perksList}`;
+                tooltipContent.innerHTML = mayor.perks?.map(perk =>
+                    `<div><b class="mc green">${perk.name}</b><br><p>${perk.desc}</p></div>`
+                ).join('') || '';
             }
             this.updateTooltipPosition(event);
             tooltip.classList.add('show');
@@ -104,7 +96,23 @@ export class MayorCycleComponent implements OnInit{
     updateTooltipPosition(event: MouseEvent): void {
         const tooltip = document.getElementById('perks-popup');
         if (tooltip) {
-            tooltip.style.left = `${event.pageX + 5}px`;
+            const screenWidth = window.innerWidth;
+            const cursorPositionX = event.pageX;
+
+            const openToLeft = cursorPositionX < screenWidth / 2;
+
+            if (openToLeft) {
+                tooltip.classList.add('right');
+                tooltip.classList.remove('left');
+                tooltip.style.left = `${event.pageX + 10}px`;
+                tooltip.style.right = 'auto';
+            } else {
+                tooltip.classList.add('left');
+                tooltip.classList.remove('right');
+                tooltip.style.right = `${screenWidth - event.pageX + 10}px`;
+                tooltip.style.left = 'auto';
+            }
+
             tooltip.style.top = `${event.pageY + 10}px`;
         }
     }
