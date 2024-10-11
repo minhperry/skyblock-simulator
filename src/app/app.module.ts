@@ -36,6 +36,7 @@ import {RollingNumberComponent} from './animation/rolling-number/rolling-number.
 import {TestComponent} from './test/test.component';
 import {MayorCycleComponent} from './mayor/mayor-cycle/mayor-cycle.component';
 import {NgOptimizedImage} from "@angular/common";
+import { ThankYouComponent } from './mayor/thank-you/thank-you.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import {NgOptimizedImage} from "@angular/common";
     FruitDiggingComponent,
     RollingNumberComponent,
       TestComponent,
-      MayorCycleComponent
+      MayorCycleComponent,
+      ThankYouComponent
   ],
     imports: [
         BrowserModule,

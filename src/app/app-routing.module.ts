@@ -12,6 +12,7 @@ import {ColorerComponent} from "./terminal/colorer/colorer.component";
 import {FruitDiggingComponent} from "./fruit-digging/fruit-digging.component";
 import {TestComponent} from "./test/test.component";
 import {MayorCycleComponent} from "./mayor/mayor-cycle/mayor-cycle.component";
+import {ThankYouComponent} from "./mayor/thank-you/thank-you.component";
 
 const routes: Routes = [
     {
@@ -73,8 +74,28 @@ const routes: Routes = [
     },
     {
         path: 'jerry',
-        component: MayorCycleComponent,
-        title: 'Mayor Jerry Cycle'
+        redirectTo: '/archive',
+        pathMatch: "full"
+    },
+    {
+        path: 'archive',
+        children: [
+            {
+                path: 'jerry',
+                children: [
+                    {
+                        path: 'oct24',
+                        component: MayorCycleComponent,
+                        title: 'Oct 24 Jerry Cycle'
+                    }
+                ]
+            },
+            {
+                path: '**',
+                component: ThankYouComponent,
+                title: 'Jerry is over!'
+            }
+        ]
     },
     {
         path: '**',
