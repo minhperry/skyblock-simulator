@@ -147,7 +147,15 @@ export class TodoComponent implements OnInit{
         }
     }
 
-    readLocalStorage() {
+    writeToClipboard() {
+        navigator.clipboard.writeText(this.exportData).then(() => {
+            alert('LocalStorage content copied to clipboard!');
+        }).catch((err) => {
+            console.error('Failed to copy to clipboard: ', err);
+        });
+    }
+
+    private readLocalStorage() {
         const allData: Record<string, string> = {};
         for (const key in localStorage) {
             if (localStorage.hasOwnProperty(key)) {
@@ -155,14 +163,6 @@ export class TodoComponent implements OnInit{
             }
         }
         this.exportData = JSON.stringify(allData, null, 2);
-    }
-
-    writeToClipboard() {
-        navigator.clipboard.writeText(this.exportData).then(() => {
-            alert('LocalStorage content copied to clipboard!');
-        }).catch((err) => {
-            console.error('Failed to copy to clipboard: ', err);
-        });
     }
 
     private deleteCategory(index: number) {
