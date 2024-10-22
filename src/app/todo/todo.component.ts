@@ -17,6 +17,9 @@ export class TodoComponent implements OnInit{
     longPressIndex!: Nullable<number>
     private pressTimeOut: any;
 
+    clipboardData: string = ''
+    exportData: string = ''
+
     ngOnInit(): void {
 
         const savedCategories = localStorage.getItem('categories');
@@ -32,6 +35,8 @@ export class TodoComponent implements OnInit{
             const selectedId = parseInt(selected, 10);
             this.selectedCategory = this.categories.find(cat => cat.id === selectedId) || null;
         }
+
+        this.readLocalStorage()
     }
 
     addCategory() {
@@ -113,6 +118,53 @@ export class TodoComponent implements OnInit{
         localStorage.setItem('categories', JSON.stringify(this.categories));
     }
 
+    pasteClipboard() {
+        navigator.clipboard.readText().then((text) => {
+            try {
+                const jsonData = JSON.parse(text);
+                for (const [key, value] of Object.entries(jsonData)) {
+                    localStorage.setItem(key, String(value));
+                }
+                alert('Clipboard JSON content saved to LocalStorage!');
+            } catch (error) {
+                console.error('Failed to parse clipboard contents as JSON: ', error);
+            }
+        }).catch((err) => {
+            console.error('Failed to read clipboard contents: ', err);
+        });
+    }
+
+    importFromTextArea() {
+        try {
+            const jsonData = JSON.parse(this.clipboardData);
+            for (const [key, value] of Object.entries(jsonData)) {
+                localStorage.setItem(key, String(value));
+            }
+            alert('JSON content imported to LocalStorage!');
+        } catch (error) {
+            console.error('Failed to parse input as JSON: ', error);
+            alert('Invalid JSON data. Please check your input.');
+        }
+    }
+
+    readLocalStorage() {
+        const allData: Record<string, string> = {};
+        for (const key in localStorage) {
+            if (localStorage.hasOwnProperty(key)) {
+                allData[key] = localStorage.getItem(key) || '';
+            }
+        }
+        this.exportData = JSON.stringify(allData, null, 2);
+    }
+
+    writeToClipboard() {
+        navigator.clipboard.writeText(this.exportData).then(() => {
+            alert('LocalStorage content copied to clipboard!');
+        }).catch((err) => {
+            console.error('Failed to copy to clipboard: ', err);
+        });
+    }
+
     private deleteCategory(index: number) {
         if (this.selectedCategory!.id === this.categories[index].id) {
             this.selectedCategory = null
@@ -148,4 +200,6 @@ export class TodoComponent implements OnInit{
     private calculateNextCategoryId(categories: TodoCategory[]): number {
         return categories.reduce((maxId, category) => Math.max(maxId, category.id), 0) + 1;
     }
+
+    protected readonly JSON = JSON;
 }

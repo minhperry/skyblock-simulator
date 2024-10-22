@@ -55,6 +55,79 @@
                 </div>
             </div>
         </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#migr" aria-expanded="false" aria-controls="migr">
+                    Data migration
+                </button>
+            </h2>
+            <div id="migr" class="accordion-collapse collapse" data-bs-parent="#huh">
+                <div class="accordion-body">
+                    <h2>Migrate your data to the new website</h2>
+                    <p>
+                        Since this module ultilize local browser storage for storing your data, I can't automatically
+                        migrate data
+                        to the new domain. You have to migrate it yourself. However the process is very simple:
+                    </p>
+                    <ol>
+                        <li>Go to the old domain <a href="https://skyblock.7278008.xyz">https://skyblock.7278008.xyz</a>.
+                        </li>
+                        <li>Click the copy
+                            <button class="btn btn-primary">
+                                <i class="bi bi-copy"></i>
+                            </button>
+                            button.
+                        </li>
+                        <li>
+                            Click this button
+                            <button class="btn btn-primary" (click)="pasteClipboard()">
+                                <i class="bi bi-clipboard-fill"></i>
+                            </button>
+                            to paste the copied content. If you are on Firefox, use the "Import & Export" dropdown
+                            below.
+                        </li>
+                        <li>
+                            Reload the website. That's it. You're done!
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#iue" aria-expanded="false" aria-controls="iue">
+                    Import & Export
+                </button>
+            </h2>
+            <div id="iue" class="accordion-collapse collapse" data-bs-parent="#huh">
+                <div class="accordion-body">
+                    <div class="container mt-4">
+                        <div class="mb-3">
+                            <h4>Import data</h4>
+                            <textarea [(ngModel)]="clipboardData" class="form-control" rows="6"
+                                      placeholder="Paste your JSON data here..."></textarea>
+                        </div>
+                        <button class="btn btn-primary mb-3" (click)="importFromTextArea()">Import
+                        </button>
+
+                        <div class="mb-3">
+                            <h4>Export data</h4>
+                            <pre class="bg-dark p-2 border"
+                                 style="overflow: scroll;">{{ exportData }}</pre>
+                        </div>
+                        <div class="mb-3">
+                            <h4>Categories</h4>
+                            <pre class="bg-dark p-2 border"
+                                 style="overflow: auto;">{{ JSON.stringify(categories, null, 2) }}</pre>
+                        </div>
+                        <button class="btn btn-secondary" (click)="writeToClipboard()">Export</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="title-btn d-flex align-items-center">
