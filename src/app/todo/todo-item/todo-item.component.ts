@@ -13,7 +13,7 @@ export class TodoItemComponent {
     @Input() parents!: Nullable<TodoNode>
     @Input() index!: number
 
-    private pressTimeOut!: number
+    private pressTimeOut!: any
     isPressing = false;
 
     constructor(private todoComp: TodoComponent) {}
@@ -36,7 +36,7 @@ export class TodoItemComponent {
 
     doPressing() {
         this.isPressing = true;
-        this.pressTimeOut = setTimeout(() => {
+        this.pressTimeOut = global.setTimeout(() => {
             this.delete();
         }, 800);
     }

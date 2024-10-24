@@ -10,7 +10,6 @@ import {PaneGameComponent} from "./terminal/panegame/panegame.component";
 import {NumbergameComponent} from "./terminal/numbergame/numbergame.component";
 import {ColorerComponent} from "./terminal/colorer/colorer.component";
 import {FruitDiggingComponent} from "./fruit-digging/fruit-digging.component";
-import {TestComponent} from "./test/test.component";
 import {MayorCycleComponent} from "./mayor/mayor-cycle/mayor-cycle.component";
 import {ThankYouComponent} from "./mayor/thank-you/thank-you.component";
 
@@ -66,11 +65,6 @@ const routes: Routes = [
         path: 'fruit',
         component: FruitDiggingComponent,
         title: 'Fruit Digging Game'
-    },
-    {
-        path: 'test',
-        component: TestComponent,
-        title: 'Test'
     },
     {
         path: 'jerry',

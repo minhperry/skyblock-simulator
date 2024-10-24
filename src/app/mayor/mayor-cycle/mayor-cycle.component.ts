@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import {DAY, HOUR, Mayor, mayorData, MINUTE} from "../../../interfaces/jerry";
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: 'app-mayor-cycle',
   templateUrl: './mayor-cycle.component.html',
   styleUrl: './mayor-cycle.component.scss'
 })
-export class MayorCycleComponent implements OnInit{
+export class MayorCycleComponent implements OnInit, OnDestroy {
     absoluteStartTime: number = 1728227700
     jerryEndTime = this.absoluteStartTime + 5 * DAY + 4 * HOUR
 
@@ -17,6 +18,11 @@ export class MayorCycleComponent implements OnInit{
     mayors: Mayor[] = [];
     private mayorNames = ['Finnegan', 'Marina', 'Paul', 'Cole', 'Aatrox', 'Diana']
     private fullMayors: string[] = []
+
+    private interval: any;
+
+    constructor(@Inject(PLATFORM_ID) private platform: Object) {
+    }
 
     ngOnInit(): void {
         this.updateTime();
@@ -31,7 +37,15 @@ export class MayorCycleComponent implements OnInit{
                 perks: data?.perks
             } as Mayor;
         })
-        setInterval(() => this.updateTime(), 1000);
+        if (isPlatformBrowser(this.platform)) {
+            this.interval = setInterval(() => this.updateTime(), 1000);
+        }
+    }
+
+    ngOnDestroy() {
+        if (this.interval) {
+            clearInterval(this.interval)
+        }
     }
 
     getLocalTime(unixTime: number): string {

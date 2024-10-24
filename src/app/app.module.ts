@@ -33,10 +33,9 @@ import {TodoItemComponent} from './todo/todo-item/todo-item.component';
 import {AboutComponent} from './about/about.component';
 import {FruitDiggingComponent} from './fruit-digging/fruit-digging.component';
 import {RollingNumberComponent} from './animation/rolling-number/rolling-number.component';
-import {TestComponent} from './test/test.component';
 import {MayorCycleComponent} from './mayor/mayor-cycle/mayor-cycle.component';
 import {NgOptimizedImage} from "@angular/common";
-import { ThankYouComponent } from './mayor/thank-you/thank-you.component';
+import {ThankYouComponent} from './mayor/thank-you/thank-you.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +62,6 @@ import { ThankYouComponent } from './mayor/thank-you/thank-you.component';
     AboutComponent,
     FruitDiggingComponent,
     RollingNumberComponent,
-      TestComponent,
       MayorCycleComponent,
       ThankYouComponent
   ],

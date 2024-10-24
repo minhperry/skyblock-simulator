@@ -1,15 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import {DAY, HOUR, MINUTE} from "../../../interfaces/jerry";
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: 'app-thank-you',
   templateUrl: './thank-you.component.html',
   styleUrl: './thank-you.component.scss'
 })
-export class ThankYouComponent implements OnInit {
-    // lastJerry = 1728227700
+export class ThankYouComponent implements OnInit, OnDestroy {
     nextJerry = 1739387700
     current: number = 0
+    private interval: any;
+
+    constructor(@Inject(PLATFORM_ID) private platform: Object) {
+    }
 
     calcDiff() {
         let diff = - this.current + this.nextJerry
@@ -31,7 +35,15 @@ export class ThankYouComponent implements OnInit {
 
     ngOnInit() {
         this.updateTime()
-        setInterval(() => this.updateTime(), 1000)
+        if (isPlatformBrowser(this.platform)) {
+            this.interval = setInterval(() => this.updateTime(), 1000)
+        }
+    }
+
+    ngOnDestroy(): void {
+        if (this.interval) {
+            clearInterval(this.interval)
+        }
     }
 
     private updateTime(): void {
