@@ -34,3 +34,11 @@
 ### 0.6.1
 
 - **Jerry**: Added relative time
+
+### 0.6.2
+
+- **Jerry**:  Archiving Jerry. Thanks for using.
+
+### 0.6.3
+
+- **Backend**: Attempt to convert the app to Server Side Rendering. For now temporarily available under 
