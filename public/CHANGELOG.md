@@ -41,4 +41,4 @@
 
 ### 0.6.3
 
-- **Backend**: Attempt to convert the app to Server Side Rendering. For now temporarily available under 
+- **Backend**: Attempt to convert the app to Server Side Rendering. 
