@@ -42,3 +42,7 @@
 ### 0.6.3
 
 - **Backend**: Attempt to convert the app to Server Side Rendering. 
+
+### 0.6.3.1
+
+- **Backend**: Improving and fix SSR issues
