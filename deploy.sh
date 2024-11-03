@@ -14,4 +14,4 @@ ng build
 # rsync -av --delete --update dist/skyblock/browser/* "$VPS":/var/www/frontend/skyblock
 
 # SSR directory deployment
-rsync -av --delete --update dist/* "$VPS":/var/www/frontend/skyblock-ssr
+rsync -av --delete --update dist/* "$VPS":/var/www/skyblock-ssr

@@ -1,6 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import {DAY, HOUR, MINUTE} from "../../../interfaces/jerry";
-import {isPlatformBrowser} from "@angular/common";
+import {Utils} from "../../../services/utils"
 
 @Component({
   selector: 'app-thank-you',
@@ -35,9 +35,9 @@ export class ThankYouComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.updateTime()
-        if (isPlatformBrowser(this.platform)) {
+        Utils.doIfBrowser(this.platform, () => {
             this.interval = setInterval(() => this.updateTime(), 1000)
-        }
+        })
     }
 
     ngOnDestroy(): void {

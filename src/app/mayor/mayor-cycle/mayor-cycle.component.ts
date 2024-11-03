@@ -1,6 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import {DAY, HOUR, Mayor, mayorData, MINUTE} from "../../../interfaces/jerry";
-import {isPlatformBrowser} from "@angular/common";
+import {Utils} from "../../../services/utils";
 
 @Component({
   selector: 'app-mayor-cycle',
@@ -37,9 +37,9 @@ export class MayorCycleComponent implements OnInit, OnDestroy {
                 perks: data?.perks
             } as Mayor;
         })
-        if (isPlatformBrowser(this.platform)) {
+        Utils.doIfBrowser(this.platform, () => {
             this.interval = setInterval(() => this.updateTime(), 1000);
-        }
+        })
     }
 
     ngOnDestroy() {
