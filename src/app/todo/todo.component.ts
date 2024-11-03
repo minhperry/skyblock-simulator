@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {Nullable, TodoCategory, TodoNode} from "../../interfaces/todo";
+import {Utils} from "../../services/utils";
 
 @Component({
   selector: 'app-todo',
@@ -20,10 +21,18 @@ export class TodoComponent implements OnInit{
     clipboardData: string = ''
     exportData: string = ''
 
+    constructor(@Inject(PLATFORM_ID) private platform: Object) {
+    }
+
     ngOnInit(): void {
 
-        const savedCategories = localStorage.getItem('categories');
-        const selected = localStorage.getItem('selected');
+        let savedCategories;
+        let selected;
+
+        Utils.doIfBrowser(this.platform, () => {
+            savedCategories = localStorage.getItem('categories');
+            selected = localStorage.getItem('selected');
+        })
 
         if (savedCategories) {
             this.categories = JSON.parse(savedCategories);
@@ -156,13 +165,15 @@ export class TodoComponent implements OnInit{
     }
 
     private readLocalStorage() {
-        const allData: Record<string, string> = {};
-        for (const key in localStorage) {
-            if (localStorage.hasOwnProperty(key)) {
-                allData[key] = localStorage.getItem(key) || '';
+        Utils.doIfBrowser(this.platform, () => {
+            const allData: Record<string, string> = {};
+            for (const key in localStorage) {
+                if (localStorage.hasOwnProperty(key)) {
+                    allData[key] = localStorage.getItem(key) || '';
+                }
             }
-        }
-        this.exportData = JSON.stringify(allData, null, 2);
+            this.exportData = JSON.stringify(allData, null, 2);
+        })
     }
 
     private deleteCategory(index: number) {
