@@ -89,7 +89,7 @@ export class FruitDiggingComponent implements OnInit {
         if (this.turn >= 15) return;
 
         let now = Date.now();
-        if (now - this.lastClicked < 1500) {
+        if (now - this.lastClicked < 750) {
             return;
         }
         this.lastClicked = Date.now()
@@ -261,7 +261,7 @@ export class FruitDiggingComponent implements OnInit {
         }
     }
 
-    // Bug: Bomb can explode 0 tiles
+    // TODO: (Bug) Bomb can explode 0 tiles
     private destroySomeAdjacentFruits(index: number): void {
         const adjacentIndices = this.getAdjacentIndices(index);
 
@@ -453,6 +453,4 @@ export class FruitDiggingComponent implements OnInit {
     private capitalize(str: string): string {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
-
-    protected readonly Array = Array;
 }

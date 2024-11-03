@@ -45,8 +45,7 @@
         <div class="d-flex justify-content-center my-2">
             <button class="btn btn-outline-primary mx-2" (click)="restart()">Restart</button>
             <button class="btn btn-outline-secondary mx-2" (click)="show()">Show</button>
-            <button class="btn btn-outline-warning mx-2" (click)="debug=!debug">Debug</button>
-            </div>
+        </div>
     </div>
 </div>
 <div class="container-sm">
@@ -60,14 +59,33 @@
             </h2>
             <div id="guide" class="accordion-collapse collapse" data-bs-parent="#fruitguide">
                 <div class="accordion-body">
-                    <p>Every data and ability is taken from
+                    <h5>Every data and ability is taken from
                         <a href="https://wiki.hypixel.net/Carnival#Fruit_digging">
-                            Carnival's Wiki Entry
-                        </a>
-                    </p>
+                            Carnival's Wiki Entry</a>.
+                    </h5>
+                    <p>However, there are some uncertainties that I have added my own implementation:</p>
                     <ul>
-                        <li>D</li>
+                        <li>Rums only replace Mangoes and Apples.</li>
+                        <li>There are some "encouraging points": Rum gives 8, Bomb gives 2 when exploded and 4 when
+                            saved by Coconut.
+                        </li>
+                        <li>
+                            Bombs blows up <b>some</b> fruit but not all.
+                            <b class="mc red">There is currently a bug that it can blow up none of the fruits.</b>
+                        </li>
+                        <li>
+                            Watermelon can chain.
+                        </li>
+                        <li>
+                            There is a cooldown of 0.75s between clicks.
+                        </li>
                     </ul>
+                    <p>
+                        For debubgging and bug reporting, click this
+                        <button class="btn btn-outline-warning mx-2" (click)="debug=!debug">Debug</button>
+                        button.
+                        This will overlay the underlying fruit over current grid.
+                    </p>
                 </div>
             </div>
         </div>
