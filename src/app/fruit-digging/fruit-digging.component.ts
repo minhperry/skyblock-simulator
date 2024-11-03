@@ -103,6 +103,10 @@ export class FruitDiggingComponent implements OnInit {
             this.shovelMessage =
                 `<b class="mc red">RUM!</b> Dowsing disabled for a turn!`
         }
+        if (this.lastFruit == Rum.RUM) {
+            this.shovelMessage =
+                `<b class="mc darkred">DISABLED!</b> Nothing happens.`
+        }
 
         this.lastFruit = cell
         this.Q.enqueue(cell)
