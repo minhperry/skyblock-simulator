@@ -36,6 +36,7 @@ import {RollingNumberComponent} from './animation/rolling-number/rolling-number.
 import {MayorCycleComponent} from './mayor/mayor-cycle/mayor-cycle.component';
 import {NgOptimizedImage} from "@angular/common";
 import {ThankYouComponent} from './mayor/thank-you/thank-you.component';
+import { HotmComponent } from './hotm/hotm.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import {ThankYouComponent} from './mayor/thank-you/thank-you.component';
     FruitDiggingComponent,
     RollingNumberComponent,
       MayorCycleComponent,
-      ThankYouComponent
+      ThankYouComponent,
+      HotmComponent
   ],
     imports: [
         BrowserModule,
