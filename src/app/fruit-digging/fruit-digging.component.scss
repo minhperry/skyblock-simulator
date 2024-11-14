@@ -111,7 +111,7 @@
 .sand {
     background-image: url("/fruits/sand.png");
 
-    &:hover {
+  &:active {
         background-image: url("/fruits/redsand.png");
         cursor: pointer;
     }
