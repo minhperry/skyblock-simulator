@@ -1,129 +1,134 @@
 {
-    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-    "version": 1,
-    "newProjectRoot": "projects",
-    "projects": {
-        "skyblock": {
-            "projectType": "application",
-            "schematics": {
-                "@schematics/angular:component": {
-                    "style": "scss",
-                    "standalone": false,
-                    "skipTests": true
-                },
-                "@schematics/angular:directive": {
-                    "standalone": false,
-                    "skipTests": true,
-                    "path": "src/directives"
-                },
-                "@schematics/angular:pipe": {
-                    "standalone": false
-                },
-                "@schematics/angular:interface": {
-                    "path": "src/interfaces"
-                }
-            },
-            "root": "",
-            "sourceRoot": "src",
-            "prefix": "app",
-            "architect": {
-                "build": {
-                    "builder": "@angular-devkit/build-angular:application",
-                    "options": {
-                      "outputPath": "dist/",
-                      "index": "src/index.html",
-                      "browser": "src/main.ts",
-                      "polyfills": [
-                        "zone.js"
-                      ],
-                      "tsConfig": "tsconfig.app.json",
-                      "inlineStyleLanguage": "scss",
-                      "assets": [
-                        {
-                          "glob": "**/*",
-                          "input": "public"
-                        },
-                        "src/md"
-                      ],
-                      "styles": [
-                        "@angular/material/prebuilt-themes/cyan-orange.css",
-                        "src/styles.scss"
-                      ],
-                      "scripts": [],
-                      "server": "src/main.server.ts",
-                      "prerender": true,
-                      "ssr": {
-                        "entry": "server.ts"
-                      }
-                    },
-                    "configurations": {
-                        "production": {
-                            "budgets": [
-                                {
-                                    "type": "initial",
-                                    "maximumWarning": "50MB",
-                                    "maximumError": "100MB"
-                                },
-                                {
-                                    "type": "anyComponentStyle",
-                                    "maximumWarning": "2kB",
-                                    "maximumError": "4kB"
-                                }
-                            ],
-                            "outputHashing": "all"
-                        },
-                        "development": {
-                            "optimization": false,
-                            "extractLicenses": false,
-                            "sourceMap": true
-                        }
-                    },
-                    "defaultConfiguration": "production"
-                },
-                "serve": {
-                    "builder": "@angular-devkit/build-angular:dev-server",
-                    "configurations": {
-                        "production": {
-                            "buildTarget": "skyblock:build:production"
-                        },
-                        "development": {
-                            "buildTarget": "skyblock:build:development"
-                        }
-                    },
-                    "defaultConfiguration": "development",
-                    "options": {
-                        "port": 6969
-                    }
-                },
-                "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n"
-                },
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "polyfills": [
-                            "zone.js",
-                            "zone.js/testing"
-                        ],
-                        "tsConfig": "tsconfig.spec.json",
-                        "inlineStyleLanguage": "scss",
-                        "assets": [
-                            {
-                                "glob": "**/*",
-                                "input": "public"
-                            }
-                        ],
-                        "styles": [
-                            "@angular/material/prebuilt-themes/cyan-orange.css",
-                            "src/styles.scss"
-                        ],
-                        "scripts": []
-                    }
-                }
-            }
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "skyblock": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "standalone": false,
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "standalone": false,
+          "skipTests": true,
+          "path": "src/directives"
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
+        },
+        "@schematics/angular:interface": {
+          "path": "src/interfaces"
+        },
+        "@schematics/angular:service": {
+          "path": "src/services",
+          "skipTests": true
         }
-    },
-    "cli": {
-        "analytics": false
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              },
+              "src/md"
+            ],
+            "styles": [
+              "@angular/material/prebuilt-themes/cyan-orange.css",
+              "src/styles.scss"
+            ],
+            "scripts": [],
+            "server": "src/main.server.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "server.ts"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "50MB",
+                  "maximumError": "100MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "skyblock:build:production"
+            },
+            "development": {
+              "buildTarget": "skyblock:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 6969,
+            "proxyConfig": "proxy.conf.json"
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "@angular/material/prebuilt-themes/cyan-orange.css",
+              "src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
     }
+  },
+  "cli": {
+    "analytics": false
+  }
 }
