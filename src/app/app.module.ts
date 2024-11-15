@@ -11,7 +11,7 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {HomeComponent} from './home/home.component';
 import {ColorerComponent} from './terminal/colorer/colorer.component';
 import {MarkdownModule} from 'ngx-markdown';
-import {HttpClient, provideHttpClient} from '@angular/common/http';
+import {HttpClient, provideHttpClient, withFetch} from '@angular/common/http';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {MatSliderModule} from '@angular/material/slider';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -80,7 +80,7 @@ import { HotmComponent } from './hotm/hotm.component';
         NgOptimizedImage
     ],
   providers: [
-    provideHttpClient(),
+    provideHttpClient(withFetch()),
     provideAnimationsAsync(),
     provideClientHydration()
   ],

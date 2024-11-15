@@ -12,94 +12,100 @@ import {ColorerComponent} from "./terminal/colorer/colorer.component";
 import {FruitDiggingComponent} from "./fruit-digging/fruit-digging.component";
 import {MayorCycleComponent} from "./mayor/mayor-cycle/mayor-cycle.component";
 import {ThankYouComponent} from "./mayor/thank-you/thank-you.component";
+import {HotmComponent} from "./hotm/hotm.component";
 
 const routes: Routes = [
-    {
-        path: '',
-        component: HomeComponent,
-        title: 'Main Menu'
-    },
-    {
-        path: 'terminal',
-        title: 'Floor 7 Terminals',
-        children: [
-            {
-                path: 'panes',
-                component: PaneGameComponent
-            },
-            {
-                path: 'numbers',
-                component: NumbergameComponent
-            },
-            {
-                path: 'colors',
-                component: ColorerComponent
-            },
-            {
-                path: '**',
-                component: TerminalComponent
-            }
-        ]
-    },
-    {
-        path: 'cowvsele',
-        component: CalculatorComponent,
-        title: 'Calculator'
-    },
-    {
-        path: 'livemp',
-        component: LiveMpComponent,
-        title: 'Live Magical Power Display'
-    },
-    {
-        path: 'todo',
-        component: TodoComponent,
-        title: 'To Do List'
-    },
-    {
-        path: 'about',
-        component: AboutComponent,
-        title: 'About'
-    },
-    {
-        path: 'fruit',
-        component: FruitDiggingComponent,
-        title: 'Fruit Digging Game'
-    },
-    {
-        path: 'jerry',
-        redirectTo: '/archive',
-        pathMatch: "full"
-    },
-    {
-        path: 'archive',
-        children: [
-            {
-                path: 'jerry',
-                children: [
-                    {
-                        path: 'oct24',
-                        component: MayorCycleComponent,
-                        title: 'Oct 24 Jerry Cycle'
-                    }
-                ]
-            },
-            {
-                path: '**',
-                component: ThankYouComponent,
-                title: 'Jerry is over!'
-            }
-        ]
-    },
-    {
+  {
+    path: '',
+    component: HomeComponent,
+    title: 'Main Menu'
+  },
+  {
+    path: 'terminal',
+    title: 'Floor 7 Terminals',
+    children: [
+      {
+        path: 'panes',
+        component: PaneGameComponent
+      },
+      {
+        path: 'numbers',
+        component: NumbergameComponent
+      },
+      {
+        path: 'colors',
+        component: ColorerComponent
+      },
+      {
         path: '**',
-        redirectTo: ''
-    }
+        component: TerminalComponent
+      }
+    ]
+  },
+  {
+    path: 'cowvsele',
+    component: CalculatorComponent,
+    title: 'Calculator'
+  },
+  {
+    path: 'livemp',
+    component: LiveMpComponent,
+    title: 'Live Magical Power Display'
+  },
+  {
+    path: 'todo',
+    component: TodoComponent,
+    title: 'To Do List'
+  },
+  {
+    path: 'about',
+    component: AboutComponent,
+    title: 'About'
+  },
+  {
+    path: 'fruit',
+    component: FruitDiggingComponent,
+    title: 'Fruit Digging Game'
+  },
+  {
+    path: 'jerry',
+    redirectTo: '/archive',
+    pathMatch: "full"
+  },
+  {
+    path: 'hotm',
+    component: HotmComponent,
+    title: 'Heart of the Mountain Sim'
+  },
+  {
+    path: 'archive',
+    children: [
+      {
+        path: 'jerry',
+        children: [
+          {
+            path: 'oct24',
+            component: MayorCycleComponent,
+            title: 'Oct 24 Jerry Cycle'
+          }
+        ]
+      },
+      {
+        path: '**',
+        component: ThankYouComponent,
+        title: 'Jerry is over!'
+      }
+    ]
+  },
+  {
+    path: '**',
+    redirectTo: ''
+  }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {
 }

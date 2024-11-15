@@ -1,3 +1,5 @@
+@import '../../commons';
+
 :host {
     --grid-size: 3rem;
 }
@@ -18,14 +20,6 @@
     :host {
         --grid-size: 2.25rem;
     }
-}
-
-
-@mixin grid($col, $row, $gap: 0) {
-    display: grid;
-    grid-template-columns: repeat($col, 1fr);
-    grid-template-rows: repeat($row, 1fr);
-    grid-gap: $gap;
 }
 
 .container-sm {
