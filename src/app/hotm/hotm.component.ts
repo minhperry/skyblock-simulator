@@ -1,5 +1,6 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {HotmBackendService} from "../../services/hotm-backend.service";
+import {Perk} from "../../interfaces/hotm";
 
 @Component({
   selector: 'app-hotm',
@@ -7,7 +8,7 @@ import {HotmBackendService} from "../../services/hotm-backend.service";
   styleUrl: './hotm.component.scss'
 })
 export class HotmComponent implements OnInit {
-  grid: string[][] = []
+  grid: Perk[][] = []
 
   constructor(
     // private hotm: HotmBackendService

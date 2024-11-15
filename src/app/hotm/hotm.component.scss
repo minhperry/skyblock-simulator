@@ -8,7 +8,41 @@
   display: grid;
   place-content: center center;
   $inventory-width: clamp(300px, calc(100vw - 40px), 780px);
-  gap: calc(var($inventory-width) * .01);
-  padding: calc(var($inventory-width) * .01);
-  grid-template-columns: repeat(9, calc(var($inventory-width) * 0.1));
+  gap: calc(($inventory-width) * .01);
+  padding: calc(($inventory-width) * .01);
+  grid-template-columns: repeat(9, calc($inventory-width) * 0.1);
+
+  &.inventory-slot {
+    aspect-ratio: 1;
+    position: relative;
+    background-color: rgba(#FFFFFF, 0.04);
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  &.item-icon {
+    background-image: url('/textures/items.v14.webp');
+    width: 128px;
+    height: 128px;
+  }
+
+  // Normal perks
+  &.coal {
+    background-position: -2048px -1536px;
+  }
+
+  &.diamond {
+    background-position: -2048px -1792px;
+  }
+
+  &.emerald {
+    background-position: -2944px -1664px;
+  }
+
+  // Abiliies and Potm
+  &.emeraldblock {
+    background-position: -512px -640px;
+  }
+
+
 }
