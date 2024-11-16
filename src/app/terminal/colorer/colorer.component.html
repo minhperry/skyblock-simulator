@@ -20,8 +20,8 @@
         <button (click)="onRestart()">New game</button>
         <div class="sliders">
             Side:
-            <mat-slider min="2" max="16" step="1" discrete>
-                <input matSliderThumb [(value)]="edgeSize">
+          <mat-slider min="2" max="16" step="1" discrete>
+            <input matSliderThumb [(value)]="edgeSize" (input)="onEdgeSizeChange($event)">
             </mat-slider>
         </div>
     </div>

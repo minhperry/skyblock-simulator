@@ -79,7 +79,7 @@ export class ColorerComponent implements OnInit, OnDestroy {
   }
 
   onEdgeSizeChange(event: Event): void {
-    this.edgeSize ;
+    this.edgeSize = parseInt((event.target as HTMLInputElement).value);
     this.initGrid();
   }
 }
