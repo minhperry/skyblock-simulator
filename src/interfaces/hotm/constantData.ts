@@ -1,6 +1,6 @@
 // ==================== Hotm Entries ====================
 
-import {StatSymbol} from "./symbols";
+import {StatSymbol} from "../symbols";
 
 export interface HotmEntry {
   name: string,
@@ -32,7 +32,8 @@ export type HotmNodeNames =
   | "mining_speed_boost" | "precision_mining" | "mining_fortune"
   | "titanium_insanium" | "pickaxe_toss"
   // HOTM 1
-  | "mining_speed";
+  | "mining_speed"
+  | null
 
 // ==================== Upgradable Perks ====================
 export interface NumberTuple {
@@ -49,12 +50,6 @@ export enum PowderType {
   GLACITE = "glacite"
 }
 
-export enum PerkState {
-  MAXED = 'diamond',
-  PROGRESSING = 'emerald',
-  LOCKED = 'coal'
-}
-
 interface GeneralPerk extends HotmEntry {
   // state: PerkState,
 }
@@ -65,7 +60,6 @@ export interface StaticPerk extends GeneralPerk {
 
 export interface DynamicPerk extends GeneralPerk {
   maxLevel: number,
-  // currentLevel: number,
   perkFunc: PerkFunction,
   powderFunc: PowderFunction,
   powderType: PowderType,
@@ -75,45 +69,46 @@ export type LevelablePerk = StaticPerk | DynamicPerk;
 
 // ==================== Abilities ====================
 
-export enum AbilityState {
-  UNLOCKED = 'emeraldblock',
-  LOCKED = 'coalblock',
-  CORE = 'redstoneblock' // Core of the mountain
-}
-
 export interface Ability extends HotmEntry {
   // state: AbilityState
 }
 
 // ==================== Each Node on tree ====================
 // a slot can be a levelable perk, an ability or empty.
+// TODO: move requires and position to tree data
+// todo: *State should be in tree data.
 export interface Perk {
   perk: LevelablePerk | Ability;
-  requires: HotmNodeNames[],
   position: { x: number, y: number }
-  /* x ------------> 0-6
-  *  y
-  *  |
-  *  |
-  *  |
-  *  V 0-9
-  * */
 }
 
 
 // ==================== Data for the tree ====================
 // #{1}, #{2} for the numbers
-const StaticHotmData: Record<HotmNodeNames, Perk> = {
+const StaticHotmData = {//Record<HotmNodeNames, Perk> = {
   "mining_speed": {
     perk: {
       name: 'Mining Speed',
       description: `§7Grants §6+#{1} ${StatSymbol.MINING_SPEED} Mining Speed§7.`,
       maxLevel: 50,
       perkFunc: (l: number) => l * 20,
-      powderFunc: (l: number) => l
+      powderFunc: (l: number) => Math.floor(Math.pow(l + 1, 3))
     },
-    requires: [],
     position: {x: 3, y: 9}
+  },
+  "mining_speed_boost": {
+    perk: {
+      name: 'Mining Speed Boost',
+      description: `§7Grants §6+250% ${StatSymbol.MINING_SPEED} Mining Speed for §a15s§7.`
+    },
+    position: {x: 1, y: 8}
+  },
+  "precision_mining": {
+    perk: {
+      name: 'Precision Mining',
+      description: `§7Looking at particle increases your ${StatSymbol.MINING_SPEED} Mining Speed by §`
+    },
+    position: {x: 2, y: 8}
   }
 }
 

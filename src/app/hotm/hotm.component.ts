@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
-import {HotmBackendService} from "../../services/hotm-backend.service";
-import {Perk} from "../../interfaces/hotm";
+import {Perk} from "../../interfaces/hotm/constantData";
 
 @Component({
   selector: 'app-hotm',
