@@ -1,27 +1,36 @@
-<div class="game-container">
-    <div class="left-panel">
-        <div class="description">
-            <h1>Terminal - Panes</h1>
-            <p>Click on the panes to change their color</p>
-            <p>The timer will start when you click the first pane</p>
-            <p>From {{minPercent*100}}% up to {{maxPercent*100}}% of the grid is filled.</p>
+<div class="container my-4 p-3 rounded shadow">
+  <div class="row">
+    <!-- Left Panel -->
+    <div class="col-md-4 text-center text-light">
+      <div class="mb-4">
+        <h1 class="h4">Terminal - Panes</h1>
+        <p>Click on the panes to change their color.</p>
+        <p>The timer will start when you click the first pane.</p>
+        <p>From {{ minPercent * 100 }}% up to {{ maxPercent * 100 }}% of the grid is filled.</p>
+      </div>
+      <div class="mb-3 fs-5 timer">
+        {{ timer.time().toFixed(1) }}s
+      </div>
+      <button class="btn btn-primary btn-sm mb-4" (click)="onRestartButtonClick()">New game</button>
+      <div class="sliders">
+        <div class="mb-3">
+          <label for="width-slider" class="form-label">Width:</label>
+          <mat-slider id="width-slider" min="3" max="16" step="1" discrete>
+            <input matSliderThumb [(value)]="config.width">
+          </mat-slider>
         </div>
-        <div class="timer-display">
-            {{ timer.time().toFixed(1) }}s
+        <div>
+          <label for="height-slider" class="form-label">Height:</label>
+          <mat-slider id="height-slider" min="2" max="16" step="1" discrete>
+            <input matSliderThumb [(value)]="config.height">
+          </mat-slider>
         </div>
-        <button (click)="onRestartButtonClick()">New game</button>
-        <div class="sliders">
-            Width:
-            <mat-slider min="3" max="20" step="1" discrete>
-                <input matSliderThumb [(value)]="config.width">
-            </mat-slider>
-            Height:
-            <mat-slider min="2" max="18" step="1" discrete>
-                <input matSliderThumb [(value)]="config.height">
-            </mat-slider>
-        </div>
+      </div>
     </div>
-    <div class="right-panel">
-        <pane [grid]="config.grid" (cellClicked)="onCellClicked($event)"></pane>
+
+    <!-- Right Panel -->
+    <div class="col-md-8 d-flex justify-content-center align-items-center">
+      <pane [grid]="config.grid" (cellClicked)="onCellClicked($event)"></pane>
     </div>
+  </div>
 </div>

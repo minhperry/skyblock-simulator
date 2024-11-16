@@ -1,49 +1,8 @@
 @import '../../../variables.scss';
 
-.game-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    max-width: 2000px;
-    margin: 16px auto;
-    width: fit-content;
-}
 
-.left-panel,
-.right-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #ddd;
-}
-
-.left-panel {
-    margin-right: 20px;
-}
-
-.description {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.description h1 {
-    margin: 0;
-    font-size: 1.8em;
-}
-
-.description p {
-    margin: 5px 0;
-    font-size: 1em;
-    color: $color-text;
-}
-
-.timer-display {
-    font-size: 1.2em;
+.timer {
     color: $color-subtle;
-    margin-bottom: 20px;
 }
 
 button {
@@ -60,8 +19,4 @@ button {
         border: 1px solid #fff;
         background-color: #ffffff44;
     }
-}
-
-.right-panel {
-    justify-content: center;
 }
