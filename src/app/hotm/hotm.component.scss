@@ -7,16 +7,16 @@
 .inventory-view {
   display: grid;
   place-content: center center;
-  $inventory-width: clamp(300px, calc(100vw - 40px), 780px);
-  gap: calc(($inventory-width) * .01);
-  padding: calc(($inventory-width) * .01);
-  grid-template-columns: repeat(9, calc($inventory-width) * 0.1);
+  $inventory-width: calc(clamp(300px, calc(100vw - 40px), 780px));
+  gap: calc($inventory-width * .01);
+  padding: calc($inventory-width * .01);
+  grid-template-columns: repeat(9, calc($inventory-width * 0.1));
 
   &.inventory-slot {
     aspect-ratio: 1;
     position: relative;
     background-color: rgba(#FFFFFF, 0.04);
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
   }
 
