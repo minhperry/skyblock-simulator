@@ -20,7 +20,7 @@ export class PaneGameComponent implements OnInit, OnDestroy {
     width: 7,
     height: 3
   };
-  minPercent = 0.1;
+  minPercent = 0.05;
   maxPercent = 0.35;
 
   constructor(public timer: TimerService) {
@@ -57,10 +57,10 @@ export class PaneGameComponent implements OnInit, OnDestroy {
   }
 
   initializeGrid() {
-    this.config.grid = Array.from({ length: this.config.height }, () => 
+    this.config.grid = Array.from({length: this.config.height}, () =>
       Array.from({ length: this.config.width }, () => ({ state: CellState.OFF }))
     );
-    this.genRandom(this.minPercent, this.maxPercent); 
+    this.genRandom(this.minPercent, this.maxPercent);
   }
 
   onRestartButtonClick() {
@@ -76,7 +76,7 @@ export class PaneGameComponent implements OnInit, OnDestroy {
     }
 
     const { row, col } = cell;
-    this.config.grid[row][col].state = 
+    this.config.grid[row][col].state =
       this.config.grid[row][col].state === CellState.OFF ?
        CellState.ON : CellState.ON;
 
@@ -85,7 +85,16 @@ export class PaneGameComponent implements OnInit, OnDestroy {
     }
   }
 
-  private checkAllOn(): boolean { 
+  onSliderChange(event: Event, which: 'w' | 'h') {
+    if (which === 'w') {
+      this.config.width = parseInt((event.target as HTMLInputElement).value);
+    } else {
+      this.config.height = parseInt((event.target as HTMLInputElement).value);
+    }
+    this.initializeGrid()
+  }
+
+  private checkAllOn(): boolean {
     return this.config.grid.every(row => row.every(cell => cell.state === CellState.ON));
   }
 }

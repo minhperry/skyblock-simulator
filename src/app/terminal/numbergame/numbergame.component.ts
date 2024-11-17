@@ -22,7 +22,7 @@ export class NumbergameComponent implements OnInit, OnDestroy {
   }
   next: number = 1;
   stupid: boolean = false;
-  
+
   private size(): number { return this.config.width * this.config.height; }
 
   grid2NumMap: Map<{ row: number, col: number }, number> = new Map();
@@ -68,7 +68,7 @@ export class NumbergameComponent implements OnInit, OnDestroy {
     if (this.next > this.size()) return
     if (this.next - 1 > this.size()) return
 
-    const {row, col} = this.num2GridMap.get(this.next)!;    
+    const {row, col} = this.num2GridMap.get(this.next)!;
     const {row: orow, col: ocol} = this.num2GridMap.get(this.next + 1)!;
 
     if (this.stupid) {
@@ -130,5 +130,14 @@ export class NumbergameComponent implements OnInit, OnDestroy {
     this.config.started = false;
     this.initializeGrid(true);
     this.next = 1;
+  }
+
+  onSliderChange(event: Event, which: 'w' | 'h') {
+    if (which === 'w') {
+      this.config.width = parseInt((event.target as HTMLInputElement).value);
+    } else {
+      this.config.height = parseInt((event.target as HTMLInputElement).value);
+    }
+    this.initializeGrid()
   }
 }

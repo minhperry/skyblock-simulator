@@ -16,13 +16,13 @@
         <div class="mb-3">
           <label for="width-slider" class="form-label">Width:</label>
           <mat-slider id="width-slider" min="3" max="16" step="1" discrete>
-            <input matSliderThumb [(value)]="config.width">
+            <input matSliderThumb [(value)]="config.width" (input)="onSliderChange($event, 'w')">
           </mat-slider>
         </div>
         <div>
           <label for="height-slider" class="form-label">Height:</label>
           <mat-slider id="height-slider" min="2" max="16" step="1" discrete>
-            <input matSliderThumb [(value)]="config.height">
+            <input matSliderThumb [(value)]="config.height" (input)="onSliderChange($event, 'h')">
           </mat-slider>
         </div>
       </div>
