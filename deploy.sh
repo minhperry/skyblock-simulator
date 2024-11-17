@@ -55,11 +55,11 @@ buildExpress() {
 while getopts "fb" opt; do
   case "$opt" in
     f)
-      echo "You passed the -f option."
+      echo "Build and deploying Angular frontend."
       buildAngular
       ;;
     b)
-      echo "You passed the -b option."
+      echo "Build and deploying Express backend."
       buildExpress
       ;;
     *)
