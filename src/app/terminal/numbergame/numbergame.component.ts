@@ -138,6 +138,6 @@ export class NumbergameComponent implements OnInit, OnDestroy {
     } else {
       this.config.height = parseInt((event.target as HTMLInputElement).value);
     }
-    this.initializeGrid()
+    this.onRestartButtonClick()
   }
 }

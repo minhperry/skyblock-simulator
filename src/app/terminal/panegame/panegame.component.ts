@@ -91,7 +91,7 @@ export class PaneGameComponent implements OnInit, OnDestroy {
     } else {
       this.config.height = parseInt((event.target as HTMLInputElement).value);
     }
-    this.initializeGrid()
+    this.onRestartButtonClick()
   }
 
   private checkAllOn(): boolean {
