@@ -1,158 +1,160 @@
 @import '../../commons';
 
 :host {
-    --grid-size: 3rem;
+  --grid-size: 3rem;
 }
 
 @media (max-width: 390px) {
-    :host {
-        --grid-size: 2.75rem;
-    }
+  :host {
+    --grid-size: 2.75rem;
+  }
 }
 
 @media (max-width: 350px) {
-    :host {
-        --grid-size: 2.5rem;
-    }
+  :host {
+    --grid-size: 2.5rem;
+  }
 }
 
 @media (max-width: 320px) {
-    :host {
-        --grid-size: 2.25rem;
-    }
+  :host {
+    --grid-size: 2.25rem;
+  }
 }
 
 .container-sm {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .grid7x7 {
-    @include grid(7, 7, 0.25rem);
+  @include grid(7, 7, 0.25rem);
 
-    &.original {
-        z-index: 1;
-        position: relative;
-    }
+  &.original {
+    z-index: 1;
+    position: relative;
+  }
 
-    &.reference {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 2;
-        pointer-events: none;
-        opacity: 0.5;
-    }
+  &.reference {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }
 
 .grid3x5 {
-    @include grid(5, 3, 0);
+  @include grid(5, 3, 0);
 }
 
 
 .second-div {
-    max-width: 450px;
+  max-width: 450px;
 }
-
 
 
 .grid-item {
-    height: var(--grid-size);
-    width: var(--grid-size);
-    font-size: 1.2rem;
-    background-size: contain;
+  height: var(--grid-size);
+  width: var(--grid-size);
+  font-size: 1.2rem;
+  background-size: contain;
 }
 
 .mango {
-    background-image: url('/fruits/mango.png');
+  background-image: url('/fruits/mango.png');
 }
 
 .apple {
-    background-image: url('/fruits/apple.png');
+  background-image: url('/fruits/apple.png');
 }
 
 .watermelon {
-    background-image: url('/fruits/watermelon.png');
+  background-image: url('/fruits/watermelon.png');
 }
 
 .pomegranate {
-    background-image: url('/fruits/pomegranate.png');
+  background-image: url('/fruits/pomegranate.png');
 }
 
 .coconut {
-    background-image: url('/fruits/coconut.png');
+  background-image: url('/fruits/coconut.png');
 }
 
 .cherry {
-    background-image: url('/fruits/cherry.png');
+  background-image: url('/fruits/cherry.png');
 }
 
 .dragonfruit {
-    background-image: url('/fruits/dragonfruit.png');
+  background-image: url('/fruits/dragonfruit.png');
 }
 
 .durian {
-    background-image: url('/fruits/durian.png');
+  background-image: url('/fruits/durian.png');
 }
 
 .bomb {
-    background-image: url('/fruits/bomb.png');
+  background-image: url('/fruits/bomb.png');
 }
 
 .rum {
-    background-image: url("/fruits/rum.png");
+  background-image: url("/fruits/rum.png");
 }
 
 .sand {
-    background-image: url("/fruits/sand.png");
+  background-image: url("/fruits/sand.png");
 
-  &:active {
-        background-image: url("/fruits/redsand.png");
-        cursor: pointer;
+  // Should only happen on desktop and not mobile
+  @media (min-width: 996px) {
+    &:hover {
+      background-image: url("/fruits/redsand.png");
+      cursor: pointer;
     }
+  }
 }
 
 .gone {
-    background-image: url("/fruits/gone.png");
+  background-image: url("/fruits/gone.png");
 }
 
 .shovel {
-    height: var(--grid-size);
-    width: var(--grid-size);
-    background-size: contain;
-    background-repeat: no-repeat;
+  height: var(--grid-size);
+  width: var(--grid-size);
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .anchor {
-    background-image: url("/fruits/shovels/anchor.png");
+  background-image: url("/fruits/shovels/anchor.png");
 }
 
 .mines {
-    background-image: url("/fruits/shovels/mines.png");
+  background-image: url("/fruits/shovels/mines.png");
 }
 
 .touched {
-    filter: blur(3px) grayscale(1);
+  filter: blur(3px) grayscale(1);
 }
 
 .treasure {
-    background-image: url("/fruits/shovels/treasure.png");
+  background-image: url("/fruits/shovels/treasure.png");
 }
 
 
 .counter {
-    padding: 0;
+  padding: 0;
 }
 
 .scaled {
-    scale: 75%;
+  scale: 75%;
 }
 
 .bordered {
-    border: 0.2rem solid rgba(68, 68, 68, 0.7);
-    padding: 3px 6px;
-    border-radius: 6px;
+  border: 0.2rem solid rgba(68, 68, 68, 0.7);
+  padding: 3px 6px;
+  border-radius: 6px;
 }
 
 .accordion-button:not(.collapsed) {
-    background-color: inherit;
+  background-color: inherit;
 }
