@@ -103,9 +103,11 @@
 
 .sand {
   background-image: url("/fruits/sand.png");
+}
 
-  // Should only happen on desktop and not mobile
-  @media (min-width: 996px) {
+// Should only happen on desktop and not mobile
+@media (min-width: 996px) {
+  .sand {
     &:hover {
       background-image: url("/fruits/redsand.png");
       cursor: pointer;
