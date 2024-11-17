@@ -1,33 +1,95 @@
-@import '../commons/panes.scss';
+:host {
+  --size: 48px;
+  --grid-margin: 3px;
+}
+
+@media (max-width: 992px) {
+  :host {
+    --size: 42px;
+    --grid-margin: 2.5px;
+  }
+}
+
+@media (max-width: 576px) {
+  :host {
+    --size: 33px;
+    --grid-margin: 1.5px;
+  }
+}
 
 .grid {
-    display: grid;
+  display: grid;
 }
 
 .row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 
 .pane {
-    position: relative;
-    width: $size;
-    height: $size;
-    margin: 3px;
-    user-select: none;
+  position: relative;
+  //width: $size;
+  //height: $size;
+  width: var(--size);
+  height: var(--size);
+  margin: var(--grid-margin);
+  user-select: none;
 
-    &:hover {
-        cursor: pointer;
-        filter: brightness(1.4);
-    }
+  &:hover {
+    cursor: pointer;
+    filter: brightness(1.4);
+  }
 }
 
 
 .number {
-    position: absolute;
-    bottom: -3px;
-    right: -3px;
-    font-size: 16px;
-    font-family: 'Minecraft', serif;
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  font-size: 16px;
+  font-family: 'Minecraft', serif;
+}
+
+
+// $size: 48px;
+
+@mixin scale($path) {
+  background-image: url($path);
+  background-size: var(--size) var(--size);
+  // background-size: $size $size;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.grid .green {
+  @include scale('../../../../public/textures/green.png');
+}
+
+.grid .red {
+  @include scale('../../../../public/textures/red.png');
+}
+
+.grid .yellow {
+  @include scale('../../../../public/textures/yellow.png');
+}
+
+.grid .blue {
+  @include scale('../../../../public/textures/blue.png');
+}
+
+.grid .purple {
+  @include scale('../../../../public/textures/purple.png');
+}
+
+.grid .cyan {
+  @include scale('../../../../public/textures/cyan.png');
+}
+
+.grid .orange {
+  @include scale('../../../../public/textures/orange.png');
+}
+
+.grid .darkgreen {
+  @include scale('../../../../public/textures/darkgreen.png');
 }
