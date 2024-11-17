@@ -46,3 +46,7 @@
 ### 0.6.3.1
 
 - **Backend**: Improving and fix SSR issues
+
+### 0.6.3.2
+
+- **Terminal**: More responsive design
