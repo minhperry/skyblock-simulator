@@ -4,13 +4,14 @@ import { Cell, next, random } from '../../../interfaces/cell';
 import { TimerService } from '../../../services/timer.service';
 
 @Component({
-  selector: 'colorgame',
-  templateUrl: './colorer.component.html',
-  styleUrl: './colorer.component.scss',
-  providers: [
-    {provide: 'timeInMs', useValue: 100},
-    TimerService
-  ]
+    selector: 'colorgame',
+    templateUrl: './colorer.component.html',
+    styleUrl: './colorer.component.scss',
+    providers: [
+        { provide: 'timeInMs', useValue: 100 },
+        TimerService
+    ],
+    standalone: false
 })
 export class ColorerComponent implements OnInit, OnDestroy {
   edgeSize = 3;

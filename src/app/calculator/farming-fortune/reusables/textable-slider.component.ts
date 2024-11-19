@@ -3,8 +3,8 @@ import { NumNumFunc, NumStringFunc } from '../../../../interfaces/functions';
 import { debounceTime, Subject } from 'rxjs';
 
 @Component({
-  selector: 'slider',
-  template: `
+    selector: 'slider',
+    template: `
     <div class="item {{label}}">
     <label [for]="label" class="form-label">
         {{ preString }} {{ displayValue }} {{ extraStr }}
@@ -17,7 +17,8 @@ import { debounceTime, Subject } from 'rxjs';
       [value]="value" (input)="onSliderInput($event)" />
     </div>
   `,
-  styles: ['.form-label { margin-bottom: 0; display: flex; justify-content: space-between; }']
+    styles: ['.form-label { margin-bottom: 0; display: flex; justify-content: space-between; }'],
+    standalone: false
 })
 export class TextableSliderComponent {
   @Input() label!: string;

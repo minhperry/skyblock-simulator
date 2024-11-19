@@ -12,10 +12,11 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
       </div>
     `,
     styles: [
-        '.form-label { margin-bottom: 0; display: flex; justify-content: flex-start; }', 
+        '.form-label { margin-bottom: 0; display: flex; justify-content: flex-start; }',
         'input[type="checkbox"] { margin-right: 0.5em; }',
         '.res { margin-left: auto; }'
-    ]
+    ],
+    standalone: false
 })
 export class TextableCheckboxComponent {
     @Input() label!: string;

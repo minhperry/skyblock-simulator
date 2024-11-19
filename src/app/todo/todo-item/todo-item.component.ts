@@ -3,9 +3,10 @@ import {Nullable, TodoNode} from "../../../interfaces/todo";
 import {TodoComponent} from "../todo.component";
 
 @Component({
-  selector: 'app-todo-item',
-  templateUrl: './todo-item.component.html',
-  styleUrl: 'todo-item.component.scss'
+    selector: 'app-todo-item',
+    templateUrl: './todo-item.component.html',
+    styleUrl: 'todo-item.component.scss',
+    standalone: false
 })
 export class TodoItemComponent {
     @Input() todo!: TodoNode

@@ -2,9 +2,10 @@ import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {Perk} from "../../interfaces/hotm/constantData";
 
 @Component({
-  selector: 'app-hotm',
-  templateUrl: './hotm.component.html',
-  styleUrl: './hotm.component.scss'
+    selector: 'app-hotm',
+    templateUrl: './hotm.component.html',
+    styleUrl: './hotm.component.scss',
+    standalone: false
 })
 export class HotmComponent implements OnInit {
   grid: Perk[][] = []

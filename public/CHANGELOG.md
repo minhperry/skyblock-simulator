@@ -41,12 +41,16 @@
 
 ### 0.6.3
 
-- **Backend**: Attempt to convert the app to Server Side Rendering. 
+- **Technical**: Attempt to convert the app to Server Side Rendering.
 
 ### 0.6.3.1
 
-- **Backend**: Improving and fix SSR issues
+- **Technical**: Improving and fix SSR issues
 
 ### 0.6.3.2
 
 - **Terminal**: More responsive design
+
+### 0.6.3.3
+
+- **Technical**: Migrate to Angular 19

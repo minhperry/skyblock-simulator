@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { RadioMapItem } from "../../../../interfaces/input";
 
 @Component({
-  selector: 'radio',
-  template: `
+    selector: 'radio',
+    template: `
     <div class="title">
         <span class="title-text">{{title}}</span>
         <span class="choice">{{choice}} <str/></span>
@@ -19,14 +19,15 @@ import { RadioMapItem } from "../../../../interfaces/input";
         </label>
     </div>
   `,
-  styles: [
-    '.title { display: flex; }',
-    '.title-text { margin-right: auto; font-size: 1.2em; }',
-    '.options { display: flex; flex-direction: column; }',
-    '.option { margin-left: 1em; }',
-    'input[type="radio"] { margin-right: 0.5em; }',
-    '.choice { margin-left: auto; }'
-  ]
+    styles: [
+        '.title { display: flex; }',
+        '.title-text { margin-right: auto; font-size: 1.2em; }',
+        '.options { display: flex; flex-direction: column; }',
+        '.option { margin-left: 1em; }',
+        'input[type="radio"] { margin-right: 0.5em; }',
+        '.choice { margin-left: auto; }'
+    ],
+    standalone: false
 })
 export class RadioComponent {
   @Input() options: RadioMapItem[] = [];

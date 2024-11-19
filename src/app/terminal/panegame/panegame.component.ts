@@ -5,13 +5,14 @@ import { TimerService } from '../../../services/timer.service';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  selector: 'panegame',
-  templateUrl: './panegame.component.html',
-  styleUrl: './panegame.component.scss',
-  providers: [
-    {provide: 'timeInMs', useValue: 100},
-    TimerService
-  ]
+    selector: 'panegame',
+    templateUrl: './panegame.component.html',
+    styleUrl: './panegame.component.scss',
+    providers: [
+        { provide: 'timeInMs', useValue: 100 },
+        TimerService
+    ],
+    standalone: false
 })
 export class PaneGameComponent implements OnInit, OnDestroy {
   config: GameConfig<null> = {

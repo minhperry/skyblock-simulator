@@ -3,9 +3,10 @@ import {DAY, HOUR, Mayor, mayorData, MINUTE} from "../../../interfaces/jerry";
 import {Utils} from "../../../services/utils";
 
 @Component({
-  selector: 'app-mayor-cycle',
-  templateUrl: './mayor-cycle.component.html',
-  styleUrl: './mayor-cycle.component.scss'
+    selector: 'app-mayor-cycle',
+    templateUrl: './mayor-cycle.component.html',
+    styleUrl: './mayor-cycle.component.scss',
+    standalone: false
 })
 export class MayorCycleComponent implements OnInit, OnDestroy {
     absoluteStartTime: number = 1728227700

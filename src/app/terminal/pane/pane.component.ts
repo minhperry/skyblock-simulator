@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { Cell } from '../../../interfaces/cell';
 
 @Component({
-  selector: 'pane',
-  templateUrl: './pane.component.html',
-  styleUrl: './pane.component.scss'
+    selector: 'pane',
+    templateUrl: './pane.component.html',
+    styleUrl: './pane.component.scss',
+    standalone: false
 })
 export class PaneComponent<T> implements OnChanges {
   @Input() grid: Cell<T>[][] = [];

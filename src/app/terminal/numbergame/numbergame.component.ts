@@ -5,13 +5,14 @@ import { GameConfig } from '../../../interfaces/game-config';
 import { TimerService } from '../../../services/timer.service';
 
 @Component({
-  selector: 'numbergame',
-  templateUrl: './numbergame.component.html',
-  styleUrl: './numbergame.component.scss',
-  providers: [
-    {provide: 'timeInMs', useValue: 100},
-    TimerService
-  ]
+    selector: 'numbergame',
+    templateUrl: './numbergame.component.html',
+    styleUrl: './numbergame.component.scss',
+    providers: [
+        { provide: 'timeInMs', useValue: 100 },
+        TimerService
+    ],
+    standalone: false
 })
 export class NumbergameComponent implements OnInit, OnDestroy {
   config: GameConfig<number> = {

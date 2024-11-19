@@ -3,9 +3,10 @@ import { CheckBoxItem, RadioItem, SliderItem } from '../../../interfaces/input';
 import { identity, NumStringFunc } from '../../../interfaces/functions';
 
 @Component({
-  selector: 'farming-fortune',
-  templateUrl: './farming-fortune.component.html',
-  styleUrl: './farming-fortune.component.scss'
+    selector: 'farming-fortune',
+    templateUrl: './farming-fortune.component.html',
+    styleUrl: './farming-fortune.component.scss',
+    standalone: false
 })
 export class FarmingFortuneComponent {
   defaultDisplay: NumStringFunc = (v) => v.toString();

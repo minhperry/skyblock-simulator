@@ -7,7 +7,8 @@ import {Queue} from "../../interfaces/collections";
 @Component({
     selector: 'app-fruit-digging',
     templateUrl: './fruit-digging.component.html',
-    styleUrl: './fruit-digging.component.scss'
+    styleUrl: './fruit-digging.component.scss',
+    standalone: false
 })
 export class FruitDiggingComponent implements OnInit {
     Q = new Queue<FruitCell>()

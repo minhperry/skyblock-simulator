@@ -3,9 +3,10 @@ import {DAY, HOUR, MINUTE} from "../../../interfaces/jerry";
 import {Utils} from "../../../services/utils"
 
 @Component({
-  selector: 'app-thank-you',
-  templateUrl: './thank-you.component.html',
-  styleUrl: './thank-you.component.scss'
+    selector: 'app-thank-you',
+    templateUrl: './thank-you.component.html',
+    styleUrl: './thank-you.component.scss',
+    standalone: false
 })
 export class ThankYouComponent implements OnInit, OnDestroy {
     nextJerry = 1739387700
