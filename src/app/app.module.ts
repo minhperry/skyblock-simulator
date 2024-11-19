@@ -10,7 +10,7 @@ import {NumbergameComponent} from './terminal/numbergame/numbergame.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {HomeComponent} from './home/home.component';
 import {ColorerComponent} from './terminal/colorer/colorer.component';
-import {MarkdownModule} from 'ngx-markdown';
+// import {MarkdownModule} from 'ngx-markdown';
 import {HttpClient, provideHttpClient, withFetch} from '@angular/common/http';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {MatSliderModule} from '@angular/material/slider';
@@ -70,7 +70,7 @@ import { HotmComponent } from './hotm/hotm.component';
     imports: [
         BrowserModule,
         AppRoutingModule,
-        MarkdownModule.forRoot({loader: HttpClient}),
+      // MarkdownModule.forRoot({loader: HttpClient}),
         MatSliderModule,
         FormsModule,
         ReactiveFormsModule,
