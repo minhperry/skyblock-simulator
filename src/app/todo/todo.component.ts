@@ -5,8 +5,7 @@ import {Utils} from "../../services/utils";
 @Component({
     selector: 'app-todo',
     templateUrl: './todo.component.html',
-    styleUrl: './todo.component.scss',
-    standalone: false
+    styleUrl: './todo.component.scss'
 })
 export class TodoComponent implements OnInit{
     categories: TodoCategory[] = []

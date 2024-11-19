@@ -5,8 +5,7 @@ import {TodoComponent} from "../todo.component";
 @Component({
     selector: 'app-todo-item',
     templateUrl: './todo-item.component.html',
-    styleUrl: 'todo-item.component.scss',
-    standalone: false
+    styleUrl: 'todo-item.component.scss'
 })
 export class TodoItemComponent {
     @Input() todo!: TodoNode

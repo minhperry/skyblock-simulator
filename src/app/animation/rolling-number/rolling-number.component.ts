@@ -4,8 +4,7 @@ import {identity} from "rxjs";
 @Component({
     selector: 'rolling-number',
     templateUrl: './rolling-number.component.html',
-    styleUrls: ['./rolling-number.component.scss'],
-    standalone: false
+    styleUrls: ['./rolling-number.component.scss']
 })
 export class RollingNumberComponent {
     public rollingCharacters: string[] = [];

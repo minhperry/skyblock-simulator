@@ -4,8 +4,7 @@ import {Nullable} from "../../interfaces/todo";
 @Component({
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
-    styleUrl: './navbar.component.scss',
-    standalone: false
+    styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
     searchText: Nullable<string> = null;

@@ -17,8 +17,7 @@ import { debounceTime, Subject } from 'rxjs';
       [value]="value" (input)="onSliderInput($event)" />
     </div>
   `,
-    styles: ['.form-label { margin-bottom: 0; display: flex; justify-content: space-between; }'],
-    standalone: false
+    styles: ['.form-label { margin-bottom: 0; display: flex; justify-content: space-between; }']
 })
 export class TextableSliderComponent {
   @Input() label!: string;

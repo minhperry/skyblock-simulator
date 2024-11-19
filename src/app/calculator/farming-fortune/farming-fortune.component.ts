@@ -5,8 +5,7 @@ import { identity, NumStringFunc } from '../../../interfaces/functions';
 @Component({
     selector: 'farming-fortune',
     templateUrl: './farming-fortune.component.html',
-    styleUrl: './farming-fortune.component.scss',
-    standalone: false
+    styleUrl: './farming-fortune.component.scss'
 })
 export class FarmingFortuneComponent {
   defaultDisplay: NumStringFunc = (v) => v.toString();

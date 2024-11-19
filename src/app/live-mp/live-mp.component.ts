@@ -13,8 +13,7 @@ type NumOrString = number | string
 @Component({
     selector: 'app-live-mp',
     templateUrl: './live-mp.component.html',
-    styleUrl: './live-mp.component.scss',
-    standalone: false
+    styleUrl: './live-mp.component.scss'
 })
 export class LiveMpComponent {
     columnConfigs: ColumnConfig[] = [

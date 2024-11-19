@@ -4,8 +4,7 @@ import { Cell } from '../../../interfaces/cell';
 @Component({
     selector: 'pane',
     templateUrl: './pane.component.html',
-    styleUrl: './pane.component.scss',
-    standalone: false
+    styleUrl: './pane.component.scss'
 })
 export class PaneComponent<T> implements OnChanges {
   @Input() grid: Cell<T>[][] = [];

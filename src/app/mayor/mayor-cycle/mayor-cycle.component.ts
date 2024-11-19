@@ -5,8 +5,7 @@ import {Utils} from "../../../services/utils";
 @Component({
     selector: 'app-mayor-cycle',
     templateUrl: './mayor-cycle.component.html',
-    styleUrl: './mayor-cycle.component.scss',
-    standalone: false
+    styleUrl: './mayor-cycle.component.scss'
 })
 export class MayorCycleComponent implements OnInit, OnDestroy {
     absoluteStartTime: number = 1728227700

@@ -26,8 +26,7 @@ import { RadioMapItem } from "../../../../interfaces/input";
         '.option { margin-left: 1em; }',
         'input[type="radio"] { margin-right: 0.5em; }',
         '.choice { margin-left: auto; }'
-    ],
-    standalone: false
+    ]
 })
 export class RadioComponent {
   @Input() options: RadioMapItem[] = [];

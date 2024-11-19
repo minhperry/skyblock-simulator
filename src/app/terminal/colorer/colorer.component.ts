@@ -10,8 +10,7 @@ import { TimerService } from '../../../services/timer.service';
     providers: [
         { provide: 'timeInMs', useValue: 100 },
         TimerService
-    ],
-    standalone: false
+    ]
 })
 export class ColorerComponent implements OnInit, OnDestroy {
   edgeSize = 3;

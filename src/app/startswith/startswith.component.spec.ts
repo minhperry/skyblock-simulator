@@ -8,8 +8,8 @@ describe('StartswithComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StartswithComponent]
-    })
+    imports: [StartswithComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(StartswithComponent);

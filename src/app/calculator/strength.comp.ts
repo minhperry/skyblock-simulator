@@ -5,8 +5,7 @@ import { Component } from '@angular/core';
     template: `
     <p class="str">❁</p>
   `,
-    styles: ['.str { color: #fb5858; display: inline; }'],
-    standalone: false
+    styles: ['.str { color: #fb5858; display: inline; }']
 })
 export class StrengthComponent {}
 
