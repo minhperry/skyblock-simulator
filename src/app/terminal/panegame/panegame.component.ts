@@ -1,8 +1,7 @@
-import { Component, forwardRef, OnDestroy, OnInit } from '@angular/core';
-import { Cell, CellState } from '../../../interfaces/cell';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {CellState} from '../../../interfaces/cell';
 import { GameConfig } from '../../../interfaces/game-config';
 import { TimerService } from '../../../services/timer.service';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
     selector: 'panegame',

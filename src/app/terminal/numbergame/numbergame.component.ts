@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import { Cell, CellState } from '../../../interfaces/cell';
 import { ChangeDetectorRef } from '@angular/core';
 import { GameConfig } from '../../../interfaces/game-config';
@@ -29,7 +29,7 @@ export class NumbergameComponent implements OnInit, OnDestroy {
   grid2NumMap: Map<{ row: number, col: number }, number> = new Map();
   num2GridMap: Map<number, { row: number, col: number }> = new Map();
 
-  constructor(private cd: ChangeDetectorRef, public timer: TimerService) {
+  constructor(public timer: TimerService) {
   }
 
   ngOnInit(): void {
@@ -79,10 +79,6 @@ export class NumbergameComponent implements OnInit, OnDestroy {
       this.config.grid[row][col].state = CellState.OFF;
       this.config.grid[orow][ocol].state = CellState.OFF;
     }
-  }
-
-  private existAll(numArr: number[]): boolean {
-    return numArr.every(num => num != undefined);
   }
 
   onCellClicked(cell: { row: number, col: number }) {
