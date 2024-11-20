@@ -3,13 +3,14 @@ import {Bomb, Fruit, FruitCell, Rum, ShovelMode, State} from "../../interfaces/f
 import {Nullable} from "../../interfaces/todo";
 import {Queue} from "../../interfaces/collections";
 import {CommonModule} from "@angular/common";
+import {RollingNumberComponent} from "../animation/rolling-number/rolling-number.component";
 
 // https://wiki.hypixel.net/Carnival#Fruit_Digging
 @Component({
   selector: 'app-fruit-digging',
   templateUrl: './fruit-digging.component.html',
   styleUrl: './fruit-digging.component.scss',
-  imports: [CommonModule]
+    imports: [CommonModule, RollingNumberComponent]
 })
 export class FruitDiggingComponent implements OnInit {
     Q = new Queue<FruitCell>()

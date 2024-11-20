@@ -2,13 +2,22 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GameConfig } from '../../../interfaces/game-config';
 import { Cell, next, random } from '../../../interfaces/cell';
 import { TimerService } from '../../../services/timer.service';
+import {MatSlider, MatSliderThumb} from "@angular/material/slider";
+import {PaneComponent} from "../pane/pane.component";
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
     selector: 'colorgame',
     templateUrl: './colorer.component.html',
     styleUrl: './colorer.component.scss',
+  imports: [
+    MatSlider,
+    PaneComponent,
+    MatSliderThumb,
+    NgOptimizedImage
+  ],
     providers: [
-        { provide: 'timeInMs', useValue: 100 },
+      {provide: 'timeInMs', useValue: 100},
         TimerService
     ]
 })

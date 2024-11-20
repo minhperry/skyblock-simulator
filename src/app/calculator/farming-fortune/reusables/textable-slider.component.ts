@@ -1,23 +1,28 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NumNumFunc, NumStringFunc } from '../../../../interfaces/functions';
 import { debounceTime, Subject } from 'rxjs';
+import {StrengthComponent} from "../../strength.comp";
 
 @Component({
-    selector: 'slider',
-    template: `
+  selector: 'slider',
+  template: `
     <div class="item {{label}}">
-    <label [for]="label" class="form-label">
+      <label [for]="label" class="form-label">
         {{ preString }} {{ displayValue }} {{ extraStr }}
         <div class="res">
-          {{ calculatedValue }} <str />
+          {{ calculatedValue }}
+          <str/>
         </div>
-    </label>
-    <input type="range" class="form-range" 
-      [id]="label" [min]="min" [max]="max" [step]="step" 
-      [value]="value" (input)="onSliderInput($event)" />
+      </label>
+      <input type="range" class="form-range"
+             [id]="label" [min]="min" [max]="max" [step]="step"
+             [value]="value" (input)="onSliderInput($event)"/>
     </div>
   `,
-    styles: ['.form-label { margin-bottom: 0; display: flex; justify-content: space-between; }']
+  imports: [
+    StrengthComponent
+  ],
+  styles: ['.form-label { margin-bottom: 0; display: flex; justify-content: space-between; }']
 })
 export class TextableSliderComponent {
   @Input() label!: string;

@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {BasePower, Color, PowerStone, Stats, StatsMultiplier} from "../../interfaces/base-power";
+import {NgStyle} from "@angular/common";
+import {FormsModule} from "@angular/forms";
 
 interface ColumnConfig {
     key: string,
@@ -13,6 +15,10 @@ type NumOrString = number | string
 @Component({
     selector: 'app-live-mp',
     templateUrl: './live-mp.component.html',
+    imports: [
+        NgStyle,
+        FormsModule
+    ],
     styleUrl: './live-mp.component.scss'
 })
 export class LiveMpComponent {

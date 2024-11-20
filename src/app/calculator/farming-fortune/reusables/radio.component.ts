@@ -1,24 +1,29 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { RadioMapItem } from "../../../../interfaces/input";
+import {StrengthComponent} from "../../strength.comp";
 
 @Component({
     selector: 'radio',
     template: `
-    <div class="title">
-        <span class="title-text">{{title}}</span>
-        <span class="choice">{{choice}} <str/></span>
-    </div>
-    <div class="options">
-        <label *ngFor="let option of options" class="option">
-            <input type="radio" 
-                [value]="option.value" 
-                [name]="label"
-                [checked]="option.value === choice"
-                (change)="onSelectionChange(option.value)" />
-            <span [innerHTML]="option.text"></span>
-        </label>
-    </div>
-  `,
+        <div class="title">
+            <span class="title-text">{{ title }}</span>
+            <span class="choice">{{ choice }}
+                <str/></span>
+        </div>
+        <div class="options">
+            <label *ngFor="let option of options" class="option">
+                <input type="radio"
+                       [value]="option.value"
+                       [name]="label"
+                       [checked]="option.value === choice"
+                       (change)="onSelectionChange(option.value)"/>
+                <span [innerHTML]="option.text"></span>
+            </label>
+        </div>
+    `,
+    imports: [
+        StrengthComponent
+    ],
     styles: [
         '.title { display: flex; }',
         '.title-text { margin-right: auto; font-size: 1.2em; }',

@@ -1,10 +1,14 @@
 import {Component, Input} from '@angular/core';
 import {Nullable, TodoNode} from "../../../interfaces/todo";
 import {TodoComponent} from "../todo.component";
+import {FormsModule} from "@angular/forms";
 
 @Component({
     selector: 'app-todo-item',
     templateUrl: './todo-item.component.html',
+    imports: [
+        FormsModule
+    ],
     styleUrl: 'todo-item.component.scss'
 })
 export class TodoItemComponent {

@@ -1,15 +1,21 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import { Cell, CellState } from '../../../interfaces/cell';
-import { ChangeDetectorRef } from '@angular/core';
 import { GameConfig } from '../../../interfaces/game-config';
 import { TimerService } from '../../../services/timer.service';
+import {PaneComponent} from "../pane/pane.component";
+import {MatSlider, MatSliderThumb} from "@angular/material/slider";
 
 @Component({
     selector: 'numbergame',
     templateUrl: './numbergame.component.html',
     styleUrl: './numbergame.component.scss',
+  imports: [
+    PaneComponent,
+    MatSlider,
+    MatSliderThumb
+  ],
     providers: [
-        { provide: 'timeInMs', useValue: 100 },
+      {provide: 'timeInMs', useValue: 100},
         TimerService
     ]
 })

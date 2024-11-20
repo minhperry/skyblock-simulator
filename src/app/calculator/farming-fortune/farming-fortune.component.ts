@@ -1,10 +1,26 @@
 import { Component } from '@angular/core';
 import { CheckBoxItem, RadioItem, SliderItem } from '../../../interfaces/input';
 import { identity, NumStringFunc } from '../../../interfaces/functions';
+import {FarmingFortunesComponent} from "../ff.comp";
+import {StrengthComponent} from "../strength.comp";
+import {TextableSliderComponent} from "./reusables/textable-slider.component";
+import {TextableCheckboxComponent} from "./reusables/textable-checkbox.component";
+import {RadioComponent} from "./reusables/radio.component";
+import {FormsModule} from "@angular/forms";
+import {NgClass} from "@angular/common";
 
 @Component({
     selector: 'farming-fortune',
     templateUrl: './farming-fortune.component.html',
+  imports: [
+    FarmingFortunesComponent,
+    StrengthComponent,
+    TextableSliderComponent,
+    TextableCheckboxComponent,
+    RadioComponent,
+    FormsModule,
+    NgClass
+  ],
     styleUrl: './farming-fortune.component.scss'
 })
 export class FarmingFortuneComponent {

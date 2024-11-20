@@ -2,18 +2,20 @@ import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {Nullable, TodoCategory, TodoNode} from "../../interfaces/todo";
 import {Utils} from "../../services/utils";
 import {TodoItemComponent} from "./todo-item/todo-item.component";
+import {FormsModule} from "@angular/forms";
 
 @Component({
     selector: 'app-todo',
     templateUrl: './todo.component.html',
     imports: [
-        TodoItemComponent
+        TodoItemComponent,
+        FormsModule
     ],
     styleUrl: './todo.component.scss'
 })
 export class TodoComponent implements OnInit{
     categories: TodoCategory[] = []
-    selectedCategory: Nullable<TodoCategory> = null
+    selectedCategory: TodoCategory | undefined = undefined
 
     nextTodoId = 1
     nextCategoryId = 1
@@ -46,7 +48,7 @@ export class TodoComponent implements OnInit{
 
         if (selected) {
             const selectedId = parseInt(selected, 10);
-            this.selectedCategory = this.categories.find(cat => cat.id === selectedId) || null;
+            this.selectedCategory = this.categories.find(cat => cat.id === selectedId);
         }
 
         this.readLocalStorage()
@@ -182,7 +184,7 @@ export class TodoComponent implements OnInit{
 
     private deleteCategory(index: number) {
         if (this.selectedCategory!.id === this.categories[index].id) {
-            this.selectedCategory = null
+            this.selectedCategory = undefined
             localStorage.removeItem('selected')
         }
         this.categories.splice(index, 1);
