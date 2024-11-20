@@ -1,6 +1,3 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideClientHydration, BrowserModule, bootstrapApplication } from '@angular/platform-browser';
@@ -16,7 +13,7 @@ import { importProvidersFrom } from '@angular/core';
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserModule, AppRoutingModule, 
+      importProvidersFrom(BrowserModule, AppRoutingModule,
         // MarkdownModule.forRoot({loader: HttpClient}),
         MatSliderModule, FormsModule, ReactiveFormsModule, MatIconModule, MatButtonModule, MatTableModule, NgOptimizedImage),
         provideHttpClient(withFetch()),

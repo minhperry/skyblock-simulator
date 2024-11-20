@@ -1,10 +1,14 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {Nullable, TodoCategory, TodoNode} from "../../interfaces/todo";
 import {Utils} from "../../services/utils";
+import {TodoItemComponent} from "./todo-item/todo-item.component";
 
 @Component({
     selector: 'app-todo',
     templateUrl: './todo.component.html',
+    imports: [
+        TodoItemComponent
+    ],
     styleUrl: './todo.component.scss'
 })
 export class TodoComponent implements OnInit{

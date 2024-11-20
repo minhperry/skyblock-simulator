@@ -2,12 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {Bomb, Fruit, FruitCell, Rum, ShovelMode, State} from "../../interfaces/fruit-game";
 import {Nullable} from "../../interfaces/todo";
 import {Queue} from "../../interfaces/collections";
+import {CommonModule} from "@angular/common";
 
 // https://wiki.hypixel.net/Carnival#Fruit_Digging
 @Component({
-    selector: 'app-fruit-digging',
-    templateUrl: './fruit-digging.component.html',
-    styleUrl: './fruit-digging.component.scss'
+  selector: 'app-fruit-digging',
+  templateUrl: './fruit-digging.component.html',
+  styleUrl: './fruit-digging.component.scss',
+  imports: [CommonModule]
 })
 export class FruitDiggingComponent implements OnInit {
     Q = new Queue<FruitCell>()
