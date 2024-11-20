@@ -1,15 +1,15 @@
-@import '../../variables.scss';
+@use '../../variables.scss' as vars;
 
 .home {
     text-align: center;
     margin: 50px 30px 50px;
 
     h1 {
-        color: $color-muted
+        color: vars.$color-muted;
     }
 
     p {
-        color: $color-text
+        color: vars.$color-text;
     }
 }
 

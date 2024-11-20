@@ -35,18 +35,18 @@ $skyblock-theme: mat.define-theme((
 
 // Comment out the line below if you want to use the deprecated `color` inputs.
 // @include mat.color-variants-backwards-compatibility($skyblock-theme);
-@import 'variables';
+@use 'variables' as vars;
 
 :root {
     color-scheme: light dark;
-    color: $color-text;
+    color: vars.$color-text;
 }
 
 html,
 body {
     height: 100%;
-    background-color: $primBackgroundColor;
-    color: $primTextColor;
+    background-color: vars.$primBackgroundColor;
+    color: vars.$primTextColor;
     margin: 0;
 }
 

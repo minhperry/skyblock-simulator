@@ -1,4 +1,4 @@
-@import '../../commons';
+@use '../../commons' as commons;
 
 :host {
   --grid-size: 3rem;
@@ -27,7 +27,7 @@
 }
 
 .grid7x7 {
-  @include grid(7, 7, 0.25rem);
+  @include commons.grid(7, 7, 0.25rem);
 
   &.original {
     z-index: 1;
@@ -45,7 +45,7 @@
 }
 
 .grid3x5 {
-  @include grid(5, 3, 0);
+  @include commons.grid(5, 3, 0);
 }
 
 

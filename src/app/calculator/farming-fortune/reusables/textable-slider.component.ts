@@ -51,11 +51,7 @@ export class TextableSliderComponent {
   }
 
   get displayValue() {
-    if (typeof this.display === 'string') {
-      return this.display;
-    } else {
-      return this.display(this.value);
-    }
+    return this.display(this.value);
   }
 
   onSliderInput(event: Event) {

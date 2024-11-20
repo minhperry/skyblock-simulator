@@ -1,7 +1,7 @@
-@import '../../commons';
+@use '../../commons';
 
 .grid7x10 {
-  @include grid(7, 10, 0.25rem);
+  @include commons.grid(7, 10, 0.25rem);
 }
 
 .inventory-view {
