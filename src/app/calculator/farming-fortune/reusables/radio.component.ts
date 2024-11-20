@@ -6,21 +6,23 @@ import {StrengthComponent} from "../../strength.comp";
     selector: 'radio',
     template: `
         <div class="title">
-            <span class="title-text">{{ title }}</span>
-            <span class="choice">{{ choice }}
-                <str/></span>
+          <span class="title-text">{{ title }}</span>
+          <span class="choice">{{ choice }}
+          <str/></span>
         </div>
         <div class="options">
-            <label *ngFor="let option of options" class="option">
-                <input type="radio"
-                       [value]="option.value"
-                       [name]="label"
-                       [checked]="option.value === choice"
-                       (change)="onSelectionChange(option.value)"/>
-                <span [innerHTML]="option.text"></span>
+          @for (option of options; track option) {
+            <label class="option">
+              <input type="radio"
+                [value]="option.value"
+                [name]="label"
+                [checked]="option.value === choice"
+                (change)="onSelectionChange(option.value)"/>
+              <span [innerHTML]="option.text"></span>
             </label>
+          }
         </div>
-    `,
+        `,
     imports: [
         StrengthComponent
     ],

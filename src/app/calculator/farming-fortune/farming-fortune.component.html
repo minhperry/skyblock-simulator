@@ -1,191 +1,191 @@
 <div class="wrapper container" data-bs-theme="dark">
-    <div class="accordion" id="what">
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#reqs" aria-expanded="false" aria-controls="reqs">
-                    <b> &#x26A0; Requirements &#x26A0; </b>
-                </button>
-            </h2>
-            <div id="reqs" class="accordion-collapse collapse" data-bs-parent="#what">
-                <div class="accordion-body">
-                    <p> This setup assumes you have the following:</p>
-                    <ul>
-                        <li>All armors and equipments on
-                            <ff /> reforges, none on
-                            <str /> reforges.
-                        </li>
-                        <li>
-                            Your
-                            <ff /> setup stays the same during the comparision.
-                        </li>
-                        <li>
-                            You are not using any temporarty
-                            <str /> boosts like Gravity Talisman or Weird Tuba.
-                        </li>
-                        <li>
-                            You are either using Elephant or Mooshroom Cow pet Level 100 only, with the same pet item on
-                            both.
-                        </li>
-                        <li>
-                            You are using dedicated farming tools instead of Daedalus Axe.
-                        </li>
-                        <li>
-                            You are using Forceful power with
-                            <str /> Tuning.
-                        </li>
-                    </ul>
-                    <p>
-                        The main point of this is to see with which pet you would have more
-                        <ff /> Farming Fortune with.
-                    </p>
-                </div>
-            </div>
+  <div class="accordion" id="what">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#reqs" aria-expanded="false" aria-controls="reqs">
+          <b> &#x26A0; Requirements &#x26A0; </b>
+        </button>
+      </h2>
+      <div id="reqs" class="accordion-collapse collapse" data-bs-parent="#what">
+        <div class="accordion-body">
+          <p> This setup assumes you have the following:</p>
+          <ul>
+            <li>All armors and equipments on
+              <ff /> reforges, none on
+              <str /> reforges.
+            </li>
+            <li>
+              Your
+              <ff /> setup stays the same during the comparision.
+            </li>
+            <li>
+              You are not using any temporarty
+              <str /> boosts like Gravity Talisman or Weird Tuba.
+            </li>
+            <li>
+              You are either using Elephant or Mooshroom Cow pet Level 100 only, with the same pet item on
+              both.
+            </li>
+            <li>
+              You are using dedicated farming tools instead of Daedalus Axe.
+            </li>
+            <li>
+              You are using Forceful power with
+              <str /> Tuning.
+            </li>
+          </ul>
+          <p>
+            The main point of this is to see with which pet you would have more
+            <ff /> Farming Fortune with.
+          </p>
         </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#discl" aria-expanded="false" aria-controls="discl">
-                    Disclaimer
-                </button>
-            </h2>
-            <div id="discl" class="accordion-collapse collapse" data-bs-parent="#what">
-                <div class="accordion-body">
-                    <p>
-                        Even when having more <ff/> with Elephant, you still get more money per hour with Mooshroom because
-                        of all the extra mushroom drops.
-                    </p>
-                    <p>
-                        Artifact/Relic of Power with Jasper is currently ignored because incorrect Wiki result.
-                        Please make an issue in the GitHub repo under Misc if you have the correct values.
-                    </p>
-                    <p>
-                        Any other improvements or suggestions are welcome.
-                    </p>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
-
-
-    <div class="accordion" id="calc">
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sliders"
-                    aria-expanded="true" aria-controls="sliders">
-                    Levels/Tiers
-                </button>
-            </h2>
-            <div class="accordion-collapse collapse show" id="sliders" data-bs-parent="#calc">
-                <div class="accordion-body">
-                    <ng-container *ngFor="let sl of sliders">
-                        <slider [min]="sl.min ?? 0" [max]="sl.max" [step]="sl.step"
-                            [label]="sl.label"
-                            [preString]="sl.preString"
-                            [extraStr]="sl.extraStr ?? ''"
-                            [fromValue]="sl.func"
-                            [display]="sl.display ?? defaultDisplay"
-                            [(value)]="sl.value"
-                            (valueChange)="calcTotal()"/>
-                    </ng-container>
-                </div>
-            </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#discl" aria-expanded="false" aria-controls="discl">
+          Disclaimer
+        </button>
+      </h2>
+      <div id="discl" class="accordion-collapse collapse" data-bs-parent="#what">
+        <div class="accordion-body">
+          <p>
+            Even when having more <ff/> with Elephant, you still get more money per hour with Mooshroom because
+            of all the extra mushroom drops.
+          </p>
+          <p>
+            Artifact/Relic of Power with Jasper is currently ignored because incorrect Wiki result.
+            Please make an issue in the GitHub repo under Misc if you have the correct values.
+          </p>
+          <p>
+            Any other improvements or suggestions are welcome.
+          </p>
         </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#toggles"
-                    aria-expanded="true" aria-controls="toggles">
-                    Permanent Source Toggle
-                </button>
-            </h2>
-            <div class="accordion-collapse collapse show" id="toggles" data-bs-parent="#calc">
-                <div class="accordion-body">
-                    <ng-container *ngFor="let box of checkboxes; let i = index">
-                        <checkbox [check]="box.check" [label]="box.label"
-                            [value]="box.value"
-                            [text]="box.text"
-                            (checkChange)="onStateChange($event, i)" />
-                    </ng-container>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#line"
-                    aria-expanded="true" aria-controls="line">
-                    Line of Accessories
-                </button>
-            </h2>
-            <div class="accordion-collapse collapse show" id="line" data-bs-parent="#calc">
-                <div class="accordion-body">
-                    <ng-container *ngFor="let rad of radios; let i = index">
-                        <radio [options]="rad.options"
-                            [label]="rad.label"
-                            [title]="rad.title"
-                            [(choice)]="rad.choice"
-                            (choiceChange)="selectionChanged($event, i)"
-                        />
-                    </ng-container>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="mp">
-        <div class="input-group mb-3 mt-3">
-            <input type="number" class="form-control" min="0" max="999999"
-                placeholder="Your magical power"
-                aria-label="MP" aria-describedby="magical-power"
-                [(ngModel)]="mp" (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
-                (input)="calcTotal()">
-            <span class="input-group-text" id="magical-power">Magical Power</span>
+
+  <div class="accordion" id="calc">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sliders"
+          aria-expanded="true" aria-controls="sliders">
+          Levels/Tiers
+        </button>
+      </h2>
+      <div class="accordion-collapse collapse show" id="sliders" data-bs-parent="#calc">
+        <div class="accordion-body">
+          @for (sl of sliders; track sl) {
+            <slider [min]="sl.min ?? 0" [max]="sl.max" [step]="sl.step"
+              [label]="sl.label"
+              [preString]="sl.preString"
+              [extraStr]="sl.extraStr ?? ''"
+              [fromValue]="sl.func"
+              [display]="sl.display ?? defaultDisplay"
+              [(value)]="sl.value"
+              (valueChange)="calcTotal()"/>
+          }
         </div>
-        <div class="text">
-            <span>
-                {{mp ?? 0}} Magical Power
-                <div class="numb">
-                    {{ strengthFromMP }}
-                    <str />
-                </div>
-            </span>
-            <span>
-                {{ tuning }} Tuning Points
-                <div class="numb">
-                    {{ tuning }}
-                    <str />
-                </div>
-            </span>
-        </div>
+      </div>
     </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#toggles"
+          aria-expanded="true" aria-controls="toggles">
+          Permanent Source Toggle
+        </button>
+      </h2>
+      <div class="accordion-collapse collapse show" id="toggles" data-bs-parent="#calc">
+        <div class="accordion-body">
+          @for (box of checkboxes; track box; let i = $index) {
+            <checkbox [check]="box.check" [label]="box.label"
+              [value]="box.value"
+              [text]="box.text"
+              (checkChange)="onStateChange($event, i)" />
+          }
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#line"
+          aria-expanded="true" aria-controls="line">
+          Line of Accessories
+        </button>
+      </h2>
+      <div class="accordion-collapse collapse show" id="line" data-bs-parent="#calc">
+        <div class="accordion-body">
+          @for (rad of radios; track rad; let i = $index) {
+            <radio [options]="rad.options"
+              [label]="rad.label"
+              [title]="rad.title"
+              [(choice)]="rad.choice"
+              (choiceChange)="selectionChanged($event, i)"
+              />
+          }
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <span class="final mt-3">
-        Total:
+  <div class="mp">
+    <div class="input-group mb-3 mt-3">
+      <input type="number" class="form-control" min="0" max="999999"
+        placeholder="Your magical power"
+        aria-label="MP" aria-describedby="magical-power"
+        [(ngModel)]="mp" (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
+        (input)="calcTotal()">
+      <span class="input-group-text" id="magical-power">Magical Power</span>
+    </div>
+    <div class="text">
+      <span>
+        {{mp ?? 0}} Magical Power
         <div class="numb">
-            {{ totalStr }}
-            <str />
+          {{ strengthFromMP }}
+          <str />
         </div>
-    </span>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 d-flex align-items-center">
-                <div class="image-text-container" [ngClass]="{'highlight': isWinner('mcow')}">
-                    <div class="image mcow"></div>
-                    <div class="text">
-                        {{ mCowFf }}
-                        <ff /> Farming Fortune
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 d-flex align-items-center">
-                <div class="image-text-container" [ngClass]="{'highlight': isWinner('ele')}">
-                    <div class="image ele"></div>
-                    <div class="text">
-                        {{ eleFf }}
-                        <ff /> Farming Fortune
-                    </div>
-                </div>
-            </div>
+      </span>
+      <span>
+        {{ tuning }} Tuning Points
+        <div class="numb">
+          {{ tuning }}
+          <str />
         </div>
+      </span>
     </div>
+  </div>
+
+  <span class="final mt-3">
+    Total:
+    <div class="numb">
+      {{ totalStr }}
+      <str />
+    </div>
+  </span>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 d-flex align-items-center">
+        <div class="image-text-container" [ngClass]="{'highlight': isWinner('mcow')}">
+          <div class="image mcow"></div>
+          <div class="text">
+            {{ mCowFf }}
+            <ff /> Farming Fortune
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 d-flex align-items-center">
+        <div class="image-text-container" [ngClass]="{'highlight': isWinner('ele')}">
+          <div class="image ele"></div>
+          <div class="text">
+            {{ eleFf }}
+            <ff /> Farming Fortune
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

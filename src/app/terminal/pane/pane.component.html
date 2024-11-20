@@ -1,10 +1,16 @@
 <div class="grid">
-    <div *ngFor="let row of grid; let i = index" class="row">
-        <div *ngFor="let cell of row; let j = index" class="pane" [class]="cell.state"
-            (mousedown)="handleCellClick(i, j)">
-            <span *ngIf="cell.value !== undefined" class="number" [style.fontSize]="fontSize">
-                {{ cell.value !== 1 ? cell.value : '' }}
+  @for (row of grid; track row; let i = $index) {
+    <div class="row">
+      @for (cell of row; track cell; let j = $index) {
+        <div class="pane" [class]="cell.state"
+          (mousedown)="handleCellClick(i, j)">
+          @if (cell.value !== undefined) {
+            <span class="number" [style.fontSize]="fontSize">
+              {{ cell.value !== 1 ? cell.value : '' }}
             </span>
+          }
         </div>
+      }
     </div>
+  }
 </div>

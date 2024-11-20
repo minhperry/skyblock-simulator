@@ -1,28 +1,36 @@
 <div class="container-sm" data-bs-theme="dark">
 
-    <div class="input-group mb-3 mt-3 sticky-top">
-        <input type="number" class="form-control" min="0" max="999999"
-               placeholder="Your magical power"
-               aria-label="MP" aria-describedby="magical-power"
-               [(ngModel)]="magicalPower" (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
-               >
-        <span class="input-group-text" id="magical-power">Magical Power</span>
-    </div>
-    <table class="table table-hover table-sm">
-        <thead>
+  <div class="input-group mb-3 mt-3 sticky-top">
+    <input type="number" class="form-control" min="0" max="999999"
+      placeholder="Your magical power"
+      aria-label="MP" aria-describedby="magical-power"
+      [(ngModel)]="magicalPower" (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
+      >
+    <span class="input-group-text" id="magical-power">Magical Power</span>
+  </div>
+  <table class="table table-hover table-sm">
+    <thead>
+      <tr>
+        @for (column of columnConfigs; track column) {
+          <th [ngStyle]="column.styles" class="text-center align-middle sticky-top">
+            @if (column.unicode) {
+              <span [innerHTML]="toHex(column.unicode)"> </span>
+            }
+            <span class="d-none d-lg-inline">{{ column.headerText }}</span>
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      @for (stone of stats; track stone) {
         <tr>
-            <th *ngFor="let column of columnConfigs" [ngStyle]="column.styles" class="text-center align-middle sticky-top">
-                <span *ngIf="column.unicode" [innerHTML]="toHex(column.unicode)"> </span>
-                <span class="d-none d-lg-inline">{{ column.headerText }}</span>
-            </th>
-        </tr>
-        </thead>
-        <tbody class="table-group-divider">
-        <tr *ngFor="let stone of stats">
-            <td *ngFor="let col of columnConfigs" [ngStyle]="{'color': col.styles?.color}" class="text-center align-middle">
-                {{ col.key !== 'name' ? calculate(stone, col.key) : getBasePowerValue(stone, col.key) }}
+          @for (col of columnConfigs; track col) {
+            <td [ngStyle]="{'color': col.styles?.color}" class="text-center align-middle">
+              {{ col.key !== 'name' ? calculate(stone, col.key) : getBasePowerValue(stone, col.key) }}
             </td>
+          }
         </tr>
-        </tbody>
-    </table>
+      }
+    </tbody>
+  </table>
 </div>

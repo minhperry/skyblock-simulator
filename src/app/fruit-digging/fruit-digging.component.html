@@ -1,93 +1,102 @@
 <div class="container-sm d-flex justify-content-center flex-column flex-md-row" data-bs-theme="dark">
-    <div class="grz-wrapper mx-auto position-relative align-items-center d-flex">
-        <div class="grid7x7 original">
-            <div (click)="handleClick(i)"
-                 *ngFor="let cell of content; let i = index"
-                 [ngClass]="['grid-item', cell, ]">
-                <div class="user-select-none scaled" *ngIf="debug" style="color: blue; font-weight: bold">{{ i }}
-                </div>
+  <div class="grz-wrapper mx-auto position-relative align-items-center d-flex">
+    <div class="grid7x7 original">
+      @for (cell of content; track cell; let i = $index) {
+        <div (click)="handleClick(i)"
+          [ngClass]="['grid-item', cell, ]">
+          @if (debug) {
+            <div class="user-select-none scaled" style="color: blue; font-weight: bold">{{ i }}
             </div>
+          }
         </div>
-
-        <div class="grid7x7 reference" *ngIf="debug">
-            <div *ngFor="let cell of getFruitContents(); let i = index"
-                 [ngClass]="['grid-item', cell, 'scaled']">
-            </div>
-        </div>
+      }
     </div>
 
-    <div class="d-flex container align-items-center flex-column justify-content-center mt-3 mt-md-0 second-div">
-        <div class="d-flex flex-column justify-content-center my-2">
-            <rolling-number [value]="points" [transitionInMs]="750" [size]="'28px'"/>
+    @if (debug) {
+      <div class="grid7x7 reference">
+        @for (cell of getFruitContents(); track cell; let i = $index) {
+          <div
+            [ngClass]="['grid-item', cell, 'scaled']">
+          </div>
+        }
+      </div>
+    }
+  </div>
 
-            <div class="d-flex justify-content-center"> {{ reason }}</div>
-        </div>
+  <div class="d-flex container align-items-center flex-column justify-content-center mt-3 mt-md-0 second-div">
+    <div class="d-flex flex-column justify-content-center my-2">
+      <rolling-number [value]="points" [transitionInMs]="750" [size]="'28px'"/>
 
-        <div class="d-flex align-items-center justify-content-center bordered"
-             (click)="changeMode()"
-        >
-            <div [ngClass]="[shovelMode, 'shovel']"></div>
-            <div class="user-select-none ms-2" [innerHTML]="shovelModeDesc"></div>
-        </div>
-
-        <div class="my-2">
-            <div [innerHTML]="shovelMessage"></div>
-        </div>
-
-
-        <div class="grid3x5">
-            <!-- Loop through 15 divs and conditionally apply classes based on the current turn -->
-            <div *ngFor="let i of [].constructor(15); let idx = index" class="counter">
-                <div [ngClass]="['shovel', 'scaled', shovelMode, idx < (15 - turn) ? '' : 'touched']"></div>
-                </div>
-        </div>
-
-        <div class="d-flex justify-content-center my-2">
-            <button class="btn btn-outline-primary mx-2" (click)="restart()">Restart</button>
-            <button class="btn btn-outline-secondary mx-2" (click)="show()">Show</button>
-        </div>
+      <div class="d-flex justify-content-center"> {{ reason }}</div>
     </div>
+
+    <div class="d-flex align-items-center justify-content-center bordered"
+      (click)="changeMode()"
+      >
+      <div [ngClass]="[shovelMode, 'shovel']"></div>
+      <div class="user-select-none ms-2" [innerHTML]="shovelModeDesc"></div>
+    </div>
+
+    <div class="my-2">
+      <div [innerHTML]="shovelMessage"></div>
+    </div>
+
+
+    <div class="grid3x5">
+      <!-- Loop through 15 divs and conditionally apply classes based on the current turn -->
+      @for (i of [].constructor(15); track i; let idx = $index) {
+        <div class="counter">
+          <div [ngClass]="['shovel', 'scaled', shovelMode, idx < (15 - turn) ? '' : 'touched']"></div>
+        </div>
+      }
+    </div>
+
+    <div class="d-flex justify-content-center my-2">
+      <button class="btn btn-outline-primary mx-2" (click)="restart()">Restart</button>
+      <button class="btn btn-outline-secondary mx-2" (click)="show()">Show</button>
+    </div>
+  </div>
 </div>
 <div class="container-sm">
-    <div class="accordion" id="fruitguide" data-bs-theme="dark">
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#guide"
-                        aria-expanded="false" aria-controls="guide">
-                    Game Guide
-                </button>
-            </h2>
-            <div id="guide" class="accordion-collapse collapse" data-bs-parent="#fruitguide">
-                <div class="accordion-body">
-                    <h5>Every data and ability is taken from
-                        <a href="https://wiki.hypixel.net/Carnival#Fruit_digging">
-                            Carnival's Wiki Entry</a>.
-                    </h5>
-                    <p>However, there are some uncertainties that I have added my own implementation:</p>
-                    <ul>
-                        <li>Rums only replace Mangoes and Apples.</li>
-                        <li>There are some "encouraging points": Rum gives 8, Bomb gives 2 when exploded and 4 when
-                            saved by Coconut.
-                        </li>
-                        <li>
-                            Bombs blows up <b>some</b> fruit but not all.
-                            <b class="mc red">There is currently a bug that it can blow up none of the fruits.</b>
-                        </li>
-                        <li>
-                            Watermelon can chain.
-                        </li>
-                        <li>
-                            There is a cooldown of 0.75s between clicks.
-                        </li>
-                    </ul>
-                    <p>
-                        For debubgging and bug reporting, click this
-                        <button class="btn btn-outline-warning mx-2" (click)="debug=!debug">Debug</button>
-                        button.
-                        This will overlay the underlying fruit over current grid.
-                    </p>
-                </div>
-            </div>
+  <div class="accordion" id="fruitguide" data-bs-theme="dark">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#guide"
+          aria-expanded="false" aria-controls="guide">
+          Game Guide
+        </button>
+      </h2>
+      <div id="guide" class="accordion-collapse collapse" data-bs-parent="#fruitguide">
+        <div class="accordion-body">
+          <h5>Every data and ability is taken from
+            <a href="https://wiki.hypixel.net/Carnival#Fruit_digging">
+            Carnival's Wiki Entry</a>.
+          </h5>
+          <p>However, there are some uncertainties that I have added my own implementation:</p>
+          <ul>
+            <li>Rums only replace Mangoes and Apples.</li>
+            <li>There are some "encouraging points": Rum gives 8, Bomb gives 2 when exploded and 4 when
+              saved by Coconut.
+            </li>
+            <li>
+              Bombs blows up <b>some</b> fruit but not all.
+              <b class="mc red">There is currently a bug that it can blow up none of the fruits.</b>
+            </li>
+            <li>
+              Watermelon can chain.
+            </li>
+            <li>
+              There is a cooldown of 0.75s between clicks.
+            </li>
+          </ul>
+          <p>
+            For debubgging and bug reporting, click this
+            <button class="btn btn-outline-warning mx-2" (click)="debug=!debug">Debug</button>
+            button.
+            This will overlay the underlying fruit over current grid.
+          </p>
         </div>
+      </div>
     </div>
+  </div>
 </div>

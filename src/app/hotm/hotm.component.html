@@ -1,9 +1,11 @@
 <div class="container-sm d-flex justify-content-center flex-column flex-md-row" data-bs-theme="dark">
   <div class="container grid7x10">
-    <ng-container *ngFor="let line of grid">
-      <div *ngFor="let sq of line"
-           class="slot" [class]="sq"
-      ></div>
-    </ng-container>
+    @for (line of grid; track line) {
+      @for (sq of line; track sq) {
+        <div
+          class="slot" [class]="sq"
+        ></div>
+      }
+    }
   </div>
 </div>
