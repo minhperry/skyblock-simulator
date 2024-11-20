@@ -13,12 +13,22 @@ import { importProvidersFrom } from '@angular/core';
 
 bootstrapApplication(AppComponent, {
     providers: [
-      importProvidersFrom(BrowserModule, AppRoutingModule,
-        // MarkdownModule.forRoot({loader: HttpClient}),
-        MatSliderModule, FormsModule, ReactiveFormsModule, MatIconModule, MatButtonModule, MatTableModule, NgOptimizedImage),
+        importProvidersFrom(
+            BrowserModule,
+            AppRoutingModule,
+            // MarkdownModule.forRoot({loader: HttpClient}),
+            MatSliderModule,
+            FormsModule,
+            ReactiveFormsModule,
+            MatIconModule,
+            MatButtonModule,
+            MatTableModule,
+            NgOptimizedImage
+        ),
         provideHttpClient(withFetch()),
         provideAnimationsAsync(),
-        provideClientHydration()
+        provideClientHydration(),
+        // AppServerModule
     ]
 })
   .catch(err => console.error(err));
