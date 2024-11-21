@@ -1,4 +1,4 @@
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {HttpClient, provideHttpClient, withFetch} from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideClientHydration, BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { AppRoutingModule } from './app/app-routing.module';
@@ -10,13 +10,14 @@ import { MatTableModule } from '@angular/material/table';
 import { NgOptimizedImage } from '@angular/common';
 import { AppComponent } from './app/app.component';
 import { importProvidersFrom } from '@angular/core';
+import {MarkdownModule} from "ngx-markdown";
 
 bootstrapApplication(AppComponent, {
     providers: [
         importProvidersFrom(
             BrowserModule,
             AppRoutingModule,
-            // MarkdownModule.forRoot({loader: HttpClient}),
+            MarkdownModule.forRoot({loader: HttpClient}),
             MatSliderModule,
             FormsModule,
             ReactiveFormsModule,

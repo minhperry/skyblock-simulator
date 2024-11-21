@@ -53,4 +53,5 @@
 
 ### 0.6.3.3
 
-- **Technical**: Migrate to Angular 19
+- Migrate to Angular 19
+- Migrate to standalone components
