@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
-import {Perk} from "../../interfaces/hotm/constantData";
+import {Perk} from "../../interfaces/constantData";
 
 @Component({
     selector: 'app-hotm',
