@@ -18,7 +18,7 @@ export interface NumberTuple {
     second: number,
 }
 
-export type PerkFunction = (level: number) => number | NumberTuple;
+export type PerkFunction = (level: number) => NumberTuple;
 export type PowderFunction = (level: number) => number;
 
 export function floorOfNextPlusOneExp(exp: number): (v: number) => number {

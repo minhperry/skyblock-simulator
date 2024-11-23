@@ -24,11 +24,14 @@
           <p>Levelable Perk</p>
           <span class="mc gray">Level {{ selected.state.currentLevel }}</span>
           <span class="mc darkgray">/{{ selected.perk.maxLevel }}</span>
+          <br/>
+          <span [innerHTML]="parse(getDescCalced(selected)) | safeHtml"></span>
         } @else if (isAbility(selected)) {
           <p>Ability</p>
+          <span [innerHTML]="parse(selected.perk.description) | safeHtml"></span>
         } @else {
           <p>Static Perk</p>
-          <span [innerHTML]="parse(selected.perk.description)"></span>
+          <span [innerHTML]="parse(selected.perk.description) | safeHtml"></span>
         }
       }
     </div>

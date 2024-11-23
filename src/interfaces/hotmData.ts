@@ -147,7 +147,7 @@ export const InitialHotmTree: TreeNode[] = [
       name: 'Mining Speed',
       description: `§7Grants §6+#{1} ${StatSymbolString.MINING_SPEED}§7.`,
       maxLevel: 50,
-      perkFunc: l => l * 20,
+      perkFunc: l => ({first: l + 20, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3),
       powderType: PowderType.MITHRIL,
       requires: [],
@@ -160,7 +160,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.MINING_SPEED_BOOST,
     perk: {
       name: 'Mining Speed Boost',
-      description: `§7Grants §6+250% ${StatSymbolString.MINING_SPEED} for §a15s§7.`,
+      description: `§7Grants §6+250% ${StatSymbolString.MINING_SPEED}§7 for §a15s§7.`,
       requires: [HotmNode.PRECISION_MINING]
     },
     position: {x: 1, y: 8},
@@ -182,7 +182,7 @@ export const InitialHotmTree: TreeNode[] = [
       name: 'Mining Fortune',
       description: `§7Grants §6+#{1} ${StatSymbolString.FORTUNE}§7.`,
       maxLevel: 50,
-      perkFunc: l => l * 2,
+      perkFunc: l => ({first: l * 20, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.05),
       powderType: PowderType.MITHRIL,
       requires: [HotmNode.MINING_SPEED]

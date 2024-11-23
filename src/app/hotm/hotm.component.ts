@@ -1,10 +1,10 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {AbilityState, InitialHotmTree, PerkState, TreeNode} from "../../interfaces/hotmData";
 import {NgClass} from "@angular/common";
-
 import {Nullable} from "../../interfaces/types";
 import {autoToHTML as parse} from "@sfirew/minecraft-motd-parser";
-import {DomSanitizer} from "@angular/platform-browser";
+import {SafeHtmlPipe} from "../../pipes/safe-html.pipe";
+import {PerkFunction} from "../../interfaces/functions";
 
 @Component({
   selector: 'app-hotm',
@@ -12,6 +12,7 @@ import {DomSanitizer} from "@angular/platform-browser";
   styleUrl: './hotm.component.scss',
   imports: [
     NgClass,
+    SafeHtmlPipe,
   ]
 })
 export class HotmComponent implements OnInit {
@@ -21,7 +22,6 @@ export class HotmComponent implements OnInit {
   constructor(
     // private hotm: HotmBackendService
     @Inject(PLATFORM_ID) private platform: Object,
-    private san: DomSanitizer
   ) {
   }
 
@@ -70,11 +70,19 @@ export class HotmComponent implements OnInit {
     return node ? this.stateIsAbility(node.state.state) : false;
   }
 
+  protected getDescCalced(node: Nullable<TreeNode>) {
+    const asTN = this.asTreeNode(node)
+    const curr = asTN.state.currentLevel as number;
+    const desc = asTN.perk.description;
+
+    const func = asTN.perk.perkFunc as PerkFunction
+    const calculated = func(curr).first.toString();
+    return desc.replace('#{1}', calculated)
+  }
+
   private stateIsAbility(state: AbilityState | PerkState): boolean {
     return Object.values(AbilityState).includes(state as AbilityState)
   }
 
-  protected parse(content: string | object): string {
-    return this.san.bypassSecurityTrustHtml(parse(content)) as string
-  }
+  protected readonly parse = parse
 }
