@@ -1,8 +1,9 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
-import {Nullable, TodoCategory, TodoNode} from "../../interfaces/todo";
+import {TodoCategory, TodoNode} from "../../interfaces/todo";
 import {Utils} from "../../services/utils";
 import {TodoItemComponent} from "./todo-item/todo-item.component";
 import {FormsModule} from "@angular/forms";
+import {Nullable} from "../../interfaces/types";
 
 @Component({
     selector: 'app-todo',

@@ -1,7 +1,18 @@
 <div class="container-sm d-flex justify-content-center flex-column flex-md-row" data-bs-theme="dark">
-  <div class="container grid7x10">
-    <div>
-
-    </div>
+  <div class="container grid7x10 inventory-view">
+    @for (row of grid; track r; let r = $index) {
+      @for (node of row; track it; let it = $index) {
+        @if (isNotNull(node)) {
+          <div class="inventory-slot rich-item">
+            @if (node) {
+              <div class="item-icon piece-icon" [ngClass]="getStateClass(node)"></div>
+              <span class="sex display-none">{{ asTreeNode(node).perk.name }}</span>
+            }
+          </div>
+        } @else {
+          <div class="inventory-slot"></div>
+        }
+      }
+    }
   </div>
 </div>

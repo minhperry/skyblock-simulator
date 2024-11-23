@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Bomb, Fruit, FruitCell, Rum, ShovelMode, State} from "../../interfaces/fruit-game";
-import {Nullable} from "../../interfaces/todo";
 import {Queue} from "../../interfaces/collections";
 import {CommonModule} from "@angular/common";
 import {RollingNumberComponent} from "../animation/rolling-number/rolling-number.component";
+import {Nullable} from "../../interfaces/types";
 
 // https://wiki.hypixel.net/Carnival#Fruit_Digging
 @Component({

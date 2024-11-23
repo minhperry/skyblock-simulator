@@ -1,7 +1,8 @@
 import {Component, Input} from '@angular/core';
-import {Nullable, TodoNode} from "../../../interfaces/todo";
+import {TodoNode} from "../../../interfaces/todo";
 import {TodoComponent} from "../todo.component";
 import {FormsModule} from "@angular/forms";
+import {Nullable} from "../../../interfaces/types";
 
 @Component({
     selector: 'app-todo-item',

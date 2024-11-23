@@ -10,5 +10,3 @@ export interface TodoCategory {
     name: string,
     todos: TodoNode[]
 }
-
-export type Nullable<T> = T | null

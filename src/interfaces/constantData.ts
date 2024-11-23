@@ -99,7 +99,7 @@ export interface Perk {
   perkFunc?: PerkFunction,
   powderFunc?: PowderFunction,
   powderType?: PowderType,
-  requires?: HotmNode[]
+  requires: HotmNode[]
 }
 
 interface Position {
@@ -148,7 +148,9 @@ export const InitialHotmTree: TreeNode[] = [
       description: `§7Grants §6+#{1} ${StatSymbolString.MINING_SPEED}§7.`,
       maxLevel: 50,
       perkFunc: l => l * 20,
-      powderFunc: floorOfNextPlusOneExp(3)
+      powderFunc: floorOfNextPlusOneExp(3),
+      powderType: PowderType.MITHRIL,
+      requires: [],
     },
     position: {x: 3, y: 9},
     state: InitialPerkState
@@ -179,6 +181,10 @@ export const InitialHotmTree: TreeNode[] = [
     perk: {
       name: 'Mining Fortune',
       description: `§7Grants §6+#{1} ${StatSymbolString.FORTUNE}§7.`,
+      maxLevel: 50,
+      perkFunc: l => l * 2,
+      powderFunc: floorOfNextPlusOneExp(3.05),
+      powderType: PowderType.MITHRIL,
       requires: [HotmNode.MINING_SPEED]
     },
     position: {x: 3, y: 8},

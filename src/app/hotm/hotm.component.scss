@@ -1,48 +1,92 @@
 @use '../../commons';
 
-.grid7x10 {
+.grid7x10_ {
   @include commons.grid(7, 10, 0.25rem);
 }
 
 .inventory-view {
   display: grid;
   place-content: center center;
-  $inventory-width: calc(clamp(300px, calc(100vw - 40px), 780px));
+  $inventory-width: calc(clamp(300px, calc(100vw - 40px), 560px));
   gap: calc($inventory-width * .01);
   padding: calc($inventory-width * .01);
-  grid-template-columns: repeat(9, calc($inventory-width * 0.1));
+  grid-template-columns: repeat(7, calc($inventory-width * 0.1));
 
-  &.inventory-slot {
+  & > .inventory-slot {
     aspect-ratio: 1;
     position: relative;
     background-color: rgba(#FFFFFF, 0.04);
     border-radius: 6px;
-    cursor: pointer;
   }
+}
 
-  &.item-icon {
-    background-image: url('/textures/items.v14.webp');
-    width: 128px;
-    height: 128px;
+.rich-item {
+  cursor: pointer;
+}
+
+.item-icon {
+  background-image: url('/textures/items.v14.webp');
+  width: 128px;
+  height: 128px;
+}
+
+@media (max-width: 735px) {
+  .inventory-slot .piece-icon {
+    transform: translate(-50%, -50%) scale(0.333333);
   }
+}
 
-  // Normal perks
-  &.coal {
-    background-position: -2048px -1536px;
+@media (max-width: 480px) {
+  .inventory-slot .piece-icon {
+    transform: translate(-50%, -50%) scale(0.25);
   }
+}
 
-  &.diamond {
-    background-position: -2048px -1792px;
+.piece-icon {
+  position: absolute;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.4));
+  z-index: 15;
+  pointer-events: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.4);
+  transform-origin: center center;
+  image-rendering: crisp-edges;
+}
+
+@supports (image-rendering: pixelated) {
+  .piece-icon {
+    image-rendering: pixelated;
   }
-
-  &.emerald {
-    background-position: -2944px -1664px;
-  }
-
-  // Abiliies and Potm
-  &.emeraldblock {
-    background-position: -512px -640px;
-  }
+}
 
 
+// Normal perks
+.coal {
+  background-position: -2048px -1536px;
+}
+
+.diamond {
+  background-position: -2048px -1792px;
+}
+
+.emerald {
+  background-position: -2944px -1664px;
+}
+
+// Abiliies and Potm
+.emeraldblock {
+  background-position: -512px -640px;
+}
+
+.coalblock {
+  background-position: -128px -1408px;
+}
+
+.redstoneblock {
+  background-position: -896px -768px;
+}
+
+span.sex {
+  font-size: 5px;
 }

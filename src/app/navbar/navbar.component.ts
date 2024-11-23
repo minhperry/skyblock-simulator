@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {Nullable} from "../../interfaces/todo";
 import {RouterLink} from "@angular/router";
+import {Nullable} from "../../interfaces/types";
 
 @Component({
     selector: 'app-navbar',
