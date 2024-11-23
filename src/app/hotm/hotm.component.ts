@@ -1,13 +1,13 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
-import {Perk} from "../../interfaces/constantData";
+import {InitialHotmTree, TreeNode} from "../../interfaces/constantData";
 
 @Component({
-    selector: 'app-hotm',
-    templateUrl: './hotm.component.html',
-    styleUrl: './hotm.component.scss'
+  selector: 'app-hotm',
+  templateUrl: './hotm.component.html',
+  styleUrl: './hotm.component.scss'
 })
 export class HotmComponent implements OnInit {
-  grid: Perk[][] = []
+  nodes: TreeNode[] = [];
 
   constructor(
     // private hotm: HotmBackendService
@@ -16,10 +16,17 @@ export class HotmComponent implements OnInit {
   }
 
   ngOnInit() {
-    for (let i = 0; i < 10; i++) {
-      for (let j = 0; j < 7; j++) {
-        // this.grid[i][j] = 'a';
-      }
-    }
+    this.initializeGrid()
+  }
+
+  private initializeGrid() {
+    this.nodes = InitialHotmTree.map(node => ({
+      ...node,
+      state: {
+        ...node.state,
+        state: node.state.state,
+        currentLevel: node.perk.maxLevel ? 0 : null,
+      },
+    }));
   }
 }

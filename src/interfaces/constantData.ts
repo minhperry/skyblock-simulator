@@ -1,5 +1,5 @@
 import {StatSymbolString} from "./symbols";
-import {PerkFunction, PowderFunction} from "./functions";
+import {floorOfNextPlusOneExp, PerkFunction, PowderFunction} from "./functions";
 
 // ==================== The very base ====================
 // Basically is the smallest definable unit
@@ -99,6 +99,7 @@ export interface Perk {
   perkFunc?: PerkFunction,
   powderFunc?: PowderFunction,
   powderType?: PowderType,
+  requires?: HotmNode[]
 }
 
 interface Position {
@@ -138,34 +139,50 @@ const InitialAbilityState: NodeState = {
 }
 
 // #{1}, #{2} for the numbers
-const InitialHotmTree: TreeNode[] = [
+export const InitialHotmTree: TreeNode[] = [
+  // Hotm 1
   {
     id: HotmNode.MINING_SPEED,
     perk: {
       name: 'Mining Speed',
-      description: `§7Grants §6+#{1} ${StatSymbol.MINING_SPEED} Mining Speed§7.`,
+      description: `§7Grants §6+#{1} ${StatSymbolString.MINING_SPEED}§7.`,
       maxLevel: 50,
-      perkFunc: (l: number) => l * 20,
-      powderFunc: (l: number) => Math.floor(Math.pow(l + 1, 3))
+      perkFunc: l => l * 20,
+      powderFunc: floorOfNextPlusOneExp(3)
     },
     position: {x: 3, y: 9},
     state: InitialPerkState
   },
+  // Hotm 2
   {
     id: HotmNode.MINING_SPEED_BOOST,
     perk: {
       name: 'Mining Speed Boost',
-      description: `§7Grants §6+250% ${StatSymbol.MINING_SPEED} Mining Speed for §a15s§7.`
+      description: `§7Grants §6+250% ${StatSymbolString.MINING_SPEED} for §a15s§7.`,
+      requires: [HotmNode.PRECISION_MINING]
     },
     position: {x: 1, y: 8},
-    state: InitialAbilityState
+    state: InitialAbilityState,
   },
-  "precision_mining": {
+  {
+    id: HotmNode.PRECISION_MINING,
     perk: {
       name: 'Precision Mining',
-      description: `§7Looking at particle increases your ${StatSymbol.MINING_SPEED} Mining Speed by §`
+      description: `§7Aiming at particle increases your §6${StatSymbolString.MINING_SPEED} by §a30%§7.`,
+      requires: [HotmNode.MINING_FORTUNE]
     },
-    position: {x: 2, y: 8}
+    position: {x: 2, y: 8},
+    state: InitialStaticPerkState
+  },
+  {
+    id: HotmNode.MINING_FORTUNE,
+    perk: {
+      name: 'Mining Fortune',
+      description: `§7Grants §6+#{1} ${StatSymbolString.FORTUNE}§7.`,
+      requires: [HotmNode.MINING_SPEED]
+    },
+    position: {x: 3, y: 8},
+    state: InitialPerkState
   }
 ]
 

@@ -20,3 +20,7 @@ export interface NumberTuple {
 
 export type PerkFunction = (level: number) => number | NumberTuple;
 export type PowderFunction = (level: number) => number;
+
+export function floorOfNextPlusOneExp(exp: number): (v: number) => number {
+    return (v: number) => Math.floor(Math.pow(v + 1, exp));
+}
