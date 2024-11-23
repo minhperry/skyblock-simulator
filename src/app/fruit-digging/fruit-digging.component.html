@@ -1,7 +1,7 @@
 <div class="container-sm d-flex justify-content-center flex-column flex-md-row" data-bs-theme="dark">
   <div class="grz-wrapper mx-auto position-relative align-items-center d-flex">
     <div class="grid7x7 original">
-      @for (cell of content; track cell; let i = $index) {
+      @for (cell of content; track i; let i = $index) {
         <div (click)="handleClick(i)"
           [ngClass]="['grid-item', cell, ]">
           @if (debug) {
@@ -14,7 +14,7 @@
 
     @if (debug) {
       <div class="grid7x7 reference">
-        @for (cell of getFruitContents(); track cell; let i = $index) {
+        @for (cell of getFruitContents(); track i; let i = $index) {
           <div
             [ngClass]="['grid-item', cell, 'scaled']">
           </div>
@@ -44,7 +44,7 @@
 
     <div class="grid3x5">
       <!-- Loop through 15 divs and conditionally apply classes based on the current turn -->
-      @for (i of [].constructor(15); track i; let idx = $index) {
+      @for (i of [].constructor(15); track idx; let idx = $index) {
         <div class="counter">
           <div [ngClass]="['shovel', 'scaled', shovelMode, idx < (15 - turn) ? '' : 'touched']"></div>
         </div>

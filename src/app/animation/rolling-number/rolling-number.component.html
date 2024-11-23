@@ -1,5 +1,5 @@
 <div class="animated-rolling-number d-flex justify-content-center" [style.height]="size">
-  @for (char of rollingCharacters; track identity; let i = $index) {
+  @for (char of rollingCharacters; track i; let i = $index) {
     @if (isDigit(char)) {
       <div
               [style.margin-top]="getMargin(i)"
