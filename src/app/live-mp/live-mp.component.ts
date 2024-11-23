@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {BasePower, Color, PowerStone, Stats, StatsMultiplier} from "../../interfaces/base-power";
+import {BasePower, PowerStone, Stats, StatsMultiplier} from "../../interfaces/base-power";
+import {Color} from "../../interfaces/color";
 import {NgStyle} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 
