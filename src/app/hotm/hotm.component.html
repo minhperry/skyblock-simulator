@@ -1,12 +1,14 @@
-<div class="container-sm d-flex justify-content-center flex-column flex-md-row" data-bs-theme="dark">
-  <div class="container grid7x10 inventory-view">
+<div class="container-sm d-flex justify-content-center flex-column flex-md-row my-3" data-bs-theme="dark">
+  <div class="container inventory-view">
     @for (row of grid; track r; let r = $index) {
       @for (node of row; track it; let it = $index) {
         @if (isNotNull(node)) {
-          <div class="inventory-slot rich-item">
+          <div class="inventory-slot rich-item" (click)="onCellClick(r, it)">
             @if (node) {
-              <div class="item-icon piece-icon" [ngClass]="getStateClass(node)"></div>
-              <span class="sex display-none">{{ asTreeNode(node).perk.name }}</span>
+              <div class="item-icon piece-icon"
+                   [ngClass]="getStateClass(node)"
+
+              ></div>
             }
           </div>
         } @else {
@@ -14,5 +16,21 @@
         }
       }
     }
+  </div>
+  <div class="container d-flex justify-content-center">
+    <div class="">
+      @if (selected) {
+        @if (isLevelable(selected)) {
+          <p>Levelable Perk</p>
+          <span class="mc gray">Level {{ selected.state.currentLevel }}</span>
+          <span class="mc darkgray">/{{ selected.perk.maxLevel }}</span>
+        } @else if (isAbility(selected)) {
+          <p>Ability</p>
+        } @else {
+          <p>Static Perk</p>
+          <span [innerHTML]="parse(selected.perk.description)"></span>
+        }
+      }
+    </div>
   </div>
 </div>
