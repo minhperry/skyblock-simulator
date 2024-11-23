@@ -25,7 +25,7 @@ export class HotmComponent implements OnInit {
       state: {
         ...node.state,
         state: node.state.state,
-        currentLevel: node.perk.maxLevel ? 0 : null,
+        currentLevel: node.perk.maxLevel ? 0 : undefined,
       },
     }));
   }
