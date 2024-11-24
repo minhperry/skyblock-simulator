@@ -148,7 +148,7 @@ export const InitialHotmTree: TreeNode[] = [
       name: 'Mining Speed',
       description: `%GRAY%Grants %GOLD%+#{1} ${StatString.MINING_SPEED}%GRAY%.`,
       maxLevel: 50,
-      perkFunc: l => ({first: l + 20, second: 0}),
+      perkFunc: l => ({first: l * 20, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3),
       requires: [],
     },
@@ -276,7 +276,7 @@ export const InitialHotmTree: TreeNode[] = [
     perk: {
       name: 'Old School',
       description: `%GRAY%Grants %GOLD%+#{1} ${StatString.ORE_FORTUNE}%GRAY%.`,
-      maxLevel: 50,
+      maxLevel: 20,
       perkFunc: l => ({first: l * 20, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.05),
       requires: [HotmNode.RANDOM_EVENT, HotmNode.PROFESSIONAL]
