@@ -5,7 +5,6 @@ import {Nullable} from "../../interfaces/types";
 import {SafeHtmlPipe} from "../../pipes/safe-html.pipe";
 import {PerkFunction, PowderFunction} from "../../interfaces/functions";
 import {PowderString} from "../../interfaces/symbols";
-import {colorize} from "../../interfaces/color";
 import {ColorizePipe} from "../../pipes/colorize.pipe";
 import {ParseMCPipe} from "../../pipes/parse-mc.pipe";
 
@@ -78,7 +77,7 @@ export class HotmComponent implements OnInit {
   protected getDescCalculated(node: Nullable<TreeNode>) {
     const asTN = this.asTreeNode(node)
     const curr = asTN.state.currentLevel as number;
-    const desc = colorize(asTN.perk.description);
+    const desc = new ColorizePipe().transform(asTN.perk.description);
 
     const func = asTN.perk.perkFunc as PerkFunction
     const c1 = func(curr).first.toString();

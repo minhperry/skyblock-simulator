@@ -146,7 +146,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.MINING_SPEED,
     perk: {
       name: 'Mining Speed',
-      description: `%GRAY%Grants §6+#{1} ${StatString.MINING_SPEED}%GRAY%.`,
+      description: `%GRAY%Grants %GOLD%+#{1} ${StatString.MINING_SPEED}%GRAY%.`,
       maxLevel: 50,
       perkFunc: l => ({first: l + 20, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3),
@@ -160,7 +160,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.MINING_SPEED_BOOST,
     perk: {
       name: 'Mining Speed Boost',
-      description: `%GRAY%Grants §6+250% ${StatString.MINING_SPEED}%GRAY% for §a15s%GRAY%.`,
+      description: `%GRAY%Grants %GOLD%+250% ${StatString.MINING_SPEED}%GRAY% for %GREEN%15s%GRAY%.`,
       requires: [HotmNode.PRECISION_MINING]
     },
     position: {x: 1, y: 8},
@@ -170,7 +170,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.PRECISION_MINING,
     perk: {
       name: 'Precision Mining',
-      description: `%GRAY%Aiming at particle increases your §6${StatString.MINING_SPEED} by §a30%%GRAY%.`,
+      description: `%GRAY%Aiming at particle increases your %GOLD%${StatString.MINING_SPEED} by %GREEN%30%%GRAY%.`,
       requires: [HotmNode.MINING_FORTUNE]
     },
     position: {x: 2, y: 8},
@@ -180,7 +180,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.MINING_FORTUNE,
     perk: {
       name: 'Mining Fortune',
-      description: `%GRAY%Grants §6+#{1} ${StatString.MINING_FORTUNE}%GRAY%.`,
+      description: `%GRAY%Grants %GOLD%+#{1} ${StatString.MINING_FORTUNE}%GRAY%.`,
       maxLevel: 50,
       perkFunc: l => ({first: l * 20, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.05),
@@ -193,7 +193,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.TITANIUM_INSANIUM,
     perk: {
       name: 'Titanium Insanium',
-      description: `%GRAY%Has a §a#{1}%%GRAY% chance to convert a block into §fTitanium%GRAY% while mining §2Mithril Ore%GRAY%.`,
+      description: `%GRAY%Has a %GREEN%#{1}%%GRAY% chance to convert a block into %WHITE%Titanium Ore%GRAY% while mining %DGREEN%Mithril Ore%GRAY%.`,
       maxLevel: 50,
       perkFunc: l => ({first: 2 * (l + 1), second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.1),
@@ -206,7 +206,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.PICKAXE_TOSS,
     perk: {
       name: 'Pickobulus',
-      description: `%GRAY%Throw a pickaxe mining all ores in a §a3%GRAY% block radius.`,
+      description: `%GRAY%Throw a pickaxe mining all ores in a %GREEN%3%GRAY% block radius.`,
       requires: [HotmNode.TITANIUM_INSANIUM]
     },
     position: {x: 5, y: 8},
@@ -217,8 +217,8 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.RANDOM_EVENT,
     perk: {
       name: 'Luck of the Cave',
-      description: '§a#{1}% %GRAY%chance to trigger one rare occurence while mining:\n' +
-        '§6Golden Goblin \n §5Fallen Stars \n §6Powder Ghast%GRAY%',
+      description: '%GREEN%#{1}% %GRAY%chance to trigger one rare occurence while mining:\n' +
+        '%GOLD%Golden Goblin \n %DPURPLE%Fallen Stars \n %GOLD%Powder Ghast%GRAY%',
       maxLevel: 45,
       perkFunc: l => ({first: 5 + l, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.07),
@@ -231,7 +231,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.EFFICIENT_MINER,
     perk: {
       name: 'Efficient Miner',
-      description: `%GRAY%Grants §e+#{1} ${StatString.MINING_SPREAD}%GRAY%.`,
+      description: `%GRAY%Grants %YELLOW%+#{1} ${StatString.MINING_SPREAD}%GRAY%.`,
       maxLevel: 100,
       perkFunc: l => ({first: l * 3, second: 0}),
       powderFunc: floorOfNextPlusOneExp(2.6),
@@ -244,7 +244,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.FORGE_TIME,
     perk: {
       name: 'Quick Forge',
-      description: `%GRAY%Reduces the time it takes to forge by §a#{1}%%GRAY%.`,
+      description: `%GRAY%Reduces the time it takes to forge by %GREEN%#{1}%%GRAY%.`,
       maxLevel: 20,
       perkFunc: l => ({first: Math.min(30, 10 + l * 0.5 + Math.floor(l / 20) * 10), second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.2),
@@ -258,13 +258,13 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.DAILY_EFFECT,
     perk: {
       name: 'Daily Effect',
-      description: '%GRAY%Gains one random buff every Skyblock Day on any §bMining Island%GRAY%:\n' +
-        `§6+100 ${StatString.MINING_SPEED}%GRAY%.\n` +
-        `§6+50 ${StatString.MINING_FORTUNE}%GRAY%.\n` +
-        '§a15% %GRAY%more Powder while mining.\n' +
-        '§a-20% %GRAY%Pickaxe Ability cooldown.\n' +
-        '§a10x %GRAY%chance to spawn §6Golden %GRAY%and §bDiamond Goblins%GRAY%.\n' +
-        '§a5x §9Titanium %GRAY%drops.'
+      description: '%GRAY%Gains one random buff every Skyblock Day on any %AQUA%Mining Island%GRAY%:\n' +
+        `%GOLD%+100 ${StatString.MINING_SPEED}%GRAY%.\n` +
+        `%GOLD%+50 ${StatString.MINING_FORTUNE}%GRAY%.\n` +
+        '%GREEN%15% %GRAY%more Powder while mining.\n' +
+        '%GREEN%-20% %GRAY%Pickaxe Ability cooldown.\n' +
+        '%GREEN%10x %GRAY%chance to spawn %GOLD%Golden %GRAY%and %AQUA%Diamond Goblins%GRAY%.\n' +
+        '%GREEN%5x %BLUE%Titanium %GRAY%drops.'
       ,
       requires: [HotmNode.OLD_SCHOOL]
     },
@@ -275,7 +275,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.OLD_SCHOOL,
     perk: {
       name: 'Old School',
-      description: `%GRAY%Grants §6+#{1} ${StatString.ORE_FORTUNE}%GRAY%.`,
+      description: `%GRAY%Grants %GOLD%+#{1} ${StatString.ORE_FORTUNE}%GRAY%.`,
       maxLevel: 50,
       perkFunc: l => ({first: l * 20, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.05),
@@ -291,7 +291,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.MINING_MASTER,
     perk: {
       name: 'Mining Master',
-      description: `%GRAY%Grants §5#{1} ${StatString.PRISTINE}%GRAY%.`,
+      description: `%GRAY%Grants %DPURPLE%#{1} ${StatString.PRISTINE}%GRAY%.`,
       maxLevel: 10,
       perkFunc: l => ({first: l * 0.1, second: 0}),
       powderFunc: p => Math.floor(Math.pow(p + 7, 5)),

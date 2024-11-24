@@ -26,10 +26,3 @@ export const ColorCodes: Record<string, string> = {
     '%YELLOW%': '§e',
     '%WHITE%': '§f',
 }
-
-export function colorize(str: string): string {
-    for (const [key, value] of Object.entries(ColorCodes)) {
-        str = str.replace(new RegExp(key, 'g'), value);
-    }
-    return str;
-}
