@@ -54,6 +54,8 @@ export class HotmComponent implements OnInit {
     this.selected = this.grid[x][y];
   }
 
+  // Helpers
+
   protected getStateClass(node: Nullable<TreeNode>) {
     return this.asTreeNode(node).state.state
   }
@@ -72,6 +74,22 @@ export class HotmComponent implements OnInit {
 
   protected isAbility(node: Nullable<TreeNode>): boolean {
     return node ? this.stateIsAbility(node.state.state) : false;
+  }
+
+  private stateIsAbility(state: AbilityState | PerkState): boolean {
+    return Object.values(AbilityState).includes(state as AbilityState)
+  }
+
+  // Processors
+
+  protected modifySelectedLevel(amount: number) {
+    if (!this.selected) return;
+
+    const selected = this.selected
+    const curr = selected.state.currentLevel as number;
+    const max = selected.perk.maxLevel as number;
+
+    selected.state.currentLevel = Math.min(max, Math.max(1, curr + amount));
   }
 
   protected getDescCalculated(node: Nullable<TreeNode>) {
@@ -103,9 +121,5 @@ export class HotmComponent implements OnInit {
 
     const amountFormatted = powderFunc(curr).toLocaleString('en-US');
     return pType.replace('#{#}', amountFormatted);
-  }
-
-  private stateIsAbility(state: AbilityState | PerkState): boolean {
-    return Object.values(AbilityState).includes(state as AbilityState)
   }
 }
