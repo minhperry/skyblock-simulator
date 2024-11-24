@@ -18,6 +18,7 @@ export enum StatString {
   // Base mining stats
   MINING_SPEED = `${StatSymbol.MINING_SPEED} Mining Speed`,
   MINING_FORTUNE = `${StatSymbol.FORTUNE} Mining Fortune`,
+  PRISTINE = `${StatSymbol.PRISTINE} Pristine`,
 
   // Spreads
   GEMSTONE_SPREAD = `${StatSymbol.MINING_SPREAD} Gemstone Spread`,

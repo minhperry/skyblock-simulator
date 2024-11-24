@@ -28,17 +28,17 @@
           <span class="mc gray">Level {{ selected.state.currentLevel }}</span>
           <span class="mc darkgray">/{{ selected.perk.maxLevel }}</span>
           <br/>
-          <span [innerHTML]="parse(getDescCalculated(selected)) | safeHtml"></span>
+          <span [innerHTML]="getDescCalculated(selected) | parse | safeHtml"></span>
           <br/>
           <span class="mc gray">Cost</span>
           <br>
-          <span [innerHTML]="parse(getPowderAmount(selected)) | safeHtml"></span>
+          <span [innerHTML]="getPowderAmount(selected) | parse | safeHtml"></span>
         } @else if (isAbility(selected)) {
           <p>Ability</p>
-          <span [innerHTML]="parse(selected.perk.description) | safeHtml"></span>
+          <span [innerHTML]="selected.perk.description | colorize | parse | safeHtml"></span>
         } @else {
           <p>Static Perk</p>
-          <span [innerHTML]="parse(selected.perk.description) | safeHtml"></span>
+          <span [innerHTML]="selected.perk.description | colorize | parse | safeHtml"></span>
         }
       }
     </div>

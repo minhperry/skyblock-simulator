@@ -2,10 +2,12 @@ import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {AbilityState, InitialHotmTree, PerkState, TreeNode} from "../../interfaces/hotmData";
 import {NgClass} from "@angular/common";
 import {Nullable} from "../../interfaces/types";
-import {autoToHTML as parse} from "@sfirew/minecraft-motd-parser";
 import {SafeHtmlPipe} from "../../pipes/safe-html.pipe";
 import {PerkFunction, PowderFunction} from "../../interfaces/functions";
 import {PowderString} from "../../interfaces/symbols";
+import {colorize} from "../../interfaces/color";
+import {ColorizePipe} from "../../pipes/colorize.pipe";
+import {ParseMCPipe} from "../../pipes/parse-mc.pipe";
 
 @Component({
   selector: 'app-hotm',
@@ -14,6 +16,8 @@ import {PowderString} from "../../interfaces/symbols";
   imports: [
     NgClass,
     SafeHtmlPipe,
+    ColorizePipe,
+    ParseMCPipe
   ]
 })
 export class HotmComponent implements OnInit {
@@ -74,7 +78,7 @@ export class HotmComponent implements OnInit {
   protected getDescCalculated(node: Nullable<TreeNode>) {
     const asTN = this.asTreeNode(node)
     const curr = asTN.state.currentLevel as number;
-    const desc = asTN.perk.description;
+    const desc = colorize(asTN.perk.description);
 
     const func = asTN.perk.perkFunc as PerkFunction
     const c1 = func(curr).first.toString();
@@ -105,6 +109,4 @@ export class HotmComponent implements OnInit {
   private stateIsAbility(state: AbilityState | PerkState): boolean {
     return Object.values(AbilityState).includes(state as AbilityState)
   }
-
-  protected readonly parse = parse
 }
