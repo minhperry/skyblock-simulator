@@ -17,6 +17,12 @@
     position: relative;
     background-color: rgba(#FFFFFF, 0.04);
     border-radius: 6px;
+
+    &.selected {
+      outline: 0.1rem solid rgba(0, 194, 0, 0.77);
+      outline-offset: 2px;
+    }
+
   }
 }
 
@@ -60,7 +66,6 @@
   }
 }
 
-
 // Normal perks
 .coal {
   background-position: -2048px -1536px;
@@ -85,9 +90,4 @@
 
 .redstoneblock {
   background-position: -896px -768px;
-}
-
-// If media does NOT support hover
-@media (hover: none) {
-
 }

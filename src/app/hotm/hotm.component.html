@@ -3,7 +3,10 @@
     @for (row of grid; track r; let r = $index) {
       @for (node of row; track it; let it = $index) {
         @if (isNotNull(node)) {
-          <div class="inventory-slot rich-item" (click)="onCellClick(r, it)">
+          <div class="inventory-slot rich-item"
+               (click)="onCellClick(r, it)"
+               [class.selected]="selected === node"
+          >
             @if (node) {
               <div class="item-icon piece-icon"
                    [ngClass]="getStateClass(node)"
