@@ -4,7 +4,8 @@ import {NgClass} from "@angular/common";
 import {Nullable} from "../../interfaces/types";
 import {autoToHTML as parse} from "@sfirew/minecraft-motd-parser";
 import {SafeHtmlPipe} from "../../pipes/safe-html.pipe";
-import {PerkFunction} from "../../interfaces/functions";
+import {PerkFunction, PowderFunction} from "../../interfaces/functions";
+import {PowderString} from "../../interfaces/symbols";
 
 @Component({
   selector: 'app-hotm',
@@ -70,7 +71,7 @@ export class HotmComponent implements OnInit {
     return node ? this.stateIsAbility(node.state.state) : false;
   }
 
-  protected getDescCalced(node: Nullable<TreeNode>) {
+  protected getDescCalculated(node: Nullable<TreeNode>) {
     const asTN = this.asTreeNode(node)
     const curr = asTN.state.currentLevel as number;
     const desc = asTN.perk.description;
@@ -79,6 +80,26 @@ export class HotmComponent implements OnInit {
     const c1 = func(curr).first.toString();
     const c2 = func(curr).second.toString();
     return desc.replace('#{1}', c1).replace('#{2}', c2);
+  }
+
+  protected getPowderAmount(node: Nullable<TreeNode>): string {
+    const asTN = this.asTreeNode(node)
+
+    const curr = asTN.state.currentLevel as number;
+    const powderFunc = asTN.perk.powderFunc as PowderFunction
+
+    const y = asTN.position.y
+    let pType: PowderString;
+    if (y >= 7 && y <= 9) {
+      pType = PowderString.MITHRIL;
+    } else if (y >= 3 && y <= 6) {
+      pType = PowderString.GEMSTONE;
+    } else {
+      pType = PowderString.GLACITE;
+    }
+
+    const amountFormatted = powderFunc(curr).toLocaleString('en-US');
+    return pType.replace('#{#}', amountFormatted);
   }
 
   private stateIsAbility(state: AbilityState | PerkState): boolean {

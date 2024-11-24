@@ -128,7 +128,7 @@ export interface TreeNode {
 
 const InitialPerkState: NodeState = {
   state: PerkState.LOCKED,
-  currentLevel: 0,
+  currentLevel: 1,
 }
 
 const InitialStaticPerkState: NodeState = {
@@ -206,7 +206,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.PICKAXE_TOSS,
     perk: {
       name: 'Pickobulus',
-      description: `§7Throw a pickaxe mining all ores in a §a3$7 block radius.`,
+      description: `§7Throw a pickaxe mining all ores in a §a3§7 block radius.`,
       requires: [HotmNode.TITANIUM_INSANIUM]
     },
     position: {x: 5, y: 8},

@@ -28,7 +28,11 @@
           <span class="mc gray">Level {{ selected.state.currentLevel }}</span>
           <span class="mc darkgray">/{{ selected.perk.maxLevel }}</span>
           <br/>
-          <span [innerHTML]="parse(getDescCalced(selected)) | safeHtml"></span>
+          <span [innerHTML]="parse(getDescCalculated(selected)) | safeHtml"></span>
+          <br/>
+          <span class="mc gray">Cost</span>
+          <br>
+          <span [innerHTML]="parse(getPowderAmount(selected)) | safeHtml"></span>
         } @else if (isAbility(selected)) {
           <p>Ability</p>
           <span [innerHTML]="parse(selected.perk.description) | safeHtml"></span>

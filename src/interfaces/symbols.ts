@@ -36,3 +36,9 @@ export enum StatString {
   DEFENSE = `${StatSymbol.DEFENSE} Defense`,
   HEALTH = `${StatSymbol.HEALTH} Health`,
 }
+
+export enum PowderString {
+  MITHRIL = '§2#{#} Mithril Powder',
+  GEMSTONE = '§d#{#} Gemstone Powder',
+  GLACITE = '§b#{#} Glacite Powder',
+}
