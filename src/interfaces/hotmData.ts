@@ -1,4 +1,4 @@
-import {StatSymbolString} from "./symbols";
+import {StatString} from "./symbols";
 import {floorOfNextPlusOneExp, PerkFunction, PowderFunction} from "./functions";
 
 // ==================== The very base ====================
@@ -91,14 +91,15 @@ export enum PowderType {
 }
 
 // ==================== Static Perk Data ====================
-
+// hotm 1-3 is mithril, 4-7 is gemstone, 8-10 is glacite
+// y =  9-7             6-3              2-0
 export interface Perk {
   name: string,
   description: string,
   maxLevel?: number,
   perkFunc?: PerkFunction,
   powderFunc?: PowderFunction,
-  powderType?: PowderType,
+  //powderType?: PowderType,
   requires: HotmNode[]
 }
 
@@ -145,11 +146,10 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.MINING_SPEED,
     perk: {
       name: 'Mining Speed',
-      description: `§7Grants §6+#{1} ${StatSymbolString.MINING_SPEED}§7.`,
+      description: `§7Grants §6+#{1} ${StatString.MINING_SPEED}§7.`,
       maxLevel: 50,
       perkFunc: l => ({first: l + 20, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3),
-      powderType: PowderType.MITHRIL,
       requires: [],
     },
     position: {x: 3, y: 9},
@@ -160,7 +160,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.MINING_SPEED_BOOST,
     perk: {
       name: 'Mining Speed Boost',
-      description: `§7Grants §6+250% ${StatSymbolString.MINING_SPEED}§7 for §a15s§7.`,
+      description: `§7Grants §6+250% ${StatString.MINING_SPEED}§7 for §a15s§7.`,
       requires: [HotmNode.PRECISION_MINING]
     },
     position: {x: 1, y: 8},
@@ -170,7 +170,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.PRECISION_MINING,
     perk: {
       name: 'Precision Mining',
-      description: `§7Aiming at particle increases your §6${StatSymbolString.MINING_SPEED} by §a30%§7.`,
+      description: `§7Aiming at particle increases your §6${StatString.MINING_SPEED} by §a30%§7.`,
       requires: [HotmNode.MINING_FORTUNE]
     },
     position: {x: 2, y: 8},
@@ -180,15 +180,109 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.MINING_FORTUNE,
     perk: {
       name: 'Mining Fortune',
-      description: `§7Grants §6+#{1} ${StatSymbolString.FORTUNE}§7.`,
+      description: `§7Grants §6+#{1} ${StatString.MINING_FORTUNE}§7.`,
       maxLevel: 50,
       perkFunc: l => ({first: l * 20, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.05),
-      powderType: PowderType.MITHRIL,
       requires: [HotmNode.MINING_SPEED]
     },
     position: {x: 3, y: 8},
     state: InitialPerkState
+  },
+  {
+    id: HotmNode.TITANIUM_INSANIUM,
+    perk: {
+      name: 'Titanium Insanium',
+      description: `§7Has a §a#{1}%§7 chance to convert a block into §fTitanium§7 while mining §2Mithril Ore§7.`,
+      maxLevel: 50,
+      perkFunc: l => ({first: 2 * (l + 1), second: 0}),
+      powderFunc: floorOfNextPlusOneExp(3.1),
+      requires: [HotmNode.MINING_FORTUNE]
+    },
+    position: {x: 4, y: 8},
+    state: InitialPerkState
+  },
+  {
+    id: HotmNode.PICKAXE_TOSS,
+    perk: {
+      name: 'Pickobulus',
+      description: `§7Throw a pickaxe mining all ores in a §a3$7 block radius.`,
+      requires: [HotmNode.TITANIUM_INSANIUM]
+    },
+    position: {x: 5, y: 8},
+    state: InitialAbilityState,
+  },
+  // Hotm 3
+  {
+    id: HotmNode.RANDOM_EVENT,
+    perk: {
+      name: 'Luck of the Cave',
+      description: '§a#{1}% §7chance to trigger one rare occurence while mining:\n' +
+        '§6Golden Goblin \n §5Fallen Stars \n §6Powder Ghast§7',
+      maxLevel: 45,
+      perkFunc: l => ({first: 5 + l, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(3.07),
+      requires: [HotmNode.MINING_SPEED_BOOST]
+    },
+    position: {x: 1, y: 7},
+    state: InitialPerkState,
+  },
+  {
+    id: HotmNode.EFFICIENT_MINER,
+    perk: {
+      name: 'Efficient Miner',
+      description: `§7Grants §e+#{1} ${StatString.MINING_SPREAD}§7.`,
+      maxLevel: 100,
+      perkFunc: l => ({first: l * 3, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(2.6),
+      requires: [HotmNode.MINING_FORTUNE]
+    },
+    position: {x: 3, y: 7},
+    state: InitialPerkState,
+  },
+  {
+    id: HotmNode.FORGE_TIME,
+    perk: {
+      name: 'Quick Forge',
+      description: `§7Reduces the time it takes to forge by §a#{1}%§7.`,
+      maxLevel: 20,
+      perkFunc: l => ({first: Math.min(30, 10 + l * 0.5 + Math.floor(l / 20) * 10), second: 0}),
+      powderFunc: floorOfNextPlusOneExp(3.2),
+      requires: [HotmNode.PICKAXE_TOSS]
+    },
+    position: {x: 5, y: 7},
+    state: InitialPerkState,
+  },
+  // Hotm 4
+  {
+    id: HotmNode.DAILY_EFFECT,
+    perk: {
+      name: 'Daily Effect',
+      description: '§7Gains one random buff every Skyblock Day on any §bMining Island§7:\n' +
+        `§6+100 ${StatString.MINING_SPEED}§7.\n` +
+        `§6+50 ${StatString.MINING_FORTUNE}§7.\n` +
+        '§a15% §7more Powder while mining.\n' +
+        '§a-20% §7Pickaxe Ability cooldown.\n' +
+        '§a10x §7chance to spawn §6Golden §7and §bDiamond Goblins§7.\n' +
+        '§a5x §9Titanium §7drops.'
+      ,
+      requires: [HotmNode.OLD_SCHOOL]
+    },
+    position: {x: 0, y: 6},
+    state: InitialStaticPerkState,
+  },
+  {
+    id: HotmNode.OLD_SCHOOL,
+    perk: {
+      name: 'Old School',
+      description: `§7Grants §6+#{1} ${StatString.ORE_FORTUNE}§7.`,
+      maxLevel: 50,
+      perkFunc: l => ({first: l * 20, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(3.05),
+      requires: [HotmNode.RANDOM_EVENT, HotmNode.PROFESSIONAL]
+    },
+    position: {x: 1, y: 6},
+    state: InitialPerkState,
   }
 ]
 

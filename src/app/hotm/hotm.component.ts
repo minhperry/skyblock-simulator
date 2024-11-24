@@ -76,8 +76,9 @@ export class HotmComponent implements OnInit {
     const desc = asTN.perk.description;
 
     const func = asTN.perk.perkFunc as PerkFunction
-    const calculated = func(curr).first.toString();
-    return desc.replace('#{1}', calculated)
+    const c1 = func(curr).first.toString();
+    const c2 = func(curr).second.toString();
+    return desc.replace('#{1}', c1).replace('#{2}', c2);
   }
 
   private stateIsAbility(state: AbilityState | PerkState): boolean {
