@@ -195,7 +195,7 @@ export const InitialHotmTree: TreeNode[] = [
       name: 'Titanium Insanium',
       description: `%GRAY%Has a %GREEN%#{1}%%GRAY% chance to convert a block into %WHITE%Titanium Ore%GRAY% while mining %DGREEN%Mithril Ore%GRAY%.`,
       maxLevel: 50,
-      perkFunc: l => ({first: 2 * (l + 1), second: 0}),
+      perkFunc: l => ({first: 2 + (l * 0.1), second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.1),
       requires: [HotmNode.MINING_FORTUNE]
     },

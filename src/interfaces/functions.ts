@@ -24,3 +24,7 @@ export type PowderFunction = (level: number) => number;
 export function floorOfNextPlusOneExp(exp: number): (v: number) => number {
     return (v: number) => Math.floor(Math.pow(v + 1, exp));
 }
+
+export function round(num: number) {
+    return Math.round(num * 100) / 100;
+}

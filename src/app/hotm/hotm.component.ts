@@ -50,8 +50,23 @@ export class HotmComponent implements OnInit {
   }
 
   onCellClick(x: number, y: number) {
-    console.log(x, y)
+    /*
+    if (this.prevSelected) {
+      const {x: prevX, y: prevY} = this.prevSelected.position;
+      this.grid[prevY][prevX] = {...this.prevSelected};
+      console.log('prev selected: ', this.prevSelected.id)
+    }
+
+    this.prevSelected = this.selected ? {...this.selected} : null;
+
+    this.selected = null
+
     this.selected = this.grid[x][y];
+    */
+    this.selected = null
+    console.log('clicked: ', x, y)
+    this.selected = this.grid[x][y];
+    console.log('selected: ', this.selected?.id, 'level in grid: ', this.grid[x][y]?.state.currentLevel)
   }
 
   // Helpers
@@ -90,6 +105,9 @@ export class HotmComponent implements OnInit {
     const max = selected.perk.maxLevel as number;
 
     selected.state.currentLevel = Math.min(max, Math.max(1, curr + amount));
+    const {x, y} = selected.position;
+    this.grid[y][x] = selected;
+    console.log(this.grid[y][x].state.currentLevel)
   }
 
   protected getDescCalculated(node: Nullable<TreeNode>) {

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CheckBoxItem, RadioItem, SliderItem } from '../../../interfaces/input';
-import { identity, NumStringFunc } from '../../../interfaces/functions';
+import {identity, NumStringFunc, round} from '../../../interfaces/functions';
 import {FarmingFortunesComponent} from "../ff.comp";
 import {StrengthComponent} from "../strength.comp";
 import {TextableSliderComponent} from "./reusables/textable-slider.component";
@@ -106,7 +106,7 @@ export class FarmingFortuneComponent {
     this.checkboxes.forEach(cb => this.totalStr += cb.func(cb.check));
     this.radios.forEach(r => this.totalStr += r.choice);
     this.totalStr += this.tuning + this.strengthFromMP;
-    this.totalStr = this.round(this.totalStr);
+    this.totalStr = round(this.totalStr);
   }
 
   mp: number | undefined = undefined;
@@ -120,14 +120,14 @@ export class FarmingFortuneComponent {
   get strengthFromMP() {
     // https://wiki.hypixel.net/Powers#Stat_Calculation
     let str = 0.75 * 719.28 * Math.pow(Math.log(1 + (0.0019 * this.$mp)), 1.2);
-    return this.round(str);
+    return round(str);
   }
   get fFortune() {
     let ff = this.totalStr / 20 * 0.7;
-    return this.round(ff);
+    return round(ff);
   }
   get mCowFf() {
-    return this.round(110 + this.fFortune);
+    return round(110 + this.fFortune);
   }
   get eleFf() {
     return 150;
@@ -144,10 +144,6 @@ export class FarmingFortuneComponent {
       return 'ele';
     }
     return null;
-  }
-
-  private round(num: number) {
-    return Math.round(num * 100) / 100;
   }
 
   private zeroOr(v: number, state: boolean) {
