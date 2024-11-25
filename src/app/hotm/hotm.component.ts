@@ -50,22 +50,10 @@ export class HotmComponent implements OnInit {
   }
 
   onCellClick(x: number, y: number) {
-    /*
-    if (this.prevSelected) {
-      const {x: prevX, y: prevY} = this.prevSelected.position;
-      this.grid[prevY][prevX] = {...this.prevSelected};
-      console.log('prev selected: ', this.prevSelected.id)
-    }
-
-    this.prevSelected = this.selected ? {...this.selected} : null;
-
-    this.selected = null
-
-    this.selected = this.grid[x][y];
-    */
+    let selected = this.grid[x][y];
     this.selected = null
     console.log('clicked: ', x, y)
-    this.selected = this.grid[x][y];
+    this.selected = selected
     console.log('selected: ', this.selected?.id, 'level in grid: ', this.grid[x][y]?.state.currentLevel)
   }
 
