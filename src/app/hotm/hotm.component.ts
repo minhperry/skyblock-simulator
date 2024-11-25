@@ -3,7 +3,7 @@ import {AbilityState, InitialHotmTree, PerkState, TreeNode} from "../../interfac
 import {NgClass} from "@angular/common";
 import {Nullable} from "../../interfaces/types";
 import {SafeHtmlPipe} from "../../pipes/safe-html.pipe";
-import {PerkFunction, PowderFunction} from "../../interfaces/functions";
+import {PerkFunction, PowderFunction, round} from "../../interfaces/functions";
 import {PowderString} from "../../interfaces/symbols";
 import {ColorizePipe} from "../../pipes/colorize.pipe";
 import {ParseMCPipe} from "../../pipes/parse-mc.pipe";
@@ -116,8 +116,8 @@ export class HotmComponent implements OnInit {
     const desc = new ColorizePipe().transform(asTN.perk.description);
 
     const func = asTN.perk.perkFunc as PerkFunction
-    const c1 = func(curr).first.toString();
-    const c2 = func(curr).second.toString();
+    const c1 = round(func(curr).first).toString();
+    const c2 = round(func(curr).second).toString();
     return desc.replace('#{1}', c1).replace('#{2}', c2);
   }
 
