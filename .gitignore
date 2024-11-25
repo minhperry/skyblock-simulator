@@ -39,6 +39,7 @@ testem.log
 
 # My shit
 deploy.sh
+sb-ssr.tar
 
 # System files
 .DS_Store

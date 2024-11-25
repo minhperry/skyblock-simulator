@@ -13,7 +13,7 @@ RUN npm install
 COPY . .
 
 # Build the Angular application for SSR
-RUN npm run build:ssr
+RUN npm run build
 
 # Stage 2: Run the SSR app
 FROM node:22.11.0 AS server
@@ -31,4 +31,4 @@ RUN npm install --production
 EXPOSE 4000
 
 # Start the SSR server
-CMD ["node", "dist/server/main.js"]
+CMD ["node", "dist/server/server.mjs"]
