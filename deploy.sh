@@ -16,7 +16,7 @@ fi
 
 buildAngular() {
   # Build Angular
-  ng build
+  ng build --prod
 
   # Copy to VPS
   # -a: Archive mode; it preserves permissions, timestamps, and symlinks.
