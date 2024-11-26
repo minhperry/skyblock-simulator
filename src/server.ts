@@ -4,6 +4,7 @@ import express from 'express';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import bootstrap from './main.server';
+import {skycryptRouter} from "./server/skycryptApi";
 
 export function app(): express.Express {
   const server = express();
@@ -15,6 +16,8 @@ export function app(): express.Express {
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
+
+  server.use('/api/v1', skycryptRouter);
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
