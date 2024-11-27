@@ -4,7 +4,15 @@ import express from 'express';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import bootstrap from './main.server';
-import {skycryptRouter} from "./server/skycryptApi";
+import skycryptRouter from "./server/skycryptApi";
+import NodeCache from "node-cache";
+
+export const v1cache = new NodeCache({stdTTL: 60 * 60 * 24, checkperiod: 60 * 60 * 2});
+
+export const skycryptEndpoint = 'https://sky.shiiyu.moe/api/v2';
+
+export const hypixelEndpoint = 'https://api.hypixel.net';
+
 
 export function app(): express.Express {
   const server = express();
@@ -19,8 +27,6 @@ export function app(): express.Express {
 
   server.use('/api/v1', skycryptRouter);
 
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
   server.get('**', express.static(browserDistFolder, {
     maxAge: '1y',

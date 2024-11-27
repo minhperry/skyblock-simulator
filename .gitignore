@@ -39,7 +39,6 @@ testem.log
 
 # My shit
 deploy.sh
-sb-ssr.tar
 src/server/hypixelApi/.env
 
 # System files
