@@ -1,21 +1,26 @@
-export class Logger {
-  static info(...data: any[]) {
-    console.log(`[${now()}] INFO ${this.printArray(" ", ...data)}`);
-  }
+import winston, {info, transports} from "winston";
 
-  static debug(...data: any[]) {
-    console.log(`[${now()}] DEBUG ${this.printArray(" ", ...data)}`);
-  }
+const logFormat = winston.format.printf(({level, message, timestamp}) => {
+  const formattedDate = new Date(timestamp as string).toLocaleString('de-DE', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).replace(',', '');
+  return `[${formattedDate}] ${level.toUpperCase()} ${message}`;
+})
 
-  private static printArray(end: string, ...data: any[]) {
-    let final = ""
-    for (const item of data) {
-      final += (item + end);
-    }
-    return final;
-  }
-}
-
-function now() {
-  return new Date().toLocaleString('de-DE', {timeZone: 'Europe/Berlin'});
-}
+export const Logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    logFormat
+  ),
+  transports: [
+    new transports.Console(),
+    new transports.File({filename: 'logs/error.log', level: 'error'}),
+    new transports.File({filename: 'logs/combined.log'})
+  ]
+});

@@ -28,7 +28,7 @@ export default async function profilesHandler(req: express.Request, res: express
 
 
     v1cache.set(`profile_${name}`, result);
-    Logger.info('Cache miss for', name, ', set cache');
+    Logger.info('Cache miss for', name, '-> set cache');
 
     res.json(result);
   } catch (error) {
@@ -45,4 +45,5 @@ async function getSkycryptProfiles(name: string) {
 async function returnProfiles(name: string) {
   const response = await getSkycryptProfiles(name);
   Logger.debug(response.profiles)
+  console.log(response.profiles)
 }
