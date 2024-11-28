@@ -18,12 +18,16 @@ export default async function hotmHandler(req: express.Request, res: express.Res
     return;
   }
 
+  const profileData = await getProfileData(name);
+  if (!profileData) {
+    res.status(404).json({error: 'Player not found'});
+    return;
+  }
+
   if (!possibleProfileNames.includes(profile)) {
     res.status(400).json({error: 'Invalid profile!'});
     return;
   }
-
-  const profileData = await getProfileData(name);
 
   const foundProfile: any = findProfile(profileData, profile)
   if (!foundProfile) {

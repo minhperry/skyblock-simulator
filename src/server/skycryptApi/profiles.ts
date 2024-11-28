@@ -25,15 +25,15 @@ export default async function profilesHandler(req: express.Request, res: express
 
   try {
     const profiles = await getProfileData(name);
-
-    if (profiles.error) {
-      res.status(404).json({error: 'Profiles not found'});
+    if (!profiles) {
+      res.status(404).json({error: 'Player not found'});
       return;
     }
-
+    
     let result = returnProfiles(profiles)
 
-    profileCache.set(`profile_${name}`, result, 60 * 60 * 24 * 14); // 14 days
+    // 1 day profile cache
+    profileCache.set(`profile_${name}`, result, 60 * 60 * 24); // 14 days
     Logger.info(`Profile cache miss for ${name}, set cache`);
 
     res.json(result);

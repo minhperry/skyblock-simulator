@@ -1,11 +1,13 @@
-import {profileDataCache, skycryptEndpoint} from "../../server";
+import {profileCache, profileDataCache, skycryptEndpoint} from "../../server";
 import {Logger} from "../commons/logger";
 
+// 5min cache of profile data
 export async function getProfileData(name: string) {
   let profiles: any = profileDataCache.get(`profile_data_${name}`);
   if (!profiles) {
-    Logger.info(`Profile data cache miss for ${name}`);
     profiles = await getSkycryptProfiles(name);
+    if (!profiles) return undefined;
+    Logger.info(`Profile data cache miss for ${name}`);
     profileDataCache.set(`profile_data_${name}`, profiles, 60 * 5); // 5min
   } else {
     Logger.info(`Profile data cache hit for ${name}`);
@@ -13,9 +15,17 @@ export async function getProfileData(name: string) {
   return profiles;
 }
 
+// Fetch profile data from skycrypt
+// If name doesn't exist, cache for 6 hrs
 async function getSkycryptProfiles(name: string) {
   const response = await fetch(skycryptEndpoint + `/profile/${name}`);
-  return await response.json();
+  const ret = await response.json();
+  if (ret.error) {
+    Logger.error(`Error fetching profile data for ${name}: ${ret.error}`);
+    profileCache.set(`profile_${name}`, undefined, 60 * 60 * 6); // 6hrs
+    return undefined;
+  }
+  return ret;
 }
 
 export function returnProfiles(profiles: Profiles): ReturnProfileData[] {
@@ -28,6 +38,7 @@ export function returnProfiles(profiles: Profiles): ReturnProfileData[] {
 }
 
 export function findProfile(profiles: any, profileName: string) {
+  if (!profiles) return undefined;
   return Object.values(profiles.profiles).find((profile: any) => profile.cute_name === profileName);
 }
 
