@@ -16,7 +16,7 @@ fi
 
 buildAngular() {
   # Build Angular
-  ng build
+  ng build --configuration=production
 
   # Copy to VPS
   # -a: Archive mode; it preserves permissions, timestamps, and symlinks.
@@ -37,30 +37,15 @@ doExit() {
   exit
 }
 
-buildExpress() {
-  cd ./skyblock-backend || doExit
-  echo "Entered Backend. Building."
-  npm run build || doExit
-  echo "Build done! Copying .env"
-  cp .env dist/ || doExit
-  rsync -avP dist/.env "$VPS":/var/www/backend/sb-backend || doExit
-  echo "Copying server.js"
-  rsync -avP dist/server.backend.js "$VPS":/var/www/backend/sb-backend || doExit
-  echo "Copied! Going back."
-  cd ..
-  echo "Exited!"
-}
-
 # Process the input options
 while getopts "fb" opt; do
   case "$opt" in
     f)
-      echo "Build and deploying Angular frontend."
+      echo "Build and deploying SSR Angular."
       buildAngular
       ;;
     b)
-      echo "Build and deploying Express backend."
-      buildExpress
+      echo "Backend does not need to be built. Deploying."
       ;;
     *)
       usage
