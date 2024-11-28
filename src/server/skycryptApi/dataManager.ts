@@ -1,5 +1,6 @@
 import {profileCache, profileDataCache, skycryptEndpoint} from "../../server";
 import {Logger} from "../commons/logger";
+import {HOUR, MINUTE} from "../commons/time";
 
 // 5min cache of profile data
 export async function getProfileData(name: string) {
@@ -8,7 +9,7 @@ export async function getProfileData(name: string) {
     profiles = await getSkycryptProfiles(name);
     if (!profiles) return undefined;
     Logger.info(`Profile data cache miss for ${name}`);
-    profileDataCache.set(`profile_data_${name}`, profiles, 60 * 5); // 5min
+    profileDataCache.set(`profile_data_${name}`, profiles, 5 * MINUTE); // 5min
   } else {
     Logger.info(`Profile data cache hit for ${name}`);
   }
@@ -22,7 +23,7 @@ async function getSkycryptProfiles(name: string) {
   const ret = await response.json();
   if (ret.error) {
     Logger.error(`Error fetching profile data for ${name}: ${ret.error}`);
-    profileCache.set(`profile_${name}`, undefined, 60 * 60 * 6); // 6hrs
+    profileCache.set(`profile_${name}`, undefined, 6 * HOUR); // 6hrs
     return undefined;
   }
   return ret;

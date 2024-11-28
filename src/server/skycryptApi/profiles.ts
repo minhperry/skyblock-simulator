@@ -2,6 +2,7 @@ import express from "express";
 import {profileCache} from "../../server";
 import {Logger} from "../commons/logger";
 import {getProfileData, returnProfiles} from "./dataManager";
+import {DAY} from "../commons/time";
 
 // /api/v1/profiles/:name
 export default async function profilesHandler(req: express.Request, res: express.Response) {
@@ -32,7 +33,7 @@ export default async function profilesHandler(req: express.Request, res: express
   let result = returnProfiles(profiles)
 
   // 1 day profile cache
-  profileCache.set(`profile_${name}`, result, 60 * 60 * 24); // 14 days
+  profileCache.set(`profile_${name}`, result, DAY);
   Logger.info(`Profile cache miss for ${name}, set cache`);
 
   res.json(result);
