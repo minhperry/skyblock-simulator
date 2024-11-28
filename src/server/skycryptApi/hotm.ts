@@ -1,38 +1,33 @@
 import express from "express";
 import {findProfile, getProfileData, Profile} from "./dataManager";
 import {Debugger} from "../commons/logger";
+import {ErrorPayload, RequestError} from "../commons/error";
 
 // /api/v1/hotm/:name/:profile
 export default async function hotmHandler(req: express.Request, res: express.Response) {
   const {name, profile} = req.params;
-
-  Debugger.debug(`Requesting HOTM for ${name} ${profile}`);
+  const E = new RequestError(res);
 
   if (!/^[a-zA-z0-9_]+$/.test(name)) {
-    res.status(400).json({error: 'Malformed name!'});
-    return;
+    return E.error(400, ErrorPayload.MALFORMED_NAME)
   }
 
   if (name.length > 16) {
-    res.status(400).json({error: 'Invalid name!'});
-    return;
+    return E.error(400, ErrorPayload.NAME_TOO_LONG)
   }
 
   const profileData = await getProfileData(name);
   if (!profileData) {
-    res.status(404).json({error: 'Player not found'});
-    return;
+    return E.error(404, ErrorPayload.PLAYER_NOT_FOUND)
   }
 
   if (!possibleProfileNames.includes(profile)) {
-    res.status(400).json({error: 'Invalid profile!'});
-    return;
+    return E.error(400, ErrorPayload.INVALID_PROFILE)
   }
 
   const foundProfile: any = findProfile(profileData, profile)
   if (!foundProfile) {
-    res.status(404).json({error: 'Profile not found'});
-    return;
+    return E.error(404, ErrorPayload.PROFILE_NOT_FOUND)
   }
 
   let hotmData = (foundProfile as ProfileStructure).data.mining.core;
