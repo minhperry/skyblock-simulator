@@ -1,6 +1,6 @@
 import express from "express";
 import {findProfile, getProfileData, Profile} from "./dataManager";
-import {Debugger} from "../commons/logger";
+
 import {ErrorPayload, RequestError} from "../commons/error";
 
 // /api/v1/hotm/:name/:profile
