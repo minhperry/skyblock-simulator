@@ -1,8 +1,9 @@
-import {Component, Input} from '@angular/core';
+import {Component, Inject, Input, PLATFORM_ID} from '@angular/core';
 import {TodoNode} from "../../../interfaces/todo";
 import {TodoComponent} from "../todo.component";
 import {FormsModule} from "@angular/forms";
 import {Nullable} from "../../../interfaces/types";
+import {Utils} from "../../../services/utils";
 
 @Component({
     selector: 'app-todo-item',
@@ -21,7 +22,12 @@ export class TodoItemComponent {
     private pressTimeOut!: any
     isPressing = false;
 
-    constructor(private todoComp: TodoComponent) {}
+
+    constructor(
+      private todoComp: TodoComponent,
+      @Inject(PLATFORM_ID) private platform: Object
+    ) {
+    }
 
     addChild() {
         this.todoComp.addTodo(this.todo)
@@ -41,9 +47,11 @@ export class TodoItemComponent {
 
     doPressing() {
         this.isPressing = true;
-        this.pressTimeOut = global.setTimeout(() => {
-            this.delete();
-        }, 800);
+        Utils.doIfBrowser(this.platform, () => {
+            this.pressTimeOut = setTimeout(() => {
+                this.delete();
+            }, 800);
+        })
     }
 
     stopPressing() {
