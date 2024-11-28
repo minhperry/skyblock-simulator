@@ -23,22 +23,17 @@ export default async function profilesHandler(req: express.Request, res: express
     return;
   }
 
-  try {
-    const profiles = await getProfileData(name);
-    if (!profiles) {
-      res.status(404).json({error: 'Player not found'});
-      return;
-    }
-    
-    let result = returnProfiles(profiles)
-
-    // 1 day profile cache
-    profileCache.set(`profile_${name}`, result, 60 * 60 * 24); // 14 days
-    Logger.info(`Profile cache miss for ${name}, set cache`);
-
-    res.json(result);
-  } catch (error) {
-    Logger.error(error);
-    res.status(500).json({error: 'Failed to fetch profile'});
+  const profiles = await getProfileData(name);
+  if (!profiles) {
+    res.status(404).json({error: 'Player not found'});
+    return;
   }
+
+  let result = returnProfiles(profiles)
+
+  // 1 day profile cache
+  profileCache.set(`profile_${name}`, result, 60 * 60 * 24); // 14 days
+  Logger.info(`Profile cache miss for ${name}, set cache`);
+
+  res.json(result);
 }
