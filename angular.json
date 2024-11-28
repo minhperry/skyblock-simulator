@@ -97,8 +97,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "port": 6969,
-            "proxyConfig": "proxy.conf.json"
+            "port": 6969
           }
         },
         "extract-i18n": {

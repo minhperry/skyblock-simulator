@@ -1,5 +1,4 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 import {TerminalComponent} from './terminal/terminal.component';
 import {HomeComponent} from './home/home.component';
 import {CalculatorComponent} from './calculator/calculator.component';
@@ -14,7 +13,7 @@ import {MayorCycleComponent} from "./mayor/mayor-cycle/mayor-cycle.component";
 import {ThankYouComponent} from "./mayor/thank-you/thank-you.component";
 import {HotmComponent} from "./hotm/hotm.component";
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
@@ -103,9 +102,10 @@ const routes: Routes = [
   }
 ];
 
+/*
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
-}
+}*/
