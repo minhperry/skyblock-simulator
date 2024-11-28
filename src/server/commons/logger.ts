@@ -1,4 +1,4 @@
-import winston, {info, transports} from "winston";
+import winston, {transports, format} from "winston";
 
 const logFormat = winston.format.printf(({level, message, timestamp}) => {
   const formattedDate = new Date(timestamp as string).toLocaleString('de-DE', {
@@ -21,6 +21,20 @@ export const Logger = winston.createLogger({
   transports: [
     new transports.Console(),
     new transports.File({filename: 'logs/error.log', level: 'error'}),
+    new transports.File({filename: 'logs/combined.log'})
+  ]
+});
+
+export const Debugger = winston.createLogger({
+  level: 'debug',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    logFormat,
+    format.errors({stack: true})
+  ),
+  transports: [
+    new transports.Console(),
+    new transports.File({filename: 'logs/debug.log', level: 'debug'}),
     new transports.File({filename: 'logs/combined.log'})
   ]
 });

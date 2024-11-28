@@ -7,7 +7,10 @@ import bootstrap from './main.server';
 import skycryptRouter from "./server/skycryptApi";
 import NodeCache from "node-cache";
 
-export const v1cache = new NodeCache({stdTTL: 60 * 60 * 24, checkperiod: 60 * 60 * 2});
+// Profile cache check every 2hrs.
+export const profileCache = new NodeCache({checkperiod: 60 * 60 * 2});
+// Profile data cache check every 1min.
+export const profileDataCache = new NodeCache({checkperiod: 60});
 
 export const skycryptEndpoint = 'https://sky.shiiyu.moe/api/v2';
 
