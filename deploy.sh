@@ -1,19 +1,5 @@
 #!/bin/bash
 
-
-usage() {
-  echo "Usage: $0 -f or -b"
-  echo "    -f      Build and ship Frontend"
-  echo "    -b      Build and ship Backend"
-  exit 1
-}
-
-
-# Check if a parameter was provided
-if [ "$#" -ne 1 ]; then
-  usage
-fi
-
 buildAngular() {
   # Build Angular
   ng build --configuration=production
@@ -38,17 +24,7 @@ doExit() {
 }
 
 # Process the input options
-while getopts "fb" opt; do
-  case "$opt" in
-    f)
-      echo "Build and deploying SSR Angular."
-      buildAngular
-      ;;
-    b)
-      echo "Backend does not need to be built. Deploying."
-      ;;
-    *)
-      usage
-      ;;
-  esac
-done
+
+echo "Build and deploying SSR Angular."
+buildAngular || doExit
+

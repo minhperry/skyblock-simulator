@@ -2,6 +2,9 @@ import {profileCache, profileDataCache, skycryptEndpoint} from "../../server";
 import {Logger} from "../commons/logger";
 import {HOUR, MINUTE} from "../commons/time";
 
+// TODO: Save all in one single cache (like how it should be used...)
+// TODO 2: Rate limit
+
 // 5min cache of profile data
 export async function getProfileData(name: string) {
   let profiles: any = profileDataCache.get(`profile_data_${name}`);
