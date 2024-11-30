@@ -7,6 +7,7 @@ import {PerkFunction, PowderFunction, round} from "../../interfaces/functions";
 import {PowderString} from "../../interfaces/symbols";
 import {ColorizePipe} from "../../pipes/colorize.pipe";
 import {ParseMCPipe} from "../../pipes/parse-mc.pipe";
+import {HotmStateService} from "../../services/hotm-state.service";
 
 @Component({
   selector: 'app-hotm',
@@ -25,15 +26,19 @@ export class HotmComponent implements OnInit {
 
   constructor(
     // private hotm: HotmBackendService
-    @Inject(PLATFORM_ID) private platform: Object,
+    //@Inject(PLATFORM_ID) private platform: Object,
+    private hotmSS: HotmStateService
   ) {
   }
 
   ngOnInit() {
     this.initializeGrid()
+
+    this.hotmSS.grid$.subscribe(grid => this.grid = grid)
+    this.hotmSS.selected$.subscribe(selected => this.selected = selected)
   }
 
-  private initializeGrid() {
+  private initializeGrid_() {
     this.grid = Array.from({length: 10}, () => Array(7).fill(null));
 
     for (const nodeData of Object.values(InitialHotmTree)) {
@@ -49,12 +54,34 @@ export class HotmComponent implements OnInit {
     }
   }
 
-  onCellClick(x: number, y: number) {
+  private initializeGrid() {
+    const initGrid: TreeNode[][] = Array.from({length: 10}, () => Array(7).fill(null))
+
+    for (const nodeData of Object.values(InitialHotmTree)) {
+      const node = nodeData.perk
+      const {x, y} = nodeData.position
+
+      initGrid[y][x] = {
+        id: nodeData.id,
+        position: {x, y},
+        perk: node,
+        state: nodeData.state,
+      }
+    }
+
+    this.hotmSS.initializeGrid(initGrid)
+  }
+
+  onCellClick_(x: number, y: number) {
     let selected = this.grid[x][y];
     this.selected = null
     console.log('clicked: ', x, y)
     this.selected = selected
     console.log('selected: ', this.selected?.id, 'level in grid: ', this.grid[x][y]?.state.currentLevel)
+  }
+
+  onCellClick(x: number, y: number) {
+    this.hotmSS.selectNode(x, y)
   }
 
   // Helpers
@@ -85,7 +112,7 @@ export class HotmComponent implements OnInit {
 
   // Processors
 
-  protected modifySelectedLevel(amount: number) {
+  protected modifySelectedLevel_(amount: number) {
     if (!this.selected) return;
 
     const selected = this.selected
@@ -97,6 +124,24 @@ export class HotmComponent implements OnInit {
     this.grid[y][x] = selected;
     console.log(this.grid[y][x].state.currentLevel)
   }
+
+  modifySelectedLevel(amount: number) {
+    if (!this.selected) return;
+
+    const updatedNode = {
+      ...this.selected,
+      state: {
+        ...this.selected.state,
+        currentLevel: Math.min(
+          this.selected.perk.maxLevel as number,
+          Math.max(1, (this.selected.state.currentLevel || 0) + amount)
+        ),
+      },
+    };
+
+    this.hotmSS.updateNode(updatedNode);
+  }
+
 
   protected getDescCalculated(node: Nullable<TreeNode>) {
     const asTN = this.asTreeNode(node)
@@ -127,5 +172,13 @@ export class HotmComponent implements OnInit {
 
     const amountFormatted = powderFunc(curr).toLocaleString('en-US');
     return pType.replace('#{#}', amountFormatted);
+  }
+
+  protected isSelectedEqualNode(selected: Nullable<TreeNode>, node: Nullable<TreeNode>) {
+    if (selected?.id === node?.id) {
+      console.log('selected: ', selected, 'node: ', node)
+    }
+    console.log(selected === node)
+    return selected === node
   }
 }

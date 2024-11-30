@@ -5,7 +5,7 @@
         @if (isNotNull(node)) {
           <div class="inventory-slot rich-item"
                (click)="onCellClick(r, it)"
-               [class.selected]="selected === node"
+               [class.selected]="isSelectedEqualNode(selected, node)"
           >
             @if (node) {
               <div class="item-icon piece-icon"

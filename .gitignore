@@ -40,7 +40,8 @@ testem.log
 # My shit
 deploy.sh
 src/server/hypixelApi/.env
-logs/*
+/logs
+package-lock.json
 
 # System files
 .DS_Store
