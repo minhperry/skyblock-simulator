@@ -1,38 +1,42 @@
-import {profileCache, profileDataCache, skycryptEndpoint} from "../../server";
+import {v1cache, skycryptEndpoint} from "../../server";
 import {Logger} from "../commons/logger";
-import {HOUR, MINUTE} from "../commons/time";
+import {DAY, HOUR, MINUTE} from "../commons/time";
 
-// TODO: Save all in one single cache (like how it should be used...)
 // TODO 2: Rate limit
 
 // 5min cache of profile data
 export async function getProfileData(name: string) {
-  let profiles: any = profileDataCache.get(`profile_data_${name}`);
-  if (!profiles) {
-    profiles = await getSkycryptProfiles(name);
-    if (!profiles) return undefined;
-    Logger.info(`Profile data cache miss for ${name}`);
-    profileDataCache.set(`profile_data_${name}`, profiles, 5 * MINUTE); // 5min
-  } else {
-    Logger.info(`Profile data cache hit for ${name}`);
+  const cached: Profiles | undefined = v1cache.get(`profile_${name}`);
+  if (cached !== undefined) {
+    Logger.info(`Profile list cache hit for ${name}`);
+    return cached;
   }
+
+  const profiles = await getSkycryptProfiles(name);
+  Logger.info(`Asked Skycrypt for profile data for ${name}`);
+  if (!profiles) return undefined;
+
+  v1cache.set(`profile_${name}`, profiles, 5 * MINUTE);
+  Logger.info(`Profile list cache miss for ${name}, set cache.`);
   return profiles;
 }
 
 // Fetch profile data from skycrypt
 // If name doesn't exist, cache for 6 hrs
-async function getSkycryptProfiles(name: string) {
+async function getSkycryptProfiles(name: string): Promise<Profiles | undefined> {
   const response = await fetch(skycryptEndpoint + `/profile/${name}`);
   const ret = await response.json();
+
   if (ret.error) {
     Logger.error(`Error fetching profile data for ${name}: ${ret.error}`);
-    profileCache.set(`profile_${name}`, undefined, 6 * HOUR); // 6hrs
+    v1cache.set(`profile_${name}`, undefined, 5 * MINUTE);
     return undefined;
   }
   return ret;
 }
 
 export function returnProfiles(profiles: Profiles): ReturnProfileData[] {
+  console.log(profiles);
   return Object.values(profiles.profiles).map((profile: Profile) => ({
     profileId: profile.profile_id,
     profileName: profile.cute_name,
@@ -41,9 +45,9 @@ export function returnProfiles(profiles: Profiles): ReturnProfileData[] {
   }));
 }
 
-export function findProfile(profiles: any, profileName: string) {
+export function findProfile(profiles: Profiles, profileName: string): Profile | undefined {
   if (!profiles) return undefined;
-  return Object.values(profiles.profiles).find((profile: any) => profile.cute_name === profileName);
+  return Object.values(profiles.profiles).find((profile: Profile) => profile.cute_name === profileName);
 }
 
 interface ReturnProfileData {

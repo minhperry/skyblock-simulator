@@ -1,9 +1,8 @@
 import express from "express";
-import {profileCache} from "../../server";
-import {Logger} from "../commons/logger";
 import {getProfileData, returnProfiles} from "./dataManager";
 import {DAY} from "../commons/time";
 import {RequestError, ErrorPayload} from "../commons/error";
+import {v1cache} from "../../server";
 
 // /api/v1/profiles/:name
 export default async function profilesHandler(req: express.Request, res: express.Response) {
@@ -18,13 +17,6 @@ export default async function profilesHandler(req: express.Request, res: express
     return E.error(400, ErrorPayload.NAME_TOO_LONG)
   }
 
-  const cachedProfile = profileCache.get(`profile_${name}`);
-  if (cachedProfile) {
-    Logger.info(`Profile cache hit for ${name}`);
-    res.json(cachedProfile);
-    return;
-  }
-
   const profiles = await getProfileData(name);
   if (!profiles) {
     return E.error(404, ErrorPayload.PLAYER_NOT_FOUND)
@@ -33,8 +25,7 @@ export default async function profilesHandler(req: express.Request, res: express
   let result = returnProfiles(profiles)
 
   // 1 day profile cache
-  profileCache.set(`profile_${name}`, result, DAY);
-  Logger.info(`Profile cache miss for ${name}, set cache`);
+  v1cache.set(`profile_${name}`, result, DAY);
 
   res.json(result);
 }
