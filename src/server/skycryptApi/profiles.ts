@@ -22,10 +22,6 @@ export default async function profilesHandler(req: express.Request, res: express
     return E.error(404, ErrorPayload.PLAYER_NOT_FOUND)
   }
 
-  let result = returnProfiles(profiles)
-
-  // 1 day profile cache
-  v1cache.set(`profile_${name}`, result, DAY);
-
+  let result = returnProfiles(profiles);
   res.json(result);
 }

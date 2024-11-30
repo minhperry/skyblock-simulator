@@ -36,7 +36,6 @@ async function getSkycryptProfiles(name: string): Promise<Profiles | undefined> 
 }
 
 export function returnProfiles(profiles: Profiles): ReturnProfileData[] {
-  console.log(profiles);
   return Object.values(profiles.profiles).map((profile: Profile) => ({
     profileId: profile.profile_id,
     profileName: profile.cute_name,
