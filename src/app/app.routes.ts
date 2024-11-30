@@ -71,11 +71,13 @@ export const routes: Routes = [
     redirectTo: '/archive',
     pathMatch: "full"
   },
+  /*
   {
     path: 'hotm',
     component: HotmComponent,
     title: 'Heart of the Mountain Sim'
   },
+  */
   {
     path: 'archive',
     children: [
@@ -101,11 +103,3 @@ export const routes: Routes = [
     redirectTo: ''
   }
 ];
-
-/*
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {
-}*/
