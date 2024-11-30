@@ -2,8 +2,6 @@ import {v1cache, skycryptEndpoint} from "../../server";
 import {Logger} from "../commons/logger";
 import {MINUTE} from "../commons/time";
 
-// TODO 2: Rate limit
-
 // 5min cache of profile data
 export async function getProfileData(name: string) {
   const cached: Profiles | undefined = v1cache.get(`profile_${name}`);

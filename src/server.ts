@@ -6,7 +6,9 @@ import { fileURLToPath } from 'node:url';
 import bootstrap from './main.server';
 import skycryptRouter from "./server/skycryptApi";
 import NodeCache from "node-cache";
-import {MINUTE} from "./server/commons/time";
+import {MINUTE, MINUTE_MS} from "./server/commons/time";
+import rateLimit from "express-rate-limit";
+import {ErrorPayload, RequestError} from "./server/commons/error";
 
 // Profile data cache check every 5min.
 export const v1cache = new NodeCache({checkperiod: 5 * MINUTE});
@@ -28,6 +30,14 @@ export function app(): express.Express {
   server.set('views', browserDistFolder);
 
   server.use('/api/v1', skycryptRouter);
+  server.use(rateLimit({
+    windowMs: 15 * MINUTE_MS,
+    limit: 1,
+    handler: (req: express.Request, res: express.Response) => {
+      return new RequestError(res).error(429, ErrorPayload.RATE_LIMITED);
+    },
+    standardHeaders: 'draft-7'
+  }))
 
   // Serve static files from /browser
   server.get('**', express.static(browserDistFolder, {

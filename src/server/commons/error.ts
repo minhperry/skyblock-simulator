@@ -40,5 +40,9 @@ export const ErrorPayload = {
   ROUTE_NOT_FOUND: {
     id: 'ROUTE_NOT_FOUND',
     error: 'Route not found!'
+  },
+  RATE_LIMITED: {
+    id: 'RATE_LIMITED',
+    error: 'Too many requests, please try again later!'
   }
 }

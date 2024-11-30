@@ -62,7 +62,8 @@
             },
             "allowedCommonJsDependencies": [
               "winston",
-              "node-cache"
+              "node-cache",
+              "express-rate-limit"
             ]
           },
           "configurations": {
