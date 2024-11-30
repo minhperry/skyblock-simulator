@@ -1,6 +1,6 @@
 import {v1cache, skycryptEndpoint} from "../../server";
 import {Logger} from "../commons/logger";
-import {DAY, HOUR, MINUTE} from "../commons/time";
+import {MINUTE} from "../commons/time";
 
 // TODO 2: Rate limit
 

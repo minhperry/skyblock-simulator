@@ -1,8 +1,6 @@
 import express from "express";
 import {getProfileData, returnProfiles} from "./dataManager";
-import {DAY} from "../commons/time";
 import {RequestError, ErrorPayload} from "../commons/error";
-import {v1cache} from "../../server";
 
 // /api/v1/profiles/:name
 export default async function profilesHandler(req: express.Request, res: express.Response) {
