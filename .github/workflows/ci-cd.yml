@@ -1,0 +1,48 @@
+name: Deploy Angular App to VPS
+
+on:
+  push:
+    branches:
+      - main   # Only trigger on push to the main branch
+      - master
+    paths:
+      # Config files
+      - '*.json'
+      - '*.js'
+      # GitHub Actions
+      - '.github/**'
+      # Source files
+      - 'public/**'
+      - 'src/**'
+
+jobs:
+  deps-build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.11.0'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
+      - name: Build Angular app
+        run: ng build --configuration=production
+
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -avzr --delete
+          path: dist/
+          remote_path: /var/www/skyblock-ssr
+          remote_host: ${{ secrets.VPS_IP }}
+          remote_user: ${{ secrets.VPS_USER }}
+          remote_key: ${{ secrets.SSH_KEY }}
