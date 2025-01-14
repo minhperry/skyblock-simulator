@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
 import {AbilityState, InitialHotmTree, PerkState, TreeNode} from "../../interfaces/hotmData";
 import {NgClass} from "@angular/common";
 import {Nullable} from "../../interfaces/types";
@@ -20,8 +20,11 @@ import {ParseMCPipe} from "../../pipes/parse-mc.pipe";
   ]
 })
 export class HotmComponent implements OnInit {
-  grid: Nullable<TreeNode>[][] = [];
+  grid = signal<Nullable<TreeNode>[][]>([])
   selected: Nullable<TreeNode> = null;
+  selectedIndex: { row: number; col: number } | null = null;
+
+  DEBUG = true
 
   constructor(
     // private hotm: HotmBackendService
@@ -34,29 +37,50 @@ export class HotmComponent implements OnInit {
   }
 
   private initializeGrid() {
-    this.grid = Array.from({length: 10}, () => Array(7).fill(null));
+    const initGrid = Array.from({length: 10}, () => Array(7).fill(null));
 
     for (const nodeData of Object.values(InitialHotmTree)) {
       const node = nodeData.perk
       const {x, y} = nodeData.position
 
-      this.grid[y][x] = {
+      initGrid[y][x] = {
         id: nodeData.id,
         position: {x, y},
         perk: node,
         state: nodeData.state,
       }
     }
+
+    this.grid.set(initGrid)
   }
 
   onCellClick(x: number, y: number) {
-    let selected = this.grid[x][y];
-    this.selected = null
-    console.log('clicked: ', x, y)
-    this.selected = selected
-    console.log('selected: ', this.selected?.id, 'level in grid: ', this.grid[x][y]?.state.currentLevel)
+    this.save()
+
+    const cell = this.grid()[x][y];
+    if (cell) {
+      this.selected = {
+        ...cell,
+        state: {...cell.state}, // Create a new copy of the state to avoid direct mutation
+      };
+    } else {
+      this.selected = null;
+    }
+
+    // FUCK YOU DEEP COPY
+    // this.selected = cell ? {...cell} : null;
+    this.selectedIndex = cell ? {row: x, col: y} : null;
   }
 
+  save() {
+    if (this.selected && this.selectedIndex) {
+      const {row: currentRow, col: currentCol} = this.selectedIndex;
+      const newGrid = this.grid().map((r, i) =>
+        r.map((c, j) => (i === currentRow && j === currentCol ? this.selected : c))
+      );
+      this.grid.set(newGrid);
+    }
+  }
   // Helpers
 
   protected getStateClass(node: Nullable<TreeNode>) {
@@ -86,16 +110,13 @@ export class HotmComponent implements OnInit {
   // Processors
 
   protected modifySelectedLevel(amount: number) {
-    if (!this.selected) return;
+    if (this.selected) {
+      const curr = this.selected.state.currentLevel as number;
+      const max = this.selected.perk.maxLevel as number;
 
-    const selected = this.selected
-    const curr = selected.state.currentLevel as number;
-    const max = selected.perk.maxLevel as number;
-
-    selected.state.currentLevel = Math.min(max, Math.max(1, curr + amount));
-    const {x, y} = selected.position;
-    this.grid[y][x] = selected;
-    console.log(this.grid[y][x].state.currentLevel)
+      this.selected.state.currentLevel = Math.min(max, Math.max(1, curr + amount));
+      this.save()
+    }
   }
 
   protected getDescCalculated(node: Nullable<TreeNode>) {
