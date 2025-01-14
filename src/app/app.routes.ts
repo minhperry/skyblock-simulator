@@ -12,6 +12,7 @@ import {FruitDiggingComponent} from "./fruit-digging/fruit-digging.component";
 import {MayorCycleComponent} from "./mayor/mayor-cycle/mayor-cycle.component";
 import {ThankYouComponent} from "./mayor/thank-you/thank-you.component";
 import {HotmComponent} from "./hotm/hotm.component";
+import {TestComponent} from "./test/test.component";
 
 export const routes: Routes = [
   {
@@ -95,6 +96,10 @@ export const routes: Routes = [
         title: 'Jerry is over!'
       }
     ]
+  },
+  {
+    path: 'test',
+    component: TestComponent
   },
   {
     path: '**',

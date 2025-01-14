@@ -1,0 +1,32 @@
+<div class="container_">
+  @for (row of grid(); let i = $index; track i) {
+    <div class="row_">
+      @for (cell of row; let j = $index; track j) {
+        <div class="cell" (click)="selectCell(i, j)">
+          @if (!cell)  {
+            <span>Empty</span>
+          } @else {
+            <span> [{{ cell!.x }}, {{ cell!.y }}] </span>
+          }
+        </div>
+      }
+      <br />
+    </div>
+  }
+</div>
+
+@if (selectedCell) {
+  <div>
+    <h3>Modify Cell</h3>
+    <div>
+      <span>X: {{ selectedCell.x }}</span>
+    </div>
+    <div>
+      <span>Y: {{ selectedCell.y }}</span>
+    </div>
+
+    <!-- Buttons to increment and decrement the X value -->
+    <button (click)="modifyX(5)">Increase X by 5</button>
+    <button (click)="modifyX(-5)">Decrease X by 5</button>
+  </div>
+}
