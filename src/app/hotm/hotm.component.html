@@ -6,6 +6,7 @@
           <div class="inventory-slot rich-item"
                (click)="onCellClick(_row, _item)"
                [class.selected]="selected === node">
+
             @if (node) {
               <div class="item-icon piece-icon" [ngClass]="getStateClass(node)"></div>
               @if (DEBUG) {
@@ -21,35 +22,50 @@
   </div>
   <div class="container d-flex justify-content-center flex-column align-items-center">
     @if (selected) {
-      <div class="tooltip-mc">
-        @if (isLevelable(selected)) {
+      <div class="container d-flex justify-content-center flex-column align-items-center">
+        <div class="tooltip-mc">
           <div id="name">
             {{ selected.perk.name }}
           </div>
-          <div id="desc">
-            <span class="mc gray">Level {{ selected.state.currentLevel }}</span>
-            <span class="mc darkgray">/{{ selected.perk.maxLevel }}</span>
-            <br/>
-            <span [innerHTML]="getDescCalculated(selected) | parse | safeHtml"></span>
-            <br/><br/>
-            <span class="mc gray">Cost</span>
-            <br>
-            <span [innerHTML]="getPowderAmount(selected) | parse | safeHtml"></span>
+          @if (isLevelable(selected)) {
+            <div id="desc">
+              <span class="mc gray">Level {{ selected.state.currentLevel }}</span>
+              <span class="mc darkgray">/{{ selected.perk.maxLevel }}</span>
+              <br/>
+              <span [innerHTML]="getDescCalculated(selected) | parse | safeHtml"></span>
+              <br/><br/>
+              <span class="mc gray">Cost</span>
+              <br>
+              <span [innerHTML]="getPowderAmount(selected) | parse | safeHtml"></span>
+            </div>
+          } @else if (isAbility(selected)) {
+            <span [innerHTML]="selected.perk.description | colorize | parse | safeHtml"></span>
+          } @else {
+            <span [innerHTML]="selected.perk.description | colorize | parse | safeHtml"></span>
+          }
+        </div>
+        @if (isLevelable(selected)) {
+          <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center">
+              @for (num of [1, -1, +10, -10]; track num) {
+                <button class="btn btn-primary m-1"
+                        (click)="modifySelectedLevel(num)">{{ (num > 0) ? '+' : '' }}{{ num }}
+                </button>
+              }
+              <button class="btn btn-primary m-1" (click)="modifySelectedLevel('max')">Max</button>
+            </div>
+            <div>
+              <button class="btn btn-primary m-1" (click)="unlock()">Unlock Node</button>
+            </div>
           </div>
-        } @else if (isAbility(selected)) {
-          <span [innerHTML]="selected.perk.description | colorize | parse | safeHtml"></span>
-        } @else {
-          <span [innerHTML]="selected.perk.description | colorize | parse | safeHtml"></span>
-        }
-      </div>
-      <div class="d-flex justify-content-center">
-        @for (num of [1, -1, +10, -10]; track num) {
-          <button class="btn btn-primary m-1"
-                  (click)="modifySelectedLevel(num)">{{ (num > 0) ? '+' : '' }}{{ num }}
-          </button>
         }
       </div>
     }
+    <div class="d-flex justify-content-center flex-column align-items-center">
+      <div class="mc darkgreen">{{ totalPowder().mithril }} Mithril</div>
+      <div class="mc purple">{{ totalPowder().gemstone }} Gemstone</div>
+      <div class="mc aqua">{{ totalPowder().glacite }} Glacite</div>
+    </div>
   </div>
 </div>
 <button (click)="DEBUG = !DEBUG">Togle debuk</button>

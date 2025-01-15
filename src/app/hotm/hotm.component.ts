@@ -1,5 +1,5 @@
-import {Component, Inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
-import {AbilityState, InitialHotmTree, PerkState, TreeNode} from "../../interfaces/hotmData";
+import {Component, computed, Inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
+import {AbilityState, InitialHotmTree, PerkState, Powder, TreeNode} from "../../interfaces/hotmData";
 import {NgClass} from "@angular/common";
 import {Nullable} from "../../interfaces/types";
 import {SafeHtmlPipe} from "../../pipes/safe-html.pipe";
@@ -23,6 +23,32 @@ export class HotmComponent implements OnInit {
   grid = signal<Nullable<TreeNode>[][]>([])
   selected: Nullable<TreeNode> = null;
   selectedIndex: { row: number; col: number } | null = null;
+
+  totalPowder = computed<Powder>(() => {
+    let powder: Powder = {mithril: 0, gemstone: 0, glacite: 0};
+    this.grid().forEach(row => {
+      row.forEach(node => {
+        if (!node || !node.state.currentLevel || !node.perk.powderFunc) {
+          return; // Skip null nodes or nodes without necessary data.
+        }
+        if (node.state.state === PerkState.LOCKED) {
+          return; // Skip locked nodes
+        }
+
+        const {y} = node.position;
+        const perkValue = node.perk.powderFunc(node.state.currentLevel);
+
+        if (y >= 7 && y <= 9) {
+          powder.mithril += perkValue;
+        } else if (y >= 3 && y <= 6) {
+          powder.gemstone += perkValue;
+        } else if (y >= 0 && y <= 2) {
+          powder.glacite += perkValue;
+        }
+      });
+    });
+    return powder;
+  });
 
   DEBUG = true
 
@@ -55,8 +81,6 @@ export class HotmComponent implements OnInit {
   }
 
   onCellClick(x: number, y: number) {
-    this.save()
-
     const cell = this.grid()[x][y];
     if (cell) {
       this.selected = {
@@ -70,6 +94,7 @@ export class HotmComponent implements OnInit {
     // FUCK YOU DEEP COPY
     // this.selected = cell ? {...cell} : null;
     this.selectedIndex = cell ? {row: x, col: y} : null;
+    this.save()
   }
 
   save() {
@@ -79,6 +104,18 @@ export class HotmComponent implements OnInit {
         r.map((c, j) => (i === currentRow && j === currentCol ? this.selected : c))
       );
       this.grid.set(newGrid);
+    }
+  }
+
+  unlock() {
+    if (this.selected) {
+      const state = this.selected.state.state
+      console.log(state)
+      if (state in PerkState) {
+        this.selected.state.state = PerkState.PROGRESSING
+      } else if (state in AbilityState) {
+        this.selected.state.state = AbilityState.UNLOCKED
+      }
     }
   }
   // Helpers
@@ -109,12 +146,16 @@ export class HotmComponent implements OnInit {
 
   // Processors
 
-  protected modifySelectedLevel(amount: number) {
+  protected modifySelectedLevel(amount: number | 'max') {
     if (this.selected) {
-      const curr = this.selected.state.currentLevel as number;
-      const max = this.selected.perk.maxLevel as number;
+      if (amount === 'max') {
+        this.selected.state.currentLevel = this.selected.perk.maxLevel as number;
+      } else {
+        const curr = this.selected.state.currentLevel as number;
+        const max = this.selected.perk.maxLevel as number;
 
-      this.selected.state.currentLevel = Math.min(max, Math.max(1, curr + amount));
+        this.selected.state.currentLevel = Math.min(max, Math.max(1, curr + amount));
+      }
       this.save()
     }
   }

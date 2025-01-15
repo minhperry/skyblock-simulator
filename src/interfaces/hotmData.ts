@@ -84,10 +84,10 @@ export enum AbilityState {
   CORE = 'redstoneblock' // Core of the mountain
 }
 
-export enum PowderType {
-  MITHRIL = "mithril",
-  GEMSTONE = "gemstone",
-  GLACITE = "glacite"
+export interface Powder {
+  mithril: number,
+  gemstone: number,
+  glacite: number
 }
 
 // ==================== Static Perk Data ====================
@@ -99,7 +99,6 @@ export interface Perk {
   maxLevel?: number,
   perkFunc?: PerkFunction,
   powderFunc?: PowderFunction,
-  //powderType?: PowderType,
   requires: HotmNode[]
 }
 
