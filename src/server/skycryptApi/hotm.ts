@@ -25,7 +25,7 @@ export default async function hotmHandler(req: express.Request, res: express.Res
     return E.error(400, ErrorPayload.INVALID_PROFILE)
   }
 
-  const foundProfile: any = findProfile(profileData, profile)
+  const foundProfile: unknown = findProfile(profileData, profile)
   if (!foundProfile) {
     return E.error(404, ErrorPayload.PROFILE_NOT_FOUND)
   }
@@ -51,7 +51,7 @@ const possibleProfileNames = [
 
 interface ProfileStructure extends Profile {
   data: TheDataStructure,
-  raw: any
+  raw: unknown
 }
 
 interface TheDataStructure {

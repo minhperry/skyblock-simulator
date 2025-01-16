@@ -38,22 +38,6 @@ export class HotmComponent implements OnInit {
     this.hotmSS.selected$.subscribe(selected => this.selected = selected)
   }
 
-  private initializeGrid_() {
-    this.grid = Array.from({length: 10}, () => Array(7).fill(null));
-
-    for (const nodeData of Object.values(InitialHotmTree)) {
-      const node = nodeData.perk
-      const {x, y} = nodeData.position
-
-      this.grid[y][x] = {
-        id: nodeData.id,
-        position: {x, y},
-        perk: node,
-        state: nodeData.state,
-      }
-    }
-  }
-
   private initializeGrid() {
     const initGrid: TreeNode[][] = Array.from({length: 10}, () => Array(7).fill(null))
 
