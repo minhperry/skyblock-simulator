@@ -23,7 +23,7 @@ export class MayorCycleComponent implements OnInit, OnDestroy {
 
     private interval: any;
 
-    constructor(@Inject(PLATFORM_ID) private platform: Object, private route: ActivatedRoute) {
+    constructor(@Inject(PLATFORM_ID) private platform: object, private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {

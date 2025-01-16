@@ -3,12 +3,12 @@ import { RadioMapItem } from "../../../../interfaces/input";
 import {StrengthComponent} from "../../strength.comp";
 
 @Component({
-    selector: 'radio',
+  selector: 'sb-radio',
     template: `
         <div class="title">
           <span class="title-text">{{ title }}</span>
           <span class="choice">{{ choice }}
-          <str/></span>
+            <sb-str/></span>
         </div>
         <div class="options">
           @for (option of options; track option) {

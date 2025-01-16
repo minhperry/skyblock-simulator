@@ -50,7 +50,7 @@ export class LiveMpComponent {
     }
 
     calculate(stone: PowerStone, column: string): string {
-        let colKey = column as keyof BasePower
+        const colKey = column as keyof BasePower
 
         const basePower = stone.basePower[colKey]
         const mult = this.multiplier[colKey]
@@ -63,7 +63,7 @@ export class LiveMpComponent {
         if (this.magicalPower == undefined)
             return '-'
 
-        let val = (basePower / 100) * mult * 719.28 * Math.pow(Math.log(1 + 0.0019 * this.magicalPower), 1.2) + bonus
+        const val = (basePower / 100) * mult * 719.28 * Math.pow(Math.log(1 + 0.0019 * this.magicalPower), 1.2) + bonus
         return (val !== 0) ? val.toFixed(0) : '-'
     }
 

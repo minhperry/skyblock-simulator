@@ -25,10 +25,10 @@ export class TodoComponent implements OnInit{
     longPressIndex!: Nullable<number>
     private pressTimeOut: any;
 
-    clipboardData: string = ''
-    exportData: string = ''
+    clipboardData = ''
+    exportData = ''
 
-    constructor(@Inject(PLATFORM_ID) private platform: Object) {
+    constructor(@Inject(PLATFORM_ID) private platform: object) {
     }
 
     ngOnInit(): void {
@@ -208,7 +208,7 @@ export class TodoComponent implements OnInit{
 
     private calculateNextId(nodes: TodoNode[]): number {
         let maxId = this.nextTodoId;
-        for (let node of nodes) {
+        for (const node of nodes) {
             maxId = Math.max(maxId, node.id);
             maxId = Math.max(maxId, this.calculateNextId(node.children));
         }

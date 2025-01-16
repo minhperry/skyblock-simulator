@@ -25,7 +25,7 @@ export class TodoItemComponent {
 
     constructor(
       private todoComp: TodoComponent,
-      @Inject(PLATFORM_ID) private platform: Object
+      @Inject(PLATFORM_ID) private platform: object
     ) {
     }
 

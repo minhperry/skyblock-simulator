@@ -4,7 +4,7 @@ import { Injectable, Inject } from '@angular/core';
   providedIn: 'root'
 })
 export class TimerService {
-  private timer: number = 0;
+  private timer = 0;
   private intervalId: any = null;
   private incrementPerMs: number;
 

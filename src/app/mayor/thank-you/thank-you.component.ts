@@ -9,20 +9,20 @@ import {Utils} from "../../../services/utils"
 })
 export class ThankYouComponent implements OnInit, OnDestroy {
     nextJerry = 1738941300
-    current: number = 0
+    current = 0
     private interval: any;
 
-    constructor(@Inject(PLATFORM_ID) private platform: Object) {
+    constructor(@Inject(PLATFORM_ID) private platform: object) {
     }
 
     calcDiff() {
         let diff = - this.current + this.nextJerry
-        let day = Math.floor(diff / DAY)
+        const day = Math.floor(diff / DAY)
         diff %= DAY
-        let hour = Math.floor(diff / HOUR)
+        const hour = Math.floor(diff / HOUR)
         diff %= HOUR
-        let minute = Math.floor(diff / MINUTE)
-        let second = diff % MINUTE
+        const minute = Math.floor(diff / MINUTE)
+        const second = diff % MINUTE
         return `${day}d ${hour}h ${minute}m ${second}s`
     }
 

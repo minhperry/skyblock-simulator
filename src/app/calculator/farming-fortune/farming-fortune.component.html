@@ -12,16 +12,20 @@
           <p> This setup assumes you have the following:</p>
           <ul>
             <li>All armors and equipments on
-              <ff /> reforges, none on
-              <str /> reforges.
+              <sb-ff/>
+              reforges, none on
+              <sb-str/>
+              reforges.
             </li>
             <li>
               Your
-              <ff /> setup stays the same during the comparision.
+              <sb-ff/>
+              setup stays the same during the comparision.
             </li>
             <li>
               You are not using any temporarty
-              <str /> boosts like Gravity Talisman or Weird Tuba.
+              <sb-str/>
+              boosts like Gravity Talisman or Weird Tuba.
             </li>
             <li>
               You are either using Elephant or Mooshroom Cow pet Level 100 only, with the same pet item on
@@ -32,12 +36,14 @@
             </li>
             <li>
               You are using Forceful power with
-              <str /> Tuning.
+              <sb-str/>
+              Tuning.
             </li>
           </ul>
           <p>
             The main point of this is to see with which pet you would have more
-            <ff /> Farming Fortune with.
+            <sb-ff/>
+            Farming Fortune with.
           </p>
         </div>
       </div>
@@ -52,7 +58,9 @@
       <div id="discl" class="accordion-collapse collapse" data-bs-parent="#what">
         <div class="accordion-body">
           <p>
-            Even when having more <ff/> with Elephant, you still get more money per hour with Mooshroom because
+            Even when having more
+            <sb-ff/>
+            with Elephant, you still get more money per hour with Mooshroom because
             of all the extra mushroom drops.
           </p>
           <p>
@@ -79,7 +87,7 @@
       <div class="accordion-collapse collapse show" id="sliders" data-bs-parent="#calc">
         <div class="accordion-body">
           @for (sl of sliders; track sl) {
-            <slider [min]="sl.min ?? 0" [max]="sl.max" [step]="sl.step"
+            <sb-slider [min]="sl.min ?? 0" [max]="sl.max" [step]="sl.step"
               [label]="sl.label"
               [preString]="sl.preString"
               [extraStr]="sl.extraStr ?? ''"
@@ -101,7 +109,7 @@
       <div class="accordion-collapse collapse show" id="toggles" data-bs-parent="#calc">
         <div class="accordion-body">
           @for (box of checkboxes; track box; let i = $index) {
-            <checkbox [check]="box.check" [label]="box.label"
+            <sb-checkbox [check]="box.check" [label]="box.label"
               [value]="box.value"
               [text]="box.text"
               (checkChange)="onStateChange($event, i)" />
@@ -119,7 +127,7 @@
       <div class="accordion-collapse collapse show" id="line" data-bs-parent="#calc">
         <div class="accordion-body">
           @for (rad of radios; track rad; let i = $index) {
-            <radio [options]="rad.options"
+            <sb-radio [options]="rad.options"
               [label]="rad.label"
               [title]="rad.title"
               [(choice)]="rad.choice"
@@ -145,14 +153,14 @@
         {{mp ?? 0}} Magical Power
         <div class="numb">
           {{ strengthFromMP }}
-          <str />
+          <sb-str/>
         </div>
       </span>
       <span>
         {{ tuning }} Tuning Points
         <div class="numb">
           {{ tuning }}
-          <str />
+          <sb-str/>
         </div>
       </span>
     </div>
@@ -162,7 +170,7 @@
     Total:
     <div class="numb">
       {{ totalStr }}
-      <str />
+      <sb-str/>
     </div>
   </span>
 
@@ -173,7 +181,8 @@
           <div class="image mcow"></div>
           <div class="text">
             {{ mCowFf }}
-            <ff /> Farming Fortune
+            <sb-ff/>
+            Farming Fortune
           </div>
         </div>
       </div>
@@ -182,7 +191,8 @@
           <div class="image ele"></div>
           <div class="text">
             {{ eleFf }}
-            <ff /> Farming Fortune
+            <sb-ff/>
+            Farming Fortune
           </div>
         </div>
       </div>

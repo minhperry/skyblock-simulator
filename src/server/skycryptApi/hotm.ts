@@ -30,7 +30,7 @@ export default async function hotmHandler(req: express.Request, res: express.Res
     return E.error(404, ErrorPayload.PROFILE_NOT_FOUND)
   }
 
-  let hotmData = (foundProfile as ProfileStructure).data.mining.core;
+  const hotmData = (foundProfile as ProfileStructure).data.mining.core;
   res.status(200).json({
     level: {
       xp: hotmData.level.xp,
@@ -67,9 +67,7 @@ interface TheDataStructure {
         gemstone: TotalSpentAvailable,
         glacite: TotalSpentAvailable
       },
-      nodes: {
-        [key: string]: number | boolean
-      }
+      nodes: Record<string, number | boolean>
     }
   }
 }

@@ -73,7 +73,7 @@ export class HotmComponent implements OnInit {
   }
 
   onCellClick_(x: number, y: number) {
-    let selected = this.grid[x][y];
+    const selected = this.grid[x][y];
     this.selected = null
     console.log('clicked: ', x, y)
     this.selected = selected

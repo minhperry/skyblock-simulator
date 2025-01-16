@@ -26,13 +26,13 @@ export class NumbergameComponent implements OnInit, OnDestroy {
     width: 7,
     height: 2
   }
-  next: number = 1;
-  stupid: boolean = false;
+  next = 1;
+  stupid = false;
 
   private size(): number { return this.config.width * this.config.height; }
 
-  grid2NumMap: Map<{ row: number, col: number }, number> = new Map();
-  num2GridMap: Map<number, { row: number, col: number }> = new Map();
+  grid2NumMap = new Map<{ row: number, col: number }, number>();
+  num2GridMap = new Map<number, { row: number, col: number }>();
 
   constructor(public timer: TimerService) {
   }
@@ -54,7 +54,7 @@ export class NumbergameComponent implements OnInit, OnDestroy {
       [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
     }
 
-    let grid$: Cell<number>[][] = [];
+    const grid$: Cell<number>[][] = [];
     for (let i = 0; i < size; i++) {
       const row = Math.floor(i / this.config.width);
       const col = i % this.config.width;
@@ -68,7 +68,7 @@ export class NumbergameComponent implements OnInit, OnDestroy {
     return grid$;
   }
 
-  initializeGrid(genNew: boolean = true) {
+  initializeGrid(genNew = true) {
     this.config.grid = genNew ? this.genGrid() : this.config.grid;
 
     if (this.next > this.size()) return

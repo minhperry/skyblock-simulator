@@ -20,6 +20,6 @@ export default async function profilesHandler(req: express.Request, res: express
     return E.error(404, ErrorPayload.PLAYER_NOT_FOUND)
   }
 
-  let result = returnProfiles(profiles);
+  const result = returnProfiles(profiles);
   res.json(result);
 }

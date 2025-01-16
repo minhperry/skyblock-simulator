@@ -10,7 +10,7 @@ export class PaneComponent<T> implements OnChanges {
   @Input() grid: Cell<T>[][] = [];
   @Output() cellClicked = new EventEmitter<{ row: number, col: number }>();
 
-  fontSize: string = '16px';
+  fontSize = '16px';
 
   handleCellClick(row: number, col: number) {
     this.cellClicked.emit({ row, col });
