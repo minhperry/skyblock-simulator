@@ -8,7 +8,7 @@ import {Utils} from "../../../services/utils"
     styleUrl: './thank-you.component.scss'
 })
 export class ThankYouComponent implements OnInit, OnDestroy {
-    nextJerry = 1739387700
+    nextJerry = 1738941300
     current: number = 0
     private interval: any;
 

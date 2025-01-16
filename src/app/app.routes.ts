@@ -11,7 +11,6 @@ import {ColorerComponent} from "./terminal/colorer/colorer.component";
 import {FruitDiggingComponent} from "./fruit-digging/fruit-digging.component";
 import {MayorCycleComponent} from "./mayor/mayor-cycle/mayor-cycle.component";
 import {ThankYouComponent} from "./mayor/thank-you/thank-you.component";
-import {HotmComponent} from "./hotm/hotm.component";
 
 export const routes: Routes = [
   {
@@ -68,8 +67,13 @@ export const routes: Routes = [
   },
   {
     path: 'jerry',
-    redirectTo: '/archive',
-    pathMatch: "full"
+    component: MayorCycleComponent,
+    title: 'Preview Jerry Feb 2025',
+    data: {
+      start: 1738941300,
+      month: 'February 2025',
+      order: ['??', '??', '??', '??', '??', '??']
+    }
   },
   /*
   {
@@ -87,7 +91,12 @@ export const routes: Routes = [
           {
             path: 'oct24',
             component: MayorCycleComponent,
-            title: 'Oct 24 Jerry Cycle'
+            title: 'Oct 24 Jerry Cycle',
+            data: {
+              start: 1728227700,
+              month: 'October 2024',
+              order: ['Finnegan', 'Marina', 'Paul', 'Cole', 'Aatrox', 'Diana']
+            }
           }
         ]
       },
