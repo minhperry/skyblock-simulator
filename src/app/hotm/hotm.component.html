@@ -1,4 +1,5 @@
 <div class="container-sm d-flex justify-content-center flex-column flex-md-row my-3" data-bs-theme="dark">
+  <!-- Tree grid view / Left side-->
   <div class="container inventory-view">
     @for (row of grid(); track _row; let _row = $index) {
       @for (node of row; track _item; let _item = $index) {
@@ -9,7 +10,7 @@
             @if (node) {
               <div class="item-icon piece-icon" [ngClass]="getStateClass(node)"></div>
               @if (DEBUG) {
-                <span>{{ node!.state.currentLevel }}</span>
+                <span class="user-select-none">{{ node!.state.currentLevel }}</span>
               }
             }
           </div>
@@ -19,9 +20,12 @@
       }
     }
   </div>
-  <div class="container d-flex justify-content-center flex-column align-items-center">
-    @if (selected) {
+  <!-- Perk view / Right side -->
+  @if (selected) {
+    <div class="container d-flex justify-content-center flex-column align-items-center">
+
       <div class="container d-flex justify-content-center flex-column align-items-center">
+        <!-- Item-ahhhh tooltip -->
         <div class="tooltip-mc">
           <div id="name">
             {{ selected.perk.name }}
@@ -37,12 +41,11 @@
               <br>
               <span [innerHTML]="getPowderAmount(selected) | parse | safeHtml"></span>
             </div>
-          } @else if (isAbility(selected)) {
-            <span [innerHTML]="selected.perk.description | colorize | parse | safeHtml"></span>
           } @else {
             <span [innerHTML]="selected.perk.description | colorize | parse | safeHtml"></span>
           }
         </div>
+        <!-- Buttons -->
         <div class="d-flex justify-content-center flex-column">
           @if (isLevelable(selected)) {
             <div class="d-flex justify-content-center">
@@ -57,20 +60,26 @@
               }
             </div>
           }
-          @if (selected.state.state === PerkState.LOCKED || selected.state.state === AbilityState.LOCKED) {
+          @if (!isUnlocked(selected)) {
             <div class="d-flex justify-content-center">
               <button class="btn btn-primary m-1" (click)="unlockSelected()">Unlock Node</button>
             </div>
           }
         </div>
       </div>
-    }
-    @let locale = 'en-US';
-    <div class="d-flex justify-content-center flex-column align-items-center">
-      <div class="mc darkgreen">{{ totalPowder().mithril.toLocaleString(locale) }} Mithril Powder</div>
-      <div class="mc purple">{{ totalPowder().gemstone.toLocaleString(locale) }} Gemstone Powder</div>
-      <div class="mc aqua">{{ totalPowder().glacite.toLocaleString(locale) }} Glacite Powder</div>
     </div>
+  }
+</div>
+<!-- External-ish butttons and display that does not have to do with selected perk -->
+<div class="d-flex justify-content-center flex-row justify-content-around">
+  @let locale = 'en-US';
+  <div class="d-flex justify-content-center flex-column align-items-center">
+    <div class="mc darkgreen">{{ totalPowder().mithril.toLocaleString(locale) }} Mithril Powder</div>
+    <div class="mc purple">{{ totalPowder().gemstone.toLocaleString(locale) }} Gemstone Powder</div>
+    <div class="mc aqua">{{ totalPowder().glacite.toLocaleString(locale) }} Glacite Powder</div>
+  </div>
+  <div>
+    Remaining tokens: {{ tokens() }}
   </div>
 </div>
 <button (click)="DEBUG = !DEBUG">Togle debuk</button>

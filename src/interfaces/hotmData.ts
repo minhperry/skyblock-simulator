@@ -368,7 +368,7 @@ export const InitialHotmTree: TreeNode[] = [
       name: 'Special 0',
       description: '%GRAY%Grants multiple perks. See wiki for more details, I can\'t be asked to write all with formatting. ' +
         'Plus it isn\'t levelable here anyways.',
-      requires: [HotmNode.MOLE, HotmNode.KEEP_IT_COOL]
+      requires: []
     },
     position: {x: 3, y: 5},
     state: InitialAbilityState
@@ -429,7 +429,7 @@ export const InitialHotmTree: TreeNode[] = [
       maxLevel: 50,
       perkFunc: l => ({first: l * 0.4, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.07),
-      requires: [HotmNode.SPECIAL_0, HotmNode.POWDER_BUFF]
+      requires: [HotmNode.MOLE, HotmNode.POWDER_BUFF]
     },
     position: {x: 3, y: 4},
     state: InitialPerkState
@@ -688,7 +688,7 @@ export const InitialHotmTree: TreeNode[] = [
       maxLevel: 10,
       perkFunc: l => ({first: l * 0.1, second: 0}),
       powderFunc: p => Math.floor(Math.pow(p + 7, 5)),
-      requires: [HotmNode.GIFTS_FROM_THE_DEPARTED, HotmNode.HUNGRY_FOR_MORE]
+      requires: [HotmNode.GIFTS_FROM_THE_DEPARTED, HotmNode.HUNGRY_FOR_MORE, HotmNode.RAGS_TO_RICHES]
     },
     position: {x: 3, y: 0},
     state: InitialPerkState

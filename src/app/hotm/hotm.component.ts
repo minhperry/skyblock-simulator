@@ -1,4 +1,4 @@
-import {Component, computed, Inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
+import {Component, computed, OnInit, signal} from '@angular/core';
 import {AbilityState, HotmNode, InitialHotmTree, PerkState, Powder, TreeNode} from "../../interfaces/hotmData";
 import {NgClass} from "@angular/common";
 import {Nullable} from "../../interfaces/types";
@@ -52,11 +52,7 @@ export class HotmComponent implements OnInit {
 
   DEBUG = true
 
-  constructor(
-    // private hotm: HotmBackendService
-    @Inject(PLATFORM_ID) private platform: Object,
-  ) {
-  }
+  tokens = signal(25);
 
   ngOnInit() {
     this.initializeGrid()
@@ -107,6 +103,10 @@ export class HotmComponent implements OnInit {
     }
   }
 
+  reset() {
+    this.initializeGrid()
+  }
+
   // Helpers
 
   protected getStateClass(node: Nullable<TreeNode>) {
@@ -149,25 +149,57 @@ export class HotmComponent implements OnInit {
     return Array.from({length: currentLevel}, (_, i) => powderFunc(i + 1)).slice(1).reduce((a, b) => a + b, 0);
   }
 
+  private decrementTokensIfPositive() {
+    if (!this.selected) return;
+    if (this.selected.id === HotmNode.SPECIAL_0) return;
+    if (this.tokens() > 0) {
+      this.tokens.update(t => t - 1)
+    } else return;
+  }
+
   // Processors
 
   protected unlockSelected() {
-    if (this.selected) {
-      const state = this.selected.state.state
-      if (this.stateIsPerk(state)) {
-        if (!this.selected.perk.maxLevel) {
-          this.selected.state.state = PerkState.MAXED
-        } else {
-          this.selected.state.state = PerkState.PROGRESSING
-        }
-      } else if (this.stateIsAbility(state)) {
-        if (this.selected.id === HotmNode.SPECIAL_0) {
-          this.selected.state.state = AbilityState.CORE
-        } else {
-          this.selected.state.state = AbilityState.UNLOCKED
-        }
+    // Check preconditions
+    if (!this.selected) return;
+    if (!this.checkRequirements()) {
+      console.log('requirements not met')
+      return;
+    }
+    if (this.tokens() <= 0) {
+      console.log('not enough tokens')
+      return;
+    }
+
+    // Unlock the selected node
+    const state = this.selected.state.state
+    if (this.stateIsPerk(state)) {
+      if (!this.selected.perk.maxLevel) {
+        this.selected.state.state = PerkState.MAXED
+      } else {
+        this.selected.state.state = PerkState.PROGRESSING
+      }
+    } else if (this.stateIsAbility(state)) {
+      if (this.selected.id === HotmNode.SPECIAL_0) {
+        this.selected.state.state = AbilityState.CORE
+      } else {
+        this.selected.state.state = AbilityState.UNLOCKED
       }
     }
+
+    // Decrement tokens only if the node was successfully unlocked
+    this.decrementTokensIfPositive();
+  }
+
+  protected checkRequirements(): boolean {
+    if (!this.selected) return false
+    const reqs = this.selected.perk.requires;
+    console.log('requirements for', this.selected.id, ': ', reqs)
+    if (reqs.length === 0) return true;
+    return reqs.some(singleReq => {
+      const node = this.grid().flat().find(n => n?.id === singleReq);
+      return node ? this.isUnlocked(node) : false;
+    })
   }
 
   protected modifySelectedLevel(amount: number | 'max' | 'min') {
