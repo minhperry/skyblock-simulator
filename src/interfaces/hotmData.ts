@@ -84,6 +84,9 @@ export enum AbilityState {
   CORE = 'redstoneblock' // Core of the mountain
 }
 
+// Differentiate between AbilityState and PerkState
+
+
 export interface Powder {
   mithril: number,
   gemstone: number,
@@ -458,6 +461,32 @@ export const InitialHotmTree: TreeNode[] = [
     position: {x: 5, y: 4},
     state: InitialPerkState
   },
+  {
+    id: HotmNode.MANIAC_MINER,
+    perk: {
+      name: 'Maniac Miner',
+      description: `%GRAY%Grants %DGREEN%+1 Ⓟ Breaking Power %GRAY%and a stack of %GOLD%+5 ${StatString.MINING_FORTUNE} %DGRAY%(caps at 1000) %GRAY%per block broken for %GREEN%25s%GRAY%.` +
+        ' Each block broken consumes %AQUA%20 Mana%GRAY%.',
+      requires: [HotmNode.GREAT_EXPLORER]
+    },
+    position: {x: 6, y: 4},
+    state: InitialAbilityState
+  },
+  // Hotm 7
+  {
+    id: HotmNode.MINING_SPEED_2,
+    perk: {
+      name: 'Speedy Mineman',
+      description: `%GRAY%Grants %GOLD%+#{1} ${StatString.MINING_SPEED}%GRAY%.`,
+      maxLevel: 50,
+      perkFunc: l => ({first: l * 40, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(3.2),
+      requires: [HotmNode.BLOCKHEAD, HotmNode.NO_STONE_UNTURNED]
+    },
+    position: {x: 1, y: 3},
+    state: InitialPerkState
+  },
+
   // Hotm 10
   {
     id: HotmNode.MINING_MASTER,

@@ -1,5 +1,5 @@
 import {Component, computed, Inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
-import {AbilityState, InitialHotmTree, PerkState, Powder, TreeNode} from "../../interfaces/hotmData";
+import {AbilityState, HotmNode, InitialHotmTree, PerkState, Powder, TreeNode} from "../../interfaces/hotmData";
 import {NgClass} from "@angular/common";
 import {Nullable} from "../../interfaces/types";
 import {SafeHtmlPipe} from "../../pipes/safe-html.pipe";
@@ -107,17 +107,6 @@ export class HotmComponent implements OnInit {
     }
   }
 
-  unlock() {
-    if (this.selected) {
-      const state = this.selected.state.state
-      console.log(state)
-      if (state in PerkState) {
-        this.selected.state.state = PerkState.PROGRESSING
-      } else if (state in AbilityState) {
-        this.selected.state.state = AbilityState.UNLOCKED
-      }
-    }
-  }
   // Helpers
 
   protected getStateClass(node: Nullable<TreeNode>) {
@@ -144,18 +133,58 @@ export class HotmComponent implements OnInit {
     return Object.values(AbilityState).includes(state as AbilityState)
   }
 
+  private stateIsPerk(state: AbilityState | PerkState): boolean {
+    return Object.values(PerkState).includes(state as PerkState)
+  }
+
+  protected isUnlocked(node: Nullable<TreeNode>): boolean {
+    if (node) {
+      const nodeState = node.state.state
+      return !(nodeState === PerkState.LOCKED || nodeState === AbilityState.LOCKED);
+    }
+    return false
+  }
+
   // Processors
 
-  protected modifySelectedLevel(amount: number | 'max') {
+  protected unlockSelected() {
+    if (this.selected) {
+      const state = this.selected.state.state
+      if (this.stateIsPerk(state)) {
+        if (!this.selected.perk.maxLevel) {
+          this.selected.state.state = PerkState.MAXED
+        } else {
+          this.selected.state.state = PerkState.PROGRESSING
+        }
+      } else if (this.stateIsAbility(state)) {
+        if (this.selected.id === HotmNode.SPECIAL_0) {
+          this.selected.state.state = AbilityState.CORE
+        } else {
+          this.selected.state.state = AbilityState.UNLOCKED
+        }
+      }
+    }
+  }
+
+  protected modifySelectedLevel(amount: number | 'max' | 'min') {
     if (this.selected) {
       if (amount === 'max') {
         this.selected.state.currentLevel = this.selected.perk.maxLevel as number;
+      } else if (amount === 'min') {
+        this.selected.state.currentLevel = 1;
       } else {
         const curr = this.selected.state.currentLevel as number;
         const max = this.selected.perk.maxLevel as number;
 
         this.selected.state.currentLevel = Math.min(max, Math.max(1, curr + amount));
       }
+
+      if (this.selected.state.currentLevel === this.selected.perk.maxLevel) {
+        this.selected.state.state = PerkState.MAXED
+      } else {
+        this.selected.state.state = PerkState.PROGRESSING
+      }
+
       this.save()
     }
   }
@@ -190,4 +219,7 @@ export class HotmComponent implements OnInit {
     const amountFormatted = powderFunc(curr).toLocaleString('en-US');
     return pType.replace('#{#}', amountFormatted);
   }
+
+  protected readonly PerkState = PerkState;
+  protected readonly AbilityState = AbilityState;
 }
