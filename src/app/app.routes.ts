@@ -11,7 +11,6 @@ import {ColorerComponent} from "./terminal/colorer/colorer.component";
 import {FruitDiggingComponent} from "./fruit-digging/fruit-digging.component";
 import {MayorCycleComponent} from "./mayor/mayor-cycle/mayor-cycle.component";
 import {ThankYouComponent} from "./mayor/thank-you/thank-you.component";
-import {HotmComponent} from "./hotm/hotm.component";
 
 export const routes: Routes = [
   {
