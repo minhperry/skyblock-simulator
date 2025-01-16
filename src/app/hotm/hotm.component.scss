@@ -23,6 +23,11 @@
       outline-offset: 2px;
     }
 
+    &.selected-locked {
+      outline: 0.1rem solid rgba(255, 0, 0, 0.77);
+      outline-offset: 2px;
+    }
+
   }
 }
 
