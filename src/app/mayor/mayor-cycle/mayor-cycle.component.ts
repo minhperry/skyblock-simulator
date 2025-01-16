@@ -1,6 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import {DAY, HOUR, Mayor, mayorData, MINUTE} from "../../../interfaces/jerry";
-import {Utils} from "../../../services/utils";
+import {NullableInterval, Utils} from "../../../services/utils";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -21,7 +21,7 @@ export class MayorCycleComponent implements OnInit, OnDestroy {
   private mayorOrder!: string[] //= ['Finnegan', 'Marina', 'Paul', 'Cole', 'Aatrox', 'Diana']
   private fullMayors: string[] = []
 
-  private interval: ReturnType<typeof setInterval> | null = null;
+  private interval: NullableInterval | null = null;
 
   constructor(@Inject(PLATFORM_ID) private platform: object, private route: ActivatedRoute) {
   }

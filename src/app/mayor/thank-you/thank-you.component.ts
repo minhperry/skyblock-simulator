@@ -1,6 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import {DAY, HOUR, MINUTE} from "../../../interfaces/jerry";
-import {Utils} from "../../../services/utils"
+import {NullableInterval, Utils} from "../../../services/utils"
 
 @Component({
     selector: 'sb-thank-you',
@@ -10,7 +10,7 @@ import {Utils} from "../../../services/utils"
 export class ThankYouComponent implements OnInit, OnDestroy {
     nextJerry = 1738941300
     current = 0
-    private interval: ReturnType<typeof setInterval> | null = null;
+    private interval: NullableInterval = null;
 
     constructor(@Inject(PLATFORM_ID) private platform: object) {
     }

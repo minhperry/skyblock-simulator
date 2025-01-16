@@ -1,12 +1,13 @@
 import { Injectable, Inject } from '@angular/core';
+import {NullableInterval} from "./utils";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TimerService {
   private timer = 0;
-  private intervalId: any = null;
-  private incrementPerMs: number;
+  private intervalId: NullableInterval = null;
+  private readonly incrementPerMs: number;
 
   constructor(@Inject('timeInMs') timeInMs: number) { 
     this.incrementPerMs = timeInMs

@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {TodoCategory, TodoNode} from "../../interfaces/todo";
-import {Utils} from "../../services/utils";
+import {NullableTimeout, Utils} from "../../services/utils";
 import {TodoItemComponent} from "./todo-item/todo-item.component";
 import {FormsModule} from "@angular/forms";
 import {Nullable} from "../../interfaces/types";
@@ -23,7 +23,7 @@ export class TodoComponent implements OnInit{
 
     isPressing = false;
     longPressIndex!: Nullable<number>
-    private pressTimeOut: ReturnType<typeof setTimeout> | null = null;
+    private pressTimeOut: NullableTimeout = null;
 
     clipboardData = ''
     exportData = ''

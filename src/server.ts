@@ -30,7 +30,7 @@ export function app(): express.Express {
   server.set('views', browserDistFolder);
 
   server.use('/api/v1', skycryptRouter);
-  server.use(rateLimit({
+  server.use('/api/v1', rateLimit({
     windowMs: 15 * MINUTE_MS,
     limit: 1,
     handler: (req: express.Request, res: express.Response) => {

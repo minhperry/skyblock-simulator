@@ -9,3 +9,7 @@ export class Utils {
         if (isPlatformServer(platformId)) callbackFn();
     }
 }
+
+
+export type NullableTimeout = ReturnType<typeof setTimeout> | null;
+export type NullableInterval = ReturnType<typeof setInterval> | null;
