@@ -65,10 +65,11 @@
         </div>
       </div>
     }
+    @let locale = 'en-US';
     <div class="d-flex justify-content-center flex-column align-items-center">
-      <div class="mc darkgreen">{{ totalPowder().mithril }} Mithril Powder</div>
-      <div class="mc purple">{{ totalPowder().gemstone }} Gemstone Powder</div>
-      <div class="mc aqua">{{ totalPowder().glacite }} Glacite Powder</div>
+      <div class="mc darkgreen">{{ totalPowder().mithril.toLocaleString(locale) }} Mithril Powder</div>
+      <div class="mc purple">{{ totalPowder().gemstone.toLocaleString(locale) }} Gemstone Powder</div>
+      <div class="mc aqua">{{ totalPowder().glacite.toLocaleString(locale) }} Glacite Powder</div>
     </div>
   </div>
 </div>

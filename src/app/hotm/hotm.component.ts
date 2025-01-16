@@ -20,7 +20,7 @@ import {ParseMCPipe} from "../../pipes/parse-mc.pipe";
   ]
 })
 export class HotmComponent implements OnInit {
-  grid = signal<Nullable<TreeNode>[][]>([])
+  grid = signal<Nullable<TreeNode>[][]>([]);
   selected: Nullable<TreeNode> = null;
   selectedIndex: { row: number; col: number } | null = null;
 
@@ -36,7 +36,7 @@ export class HotmComponent implements OnInit {
         }
 
         const {y} = node.position;
-        const perkValue = node.perk.powderFunc(node.state.currentLevel);
+        const perkValue = this.cumulativePowderSum(node.state.currentLevel, node.perk.powderFunc);
 
         if (y >= 7 && y <= 9) {
           powder.mithril += perkValue;
@@ -145,6 +145,10 @@ export class HotmComponent implements OnInit {
     return false
   }
 
+  private cumulativePowderSum(currentLevel: number, powderFunc: PowderFunction): number {
+    return Array.from({length: currentLevel}, (_, i) => powderFunc(i + 1)).slice(1).reduce((a, b) => a + b, 0);
+  }
+
   // Processors
 
   protected unlockSelected() {
@@ -216,7 +220,8 @@ export class HotmComponent implements OnInit {
       pType = PowderString.GLACITE;
     }
 
-    const amountFormatted = powderFunc(curr).toLocaleString('en-US');
+    let amountFormatted = powderFunc(curr).toLocaleString('en-US');
+    if (curr === 1) amountFormatted = '0';
     return pType.replace('#{#}', amountFormatted);
   }
 
