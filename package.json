@@ -9,7 +9,8 @@
     "test": "ng test",
     "kill": "~/.killold.sh 6969",
     "serve:ssr": "node dist/server/server.mjs",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "lint:json": "npx eslint src/ -f json -o reports/lint.json"
   },
   "private": true,
   "dependencies": {
@@ -52,7 +53,6 @@
     "angular-eslint": "19.0.2",
     "esbuild": "^0.24.0",
     "eslint": "^9.16.0",
-    "eslint-formatter-github": "^0.3.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

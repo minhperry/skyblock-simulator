@@ -29,4 +29,10 @@ jobs:
         run: npm ci
 
       - name: Run ESLint
-        run: npx eslint --format github 'src/**' '*.js'
+        run: npm run lint:json
+        continue-on-error: true
+
+      - uses: ldiego73/eslint-report-action@v1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          report: reports/lint.json
