@@ -11,10 +11,4 @@ import {Nullable} from "../../interfaces/types";
     styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-    searchText: Nullable<string> = null;
-
-    doWikiSearch() {
-        window.open('https://wiki.hypixel.net/index.php?search=' + this.searchText + '&title=Special%3ASearch&fulltext=search')
-    }
-
 }
