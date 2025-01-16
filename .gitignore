@@ -41,7 +41,6 @@ testem.log
 deploy.sh
 src/server/hypixelApi/.env
 /logs
-package-lock.json
 
 # System files
 .DS_Store
