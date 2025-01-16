@@ -3,14 +3,14 @@ import {DAY, HOUR, MINUTE} from "../../../interfaces/jerry";
 import {Utils} from "../../../services/utils"
 
 @Component({
-    selector: 'app-thank-you',
+    selector: 'sb-thank-you',
     templateUrl: './thank-you.component.html',
     styleUrl: './thank-you.component.scss'
 })
 export class ThankYouComponent implements OnInit, OnDestroy {
     nextJerry = 1738941300
     current = 0
-    private interval: any;
+    private interval: ReturnType<typeof setInterval> | null = null;
 
     constructor(@Inject(PLATFORM_ID) private platform: object) {
     }

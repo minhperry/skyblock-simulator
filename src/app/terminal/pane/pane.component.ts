@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { Cell } from '../../../interfaces/cell';
 
 @Component({
-    selector: 'pane',
+  selector: 'sb-pane',
     templateUrl: './pane.component.html',
     styleUrl: './pane.component.scss'
 })

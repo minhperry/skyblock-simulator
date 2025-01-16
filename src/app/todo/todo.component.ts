@@ -6,7 +6,7 @@ import {FormsModule} from "@angular/forms";
 import {Nullable} from "../../interfaces/types";
 
 @Component({
-    selector: 'app-todo',
+    selector: 'sb-todo',
     templateUrl: './todo.component.html',
     imports: [
         TodoItemComponent,
@@ -23,7 +23,7 @@ export class TodoComponent implements OnInit{
 
     isPressing = false;
     longPressIndex!: Nullable<number>
-    private pressTimeOut: any;
+    private pressTimeOut: ReturnType<typeof setTimeout> | null = null;
 
     clipboardData = ''
     exportData = ''
@@ -175,7 +175,7 @@ export class TodoComponent implements OnInit{
         Utils.doIfBrowser(this.platform, () => {
             const allData: Record<string, string> = {};
             for (const key in localStorage) {
-                if (localStorage.hasOwnProperty(key)) {
+                if (Object.prototype.hasOwnProperty.call(localStorage, key)) {
                     allData[key] = localStorage.getItem(key) || '';
                 }
             }

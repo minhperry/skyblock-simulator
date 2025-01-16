@@ -6,7 +6,7 @@ import {Nullable} from "../../../interfaces/types";
 import {Utils} from "../../../services/utils";
 
 @Component({
-    selector: 'app-todo-item',
+    selector: 'sb-todo-item',
     templateUrl: './todo-item.component.html',
     imports: [
         FormsModule
@@ -19,7 +19,7 @@ export class TodoItemComponent {
     @Input() parents!: Nullable<TodoNode>
     @Input() index!: number
 
-    private pressTimeOut!: any
+    private pressTimeOut!: ReturnType<typeof setTimeout>
     isPressing = false;
 
 

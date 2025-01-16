@@ -6,7 +6,7 @@ import {PaneComponent} from "../pane/pane.component";
 import {MatSlider, MatSliderThumb} from "@angular/material/slider";
 
 @Component({
-    selector: 'panegame',
+  selector: 'sb-panegame',
     templateUrl: './panegame.component.html',
     styleUrl: './panegame.component.scss',
   imports: [

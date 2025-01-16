@@ -6,7 +6,7 @@ import {PaneComponent} from "../pane/pane.component";
 import {MatSlider, MatSliderThumb} from "@angular/material/slider";
 
 @Component({
-    selector: 'numbergame',
+  selector: 'sb-numbergame',
     templateUrl: './numbergame.component.html',
     styleUrl: './numbergame.component.scss',
   imports: [

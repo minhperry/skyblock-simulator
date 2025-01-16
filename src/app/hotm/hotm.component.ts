@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AbilityState, InitialHotmTree, PerkState, TreeNode} from "../../interfaces/hotmData";
 import {NgClass} from "@angular/common";
 import {Nullable} from "../../interfaces/types";
@@ -10,7 +10,7 @@ import {ParseMCPipe} from "../../pipes/parse-mc.pipe";
 import {HotmStateService} from "../../services/hotm-state.service";
 
 @Component({
-  selector: 'app-hotm',
+  selector: 'sb-hotm',
   templateUrl: './hotm.component.html',
   styleUrl: './hotm.component.scss',
   imports: [

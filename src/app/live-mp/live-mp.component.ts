@@ -7,14 +7,14 @@ import {FormsModule} from "@angular/forms";
 interface ColumnConfig {
     key: string,
     headerText: string,
-    styles?: any,
-    unicode?: any
+    styles?: { color: string },
+    unicode?: string
 }
 
 type NumOrString = number | string
 
 @Component({
-    selector: 'app-live-mp',
+    selector: 'sb-live-mp',
     templateUrl: './live-mp.component.html',
     imports: [
         NgStyle,
