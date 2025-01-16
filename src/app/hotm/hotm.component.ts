@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AbilityState, InitialHotmTree, PerkState, TreeNode} from "../../interfaces/hotmData";
 import {NgClass} from "@angular/common";
 import {Nullable} from "../../interfaces/types";
@@ -10,7 +10,7 @@ import {ParseMCPipe} from "../../pipes/parse-mc.pipe";
 import {HotmStateService} from "../../services/hotm-state.service";
 
 @Component({
-  selector: 'app-hotm',
+  selector: 'sb-hotm',
   templateUrl: './hotm.component.html',
   styleUrl: './hotm.component.scss',
   imports: [
@@ -38,22 +38,6 @@ export class HotmComponent implements OnInit {
     this.hotmSS.selected$.subscribe(selected => this.selected = selected)
   }
 
-  private initializeGrid_() {
-    this.grid = Array.from({length: 10}, () => Array(7).fill(null));
-
-    for (const nodeData of Object.values(InitialHotmTree)) {
-      const node = nodeData.perk
-      const {x, y} = nodeData.position
-
-      this.grid[y][x] = {
-        id: nodeData.id,
-        position: {x, y},
-        perk: node,
-        state: nodeData.state,
-      }
-    }
-  }
-
   private initializeGrid() {
     const initGrid: TreeNode[][] = Array.from({length: 10}, () => Array(7).fill(null))
 
@@ -73,7 +57,7 @@ export class HotmComponent implements OnInit {
   }
 
   onCellClick_(x: number, y: number) {
-    let selected = this.grid[x][y];
+    const selected = this.grid[x][y];
     this.selected = null
     console.log('clicked: ', x, y)
     this.selected = selected

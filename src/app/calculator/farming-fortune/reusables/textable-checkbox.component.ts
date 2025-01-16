@@ -3,7 +3,7 @@ import {FormsModule} from "@angular/forms";
 import {StrengthComponent} from "../../strength.comp";
 
 @Component({
-    selector: 'checkbox',
+    selector: 'sb-checkbox',
     template: `
         <div class="item {{label}}">
             <label [for]="label" class="form-label">
@@ -15,7 +15,7 @@ import {StrengthComponent} from "../../strength.comp";
                 }
                 <span [innerHTML]="text"> </span>
                 <div class="res">{{ check ? value : 0 }}
-                    <str/>
+                    <sb-str/>
                 </div>
             </label>
         </div>
@@ -34,7 +34,7 @@ export class TextableCheckboxComponent {
     @Input() label!: string;
     @Input() text!: string;
     @Input() value!: number;
-    @Input() check: boolean = false;
+    @Input() check = false;
 
     @Output() checkChange = new EventEmitter<boolean>();
 

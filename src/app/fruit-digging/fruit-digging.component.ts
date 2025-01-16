@@ -7,7 +7,7 @@ import {Nullable} from "../../interfaces/types";
 
 // https://wiki.hypixel.net/Carnival#Fruit_Digging
 @Component({
-  selector: 'app-fruit-digging',
+    selector: 'sb-fruit-digging',
   templateUrl: './fruit-digging.component.html',
   styleUrl: './fruit-digging.component.scss',
     imports: [CommonModule, RollingNumberComponent]
@@ -16,21 +16,21 @@ export class FruitDiggingComponent implements OnInit {
     Q = new Queue<FruitCell>()
     debug = false
 
-    points: number = 0;
-    turn: number = 0;
+    points = 0;
+    turn = 0;
     lastClicked = 0
     content = new Array(49).fill(State.HIDDEN)
 
-    private apples: number = 0
+    private apples = 0
     protected lastFruit: Nullable<FruitCell> = null
-    public reason: string = '~'
+    public reason = '~'
 
     protected shovelMode: ShovelMode = ShovelMode.MINES
     protected shovelModeDesc = this.getModeDesc(this.shovelMode)
-    protected shovelMessage: string = '-'
+    protected shovelMessage = '-'
 
     private fruitContent: FruitCell[] = new Array(49).fill(null)
-    private freq: { [key in Fruit | Bomb]: number } = {
+    private freq: Record<Fruit | Bomb, number> = {
         [Fruit.MANGO]: 10,
         [Fruit.APPLE]: 8,
         [Fruit.WATERMELON]: 4,
@@ -48,7 +48,7 @@ export class FruitDiggingComponent implements OnInit {
     }
 
     generateGrid() {
-        let available = Object.entries(this.freq).flatMap(
+        const available = Object.entries(this.freq).flatMap(
             ([item, fr]) => Array(fr).fill(item)
         )
 
@@ -91,7 +91,7 @@ export class FruitDiggingComponent implements OnInit {
         if (this.content[index] !== State.HIDDEN) return
         if (this.turn >= 15) return;
 
-        let now = Date.now();
+        const now = Date.now();
         if (now - this.lastClicked < 750) {
             return;
         }
@@ -218,7 +218,7 @@ export class FruitDiggingComponent implements OnInit {
     private blowUpAdjacent(index: number): void {
         const adjIdx = this.getAdjacentIndices(index)
             .filter((idx) => this.content[idx] === State.HIDDEN) // only get adjacent index that is hidden.
-        let validAdjFruits = adjIdx
+        const validAdjFruits = adjIdx
             .filter(adjIndex => this.content[adjIndex] === State.HIDDEN) // only take ones that are hidden
             .map(adjIndex => this.fruitContent[adjIndex]) // then map to fruitContent
             .filter(fruit => fruit !== Bomb.BOMB && fruit !== Rum.RUM) // and filtering out bombs and rums
@@ -310,7 +310,7 @@ export class FruitDiggingComponent implements OnInit {
             .filter((i) => this.fruitContent[i] !== Bomb.BOMB && this.fruitContent[i] !== Rum.RUM)
     }
 
-    private shuffle(array: any[]) {
+    private shuffle(array: unknown[]) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
@@ -321,7 +321,7 @@ export class FruitDiggingComponent implements OnInit {
     private replaceSomeWithRum() {
         let val = 5;
         while (val > 0) {
-            let slot = this.randomInterval(0, 48)
+            const slot = this.randomInterval(0, 48)
             if (this.fruitContent[slot] === Fruit.MANGO || this.fruitContent[slot] === Fruit.APPLE) {
                 this.fruitContent[slot] = Rum.RUM
                 val--
@@ -363,16 +363,16 @@ export class FruitDiggingComponent implements OnInit {
         }
 
         let lowestIdx = adjacentFruitIndices[0]
-        for (let idx of adjacentFruitIndices) {
+        for (const idx of adjacentFruitIndices) {
             if (this.getBasePointsAsFruitAtIndex(lowestIdx) >= this.getBasePointsAsFruitAtIndex(idx)) {
                 lowestIdx = idx
             }
         }
 
-        let fruit = this.fruitContent[lowestIdx]
-        let fruitMsg = this.capitalize(fruit)
-        let fruitColor = this.getFruitColor(fruit)
-        let relativeIdx = this.getRelativeIndex(index, lowestIdx)
+        const fruit = this.fruitContent[lowestIdx]
+        const fruitMsg = this.capitalize(fruit)
+        const fruitColor = this.getFruitColor(fruit)
+        const relativeIdx = this.getRelativeIndex(index, lowestIdx)
         this.shovelMessage =
             `<b class="mc aqua">ANCHOR!</b> There is one <span class="mc ${fruitColor}">${fruitMsg}</span> at ${relativeIdx}`
     }
@@ -388,23 +388,23 @@ export class FruitDiggingComponent implements OnInit {
         }
 
         let highestIdx = adjacentFruitIndices[0]
-        for (let idx of adjacentFruitIndices) {
+        for (const idx of adjacentFruitIndices) {
             if (this.getBasePointsAsFruitAtIndex(highestIdx) <= this.getBasePointsAsFruitAtIndex(idx)) {
                 highestIdx = idx
             }
         }
 
-        let fruit = this.fruitContent[highestIdx]
-        let fruitMsg = this.capitalize(fruit)
-        let fruitColor = this.getFruitColor(fruit)
+        const fruit = this.fruitContent[highestIdx]
+        const fruitMsg = this.capitalize(fruit)
+        const fruitColor = this.getFruitColor(fruit)
         this.shovelMessage =
             `<b class="mc gold">TREASURE!</b> There is a(n) <span class="mc ${fruitColor}">${fruitMsg}</span> nearby!`
     }
 
     private getRelativeIndex(_this: number, _of: number) {
-        let [thisRow, thisCol] = [Math.floor(_this / 7), _this % 7]
-        let [ofRow, ofCol] = [Math.floor(_of / 7), _of % 7]
-        let [dRow, dCol] = [thisRow - ofRow, thisCol - ofCol]
+        const [thisRow, thisCol] = [Math.floor(_this / 7), _this % 7]
+        const [ofRow, ofCol] = [Math.floor(_of / 7), _of % 7]
+        const [dRow, dCol] = [thisRow - ofRow, thisCol - ofCol]
 
         let retStr = ''
         if (dCol === 1) retStr += '←'; else if (dCol === -1) retStr += '→'

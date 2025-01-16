@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'ff',
+  selector: 'sb-ff',
     template: `
     <p class="ff">☘</p>
   `,

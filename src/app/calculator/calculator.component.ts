@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FarmingFortuneComponent} from "./farming-fortune/farming-fortune.component";
 
 @Component({
-    selector: 'app-calculator',
+    selector: 'sb-calculator',
     templateUrl: './calculator.component.html',
     imports: [
         FarmingFortuneComponent

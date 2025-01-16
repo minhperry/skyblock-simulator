@@ -10,7 +10,7 @@ import {FormsModule} from "@angular/forms";
 import {NgClass} from "@angular/common";
 
 @Component({
-    selector: 'farming-fortune',
+  selector: 'sb-farming-fortune',
     templateUrl: './farming-fortune.component.html',
   imports: [
     FarmingFortunesComponent,
@@ -99,7 +99,7 @@ export class FarmingFortuneComponent {
     this.calcTotal();
   }
 
-  totalStr: number = 0;
+  totalStr = 0;
   calcTotal() {
     this.totalStr = 0;
     this.sliders.forEach(sl => this.totalStr += sl.func(sl.value));
@@ -119,19 +119,18 @@ export class FarmingFortuneComponent {
   }
   get strengthFromMP() {
     // https://wiki.hypixel.net/Powers#Stat_Calculation
-    let str = 0.75 * 719.28 * Math.pow(Math.log(1 + (0.0019 * this.$mp)), 1.2);
+    const str = 0.75 * 719.28 * Math.pow(Math.log(1 + (0.0019 * this.$mp)), 1.2);
     return round(str);
   }
   get fFortune() {
-    let ff = this.totalStr / 20 * 0.7;
+    const ff = this.totalStr / 20 * 0.7;
     return round(ff);
   }
   get mCowFf() {
     return round(110 + this.fFortune);
   }
-  get eleFf() {
-    return 150;
-  }
+
+  readonly eleFf = 150;
 
   isWinner(item: string): boolean {
     return this.getWinner() === item;

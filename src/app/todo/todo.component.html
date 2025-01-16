@@ -173,7 +173,7 @@
     </div>
     <ul class="list-group">
       @for (todo of selectedCategory.todos; track todo; let i = $index) {
-        <app-todo-item [todo]="todo" [siblingsRef]="selectedCategory.todos" [index]="i"/>
+        <sb-todo-item [todo]="todo" [siblingsRef]="selectedCategory.todos" [index]="i"/>
       }
     </ul>
   </div>

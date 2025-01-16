@@ -3,12 +3,12 @@ import { RadioMapItem } from "../../../../interfaces/input";
 import {StrengthComponent} from "../../strength.comp";
 
 @Component({
-    selector: 'radio',
+  selector: 'sb-radio',
     template: `
         <div class="title">
           <span class="title-text">{{ title }}</span>
           <span class="choice">{{ choice }}
-          <str/></span>
+            <sb-str/></span>
         </div>
         <div class="options">
           @for (option of options; track option) {
@@ -39,11 +39,11 @@ export class RadioComponent {
   @Input() options: RadioMapItem[] = [];
   @Input() title!: string;
   @Input() label!: string;
-  @Input() choice: any;
+  @Input() choice!: number;
 
-  @Output() choiceChange = new EventEmitter<any>();
+  @Output() choiceChange = new EventEmitter();
 
-  onSelectionChange(value: any) {
+  onSelectionChange(value: number) {
     this.choice = value;
     this.choiceChange.emit(value);
   }

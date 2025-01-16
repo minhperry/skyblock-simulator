@@ -3,10 +3,10 @@ import {TodoNode} from "../../../interfaces/todo";
 import {TodoComponent} from "../todo.component";
 import {FormsModule} from "@angular/forms";
 import {Nullable} from "../../../interfaces/types";
-import {Utils} from "../../../services/utils";
+import {NullableTimeout, Utils} from "../../../services/utils";
 
 @Component({
-    selector: 'app-todo-item',
+    selector: 'sb-todo-item',
     templateUrl: './todo-item.component.html',
     imports: [
         FormsModule
@@ -19,13 +19,13 @@ export class TodoItemComponent {
     @Input() parents!: Nullable<TodoNode>
     @Input() index!: number
 
-    private pressTimeOut!: any
+    private pressTimeOut!: NullableTimeout
     isPressing = false;
 
 
     constructor(
       private todoComp: TodoComponent,
-      @Inject(PLATFORM_ID) private platform: Object
+      @Inject(PLATFORM_ID) private platform: object
     ) {
     }
 

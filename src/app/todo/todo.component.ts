@@ -1,12 +1,12 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {TodoCategory, TodoNode} from "../../interfaces/todo";
-import {Utils} from "../../services/utils";
+import {NullableTimeout, Utils} from "../../services/utils";
 import {TodoItemComponent} from "./todo-item/todo-item.component";
 import {FormsModule} from "@angular/forms";
 import {Nullable} from "../../interfaces/types";
 
 @Component({
-    selector: 'app-todo',
+    selector: 'sb-todo',
     templateUrl: './todo.component.html',
     imports: [
         TodoItemComponent,
@@ -23,12 +23,12 @@ export class TodoComponent implements OnInit{
 
     isPressing = false;
     longPressIndex!: Nullable<number>
-    private pressTimeOut: any;
+    private pressTimeOut: NullableTimeout = null;
 
-    clipboardData: string = ''
-    exportData: string = ''
+    clipboardData = ''
+    exportData = ''
 
-    constructor(@Inject(PLATFORM_ID) private platform: Object) {
+    constructor(@Inject(PLATFORM_ID) private platform: object) {
     }
 
     ngOnInit(): void {
@@ -175,7 +175,7 @@ export class TodoComponent implements OnInit{
         Utils.doIfBrowser(this.platform, () => {
             const allData: Record<string, string> = {};
             for (const key in localStorage) {
-                if (localStorage.hasOwnProperty(key)) {
+                if (Object.prototype.hasOwnProperty.call(localStorage, key)) {
                     allData[key] = localStorage.getItem(key) || '';
                 }
             }
@@ -208,7 +208,7 @@ export class TodoComponent implements OnInit{
 
     private calculateNextId(nodes: TodoNode[]): number {
         let maxId = this.nextTodoId;
-        for (let node of nodes) {
+        for (const node of nodes) {
             maxId = Math.max(maxId, node.id);
             maxId = Math.max(maxId, this.calculateNextId(node.children));
         }

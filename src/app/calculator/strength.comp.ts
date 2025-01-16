@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'str',
+  selector: 'sb-str',
     template: `
     <p class="str">❁</p>
   `,

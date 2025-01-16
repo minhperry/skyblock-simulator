@@ -7,7 +7,7 @@ import {PaneComponent} from "../pane/pane.component";
 import {NgOptimizedImage} from "@angular/common";
 
 @Component({
-    selector: 'colorgame',
+  selector: 'sb-colorgame',
     templateUrl: './colorer.component.html',
     styleUrl: './colorer.component.scss',
   imports: [
@@ -65,7 +65,7 @@ export class ColorerComponent implements OnInit, OnDestroy {
   }
 
   private generateGrid(): Cell<null>[][] {
-    let grid$: Cell<null>[][] = [];
+    const grid$: Cell<null>[][] = [];
 
     for (let i = 0; i < this.config.height; i++) {
       grid$[i] = [];

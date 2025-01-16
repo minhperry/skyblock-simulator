@@ -55,9 +55,7 @@ interface ReturnProfileData {
 }
 
 interface Profiles {
-  profiles: {
-    [key: string]: Profile,
-  }
+  profiles: Record<string, Profile>
 }
 
 export interface Profile {

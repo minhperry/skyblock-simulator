@@ -1,13 +1,13 @@
 import express from "express";
 
-export class RequestError {
+export class RequestError<T = unknown> {
   private serverResponse: express.Response;
 
   constructor(res: express.Response) {
     this.serverResponse = res;
   }
 
-  error(status: number, payload: any) {
+  error(status: number, payload: T) {
     if (status <= 499 && status >= 400) {
       this.serverResponse.status(status).json(payload);
     } else {

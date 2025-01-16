@@ -4,14 +4,14 @@ import { debounceTime, Subject } from 'rxjs';
 import {StrengthComponent} from "../../strength.comp";
 
 @Component({
-  selector: 'slider',
+  selector: 'sb-slider',
   template: `
     <div class="item {{label}}">
       <label [for]="label" class="form-label">
         {{ preString }} {{ displayValue }} {{ extraStr }}
         <div class="res">
           {{ calculatedValue }}
-          <str/>
+          <sb-str/>
         </div>
       </label>
       <input type="range" class="form-range"
@@ -29,11 +29,11 @@ export class TextableSliderComponent {
   @Input() preString!: string;
   @Input() min!: number;
   @Input() max!: number;
-  @Input() step: number = 1;
+  @Input() step = 1;
   @Input() value!: number;
   @Input() fromValue!: NumNumFunc;
   @Input() display: NumStringFunc = (v) => v.toString();
-  @Input() extraStr: string = '';
+  @Input() extraStr = '';
 
   @Output() valueChange = new EventEmitter<number>();
 

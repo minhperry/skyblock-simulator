@@ -12,14 +12,12 @@ export interface Perk {
 }
 
 export const mayorData:
-  {
-    [key: string]: {
+  Record<string, {
       imageSrc?: string,
       eventDuration?: number,
       eventMessage?: string,
       perks?: Perk[]
-    }
-  } = {
+    }> = {
   'Aatrox': {
     imageSrc: '/mayor/aatrox.png',
     perks: [
