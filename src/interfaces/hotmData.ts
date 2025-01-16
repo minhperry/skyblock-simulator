@@ -366,7 +366,8 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.SPECIAL_0,
     perk: {
       name: 'Special 0',
-      description: '%GRAY%Grants multiple perks.',
+      description: '%GRAY%Grants multiple perks. See wiki for more details, I can\'t be asked to write all with formatting. ' +
+        'Plus it isn\'t levelable here anyways.',
       requires: [HotmNode.MOLE, HotmNode.KEEP_IT_COOL]
     },
     position: {x: 3, y: 5},
@@ -451,7 +452,7 @@ export const InitialHotmTree: TreeNode[] = [
     id: HotmNode.GREAT_EXPLORER,
     perk: {
       name: 'Great Explorer',
-      description: `%GRAY%Boots %BLUE%Treasure Chests %GRAY%chance in %DPURPLE%Crystal Hollows %GRAY%by %GREEN%#{1}%` +
+      description: `%GRAY%Boosts %BLUE%Treasure Chests %GRAY%chance in %DPURPLE%Crystal Hollows %GRAY%by %GREEN%#{1}%` +
         `%GRAY% and reduces the amount of locks by %GREEN%#{2}%GRAY%.`,
       maxLevel: 20,
       perkFunc: l => ({first: 20 + (l - 1) * 4, second: 1 + Math.floor(l / 5)}),
@@ -486,8 +487,199 @@ export const InitialHotmTree: TreeNode[] = [
     position: {x: 1, y: 3},
     state: InitialPerkState
   },
-
+  {
+    id: HotmNode.POWDER_BUFF,
+    perk: {
+      name: 'Powder Buff',
+      description: `%GRAY%Grants %GREEN%+#{1}% %GRAY%from any sources.`,
+      maxLevel: 50,
+      perkFunc: l => ({first: l, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(3.2),
+      requires: [HotmNode.KEEP_IT_COOL, HotmNode.STEADY_HAND]
+    },
+    position: {x: 3, y: 3},
+    state: InitialPerkState
+  },
+  {
+    id: HotmNode.MINING_FORTUNE_2,
+    perk: {
+      name: 'Fortunate Mineman',
+      description: `%GRAY%Grants %GOLD%+#{1} ${StatString.MINING_FORTUNE}%GRAY%.`,
+      maxLevel: 50,
+      perkFunc: l => ({first: l * 3, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(3.2),
+      requires: [HotmNode.GREAT_EXPLORER, HotmNode.SURVEYOR]
+    },
+    position: {x: 5, y: 3},
+    state: InitialPerkState
+  },
+  // Hotm 8
+  {
+    id: HotmNode.MINERS_BLESSING,
+    perk: {
+      name: 'Miner\'s Blessing',
+      description: `%GRAY%Grants %AQUA%+30 ✯ Magic Find %GRAY%on all %AQUA%Mining Islands%GRAY%.`,
+      requires: [HotmNode.NO_STONE_UNTURNED]
+    },
+    position: {x: 0, y: 2},
+    state: InitialStaticPerkState
+  },
+  {
+    id: HotmNode.NO_STONE_UNTURNED,
+    perk: {
+      name: 'No Stone Unturned',
+      description: `%GRAY%Increases %BLUE%Suspicious Scrap %GRAY%chance by %GREEN%#{1} in %AQUA%Glacite Mineshafts %GRAY%.`,
+      maxLevel: 50,
+      perkFunc: l => ({first: l * 0.5, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(3.05),
+      requires: [HotmNode.METAL_HEAD, HotmNode.STRONG_ARM, HotmNode.MINING_SPEED_2]
+    },
+    position: {x: 1, y: 2},
+    state: InitialPerkState
+  },
+  {
+    id: HotmNode.STRONG_ARM,
+    perk: {
+      name: 'Strong Arm',
+      description: `%GRAY%Gains %GOLD%+#{1} ${StatString.MINING_SPEED}%GRAY% while mining %GOLD%Dwarven Metals%GRAY%.`,
+      maxLevel: 100,
+      perkFunc: l => ({first: l * 5, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(2.3),
+      requires: [HotmNode.NO_STONE_UNTURNED, HotmNode.STEADY_HAND]
+    },
+    position: {x: 2, y: 2},
+    state: InitialPerkState
+  },
+  {
+    id: HotmNode.STEADY_HAND,
+    perk: {
+      name: 'Steady Hand',
+      description: `%GRAY%Grants %YELLOW%+#{1} ${StatString.MINING_SPREAD} %GRAY%while in %AQUA%Glacite Mineshaft%GRAY%.`,
+      maxLevel: 100,
+      perkFunc: l => ({first: l * 0.1, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(2.6),
+      requires: [HotmNode.STRONG_ARM, HotmNode.WARM_HEARTED, HotmNode.POWDER_BUFF, HotmNode.RAGS_TO_RICHES]
+    },
+    position: {x: 3, y: 2},
+    state: InitialPerkState
+  },
+  {
+    id: HotmNode.WARM_HEARTED,
+    perk: {
+      name: 'Warm Heart',
+      description: `%GRAY%Grants %AQUA%+#{1} ${StatString.COLD_RESISTANCE}%GRAY%.`,
+      maxLevel: 50,
+      perkFunc: l => ({first: l * 0.4, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(3.1),
+      requires: [HotmNode.SURVEYOR, HotmNode.STEADY_HAND]
+    },
+    position: {x: 4, y: 2},
+    state: InitialPerkState
+  }, {
+    id: HotmNode.SURVEYOR,
+    perk: {
+      name: 'Surveyor',
+      description: '%GRAY%Increases your chance of %AQUA%Glacite Mineshaft %GRAY%while mining in the %AQUA%Glacite Tunnels %GRAY% by %GREEN%+#{1}%%GRAY%.',
+      maxLevel: 20,
+      perkFunc: l => ({first: l * 0.75, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(4),
+      requires: [HotmNode.WARM_HEARTED, HotmNode.EAGER_ADVENTURER, HotmNode.MINING_FORTUNE_2]
+    },
+    position: {x: 5, y: 2},
+    state: InitialPerkState
+  },
+  {
+    id: HotmNode.MINESHAFT_MAYHEM,
+    perk: {
+      name: 'Mineshaft Mayhem',
+      description: 'Receives one random buff on joining a %AQUA%Glacite Mineshaft%GRAY%:\n' +
+        '%GREEN%+5% %GRAY% chance for %BLUE%Suspicious Scrap\n' +
+        `%GOLD%+100 ${StatString.MINING_FORTUNE}%GRAY%\n` +
+        `%GOLD%+200 ${StatString.MINING_SPEED}%GRAY%\n` +
+        `%GOLD%+10 ${StatString.COLD_RESISTANCE}%GRAY%\n` +
+        '%GREEN%-25% %GRAY%Pickaxe Ability cooldown',
+      requires: [HotmNode.SURVEYOR]
+    },
+    position: {x: 6, y: 2},
+    state: InitialStaticPerkState
+  },
+  // Hotm 9
+  {
+    id: HotmNode.METAL_HEAD,
+    perk: {
+      name: 'Metal Head',
+      description: `%GRAY%Grants %GOLD%+#{1} ${StatString.DWARVEN_METAL_FORTUNE}%GRAY%.`,
+      maxLevel: 20,
+      perkFunc: l => ({first: l * 5, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(4),
+      requires: [HotmNode.NO_STONE_UNTURNED, HotmNode.CRYSTALLINE]
+    },
+    position: {x: 1, y: 1},
+    state: InitialPerkState
+  },
+  {
+    id: HotmNode.RAGS_TO_RICHES,
+    perk: {
+      name: 'Rags to Riches',
+      description: `%GRAY%Grants %GOLD%+#{1} ${StatString.MINING_FORTUNE} %GRAY%while in a %AQUA%Glacite Mineshaft.`,
+      maxLevel: 50,
+      perkFunc: l => ({first: l * 4, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(3.05),
+      requires: [HotmNode.MINING_MASTER, HotmNode.STEADY_HAND]
+    },
+    position: {x: 3, y: 1},
+    state: InitialPerkState
+  },
+  {
+    id: HotmNode.EAGER_ADVENTURER,
+    perk: {
+      name: 'Eager Adventurer',
+      description: `%GRAY%Grants %GOLD%+#{1} ${StatString.MINING_SPEED}%GRAY% while in a %AQUA%Glacite Mineshafts%GRAY%.`,
+      maxLevel: 100,
+      perkFunc: l => ({first: l * 4, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(2.3),
+      requires: [HotmNode.VANGUARD_SEEKER, HotmNode.SURVEYOR]
+    },
+    position: {x: 5, y: 1},
+    state: InitialPerkState
+  },
   // Hotm 10
+  {
+    id: HotmNode.GEMSTONE_INFUSION,
+    perk: {
+      name: 'Gemstone Infusion',
+      description: '%GRAY%Increases the effectiveness of %GOLD%every Gemstone %GRAY%in your pick\'s Gemstone Slots by %GREEN%100% %GRAY%for %GREEN%20s%GRAY%.',
+      requires: [HotmNode.CRYSTALLINE]
+    },
+    position: {x: 0, y: 0},
+    state: InitialAbilityState
+  },
+  {
+    id: HotmNode.CRYSTALLINE,
+    perk: {
+      name: 'Crystalline',
+      description: `%GRAY%Increases your chances of finding a %AQUA%Glacite Mineshaft %GRAY%containing a %PURPLE%Gemstone Crystal %GRAY%by %GREEN%#{1}%%GRAY%.`,
+      maxLevel: 50,
+      perkFunc: l => ({first: l * 0.5, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(3.3),
+      requires: [HotmNode.METAL_HEAD, HotmNode.GIFTS_FROM_THE_DEPARTED]
+    },
+    position: {x: 1, y: 0},
+    state: InitialPerkState
+  },
+  {
+    id: HotmNode.GIFTS_FROM_THE_DEPARTED,
+    perk: {
+      name: 'Gifts from the Departed',
+      description: `%GRAY%Gain a %GREEN%0.2% %GRAY%chance to get an extra item when looting a %AQUA%Frozen Corpse%GRAY%.`,
+      maxLevel: 100,
+      perkFunc: l => ({first: 0.2 * l, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(2.45),
+      requires: [HotmNode.CRYSTALLINE, HotmNode.MINING_MASTER]
+    },
+    position: {x: 2, y: 0},
+    state: InitialPerkState
+  },
   {
     id: HotmNode.MINING_MASTER,
     perk: {
@@ -496,10 +688,46 @@ export const InitialHotmTree: TreeNode[] = [
       maxLevel: 10,
       perkFunc: l => ({first: l * 0.1, second: 0}),
       powderFunc: p => Math.floor(Math.pow(p + 7, 5)),
-      requires: [HotmNode.RAGS_TO_RICHES]
+      requires: [HotmNode.GIFTS_FROM_THE_DEPARTED, HotmNode.HUNGRY_FOR_MORE]
     },
     position: {x: 3, y: 0},
     state: InitialPerkState
+  },
+  {
+    id: HotmNode.HUNGRY_FOR_MORE,
+    perk: {
+      name: 'Dead Man\'s Chest',
+      description: `%GRAY%Gain a %GREEN%#{1}% %GRAY%chance to spawn %GREEN%1 %GRAY%additional %AQUA%Frozen Corpse %GRAY%when you enter a %AQUA%Glacite Mineshaft%GRAY%.`,
+      maxLevel: 50,
+      perkFunc: l => ({first: l, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(3.2),
+      requires: [HotmNode.MINING_MASTER, HotmNode.VANGUARD_SEEKER]
+    },
+    position: {x: 4, y: 0},
+    state: InitialPerkState
+  },
+  {
+    id: HotmNode.VANGUARD_SEEKER,
+    perk: {
+      name: 'Vanguard Seeker',
+      description: `%GRAY%Increases %PURPLE%Fairy Mineshaft %GRAY%chance with %WHITE%Vanguard Corpse %GRAY%by %GREEN%#{1}%%GRAY%.`,
+      maxLevel: 50,
+      perkFunc: l => ({first: l, second: 0}),
+      powderFunc: floorOfNextPlusOneExp(3.1),
+      requires: [HotmNode.HUNGRY_FOR_MORE, HotmNode.EAGER_ADVENTURER]
+    },
+    position: {x: 5, y: 0},
+    state: InitialPerkState
+  },
+  {
+    id: HotmNode.SHEER_FORCE,
+    perk: {
+      name: 'Sheer Force',
+      description: `%GRAY%Grants %YELLOW%+200 ${StatString.MINING_SPREAD} %GRAY%for %GREEN%20s%GRAY%.`,
+      requires: [HotmNode.VANGUARD_SEEKER]
+    },
+    position: {x: 6, y: 0},
+    state: InitialAbilityState
   }
 ]
 
