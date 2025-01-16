@@ -1,6 +1,7 @@
 import {Component, Inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import {DAY, HOUR, Mayor, mayorData, MINUTE} from "../../../interfaces/jerry";
 import {Utils} from "../../../services/utils";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'app-mayor-cycle',
@@ -8,23 +9,30 @@ import {Utils} from "../../../services/utils";
     styleUrl: './mayor-cycle.component.scss'
 })
 export class MayorCycleComponent implements OnInit, OnDestroy {
-    absoluteStartTime: number = 1728227700
+    absoluteStartTime!: number
     jerryEndTime = this.absoluteStartTime + 5 * DAY + 4 * HOUR
 
     currentTime: number = Math.floor(Date.now() / 1000);
     eventOffset = 15 * MINUTE
     cycleLength = 6 * HOUR
+    month!: string
 
     mayors: Mayor[] = [];
-    private mayorNames = ['Finnegan', 'Marina', 'Paul', 'Cole', 'Aatrox', 'Diana']
+    private mayorOrder!: string[] //= ['Finnegan', 'Marina', 'Paul', 'Cole', 'Aatrox', 'Diana']
     private fullMayors: string[] = []
 
     private interval: any;
 
-    constructor(@Inject(PLATFORM_ID) private platform: Object) {
+    constructor(@Inject(PLATFORM_ID) private platform: Object, private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
+        this.route.data.subscribe(data => {
+            this.absoluteStartTime = data['start'];
+            this.month = data['month'];
+            this.mayorOrder = data['order'];
+            this.jerryEndTime = this.absoluteStartTime + 5 * DAY + 4 * HOUR;
+        });
         this.updateTime();
         this.extendMayorNamesUntilJerryEnd()
         this.mayors = this.fullMayors.map(name => {
@@ -127,8 +135,8 @@ export class MayorCycleComponent implements OnInit, OnDestroy {
         const totalSlots = Math.floor(totalDuration / this.cycleLength);
 
         for (let i = 0; i <= totalSlots; i++) {
-            const mayorIndex = i % this.mayorNames.length;
-            this.fullMayors.push(this.mayorNames[mayorIndex]);
+            const mayorIndex = i % this.mayorOrder.length;
+            this.fullMayors.push(this.mayorOrder[mayorIndex]);
         }
     }
 
