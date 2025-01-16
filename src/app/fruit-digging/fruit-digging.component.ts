@@ -7,7 +7,7 @@ import {Nullable} from "../../interfaces/types";
 
 // https://wiki.hypixel.net/Carnival#Fruit_Digging
 @Component({
-  selector: 'app-fruit-digging',
+    selector: 'sb-fruit-digging',
   templateUrl: './fruit-digging.component.html',
   styleUrl: './fruit-digging.component.scss',
     imports: [CommonModule, RollingNumberComponent]

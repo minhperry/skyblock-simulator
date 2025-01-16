@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {MarkdownComponent} from "ngx-markdown";
 
 @Component({
-    selector: 'app-home',
+  selector: 'sb-home',
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss',
     imports: [MarkdownComponent]

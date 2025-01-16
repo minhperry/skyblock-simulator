@@ -39,11 +39,11 @@ export class RadioComponent {
   @Input() options: RadioMapItem[] = [];
   @Input() title!: string;
   @Input() label!: string;
-  @Input() choice: any;
+  @Input() choice!: number;
 
-  @Output() choiceChange = new EventEmitter<any>();
+  @Output() choiceChange = new EventEmitter();
 
-  onSelectionChange(value: any) {
+  onSelectionChange(value: number) {
     this.choice = value;
     this.choiceChange.emit(value);
   }
