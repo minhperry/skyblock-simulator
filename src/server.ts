@@ -4,11 +4,11 @@ import express from 'express';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import bootstrap from './main.server';
-import skycryptRouter from "./server/skycryptApi";
+import skycryptRouter from '../server/skycryptApi';
 import NodeCache from "node-cache";
-import {MINUTE, MINUTE_MS} from "./server/commons/time";
+import {MINUTE, MINUTE_MS} from '../server/commons/time';
 import rateLimit from "express-rate-limit";
-import {ErrorPayload, RequestError} from "./server/commons/error";
+import {ErrorPayload, RequestError} from '../server/commons/error';
 
 // Profile data cache check every 5min.
 export const v1cache = new NodeCache({checkperiod: 5 * MINUTE});

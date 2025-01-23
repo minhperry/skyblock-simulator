@@ -39,7 +39,7 @@ testem.log
 
 # My shit
 deploy.sh
-src/server/hypixelApi/.env
+server/hypixelApi/.env
 /logs
 
 # System files

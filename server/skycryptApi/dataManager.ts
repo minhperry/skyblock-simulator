@@ -1,4 +1,4 @@
-import {v1cache, skycryptEndpoint} from "../../server";
+import {v1cache, skycryptEndpoint} from '../../src/server';
 import {Logger} from "../commons/logger";
 import {MINUTE} from "../commons/time";
 
