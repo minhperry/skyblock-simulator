@@ -72,7 +72,7 @@ export const routes: Routes = [
     data: {
       start: 1738941300,
       month: 'February 2025',
-      order: ['??', '??', '??', '??', '??', '??']
+      order: ['Finnegan', 'Cole', '??', 'Marina', '??', '??']
     }
   },
   /*
