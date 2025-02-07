@@ -68,7 +68,7 @@ export const routes: Routes = [
   {
     path: 'jerry',
     component: MayorCycleComponent,
-    title: 'Preview Jerry Feb 2025',
+    title: 'Jerry Feb 2025',
     data: {
       start: 1738941300,
       month: 'February 2025',
