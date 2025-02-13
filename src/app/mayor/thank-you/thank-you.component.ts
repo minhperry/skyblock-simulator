@@ -1,14 +1,18 @@
 import {Component, Inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import {DAY, HOUR, MINUTE} from "../../../interfaces/jerry";
 import {NullableInterval, Utils} from "../../../services/utils"
+import {RouterLink} from '@angular/router';
 
 @Component({
     selector: 'sb-thank-you',
     templateUrl: './thank-you.component.html',
+    imports: [
+        RouterLink
+    ],
     styleUrl: './thank-you.component.scss'
 })
 export class ThankYouComponent implements OnInit, OnDestroy {
-    nextJerry = 1738941300
+    nextJerry = 1749654900
     current = 0
     private interval: NullableInterval = null;
 
