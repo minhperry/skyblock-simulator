@@ -4,19 +4,9 @@ import express from 'express';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import bootstrap from './main.server';
-import skycryptRouter from '../server/skycryptApi';
-import NodeCache from "node-cache";
-import {MINUTE, MINUTE_MS} from '../server/commons/time';
+import {MINUTE_MS} from '../server/commons/time';
 import rateLimit from "express-rate-limit";
 import {ErrorPayload, RequestError} from '../server/commons/error';
-
-// Profile data cache check every 5min.
-export const v1cache = new NodeCache({checkperiod: 5 * MINUTE});
-
-export const skycryptEndpoint = 'https://sky.shiiyu.moe/api/v2';
-
-export const hypixelEndpoint = 'https://api.hypixel.net';
-
 
 export function app(): express.Express {
   const server = express();
@@ -29,7 +19,7 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
-  server.use('/api/v1', skycryptRouter);
+  // server.use('/api/v1', skycryptRouter);
   server.use('/api/v1', rateLimit({
     windowMs: 15 * MINUTE_MS,
     limit: 1,
