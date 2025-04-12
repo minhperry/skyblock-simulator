@@ -2,10 +2,12 @@ name: ESLint Check
 
 on:
   pull_request:
+    branches:
+      - main
     paths:
       - 'src/**'
       - '*.js'
-    types: [ opened, synchronize, reopened, closed ]
+    types: [ opened, synchronize, reopened, closed ] # -> only with pull_request
 
 jobs:
   eslint:
@@ -18,21 +20,29 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '22.11.0'
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install
 
       - name: Run ESLint
         run: npm run lint:json
         continue-on-error: true
 
-      - uses: ldiego73/eslint-report-action@v1.1
+      - name: Annotate Code Linting Results
+        uses: ataylorme/eslint-annotate-action@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          report: reports/lint.json
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          report-json: "./reports/lint.json"
+          only-pr-files: 'false'
