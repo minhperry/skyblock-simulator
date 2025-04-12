@@ -67,13 +67,16 @@ export const routes: Routes = [
   },
   {
     path: 'jerry',
+    /*
     component: MayorCycleComponent,
-    title: 'Preview Jerry Feb 2025',
+    title: 'Jerry June 2025',
     data: {
-      start: 1738941300,
-      month: 'February 2025',
+      start: 1749654900,
+      month: 'June 2025',
       order: ['??', '??', '??', '??', '??', '??']
     }
+    */
+    redirectTo: 'archive'
   },
   /*
   {
@@ -96,6 +99,16 @@ export const routes: Routes = [
               start: 1728227700,
               month: 'October 2024',
               order: ['Finnegan', 'Marina', 'Paul', 'Cole', 'Aatrox', 'Diana']
+            }
+          },
+          {
+            path: 'feb25',
+            component: MayorCycleComponent,
+            title: 'Feb 25 Jerry Cycle',
+            data: {
+              start: 1738941300,
+              month: 'February 2025',
+              order: ['Finnegan', 'Cole', 'Marina', 'Diana', 'Aatrox', 'Paul']
             }
           }
         ]
