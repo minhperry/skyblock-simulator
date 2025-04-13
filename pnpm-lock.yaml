@@ -115,13 +115,13 @@ importers:
         specifier: ^19.0.0
         version: 19.0.0(@angular/compiler@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.15.0)))(typescript@5.5.4)
       '@types/express':
-        specifier: ^4.17.17
+        specifier: ^4.17.21
         version: 4.17.21
       '@types/jasmine':
         specifier: ~5.1.0
         version: 5.1.4
       '@types/node':
-        specifier: ^18.18.0
+        specifier: ^18.19.59
         version: 18.19.59
       angular-eslint:
         specifier: 19.0.2
@@ -151,7 +151,7 @@ importers:
         specifier: ~2.1.0
         version: 2.1.0(jasmine-core@5.1.2)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4)
       typescript:
-        specifier: ~5.5.2
+        specifier: ~5.5.4
         version: 5.5.4
       typescript-eslint:
         specifier: 8.18.0
