@@ -14,6 +14,16 @@ export const swaggerSpec = swaggerJSDoc({
         description: 'Uses the Hypixel and Mojang API directly',
       }
     ],
+    tags: [
+      {
+        name: 'Player',
+        description: 'Player related endpoints, mostly communicating with Mojang API.',
+      },
+      {
+        name: 'Profiles',
+        description: 'Player profile endpoints.'
+      }
+    ]
   },
   apis: ['./server/hypixelApi/**/*.ts'],
 })
