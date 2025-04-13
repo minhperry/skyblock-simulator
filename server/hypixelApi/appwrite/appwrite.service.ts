@@ -1,8 +1,15 @@
-import {$db, $dbId} from '../index';
 import {Player} from '../api/player/player.model';
-import {Query} from 'appwrite';
+import {Client, Databases, Query} from 'appwrite';
 
-const DB = $db
+// Appwrite client
+const $client = new Client();
+$client
+  .setProject('67face2d002b747386e4')
+  .setEndpoint('https://cloud.appwrite.io/v1')
+
+// DB stuffs
+const $dbId = 'hypixel'
+const DB = new Databases($client)
 
 export async function savePlayer(player: Player): Promise<void> {
   try {
