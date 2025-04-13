@@ -1,5 +1,5 @@
 import {Player} from '../api/player/player.model';
-import {AppwriteException, Client, Databases, Query} from 'node-appwrite';
+import {Client, Databases, Query} from 'node-appwrite';
 import {DatabaseEntryNotFoundError, DatabaseReadError} from '../../commons/error';
 
 // Appwrite client
