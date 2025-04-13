@@ -3,7 +3,11 @@ import {$router} from '../server/hypixelApi';
 import {Req, Res} from '../server/hypixelApi/utils/types';
 import dotenv from 'dotenv';
 
+import swaggerUi from 'swagger-ui-express'
+import {swaggerSpec} from '../server/hypixelApi/swagger/swagger';
+
 // Actually inject env vars in process.env
+// Add this in server.ts too
 dotenv.config();
 
 export function app(): express.Express {
@@ -13,6 +17,9 @@ export function app(): express.Express {
   server.get('/', (req: Req, res: Res) => {
     res.send({rootIs: 'active'})
   })
+
+  // Add this in server.ts too
+  server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
   return server
 }
