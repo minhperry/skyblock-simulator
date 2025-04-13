@@ -2,6 +2,7 @@ import axios from 'axios';
 import {Player, PlayerResponse, PlayerSchema} from './player.model';
 import {getPlayerByNameFromDB, savePlayer} from '../../appwrite/appwrite.service';
 import {MojangNotFoundError, ZodValidationError} from '../../../commons/error';
+import {joinZodError} from '../../utils/zod';
 
 const MOJANG_API_URL = 'https://api.minecraftservices.com/minecraft/profile/lookup/name/'
 
@@ -12,7 +13,6 @@ const MOJANG_API_URL = 'https://api.minecraftservices.com/minecraft/profile/look
  * @throws ZodValidationError if the player data is not valid. (aka non-200 responses)
  */
 async function getPlayerByNameFromAPI(playerName: string): Promise<Player> {
-
   console.log(`Calling Mojang API for player ${playerName}...`)
   // Get player data from Mojang API
   const resp = await fetch(`${MOJANG_API_URL}${playerName}`)
@@ -21,7 +21,7 @@ async function getPlayerByNameFromAPI(playerName: string): Promise<Player> {
     throw new MojangNotFoundError('Player not found on Mojang API!')
   }
 
-  const player = resp.body as unknown as PlayerResponse
+  const player = (await resp.json()) as PlayerResponse
 
   // Validate with Zod
   const validation = PlayerSchema.safeParse({
@@ -31,7 +31,7 @@ async function getPlayerByNameFromAPI(playerName: string): Promise<Player> {
 
   // Either this or MojangNotFoundError only, since non-200 would just trigger failed validation
   if (!validation.success) {
-    throw new ZodValidationError('Player schema is not valid!')
+    throw new ZodValidationError(joinZodError(validation.error))
   }
 
   // Save to database
@@ -50,11 +50,11 @@ async function getPlayerByNameFromAPI(playerName: string): Promise<Player> {
 /**
  * Get a player by name. Will first check in the Appwrite DB, and if not found, will fetch from Mojang API.
  * @param playerName the player name to fetch
- * @returns the player data, or null if not found
+ * @returns the player data
  * @throws ZodValidationError if the player data from Mojang API is not valid
  * @throws DatabaseReadError if there is an error reading from the database
  */
-export async function getPlayerByName(playerName: string): Promise<Player | null> {
+export async function getPlayerByName(playerName: string): Promise<Player> {
   // First get player data from Appwrite DB
   const playerFromDB = await getPlayerByNameFromDB(playerName)
 
