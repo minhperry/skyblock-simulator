@@ -18,8 +18,3 @@ export interface PlayerResponse {
   id: string,
   name: string,
 }
-
-export interface FailedPlayerResponse {
-  path: string,
-  errorMessage: string,
-}
