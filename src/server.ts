@@ -4,9 +4,7 @@ import express from 'express';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import bootstrap from './main.server';
-import {MINUTE_MS} from '../server/commons/time';
-import rateLimit from "express-rate-limit";
-import {ErrorPayload, RequestError} from '../server/commons/error';
+import {$router} from '../server/hypixelApi';
 
 export function app(): express.Express {
   const server = express();
@@ -19,15 +17,7 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
-  // server.use('/api/v1', skycryptRouter);
-  server.use('/api/v1', rateLimit({
-    windowMs: 15 * MINUTE_MS,
-    limit: 1,
-    handler: (req: express.Request, res: express.Response) => {
-      return new RequestError(res).error(429, ErrorPayload.RATE_LIMITED);
-    },
-    standardHeaders: 'draft-7'
-  }))
+  server.use('/api/v2', $router);
 
   // Serve static files from /browser
   server.get('**', express.static(browserDistFolder, {
