@@ -66,6 +66,7 @@ export async function getPlayerByNameFromDB(playerName: string): Promise<Player 
  * @param uuid the UUID of the player to fetch
  * @returns {`null`} if the player is not found, else returns the player data
  * @throws {DatabaseReadError} if there is an error reading from the database
+ * @throws {DatabaseEntryNotFoundError} if the UUID is not found in the database
  */
 export async function getPlayerByUuidFromDB(uuid: string): Promise<Player | null> {
   try {
@@ -80,7 +81,7 @@ export async function getPlayerByUuidFromDB(uuid: string): Promise<Player | null
       ]
     )
 
-    // If not found, return null
+    // If not found, throws
     if (resp.documents.length === 0) {
       throw new DatabaseEntryNotFoundError('UUID not found in Database!')
     }
