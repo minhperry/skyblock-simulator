@@ -56,10 +56,36 @@ export async function getPlayerByNameFromDB(playerName: string): Promise<Player 
       uuid: playerDoc.uuid,
       username: playerDoc.username
     }
-  } catch (e: unknown) {
-    if (e instanceof AppwriteException) {
-      console.error('Appwrite error:', e.message)
+  } catch {
+    throw new DatabaseReadError('Error reading from Appwrite database')
+  }
+}
+
+export async function getPlayerByUuidFromDB(uuid: string): Promise<Player | null> {
+  try {
+    console.log(`Getting player ${uuid} from DB...`)
+
+    // Query the database for the player by uuid
+    const resp = await DB.listDocuments(
+      $dbId,
+      'player',
+      [
+        Query.equal('uuid', uuid)
+      ]
+    )
+
+    // If not found, return null
+    if (resp.documents.length === 0) {
+      return null
     }
+
+    // If found, return the player data
+    const playerDoc = resp.documents[0] as unknown as Player;
+    return {
+      uuid: playerDoc.uuid,
+      username: playerDoc.username
+    }
+  } catch {
     throw new DatabaseReadError('Error reading from Appwrite database')
   }
 }
