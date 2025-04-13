@@ -1,6 +1,10 @@
 import express from 'express';
 import {$router} from '../server/hypixelApi';
 import {Req, Res} from '../server/hypixelApi/utils/types';
+import dotenv from 'dotenv';
+
+// Actually inject env vars in process.env
+dotenv.config();
 
 export function app(): express.Express {
   const server = express();
