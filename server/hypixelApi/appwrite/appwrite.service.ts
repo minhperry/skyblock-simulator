@@ -1,6 +1,6 @@
 import {Player} from '../api/player/player.model';
 import {AppwriteException, Client, Databases, Query} from 'node-appwrite';
-import {DatabaseReadError} from '../../commons/error';
+import {DatabaseEntryNotFoundError, DatabaseReadError} from '../../commons/error';
 
 // Appwrite client
 const $client = new Client();
@@ -61,6 +61,12 @@ export async function getPlayerByNameFromDB(playerName: string): Promise<Player 
   }
 }
 
+/**
+ * Get a player by UUID from Database.
+ * @param uuid the UUID of the player to fetch
+ * @returns {`null`} if the player is not found, else returns the player data
+ * @throws {DatabaseReadError} if there is an error reading from the database
+ */
 export async function getPlayerByUuidFromDB(uuid: string): Promise<Player | null> {
   try {
     console.log(`Getting player ${uuid} from DB...`)
@@ -76,7 +82,7 @@ export async function getPlayerByUuidFromDB(uuid: string): Promise<Player | null
 
     // If not found, return null
     if (resp.documents.length === 0) {
-      return null
+      throw new DatabaseEntryNotFoundError('UUID not found in Database!')
     }
 
     // If found, return the player data
@@ -85,7 +91,8 @@ export async function getPlayerByUuidFromDB(uuid: string): Promise<Player | null
       uuid: playerDoc.uuid,
       username: playerDoc.username
     }
-  } catch {
+  } catch (e) {
+    if (e instanceof DatabaseEntryNotFoundError) throw e; // rethrow lol
     throw new DatabaseReadError('Error reading from Appwrite database')
   }
 }
