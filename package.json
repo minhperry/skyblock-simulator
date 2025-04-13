@@ -11,7 +11,7 @@
     "serve:ssr": "node dist/server/server.mjs",
     "lint": "ng lint",
     "lint:json": "npx eslint src/ -f json -o reports/lint.json",
-    "dev:be": "tsx src/server.dev.ts"
+    "dev:be": "tsx --watch src/server.dev.ts"
   },
   "private": true,
   "dependencies": {
