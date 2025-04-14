@@ -1,13 +1,13 @@
-// import Hypixel from 'hypixel-api-reborn'
-
 import {getPlayerByName} from '../player/player.service';
-import {ProfileArraySchema, Profile, GameMode} from './profile.model';
+import {GameMode, Profile, ProfileArraySchema} from './profile.model';
 import {HypixelApiError, ZodValidationError} from '../../utils/error';
-import {joinZodError} from '../../utils/zod';
+import log4js from 'log4js';
 
 function getAPIKey() {
   return process.env['HYPIXEL_API_KEY']!
 }
+
+let L = log4js.getLogger('profile.service')
 
 /**
  * Fetches the profile list of a player by their name from the Hypixel API.
@@ -15,13 +15,12 @@ function getAPIKey() {
  * @returns A promise that resolves to an array of profiles.
  * @throws {HypixelApiError} If there is an error fetching data from the Hypixel API.
  * @throws {ZodValidationError} If the response from the Hypixel API does not match the expected schema, or {@link getPlayerByName} fails.
+ * @throws {MojangNotFoundError} If the player is not found in the Mojang API.
  * @throws {DatabaseReadError} If there is an error reading the player data from the database.
  */
 export async function getProfileList(playerName: string): Promise<Profile[]> {
-
+  L.log(`Trying to fetch player ${playerName}'s profile list`)
   const player = await getPlayerByName(playerName)
-
-  console.log(process.env['HYPIXEL_API_KEY'])
 
   const profileListResp =
     await fetch(`https://api.hypixel.net/v2/skyblock/profiles?uuid=${player.uuid}`, {
@@ -32,24 +31,24 @@ export async function getProfileList(playerName: string): Promise<Profile[]> {
 
   // Catch any Hypixel API errors
   if (profileListResp.status !== 200) {
-    throw new HypixelApiError(
-      'Error fetching data from Hypixel API',
-      profileListResp.status,
-      (await profileListResp.json()).cause
-    )
+    const code = profileListResp.status
+    const cause = (await profileListResp.json()).cause
+
+    L.error(`Hypixel API returned error: ${code}, ${cause}`)
+    throw new HypixelApiError('Error fetching data from Hypixel API', code, cause)
   }
 
   const profileListJson = (await profileListResp.json()).profiles
   const validation = ProfileArraySchema.safeParse(profileListJson)
 
   if (!validation.success) {
-    console.log('Zod error: =========================== \n', validation.error)
+    L.error(`Hypixel API response does not match schema`)
     throw new ZodValidationError(validation.error.message)
   }
 
   const validatedArray = validation.data
 
-  const profileList: Profile[] = validatedArray.map(zodProfile => {
+  return validatedArray.map(zodProfile => {
     return {
       profileId: zodProfile.profile_id,
       fruitName: zodProfile.cute_name,
@@ -57,6 +56,4 @@ export async function getProfileList(playerName: string): Promise<Profile[]> {
       active: zodProfile.selected
     }
   })
-
-  return profileList
 }
