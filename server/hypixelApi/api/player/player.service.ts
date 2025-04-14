@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {Player, PlayerResponse, PlayerSchema} from './player.model';
-import {getPlayerByNameFromDB, savePlayer} from '../../appwrite/appwrite.service';
+import {getPlayerByNameFromDB, savePlayer} from '../../appwrite/player.service';
 import {MojangNotFoundError, ZodValidationError} from '../../../commons/error';
 import {joinZodError} from '../../utils/zod';
 
