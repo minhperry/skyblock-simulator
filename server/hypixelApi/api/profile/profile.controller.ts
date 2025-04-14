@@ -1,7 +1,7 @@
 import express from 'express';
 import {Req, Res} from '../../utils/types';
 import {getProfileList} from './profile.service';
-import {DatabaseReadError, HypixelApiError, ZodValidationError} from '../../utils/error';
+import {DatabaseReadError, HypixelApiError, MojangNotFoundError, ZodValidationError} from '../../utils/error';
 
 export const $profileRouter = express.Router()
 
@@ -29,6 +29,11 @@ $profileRouter.get('/list/:name', async (req: Req, res: Res) => {
     } else if (e instanceof DatabaseReadError) {
       res.status(500).json({
         error: 'Internal error',
+        message: e.message
+      })
+    } else if (e instanceof MojangNotFoundError) {
+      res.status(404).json({
+        error: 'Player not found',
         message: e.message
       })
     }
