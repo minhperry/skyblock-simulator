@@ -12,7 +12,7 @@ export const $profileRouter = express.Router()
  *     summary: Get SkyBlock profiles of a player
  *     description: Fetches all SkyBlock profiles associated with a player name from the Hypixel API.
  *     tags:
- *       - Profiles
+ *       - Profile
  *     parameters:
  *       - name: name
  *         in: path
@@ -47,8 +47,8 @@ export const $profileRouter = express.Router()
  *                   active:
  *                     type: boolean
  *                     example: false
- *       404:
- *         description: Player not found in Mojang
+ *       400:
+ *         description: Invalid player name format
  *         content:
  *           application/json:
  *             schema:
@@ -56,46 +56,68 @@ export const $profileRouter = express.Router()
  *               properties:
  *                 error:
  *                   type: string
- *                   example: Player not found
+ *                   example: "Invalid player name format"
  *                 message:
  *                   type: string
- *                   example: Could not resolve player UUID
- *       500:
- *         description: Failed to fetch data or internal error
+ *                   example: "Player name must only contain alphanumeric characters and underscores"
+ *       404:
+ *         description: Player not found
  *         content:
  *           application/json:
  *             schema:
- *               oneOf:
- *                 - type: object
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Player not found"
+ *                 message:
+ *                   type: string
+ *                   example: "Could not resolve player UUID"
+ *       422:
+ *         description: Data from Hypixel API did not match expected schema
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Data from Hypixel API did not match expected schema"
+ *                 message:
+ *                   type: string
+ *                   example: "Invalid enum value"
+ *       503:
+ *         description: Failed to fetch data from Hypixel API
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Failed to fetch data from Hypixel API"
+ *                 message:
+ *                   type: object
  *                   properties:
- *                     error:
+ *                     hypixelStatus:
+ *                       type: number
+ *                       example: 503
+ *                     hypixelMessage:
  *                       type: string
- *                       example: Failed to fetch data from Hypixel API
- *                     message:
- *                       type: object
- *                       properties:
- *                         hypixelStatus:
- *                           type: number
- *                           example: 503
- *                         hypixelMessage:
- *                           type: string
- *                           example: "Service Unavailable"
- *                 - type: object
- *                   properties:
- *                     error:
- *                       type: string
- *                       example: Data from Hypixel API did not match expected schema
- *                     message:
- *                       type: string
- *                       example: "Invalid enum value"
- *                 - type: object
- *                   properties:
- *                     error:
- *                       type: string
- *                       example: Internal error
- *                     message:
- *                       type: string
- *                       example: "Database connection failed"
+ *                       example: "Service Unavailable"
+ *       500:
+ *         description: Internal server error (DB issues or unknown errors)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Internal error"
+ *                 message:
+ *                   type: string
+ *                   example: "Database connection failed"
  */
 $profileRouter.get('/list/:name', async (req: Req, res: Res) => {
   const playerName = req.params['name']
@@ -106,7 +128,7 @@ $profileRouter.get('/list/:name', async (req: Req, res: Res) => {
     profileList = await getProfileList(playerName)
   } catch (e) {
     if (e instanceof HypixelApiError) {
-      res.status(500).json({
+      res.status(503).json({
         error: 'Failed to fetch data from Hypixel API',
         message: {
           hypixelStatus: e.responseCode,
@@ -114,7 +136,7 @@ $profileRouter.get('/list/:name', async (req: Req, res: Res) => {
         }
       })
     } else if (e instanceof ZodValidationError) {
-      res.status(500).json({
+      res.status(422).json({
         error: 'Data from Hypixel API did not match expected schema',
         message: e.message
       })

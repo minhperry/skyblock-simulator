@@ -20,7 +20,7 @@ export const swaggerSpec = swaggerJSDoc({
         description: 'Player related endpoints, mostly communicating with Mojang API.',
       },
       {
-        name: 'Profiles',
+        name: 'Profile',
         description: 'Player profile endpoints.'
       }
     ]
