@@ -1,12 +1,12 @@
-import log4js from 'log4js'
 import {Player, PlayerResponse, PlayerSchema} from './player.model';
 import {getPlayerByNameFromDB, savePlayer} from '../../appwrite/player.service';
 import {MojangNotFoundError, ZodValidationError} from '../../utils/error';
 import {joinZodError} from '../../utils/zod';
+import {getLogger} from '../../utils/logger';
 
 const MOJANG_API_URL = 'https://api.minecraftservices.com/minecraft/profile/lookup/name/'
 
-const logger = log4js.getLogger('player.service')
+const logger = getLogger('player.service')
 logger.level = 'debug'
 
 /**
@@ -68,7 +68,7 @@ export async function getPlayerByName(playerName: string): Promise<Player> {
 
   // If player is not found in DB, get from Mojang API
   if (!playerFromDB) {
-    console.log(`Name ${playerName} not found in DB, fetching from Mojang API...`)
+    logger.log(`Name ${playerName} not found in DB, fetching from Mojang API...`)
 
     return await getPlayerByNameFromAPI(playerName)
   }

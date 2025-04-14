@@ -1,7 +1,7 @@
 import {Player} from '../api/player/player.model';
 import {Client, Databases, Query} from 'node-appwrite';
 import {DatabaseEntryNotFoundError, DatabaseReadError} from '../utils/error';
-import log4js from 'log4js';
+import {getLogger} from '../utils/logger';
 
 // Appwrite client
 const $client = new Client();
@@ -13,7 +13,7 @@ $client
 const $dbId = 'hypixel-db'
 const DB = new Databases($client)
 
-const logger = log4js.getLogger('appwrite/player.service')
+const logger = getLogger('appwrite/player.service')
 
 export async function savePlayer(player: Player): Promise<void> {
   try {

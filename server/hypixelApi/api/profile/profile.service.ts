@@ -1,13 +1,13 @@
 import {getPlayerByName} from '../player/player.service';
 import {GameMode, Profile, ProfileArraySchema} from './profile.model';
 import {HypixelApiError, ZodValidationError} from '../../utils/error';
-import log4js from 'log4js';
+import {getLogger} from '../../utils/logger';
 
 function getAPIKey() {
   return process.env['HYPIXEL_API_KEY']!
 }
 
-let L = log4js.getLogger('profile.service')
+const L = getLogger('profile.service')
 
 /**
  * Fetches the profile list of a player by their name from the Hypixel API.
