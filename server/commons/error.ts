@@ -6,6 +6,19 @@ export class MojangNotFoundError extends Error {
   }
 }
 
+export class HypixelApiError extends Error {
+  responseCode = 0;
+  responseCause = '';
+
+  constructor(message: string, code: number, cause: string) {
+    super(message);
+    this.name = 'HypixelApiError';
+    this.responseCode = code;
+    this.responseCause = cause;
+    Error.captureStackTrace(this, this.constructor)
+  }
+}
+
 // This is a custom error class for Zod validation errors
 export class ZodValidationError extends Error {
   constructor(message: string) {
