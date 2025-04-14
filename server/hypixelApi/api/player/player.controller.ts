@@ -6,7 +6,7 @@ import {
   DatabaseReadError,
   MojangNotFoundError,
   ZodValidationError
-} from '../../../commons/error';
+} from '../../utils/error';
 import {z} from 'zod';
 import {joinZodError} from '../../utils/zod';
 import {getPlayerByUuidFromDB} from '../../appwrite/player.service';

@@ -1,7 +1,7 @@
 import express from 'express';
 import {Req, Res} from '../../utils/types';
 import {getProfileList} from './profile.service';
-import {DatabaseReadError, HypixelApiError, ZodValidationError} from '../../../commons/error';
+import {DatabaseReadError, HypixelApiError, ZodValidationError} from '../../utils/error';
 
 export const $profileRouter = express.Router()
 

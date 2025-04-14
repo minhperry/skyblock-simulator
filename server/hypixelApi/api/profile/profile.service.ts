@@ -2,7 +2,7 @@
 
 import {getPlayerByName} from '../player/player.service';
 import {ProfileArraySchema, Profile, GameMode} from './profile.model';
-import {HypixelApiError, ZodValidationError} from '../../../commons/error';
+import {HypixelApiError, ZodValidationError} from '../../utils/error';
 import {joinZodError} from '../../utils/zod';
 
 function getAPIKey() {

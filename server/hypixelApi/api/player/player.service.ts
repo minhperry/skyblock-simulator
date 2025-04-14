@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {Player, PlayerResponse, PlayerSchema} from './player.model';
 import {getPlayerByNameFromDB, savePlayer} from '../../appwrite/player.service';
-import {MojangNotFoundError, ZodValidationError} from '../../../commons/error';
+import {MojangNotFoundError, ZodValidationError} from '../../utils/error';
 import {joinZodError} from '../../utils/zod';
 
 const MOJANG_API_URL = 'https://api.minecraftservices.com/minecraft/profile/lookup/name/'
