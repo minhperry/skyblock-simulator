@@ -5,6 +5,8 @@ on:
     paths:
       - 'src/**'
       - '*.js'
+    paths-ignore:
+      - 'server/**' # Don't build server files (yet)
     types: [ opened, synchronize, reopened, closed ]
 
 jobs:
