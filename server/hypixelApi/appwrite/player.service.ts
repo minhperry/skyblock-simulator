@@ -1,6 +1,7 @@
 import {Player} from '../api/player/player.model';
 import {Client, Databases, Query} from 'node-appwrite';
 import {DatabaseEntryNotFoundError, DatabaseReadError} from '../utils/error';
+import log4js from 'log4js';
 
 // Appwrite client
 const $client = new Client();
@@ -12,6 +13,8 @@ $client
 const $dbId = 'hypixel-db'
 const DB = new Databases($client)
 
+const logger = log4js.getLogger('appwrite/player.service')
+
 export async function savePlayer(player: Player): Promise<void> {
   try {
     await DB.createDocument(
@@ -20,9 +23,9 @@ export async function savePlayer(player: Player): Promise<void> {
       player.uuid, // document ID, unique for each player
       player // document data
     )
-    console.log('Player saved successfully:', player)
+    logger.log('Player saved successfully:', player)
   } catch (e) {
-    console.error('Error saving player:', e)
+    logger.error('Error saving player:', e)
   }
 }
 
@@ -34,7 +37,7 @@ export async function savePlayer(player: Player): Promise<void> {
  */
 export async function getPlayerByNameFromDB(playerName: string): Promise<Player | null> {
   try {
-    console.log(`Getting player ${playerName} from DB...`)
+    logger.log(`Getting player ${playerName} from DB...`)
 
     // Query the database for the player by username
     const resp = await DB.listDocuments(
@@ -47,6 +50,7 @@ export async function getPlayerByNameFromDB(playerName: string): Promise<Player 
 
     // If not found, return null
     if (resp.documents.length === 0) {
+      logger.log(`Document not found for name ${playerName}`)
       return null
     }
 
@@ -70,7 +74,7 @@ export async function getPlayerByNameFromDB(playerName: string): Promise<Player 
  */
 export async function getPlayerByUuidFromDB(uuid: string): Promise<Player | null> {
   try {
-    console.log(`Getting player ${uuid} from DB...`)
+    logger.log(`Getting player ${uuid} from DB...`)
 
     // Query the database for the player by uuid
     const resp = await DB.listDocuments(
@@ -83,6 +87,7 @@ export async function getPlayerByUuidFromDB(uuid: string): Promise<Player | null
 
     // If not found, throws
     if (resp.documents.length === 0) {
+      logger.log(`Document not found for uuid ${uuid}`)
       throw new DatabaseEntryNotFoundError('UUID not found in Database!')
     }
 
