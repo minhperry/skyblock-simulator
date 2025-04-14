@@ -1,3 +1,5 @@
+import {z} from 'zod';
+
 export interface Profile {
   profileId: string,
   fruitName: string,
@@ -5,4 +7,13 @@ export interface Profile {
   active: boolean
 }
 
-type GameMode = 'normal' | 'ironman' | 'bingo' | 'stranded'
+const ProfileResponseSchema = z.object({
+  profile_id: z.string().uuid(),
+  cute_name: z.string(),
+  game_mode: z.enum(['ironman', 'bingo', 'stranded']).optional(),
+  selected: z.boolean(),
+}).passthrough()
+
+export const ProfileArraySchema = z.array(ProfileResponseSchema)
+
+export type GameMode = 'normal' | 'ironman' | 'bingo' | 'stranded'
