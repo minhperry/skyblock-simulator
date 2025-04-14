@@ -63,8 +63,10 @@ const PlayerParamSchema = z.string()
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: "Invalid player name format"
  *                 message:
  *                   type: string
+ *                   example: "Player name must only contain alphanumeric characters and underscores"
  *       404:
  *         description: Player not found (invalid name or Mojang API error).
  *         content:
@@ -74,8 +76,10 @@ const PlayerParamSchema = z.string()
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: "Player not found"
  *                 message:
  *                   type: string
+ *                   example: "Player with the given name could not be found in Mojang's database"
  *       500:
  *         description: Internal server error (e.g., DB failure).
  *         content:
@@ -85,8 +89,10 @@ const PlayerParamSchema = z.string()
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: "Internal error"
  *                 message:
  *                   type: string
+ *                   example: "Error reading data from the database"
  */
 $playerRouter.get('/name/:name', async (req: Req, res: Res) => {
   const playerName = req.params['name']
@@ -130,19 +136,19 @@ const PlayerUuidParamSchema = z.string()
  * /player/uuid/{uuid}:
  *   get:
  *     summary: Get player by UUID.
- *     description: Fetches player data by UUID, exclusively from the database.
+ *     description: Fetches player data by UUID, exclusively from the database. The UUID can be dashed or non-dashed.
  *     tags:
  *       - Player
  *     parameters:
  *       - name: uuid
  *         in: path
  *         required: true
- *         description: The player's UUID to look up.
+ *         description: The player's UUID to look up. Can be dashed or non-dashed.
  *         schema:
  *           type: string
  *           minLength: 32
- *           maxLength: 32
- *           pattern: '^[a-gA-G0-9]+$'
+ *           maxLength: 36
+ *           pattern: '^[a-f0-9\-]+$'  # Allows dashed or non-dashed UUID
  *           example: "b876ec32e396476ba1158438d83c67d4"
  *     responses:
  *       200:
@@ -169,8 +175,10 @@ const PlayerUuidParamSchema = z.string()
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: "Invalid Player UUID format"
  *                 message:
  *                   type: string
+ *                   example: "UUID must be exactly 32 characters long (or 36 with dashes) and contain only alphanumeric characters and dashes"
  *       404:
  *         description: UUID not found in the database.
  *         content:
@@ -180,8 +188,10 @@ const PlayerUuidParamSchema = z.string()
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: "Player not found"
  *                 message:
  *                   type: string
+ *                   example: "Player with the given UUID could not be found in the database"
  *       500:
  *         description: Internal server error (e.g., DB failure).
  *         content:
@@ -191,8 +201,10 @@ const PlayerUuidParamSchema = z.string()
  *               properties:
  *                 error:
  *                   type: string
+ *                   example: "Internal error"
  *                 message:
  *                   type: string
+ *                   example: "Error reading data from the database"
  */
 $playerRouter.get('/uuid/:uuid', async (req: Req, res: Res) => {
   // Convert UUID to lowercase and remove dashes
