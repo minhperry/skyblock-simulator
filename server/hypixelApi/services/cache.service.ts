@@ -6,7 +6,7 @@ import {Logger} from 'log4js';
 /**
  * This is a class that manages a cache for storing data. It wraps the {@link NodeCache} library.
  */
-class CacheManager {
+class Cache {
   private cache: NodeCache;
   private readonly identifier: string;
   private logger: Logger
@@ -115,7 +115,7 @@ class CacheManager {
 }
 
 // Profiles cache is kept for 1 day, and checked every 8 hours
-export const profilesCache = new CacheManager('profileListCache', DAY, 8 * HOUR)
+export const profilesCache = new Cache('profileListCache', DAY, 8 * HOUR)
 
 // Profile data cache is kept for 2 hours, and checked every 30 minutes
-export const profileDataCache = new CacheManager('profileDataCache', 2 * HOUR, 30 * MINUTE)
+export const profileDataCache = new Cache('profileDataCache', 2 * HOUR, 30 * MINUTE)
