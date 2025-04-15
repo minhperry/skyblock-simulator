@@ -37,6 +37,17 @@ class CacheManager {
   }
 
   /**
+   * Set a failed value in the cache with TTL of default 7 days.
+   * @param key Key to store the value under.
+   * @param value Value to store. Can be of any type.
+   * @param ttl TTL override (in seconds)
+   */
+  setFailed<T>(key: string, value: T, ttl: number = 7 * DAY): void {
+    this.cache.set(`failed-${key}`, value, ttl)
+    this.logger.info('Successfully saved failed key', key, 'with ttl', ttl);
+  }
+
+  /**
    * Get a cached value.
    * @param key Key to retrieve the value from.
    * @returns The cached value or undefined
