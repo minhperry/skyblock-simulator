@@ -37,17 +37,6 @@ class CacheManager {
   }
 
   /**
-   * Set a failed value in the cache with TTL of default 7 days.
-   * @param key Key to store the value under.
-   * @param value Value to store. Can be of any type.
-   * @param ttl TTL override (in seconds)
-   */
-  setFailed<T>(key: string, value: T, ttl: number = 7 * DAY): void {
-    this.cache.set(`failed-${key}`, value, ttl)
-    this.logger.info('Successfully saved failed key', key, 'with ttl', ttl);
-  }
-
-  /**
    * Get a cached value.
    * @param key Key to retrieve the value from.
    * @returns The cached value or undefined
@@ -58,11 +47,29 @@ class CacheManager {
   }
 
   /**
+   * Get a failed cached value.
+   * @param key Key to retrieve the value from.
+   * @returns The cached value or undefined
+   */
+  getFailure<T>(key: string): T | undefined {
+    this.logger.info('Trying to get failed key', key);
+    return this.cache.get<T>(`failed-${key}`)
+  }
+
+  /**
    * Check if a key exists.
    * @param key Key to be checked.
    */
   has(key: string): boolean {
     return this.cache.has(key)
+  }
+
+  /**
+   * Check if a failed key exists.
+   * @param key Key to be checked.
+   */
+  hasFailure(key: string): boolean {
+    return this.cache.has(`failed-${key}`)
   }
 
   /**
@@ -93,6 +100,17 @@ class CacheManager {
         value: this.cache.get(key)
       }
     }))
+  }
+
+  /**
+   * Caches a failure for a given key with an error and a TTL.
+   * @param key the key to cache the failure for
+   * @param error the error to cache
+   * @param ttl the time-to-live for the cache entry in seconds (default is 5 minutes)
+   */
+  rememberFailure(key: string, error: Error, ttl = 5 * MINUTE): void {
+    this.cache.set(`failed-${key}`, error, ttl);
+    this.logger.warn(`Cached failure for ${key} with TTL ${ttl}s`);
   }
 }
 
