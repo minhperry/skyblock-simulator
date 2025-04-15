@@ -4,8 +4,9 @@ import {HypixelApiError, ZodValidationError} from '../../utils/error';
 import {getLogger} from '../../utils/logger';
 import {profilesCache} from '../../services/cache.service';
 import {fetchHypixelApi} from '../../utils/fetch';
+import {MINUTE} from '../../utils/time';
 
-const L = getLogger('profiles.service')
+const loggr = getLogger('profiles.service')
 
 /**
  * Fetches the profiles list of a player by their name from the Hypixel API.
@@ -17,12 +18,19 @@ const L = getLogger('profiles.service')
  * @throws {DatabaseReadError} If there is an error reading the player data from the database.
  */
 export async function getProfileList(playerName: string): Promise<Profile[]> {
-  L.log(`Trying to fetch player ${playerName}'s profile list`)
+  loggr.log(`Trying to fetch player ${playerName}'s profile list`)
   const cacheKey = `profile-list-${playerName}`
+
+  // Check if this has previously failed, and if so, throw the error
+  if (profilesCache.hasFailure(cacheKey)) {
+    const hypixelError = profilesCache.getFailure(cacheKey) as HypixelApiError
+    loggr.error(`Previously failed to fetch profile list for ${playerName}: ${hypixelError.message}`)
+    throw hypixelError
+  }
 
   // Check if the profiles are already cached
   if (profilesCache.has(cacheKey)) {
-    L.log(`Found cached profile list for ${playerName}`)
+    loggr.log(`Found cached profile list for ${playerName}`)
     return profilesCache.get(cacheKey) as Profile[]
   }
 
@@ -36,16 +44,20 @@ export async function getProfileList(playerName: string): Promise<Profile[]> {
   if (profileListResp.status !== 200) {
     const code = profileListResp.status
     const cause = (await profileListResp.json()).cause
+    const hypixelError = new HypixelApiError('Error fetching data from Hypixel API', code, cause)
 
-    L.error(`Hypixel API returned error: ${code}, ${cause}`)
-    throw new HypixelApiError('Error fetching data from Hypixel API', code, cause)
+    // Cache failed Hypixel API request for 10 minutes
+    profilesCache.rememberFailure(cacheKey, hypixelError, 10 * MINUTE)
+
+    loggr.error(`Hypixel API returned error: ${code}, ${cause}`)
+    throw hypixelError
   }
 
   const profileListJson = (await profileListResp.json()).profiles
   const validation = ProfileArraySchema.safeParse(profileListJson)
 
   if (!validation.success) {
-    L.error(`Hypixel API response does not match schema`)
+    loggr.error(`Hypixel API response does not match schema`)
     throw new ZodValidationError(validation.error.message)
   }
 
