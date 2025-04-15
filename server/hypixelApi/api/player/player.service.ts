@@ -1,5 +1,5 @@
 import {Player, PlayerResponse, PlayerSchema} from './player.model';
-import {getPlayerByNameFromDB, savePlayer} from '../../appwrite/player.service';
+import {getPlayerByNameFromDB, savePlayer} from '../../services/appwrite.service';
 import {MojangNotFoundError, ZodValidationError} from '../../utils/error';
 import {joinZodError} from '../../utils/zod';
 import {getLogger} from '../../utils/logger';

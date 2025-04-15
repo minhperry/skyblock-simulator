@@ -9,7 +9,7 @@ import {
 } from '../../utils/error';
 import {z} from 'zod';
 import {joinZodError} from '../../utils/zod';
-import {getPlayerByUuidFromDB} from '../../appwrite/player.service';
+import {getPlayerByUuidFromDB} from '../../services/appwrite.service';
 
 export const $playerRouter = express.Router()
 

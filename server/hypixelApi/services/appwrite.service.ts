@@ -13,7 +13,7 @@ $client
 const $dbId = 'hypixel-db'
 const DB = new Databases($client)
 
-const logger = getLogger('appwrite/player.service')
+const logger = getLogger('services/appwrite.service')
 
 export async function savePlayer(player: Player): Promise<void> {
   try {
