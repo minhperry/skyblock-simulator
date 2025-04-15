@@ -9,7 +9,7 @@ import {MINUTE} from '../../utils/time';
 const loggr = getLogger('profiles.service')
 
 /**
- * Fetches the profiles list of a player by their name from the Hypixel API.
+ * Fetches the profiles list of a player by their name from the Hypixel API. Any Hypixel API errors are cached for 10 minutes.
  * @param playerName - The name of the player.
  * @returns A promise that resolves to an array of profiles.
  * @throws {HypixelApiError} If there is an error fetching data from the Hypixel API.
