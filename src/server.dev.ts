@@ -18,6 +18,7 @@ export function app(): express.Express {
     res.send({rootIs: 'active'})
   })
 
+
   // Add this in server.ts too
   server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 

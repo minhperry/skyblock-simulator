@@ -3,7 +3,7 @@ import {Req, Res} from '../../utils/types';
 import {getProfileList} from './profiles.service';
 import {DatabaseReadError, HypixelApiError, MojangNotFoundError, ZodValidationError} from '../../utils/error';
 
-export const $profileRouter = express.Router()
+export const $profilesRouter = express.Router()
 
 /**
  * @openapi
@@ -119,7 +119,7 @@ export const $profileRouter = express.Router()
  *                   type: string
  *                   example: "Database connection failed"
  */
-$profileRouter.get('/:name', async (req: Req, res: Res) => {
+$profilesRouter.get('/:name', async (req: Req, res: Res) => {
   const playerName = req.params['name']
 
   let profileList;
