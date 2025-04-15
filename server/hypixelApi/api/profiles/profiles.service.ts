@@ -23,7 +23,7 @@ export async function getProfileList(playerName: string): Promise<Profile[]> {
 
   // Check if this has previously failed, and if so, throw the error
   if (profilesCache.hasFailure(cacheKey)) {
-    const hypixelError = profilesCache.getFailure(cacheKey) as HypixelApiError
+    const hypixelError = profilesCache.getFailure<HypixelApiError>(cacheKey)!
     loggr.error(`Previously failed to fetch profile list for ${playerName}: ${hypixelError.message}`)
     throw hypixelError
   }

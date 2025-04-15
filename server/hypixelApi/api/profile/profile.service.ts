@@ -4,12 +4,14 @@ import {getLogger} from '../../utils/logger';
 import {IMemberData, MemberData, SingleProfile, SingleProfileSchema} from './profile.model';
 import {Player} from '../player/player.model';
 import {joinZodError} from '../../utils/zod';
+import {profileDataCache} from '../../services/cache.service';
+import {MINUTE} from '../../utils/time';
 
 
 const logger = getLogger('profilez.service');
 
 /**
- * Gets the profile data for a given profile ID from the Hypixel API.
+ * Gets the profile data for a given profile ID from the Hypixel API. Failed Hypixel API requests are cached for 10 minutes.
  * @param profileId the profile ID to fetch data for
  * @returns the profile data (under /profile)
  * @throws {HypixelApiError} if the Hypixel API returns an error
@@ -18,11 +20,30 @@ const logger = getLogger('profilez.service');
  */
 async function getProfileIdData(profileId: string): Promise<SingleProfile> {
   logger.log(`Trying to fetch profile data for profile ID ${profileId}`)
+  const cacheKey = `profile-data-${profileId}`;
+
+  // Check if this has previously failed, and if so, throw the error
+  if (profileDataCache.hasFailure(cacheKey)) {
+    const hypixelError = profileDataCache.getFailure<HypixelApiError>(cacheKey)!
+    logger.error(`Previously failed to fetch profile data for ${profileId}: ${hypixelError.message}`)
+    throw hypixelError
+  }
+
+  // Check if the profile is already cached
+  if (profileDataCache.has(cacheKey)) {
+    logger.log(`Found cached profile data for profile ID ${profileId}`)
+    return profileDataCache.get<SingleProfile>(cacheKey)!
+  }
+
   const resp = await fetchHypixelApi(`https://api.hypixel.net/v2/skyblock/profile?profile=${profileId}`)
 
   if (resp.status !== 200) {
     const code = resp.status
     const cause = (await resp.json()).cause
+    const hypixelError = new HypixelApiError('Error fetching data from Hypixel API', code, cause)
+
+    // Cache failed Hypixel API request for 10 minutes
+    profileDataCache.rememberFailure(cacheKey, hypixelError, 10 * MINUTE)
 
     logger.error(`Hypixel API returned error: ${code}, ${cause}`)
     throw new HypixelApiError('Error fetching data from Hypixel API', code, cause)
@@ -37,7 +58,12 @@ async function getProfileIdData(profileId: string): Promise<SingleProfile> {
     throw new NonexistentProfileError(profileId, joinZodError(validation.error))
   }
 
-  return validation.data as SingleProfile;
+  const finalData = validation.data as SingleProfile
+
+  // Cache the profile data
+  profileDataCache.set(cacheKey, finalData);
+
+  return finalData;
 }
 
 /**
