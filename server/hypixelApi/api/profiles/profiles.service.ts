@@ -2,6 +2,7 @@ import {getPlayerByName} from '../player/player.service';
 import {GameMode, Profile, ProfileArraySchema} from './profiles.model';
 import {HypixelApiError, ZodValidationError} from '../../utils/error';
 import {getLogger} from '../../utils/logger';
+import {profilesCache} from '../../services/cache.service';
 
 function getAPIKey() {
   return process.env['HYPIXEL_API_KEY']!
@@ -20,6 +21,15 @@ const L = getLogger('profiles.service')
  */
 export async function getProfileList(playerName: string): Promise<Profile[]> {
   L.log(`Trying to fetch player ${playerName}'s profile list`)
+  const cacheKey = `profile-list-${playerName}`
+
+  // Check if the profiles are already cached
+  if (profilesCache.has(cacheKey)) {
+    L.log(`Found cached profile list for ${playerName}`)
+    return profilesCache.get(cacheKey) as Profile[]
+  }
+
+  // Else fetch manually
   const player = await getPlayerByName(playerName)
 
   const profileListResp =
@@ -48,7 +58,7 @@ export async function getProfileList(playerName: string): Promise<Profile[]> {
 
   const validatedArray = validation.data
 
-  return validatedArray.map(zodProfile => {
+  const profileList = validatedArray.map(zodProfile => {
     return new Profile(
       zodProfile.profile_id,
       zodProfile.cute_name,
@@ -56,4 +66,8 @@ export async function getProfileList(playerName: string): Promise<Profile[]> {
       zodProfile.selected
     )
   })
+
+  profilesCache.set(cacheKey, profileList);
+
+  return profileList
 }
