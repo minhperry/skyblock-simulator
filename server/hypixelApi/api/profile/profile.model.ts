@@ -20,7 +20,7 @@ export interface IMemberData {
   player_id: string,
   mining_core: {
     nodes: Record<string, number>,
-    tokens_spent: number, // Do I even need this?
+    // tokens_spent: number, // Do I even need this?
     powder_mithril: number, // total of powder X = powder_X + powder_spent_X
     powder_spent_mithril: number, // no idea what powder_X_total does
     powder_gemstone: number,
@@ -60,12 +60,25 @@ export class MemberData {
   powders: PowderData[] = [];
   maxTokens: number
 
-  constructor(p: Player, nodes: HotmNodeRecord, powder: PowderData[], xp: number) {
-    this.hotmLevel = this.xpToHotmLevel(xp);
-    this.hotmNodes = nodes;
-    this.maxTokens = this.hotmLevelToMaxToken(this.hotmLevel, nodes);
-    this.player = p;
-    this.powders = powder;
+  constructor(pl: Player, iMD: IMemberData) {
+    this.hotmLevel = this.xpToHotmLevel(iMD.mining_core.experience);
+    this.hotmNodes = iMD.mining_core.nodes;
+    this.maxTokens = this.hotmLevelToMaxToken(this.hotmLevel, this.hotmNodes);
+    this.player = pl;
+    this.powders = this.parsePowderData(iMD);
+  }
+
+  private parsePowderData(data: IMemberData): PowderData[] {
+    const powders: PowderData[] = [];
+    const powderTypes: PowderType[] = ['mithril', 'gemstone', 'glacite'];
+
+    for (const type of powderTypes) {
+      const have = data.mining_core[`powder_${type}`] || 0;
+      const spent = data.mining_core[`powder_spent_${type}`] || 0;
+      powders.push(new PowderData(have, spent, type));
+    }
+
+    return powders;
   }
 
   private xpToHotmLevel(xp: number): number {
