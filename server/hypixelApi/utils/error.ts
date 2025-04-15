@@ -1,3 +1,5 @@
+import {Player} from '../api/player/player.model';
+
 export class MojangNotFoundError extends Error {
   constructor(message: string) {
     super(message);
@@ -56,13 +58,8 @@ export class NonexistentProfileError extends Error {
 }
 
 export class PlayerNotInProfileError extends Error {
-  _profileId: string;
-  _playerUuid: string;
-
-  constructor(playerUuid: string, profileId: string) {
-    super(`Player ${playerUuid} not found in profile ${profileId}.`);
-    this._playerUuid = playerUuid;
-    this._profileId = profileId;
+  constructor(player: Player, profileId: string) {
+    super(`Player ${player.username} (${player.uuid}) not found in profile ${profileId}.`);
     this.name = 'PlayerNotInProfileError';
     Error.captureStackTrace(this, this.constructor)
   }
