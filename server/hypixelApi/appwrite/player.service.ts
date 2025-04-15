@@ -1,5 +1,5 @@
-import {Player} from '../api/player/player.model';
-import {Client, Databases, Query} from 'node-appwrite';
+import {Player, PlayerDAO} from '../api/player/player.model';
+import {AppwriteException, Client, Databases, Query} from 'node-appwrite';
 import {DatabaseEntryNotFoundError, DatabaseReadError} from '../utils/error';
 import {getLogger} from '../utils/logger';
 
@@ -17,13 +17,17 @@ const logger = getLogger('appwrite/player.service')
 
 export async function savePlayer(player: Player): Promise<void> {
   try {
+    logger.log(`Saving player ${player.username} to DB...`)
+    const playerDAO = new PlayerDAO(player.uuid, player.username, player.uuid)
     await DB.createDocument(
       $dbId, // database ID
       'player', // collection ID
-      player.uuid, // document ID, unique for each player
-      player // document data
+      playerDAO.uuid, // document ID, unique for each player
+      {
+        uuid: playerDAO.uuid,
+        username: playerDAO.username
+      } // document data
     )
-    logger.log('Player saved successfully:', player)
   } catch (e) {
     logger.error('Error saving player:', e)
   }
@@ -56,10 +60,7 @@ export async function getPlayerByNameFromDB(playerName: string): Promise<Player 
 
     // If found, return the player data
     const playerDoc = resp.documents[0] as unknown as Player;
-    return {
-      uuid: playerDoc.uuid,
-      username: playerDoc.username
-    }
+    return new Player(playerDoc.uuid, playerDoc.username)
   } catch {
     throw new DatabaseReadError('Error reading from Appwrite database')
   }
@@ -72,33 +73,22 @@ export async function getPlayerByNameFromDB(playerName: string): Promise<Player 
  * @throws {DatabaseReadError} if there is an error reading from the database
  * @throws {DatabaseEntryNotFoundError} if the UUID is not found in the database
  */
-export async function getPlayerByUuidFromDB(uuid: string): Promise<Player | null> {
+export async function getPlayerByUuidFromDB(uuid: string): Promise<Player> {
   try {
     logger.log(`Getting player ${uuid} from DB...`)
 
     // Query the database for the player by uuid
-    const resp = await DB.listDocuments(
+    const resp = await DB.getDocument(
       $dbId,
       'player',
-      [
-        Query.equal('uuid', uuid)
-      ]
+      uuid
     )
 
-    // If not found, throws
-    if (resp.documents.length === 0) {
-      logger.log(`Document not found for uuid ${uuid}`)
-      throw new DatabaseEntryNotFoundError('UUID not found in Database!')
-    }
-
     // If found, return the player data
-    const playerDoc = resp.documents[0] as unknown as Player;
-    return {
-      uuid: playerDoc.uuid,
-      username: playerDoc.username
-    }
+    return new Player(resp['uuid'], resp['username'])
   } catch (e) {
-    if (e instanceof DatabaseEntryNotFoundError) throw e; // rethrow lol
-    throw new DatabaseReadError('Error reading from Appwrite database')
+    // throw if getDoc throws error
+    if (e instanceof AppwriteException) throw new DatabaseEntryNotFoundError('UUID not found in Database!');
+    else throw new DatabaseReadError('Error reading from Appwrite database')
   }
 }
