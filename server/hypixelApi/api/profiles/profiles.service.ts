@@ -31,7 +31,7 @@ export async function getProfileList(playerName: string): Promise<Profile[]> {
   // Check if the profiles are already cached
   if (profilesCache.has(cacheKey)) {
     loggr.log(`Found cached profile list for ${playerName}`)
-    return profilesCache.get(cacheKey) as Profile[]
+    return profilesCache.get<Profile[]>(cacheKey)!
   }
 
   // Else fetch manually
