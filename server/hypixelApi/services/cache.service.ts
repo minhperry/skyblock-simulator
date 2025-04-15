@@ -32,6 +32,8 @@ class CacheManager {
   set<T>(key: string, value: T, ttl?: number): void {
     if (ttl) this.cache.set(key, value, ttl)
     else this.cache.set(key, value, 6 * HOUR)
+
+    this.logger.info('Successfully saved key', key, 'with ttl', ttl ?? '6 hours');
   }
 
   /**
@@ -40,6 +42,7 @@ class CacheManager {
    * @returns The cached value or undefined
    */
   get<T>(key: string): T | undefined {
+    this.logger.info('Trying to get key', key);
     return this.cache.get<T>(key)
   }
 
@@ -57,6 +60,7 @@ class CacheManager {
    */
   delete(key: string): void {
     this.cache.del(key)
+    this.logger.info('Deleted key', key);
   }
 
   /**
@@ -64,6 +68,7 @@ class CacheManager {
    */
   clear(): void {
     this.cache.flushAll()
+    this.logger.info('Cleared the entire cache');
   }
 
   /**
