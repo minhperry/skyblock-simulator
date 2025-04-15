@@ -1,5 +1,5 @@
 import {getPlayerByName} from '../player/player.service';
-import {GameMode, Profile, ProfileArraySchema} from './profile.model';
+import {GameMode, Profile, ProfileArraySchema} from './profiles.model';
 import {HypixelApiError, ZodValidationError} from '../../utils/error';
 import {getLogger} from '../../utils/logger';
 
@@ -7,10 +7,10 @@ function getAPIKey() {
   return process.env['HYPIXEL_API_KEY']!
 }
 
-const L = getLogger('profile.service')
+const L = getLogger('profiles.service')
 
 /**
- * Fetches the profile list of a player by their name from the Hypixel API.
+ * Fetches the profiles list of a player by their name from the Hypixel API.
  * @param playerName - The name of the player.
  * @returns A promise that resolves to an array of profiles.
  * @throws {HypixelApiError} If there is an error fetching data from the Hypixel API.

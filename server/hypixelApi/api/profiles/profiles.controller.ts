@@ -1,6 +1,6 @@
 import express from 'express';
 import {Req, Res} from '../../utils/types';
-import {getProfileList} from './profile.service';
+import {getProfileList} from './profiles.service';
 import {DatabaseReadError, HypixelApiError, MojangNotFoundError, ZodValidationError} from '../../utils/error';
 
 export const $profileRouter = express.Router()
