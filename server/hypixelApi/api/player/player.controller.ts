@@ -50,7 +50,7 @@ const PlayerParamSchema = z.string()
  *                   type: string
  *                   description: The player's UUID.
  *                   example: "b876ec32e396476ba1158438d83c67d4"
- *                 username:
+ *                 name:
  *                   type: string
  *                   description: The player's Minecraft username.
  *                   example: "Technoblade"
@@ -124,7 +124,7 @@ $playerRouter.get('/name/:name', async (req: Req, res: Res) => {
     return;
   }
 
-  res.send(player)
+  res.send(player.asDTO())
 })
 
 // Get player by uuid
@@ -162,7 +162,7 @@ const PlayerUuidParamSchema = z.string()
  *                   type: string
  *                   description: The player's UUID.
  *                   example: "b876ec32e396476ba1158438d83c67d4"
- *                 username:
+ *                 name:
  *                   type: string
  *                   description: The player's Minecraft username.
  *                   example: "Technoblade"
@@ -238,5 +238,5 @@ $playerRouter.get('/uuid/:uuid', async (req: Req, res: Res) => {
     return;
   }
 
-  res.send(player)
+  res.send(player.asDTO())
 })
