@@ -9,9 +9,50 @@ export const PlayerSchema = z.object({
     .max(16, 'Username must be at most 16 characters long')
 })
 
-export interface Player {
-  uuid: string,
-  username: string,
+// Internal representation of a player
+export class Player {
+  uuid: string;
+  username: string;
+
+  constructor(uuid: string, username: string) {
+    this.uuid = uuid;
+    this.username = username;
+  }
+
+  asDAO(): PlayerDAO {
+    return new PlayerDAO(this.uuid, this.username, this.uuid)
+  }
+
+  asDTO(): PlayerDTO {
+    return new PlayerDTO(this.uuid, this.username)
+  }
+}
+
+export class PlayerDTO {
+  uuid: string;
+  name: string;
+
+  constructor(uuid: string, username: string) {
+    this.uuid = uuid;
+    this.name = username;
+  }
+}
+
+// Structure of the player data in the database
+export class PlayerDAO {
+  documentId: string;
+  uuid: string;
+  username: string;
+
+  constructor(uuid: string, username: string, id: string) {
+    this.uuid = uuid;
+    this.username = username;
+    this.documentId = id;
+  }
+
+  asPlayer(): Player {
+    return new Player(this.uuid, this.username)
+  }
 }
 
 export interface PlayerResponse {
