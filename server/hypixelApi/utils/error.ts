@@ -43,3 +43,15 @@ export class DatabaseEntryNotFoundError extends Error {
     Error.captureStackTrace(this, this.constructor)
   }
 }
+
+export class NonexistentProfileError extends Error {
+  profileId: string;
+
+  constructor(profileId: string, message: string) {
+    super(message);
+    this.profileId = profileId;
+    this.name = 'NonexistentProfileError';
+    Error.captureStackTrace(this, this.constructor)
+  }
+
+}
