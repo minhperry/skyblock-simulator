@@ -7,7 +7,7 @@ export const $profileRouter = express.Router()
 
 /**
  * @openapi
- * /profile/list/{name}:
+ * /profiles/{name}:
  *   get:
  *     summary: Get SkyBlock profiles of a player
  *     description: Fetches all SkyBlock profiles associated with a player name from the Hypixel API.
@@ -119,7 +119,7 @@ export const $profileRouter = express.Router()
  *                   type: string
  *                   example: "Database connection failed"
  */
-$profileRouter.get('/list/:name', async (req: Req, res: Res) => {
+$profileRouter.get('/:name', async (req: Req, res: Res) => {
   const playerName = req.params['name']
 
   let profileList;

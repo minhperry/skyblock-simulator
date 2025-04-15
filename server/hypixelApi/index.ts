@@ -11,5 +11,5 @@ $router.get('/', (req: Req, res: Res) => {
 
 $router.use('/player', $playerRouter)
 
-$router.use('/profile', $profileRouter)
+$router.use('/profiles', $profileRouter)
 
