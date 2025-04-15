@@ -43,10 +43,7 @@ async function getPlayerByNameFromAPI(playerName: string): Promise<Player> {
   // Save to database
   const validatedPlayer = validation.data
 
-  const playerData: Player = {
-    uuid: validatedPlayer.uuid,
-    username: validatedPlayer.username
-  }
+  const playerData: Player = new Player(validatedPlayer.uuid, validatedPlayer.username)
 
   await savePlayer(playerData)
 
