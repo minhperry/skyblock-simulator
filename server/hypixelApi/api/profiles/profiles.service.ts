@@ -3,10 +3,7 @@ import {GameMode, Profile, ProfileArraySchema} from './profiles.model';
 import {HypixelApiError, ZodValidationError} from '../../utils/error';
 import {getLogger} from '../../utils/logger';
 import {profilesCache} from '../../services/cache.service';
-
-function getAPIKey() {
-  return process.env['HYPIXEL_API_KEY']!
-}
+import {fetchHypixelApi} from '../../utils/fetch';
 
 const L = getLogger('profiles.service')
 
@@ -33,11 +30,7 @@ export async function getProfileList(playerName: string): Promise<Profile[]> {
   const player = await getPlayerByName(playerName)
 
   const profileListResp =
-    await fetch(`https://api.hypixel.net/v2/skyblock/profiles?uuid=${player.uuid}`, {
-      headers: {
-        'API-Key': getAPIKey()
-      }
-    })
+    await fetchHypixelApi(`https://api.hypixel.net/v2/skyblock/profiles?uuid=${player.uuid}`)
 
   // Catch any Hypixel API errors
   if (profileListResp.status !== 200) {
