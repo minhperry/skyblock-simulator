@@ -53,5 +53,17 @@ export class NonexistentProfileError extends Error {
     this.name = 'NonexistentProfileError';
     Error.captureStackTrace(this, this.constructor)
   }
+}
 
+export class PlayerNotInProfileError extends Error {
+  _profileId: string;
+  _playerUuid: string;
+
+  constructor(playerUuid: string, profileId: string) {
+    super(`Player ${playerUuid} not found in profile ${profileId}.`);
+    this._playerUuid = playerUuid;
+    this._profileId = profileId;
+    this.name = 'PlayerNotInProfileError';
+    Error.captureStackTrace(this, this.constructor)
+  }
 }
