@@ -48,7 +48,7 @@ const ProfileResponseSchema = z.object({
   cute_name: z.enum(SkyblockProfileNames),
   game_mode: z.enum(['ironman', 'bingo', 'stranded']).optional(),
   selected: z.boolean(),
-}).passthrough()
+})
 
 export const ProfileArraySchema = z.array(ProfileResponseSchema)
 
