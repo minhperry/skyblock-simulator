@@ -49,11 +49,11 @@ export async function getProfileList(playerName: string): Promise<Profile[]> {
   const validatedArray = validation.data
 
   return validatedArray.map(zodProfile => {
-    return {
-      profileId: zodProfile.profile_id,
-      fruitName: zodProfile.cute_name,
-      gameMode: zodProfile.game_mode as GameMode ?? 'normal',
-      active: zodProfile.selected
-    }
+    return new Profile(
+      zodProfile.profile_id,
+      zodProfile.cute_name,
+      zodProfile.game_mode as GameMode ?? 'normal',
+      zodProfile.selected
+    )
   })
 }

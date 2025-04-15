@@ -155,6 +155,7 @@ $profileRouter.get('/list/:name', async (req: Req, res: Res) => {
     return;
   }
 
+  const profileListDto = profileList.map(p => p.asDTO())
 
-  res.status(200).json(profileList)
+  res.status(200).json(profileListDto)
 })

@@ -1,8 +1,31 @@
 import {z} from 'zod';
 
-export interface Profile {
+export class Profile {
+  profileId: string;
+  fruitName: string;
+  gameMode: GameMode
+  active: boolean
+
+  constructor(profileId: string, fruitName: string, gameMode: GameMode, active: boolean) {
+    this.profileId = profileId
+    this.fruitName = fruitName
+    this.gameMode = gameMode
+    this.active = active
+  }
+
+  public asDTO(): ProfileDTO {
+    return {
+      profileId: this.profileId,
+      profileFruit: this.fruitName as unknown as typeof SkyblockProfileNames,
+      gameMode: this.gameMode,
+      active: this.active
+    }
+  }
+}
+
+export interface ProfileDTO {
   profileId: string,
-  fruitName: string,
+  profileFruit: typeof SkyblockProfileNames,
   gameMode: GameMode
   active: boolean
 }
