@@ -164,23 +164,6 @@ export const $singleProfileRouter = express.Router();
  *               message:
  *                 hypixelStatus: 429
  *                 hypixelMessage: "Too many requests"
- *       500:
- *         description: Internal server error (e.g. DB failure).
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                 code:
- *                   type: string
- *                 message:
- *                   type: string
- *             example:
- *               error: "Internal error"
- *               code: "DATABASE_READ_ERROR"
- *               message: "Database query failed unexpectedly"
  */
 $singleProfileRouter.get('/hotm/:name/:profileId', async (req: Req, res: Res) => {
   const name = req.params['name'];
@@ -223,13 +206,6 @@ $singleProfileRouter.get('/hotm/:name/:profileId', async (req: Req, res: Res) =>
         res.status(422).json({
           error: 'Player name is invalid',
           code: 'INVALID_PLAYER_NAME',
-          message: err.message
-        })
-        break;
-      case 'DatabaseReadError':
-        res.status(500).json({
-          error: 'Internal error',
-          code: 'DATABASE_READ_ERROR',
           message: err.message
         })
         break;
