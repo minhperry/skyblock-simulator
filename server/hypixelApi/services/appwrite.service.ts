@@ -8,6 +8,7 @@ const $client = new Client();
 $client
   .setKey(process.env['APPWRITE_DB_KEY']!)
   .setProject('67face2d002b747386e4')
+  .setEndpoint('https://fra.cloud.appwrite.io/v1')
 
 // DB stuffs
 const $dbId = 'hypixel-db'
@@ -61,7 +62,8 @@ export async function getPlayerByNameFromDB(playerName: string): Promise<Player 
     // If found, return the player data
     const playerDoc = resp.documents[0] as unknown as Player;
     return new Player(playerDoc.uuid, playerDoc.username)
-  } catch {
+  } catch (e) {
+    console.log(e)
     throw new DatabaseReadError('Error reading from Appwrite database')
   }
 }
