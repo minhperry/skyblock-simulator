@@ -19,8 +19,8 @@ export class Player {
     this.username = username;
   }
 
-  asDAO(): PlayerDAO {
-    return new PlayerDAO(this.uuid, this.username, this.uuid)
+  asLDAO(): LocalPlayerDAO {
+    return new LocalPlayerDAO(this.uuid, this.username)
   }
 
   asDTO(): PlayerDTO {
@@ -48,6 +48,21 @@ export class PlayerDAO {
     this.uuid = uuid;
     this.username = username;
     this.documentId = id;
+  }
+
+  asPlayer(): Player {
+    return new Player(this.uuid, this.username)
+  }
+}
+
+// Structure for local db
+export class LocalPlayerDAO {
+  uuid: string;
+  username: string;
+
+  constructor(uuid: string, username: string) {
+    this.uuid = uuid;
+    this.username = username;
   }
 
   asPlayer(): Player {

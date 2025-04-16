@@ -2,6 +2,9 @@ import {Player, PlayerDAO} from '../api/player/player.model';
 import {AppwriteException, Client, Databases, Query} from 'node-appwrite';
 import {DatabaseEntryNotFoundError, DatabaseReadError} from '../utils/error';
 import {getLogger} from '../utils/logger';
+import dotenv from 'dotenv';
+
+dotenv.config()
 
 // Appwrite client
 const $client = new Client();
@@ -64,6 +67,7 @@ export async function getPlayerByNameFromDB(playerName: string): Promise<Player 
     return new Player(playerDoc.uuid, playerDoc.username)
   } catch (e) {
     console.log(e)
+    console.log(`key: ${DB.client.config.key}`)
     throw new DatabaseReadError('Error reading from Appwrite database')
   }
 }
