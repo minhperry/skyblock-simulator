@@ -37,6 +37,7 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        working-directory: ${{ github.workspace }}
 
       - name: Install Angular CLI
         run: pnpm install -g @angular/cli
