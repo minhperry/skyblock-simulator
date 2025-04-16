@@ -3,6 +3,8 @@ import {getPlayerByNameFromDB, savePlayer} from '../../services/appwrite.service
 import {MojangNotFoundError, ZodValidationError} from '../../utils/error';
 import {joinZodError} from '../../utils/zod';
 import {getLogger} from '../../utils/logger';
+import {playerCache} from '../../services/cache.service';
+import {HOUR} from '../../utils/time';
 
 const MOJANG_API_URL = 'https://api.minecraftservices.com/minecraft/profile/lookup/name/'
 
@@ -18,12 +20,31 @@ logger.level = 'debug'
  */
 async function getPlayerByNameFromAPI(playerName: string): Promise<Player> {
   logger.log(`Calling Mojang API for player ${playerName}...`)
+  const cacheKey = `mojang-${playerName}`
+
+  // Check if the player data has previously failed to fetch
+  if (playerCache.hasFailure(cacheKey)) {
+    const mojangError = playerCache.getFailure<MojangNotFoundError>(cacheKey)!
+    logger.error(`Previously failed to fetch player data for ${playerName}: ${mojangError.message}`)
+    throw mojangError
+  }
+
+  // If the player data is already cached, return it
+  if (playerCache.has(cacheKey)) {
+    logger.info(`Caching Mojang API response for player ${playerName}`)
+    return playerCache.get<Player>(cacheKey)!
+  }
+
   // Get player data from Mojang API
   const resp = await fetch(`${MOJANG_API_URL}${playerName}`)
 
   if (resp.status !== 200) {
     logger.error(`Name ${playerName} not found in Mojang API!`)
-    throw new MojangNotFoundError('Player not found on Mojang API!')
+
+    const mojangErr = new MojangNotFoundError('Player not found on Mojang API!')
+    playerCache.rememberFailure(cacheKey, mojangErr)
+
+    throw mojangErr
   }
 
   logger.log(`Trying to validate Mojang API response`)
@@ -46,6 +67,10 @@ async function getPlayerByNameFromAPI(playerName: string): Promise<Player> {
   const playerData: Player = new Player(validatedPlayer.uuid, validatedPlayer.username)
 
   await savePlayer(playerData)
+
+  // Cache the player data
+  playerCache.set(cacheKey, playerData, HOUR)
+  logger.info(`Set cache for player ${playerName} with UUID ${playerData.uuid}`)
 
   logger.log(`Player ${playerName} returned`)
   return playerData
