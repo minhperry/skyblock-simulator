@@ -59,7 +59,9 @@
               "node_modules/bootstrap/dist/js/bootstrap.bundle.js"
             ],
             "server": "src/main.server.ts",
-            "prerender": true,
+            "prerender": {
+              "discoverRoutes": true
+            },
             "ssr": {
               "entry": "src/server.ts"
             },
