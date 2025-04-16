@@ -9,16 +9,18 @@ import {Low} from 'lowdb';
  */
 class LocalDatabaseService {
   private logger = getLogger('services/localdb.service')
-  private DB: Low<{ players: LocalPlayerDAO[] }>
+  private DB!: Low<{ players: LocalPlayerDAO[] }>
 
   constructor() {
-    this.defineDatabase().then(
-      lw => this.DB = lw
-    );
-    this.logger.level = 'debug'
+    this.logger.level = 'debug';
+    (async () => {
+      this.DB = await this.defineDatabase();
+    })().catch(err => {
+      this.logger.error('Failed to initialize local DB:', err);
+    });
   }
 
-  private async defineDatabase() {
+  async defineDatabase() {
     const defaultData: { players: LocalPlayerDAO[] } = {players: []}
     return await JSONFilePreset('players.json', defaultData)
   }
