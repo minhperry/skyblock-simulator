@@ -27,7 +27,7 @@ export async function savePlayer(player: Player): Promise<void> {
  * @param playerName the name of the player to fetch
  * @throws {ItemNotFoundError} if the player is not found in the database
  */
-export async function getPlayerByNameFromDB(playerName: string): Promise<Player> {
+export function getPlayerByNameFromDB(playerName: string): Player {
   logger.log(`Getting player ${playerName} from DB...`)
   const {players} = DB.data
 
@@ -47,7 +47,7 @@ export async function getPlayerByNameFromDB(playerName: string): Promise<Player>
  * @param uuid the UUID of the player to fetch
  * @throws {ItemNotFoundError} if the uuid is not found in the database
  */
-export async function getPlayerByUuidFromDB(uuid: string): Promise<Player> {
+export function getPlayerByUuidFromDB(uuid: string): Player {
   logger.info(`Getting player with UUID ${uuid} from DB...`)
   const {players} = DB.data
 
