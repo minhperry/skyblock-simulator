@@ -1,5 +1,5 @@
 import {Player, PlayerResponse, PlayerSchema} from './player.model';
-import {getPlayerByNameFromDB, savePlayer} from '../../services/appwrite.service';
+import {ldbInstance} from '../../services/localdb.service';
 import {MojangNotFoundError, ZodValidationError} from '../../utils/error';
 import {joinZodError} from '../../utils/zod';
 import {getLogger} from '../../utils/logger';
@@ -7,7 +7,7 @@ import {playerCache} from '../../services/cache.service';
 import {HOUR} from '../../utils/time';
 
 const MOJANG_API_URL = 'https://api.minecraftservices.com/minecraft/profile/lookup/name/'
-
+const ldb = ldbInstance
 const logger = getLogger('player.service')
 logger.level = 'debug'
 
@@ -66,7 +66,7 @@ async function getPlayerByNameFromAPI(playerName: string): Promise<Player> {
 
   const playerData: Player = new Player(validatedPlayer.uuid, validatedPlayer.username)
 
-  await savePlayer(playerData)
+  ldb.savePlayer(playerData)
 
   // Cache the player data
   playerCache.set(cacheKey, playerData, HOUR)
@@ -81,12 +81,12 @@ async function getPlayerByNameFromAPI(playerName: string): Promise<Player> {
  * @param playerName the player name to fetch
  * @returns the player data
  * @throws ZodValidationError if the player data from Mojang API is not valid
- * @throws DatabaseReadError if there is an error reading from the database
+ * @throws ItemNotFoundError if the player is not in db
  * @throws MojangNotFoundError if the player is not found in the Mojang API
  */
 export async function getPlayerByName(playerName: string): Promise<Player> {
   // First get player data from Appwrite DB
-  const playerFromDB = await getPlayerByNameFromDB(playerName)
+  const playerFromDB = ldb.getPlayerByName(playerName)
 
   // If player is not found in DB, get from Mojang API
   if (!playerFromDB) {
