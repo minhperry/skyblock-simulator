@@ -81,20 +81,16 @@ async function getPlayerByNameFromAPI(playerName: string): Promise<Player> {
  * @param playerName the player name to fetch
  * @returns the player data
  * @throws ZodValidationError if the player data from Mojang API is not valid
- * @throws ItemNotFoundError if the player is not in db
  * @throws MojangNotFoundError if the player is not found in the Mojang API
  */
 export async function getPlayerByName(playerName: string): Promise<Player> {
-  // First get player data from Appwrite DB
-  const playerFromDB = ldb.getPlayerByName(playerName)
 
-  // If player is not found in DB, get from Mojang API
-  if (!playerFromDB) {
-    logger.log(`Name ${playerName} not found in DB, fetching from Mojang API...`)
-
-    return await getPlayerByNameFromAPI(playerName)
+  // First try to get the player from the local database
+  try {
+    return ldb.getPlayerByName(playerName)
+  } catch {
+    logger.info(`Name ${playerName} not found in DB, fetching from Mojang API...`)
   }
 
-  // If player is found in DB, return it
-  return playerFromDB
+  return await getPlayerByNameFromAPI(playerName)
 }
