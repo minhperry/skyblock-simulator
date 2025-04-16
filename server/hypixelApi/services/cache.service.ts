@@ -119,3 +119,6 @@ export const profilesCache = new Cache('profileListCache', DAY, 8 * HOUR)
 
 // Profile data cache is kept for 2 hours, and checked every 30 minutes
 export const profileDataCache = new Cache('profileDataCache', 2 * HOUR, 30 * MINUTE)
+
+// Player cache is kept for a day, checked daily
+export const playerCache = new Cache('playerCache', DAY, DAY)
