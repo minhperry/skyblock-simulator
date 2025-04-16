@@ -38,6 +38,14 @@ export class DatabaseReadError extends Error {
   }
 }
 
+export class ItemNotFoundError extends Error {
+  constructor(item: string) {
+    super(`Item ${item} not found in local database.`);
+    this.name = 'ItemNotFoundError';
+    Error.captureStackTrace(this, this.constructor)
+  }
+}
+
 export class DatabaseEntryNotFoundError extends Error {
   constructor(message: string) {
     super(message);
