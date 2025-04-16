@@ -4,9 +4,6 @@ import express from 'express';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import bootstrap from './main.server';
-import {$router} from '../server/hypixelApi';
-import swaggerUi from 'swagger-ui-express';
-import {swaggerSpec} from '../server/hypixelApi/swagger/swagger';
 import dotenv from 'dotenv';
 
 dotenv.config()
@@ -22,9 +19,6 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
-  server.use('/api/v2', $router);
-  server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
-
   // Serve static files from /browser
   server.get('**', express.static(browserDistFolder, {
     maxAge: '1y',
@@ -34,6 +28,11 @@ export function app(): express.Express {
   // All regular routes use the Angular engine
   server.get('**', (req, res, next) => {
     const {protocol, originalUrl, baseUrl, headers} = req;
+
+
+    if (originalUrl.startsWith('/api/v2')) {
+      next();
+    }
 
     commonEngine
       .render({
