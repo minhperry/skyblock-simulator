@@ -26,11 +26,6 @@ export function app(): express.Express {
   server.get('**', (req, res, next) => {
     const {protocol, originalUrl, baseUrl, headers} = req;
 
-
-    if (originalUrl.startsWith('/api/v2')) {
-      next();
-    }
-
     commonEngine
       .render({
         bootstrap,
