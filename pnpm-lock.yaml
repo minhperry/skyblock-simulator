@@ -132,9 +132,6 @@ importers:
       karma-jasmine-html-reporter:
         specifier: ~2.1.0
         version: 2.1.0(jasmine-core@5.1.2)(karma-jasmine@5.1.0(karma@6.4.4))(karma@6.4.4)
-      lage:
-        specifier: ^2.14.3
-        version: 2.14.3
       typescript:
         specifier: ~5.5.2
         version: 5.5.4
@@ -3234,40 +3231,6 @@ packages:
     resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}
     engines: {node: '>= 0.4'}
 
-  glob-hasher-darwin-arm64@1.4.2:
-    resolution: {integrity: sha512-zqCZDkDrgo86UsEbOV5wnfyAVlNQ85clGt9EV4LlskDmv2aeuHD6dFYU8hLbbQSC7nvd90EWewy1WqvV6KsL7A==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [darwin]
-
-  glob-hasher-darwin-x64@1.4.2:
-    resolution: {integrity: sha512-yEmIQyr6pGj2RG6IxUpOiVbbTm+lw5+L6MqxdPJvp+Z96YSUIo7aOkru0M8lgFGTRh5fQNDWdoHM6kgK8USYrA==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [darwin]
-
-  glob-hasher-linux-x64-gnu@1.4.2:
-    resolution: {integrity: sha512-7TT8Wfkw41zwfvkbZJ3M3QqWR4bR9qLnbSzcMFHrOIpJjdnvKzCzrqfi470S8sPb6dyEVyS7s49eP5YB8cSy5A==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [linux]
-
-  glob-hasher-win32-arm64-msvc@1.4.2:
-    resolution: {integrity: sha512-HyNotx1CF0/7ulND7CnbLoyuykGeMIARJRzJK36WlcgR+BqkSfcPJEbsbk7AsHhaBOtlUWAbEX9MDndcx8uguQ==}
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [win32]
-
-  glob-hasher-win32-x64-msvc@1.4.2:
-    resolution: {integrity: sha512-6mKybe2NwFABUA7ZxiiXurD5RXDrrCWwGA53NasfnO4z+hvH5q4jG6YvVhavf6GdTapJi9WwfMHRKvoSQNUxeQ==}
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [win32]
-
-  glob-hasher@1.4.2:
-    resolution: {integrity: sha512-wYeJvOixB9iAzNpY94AgK0JvOdOQ7g30U+PN0LGSH9u0Y0WC+jIwukjMZ1JZiSoNzUSyrvABZYCNhXpZEoJ/8Q==}
-    engines: {node: '>= 10'}
-
   glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
     engines: {node: '>= 6'}
@@ -3711,10 +3674,6 @@ packages:
 
   kolorist@1.8.0:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
-
-  lage@2.14.3:
-    resolution: {integrity: sha512-ZJwCmnW27xsk0M8esRQsE30YFUDRpaZ8vCqKFnwoRLOh3R28MADAFH/31I1lZRTvosPLrTl+ykSrqgjw/NQzdg==}
-    hasBin: true
 
   langium@3.0.0:
     resolution: {integrity: sha512-+Ez9EoiByeoTu/2BXmEaZ06iPNXM6thWJp02KfBO/raSMyCJ4jw7AkWWa+zBCTm0+Tw1Fj9FOxdqSskyN5nAwg==}
@@ -8838,29 +8797,6 @@ snapshots:
       has-symbols: 1.0.3
       hasown: 2.0.2
 
-  glob-hasher-darwin-arm64@1.4.2:
-    optional: true
-
-  glob-hasher-darwin-x64@1.4.2:
-    optional: true
-
-  glob-hasher-linux-x64-gnu@1.4.2:
-    optional: true
-
-  glob-hasher-win32-arm64-msvc@1.4.2:
-    optional: true
-
-  glob-hasher-win32-x64-msvc@1.4.2:
-    optional: true
-
-  glob-hasher@1.4.2:
-    optionalDependencies:
-      glob-hasher-darwin-arm64: 1.4.2
-      glob-hasher-darwin-x64: 1.4.2
-      glob-hasher-linux-x64-gnu: 1.4.2
-      glob-hasher-win32-arm64-msvc: 1.4.2
-      glob-hasher-win32-x64-msvc: 1.4.2
-
   glob-parent@5.1.2:
     dependencies:
       is-glob: 4.0.3
@@ -9319,12 +9255,6 @@ snapshots:
 
   kolorist@1.8.0:
     optional: true
-
-  lage@2.14.3:
-    dependencies:
-      glob-hasher: 1.4.2
-    optionalDependencies:
-      fsevents: 2.3.3
 
   langium@3.0.0:
     dependencies:
