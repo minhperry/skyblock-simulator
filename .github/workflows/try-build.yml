@@ -5,6 +5,7 @@ on:
     paths:
       - 'src/**'
       - '*.js'
+      - '*.ts'
     types: [ opened, synchronize, reopened, closed ]
 
 jobs:
