@@ -5,6 +5,7 @@ on:
     paths:
       - 'src/**'
       - '*.js'
+      - '*.ts'
     types: [ opened, synchronize, reopened, closed ]
 
 jobs:
@@ -13,18 +14,25 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '22.11.0'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install --frozen-lockfile
+        working-directory: ${{ github.workspace }}
 
       - name: Install Angular CLI
-        run: npm install -g @angular/cli
+        run: pnpm install -g @angular/cli
 
       - name: Build Angular app
-        run: ng build --configuration=production
+        run: pnpm ng build --configuration=production

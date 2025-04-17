@@ -65,11 +65,7 @@
             "ssr": {
               "entry": "src/server.ts"
             },
-            "allowedCommonJsDependencies": [
-              "winston",
-              "node-cache",
-              "express-rate-limit"
-            ]
+            "allowedCommonJsDependencies": []
           },
           "configurations": {
             "production": {
