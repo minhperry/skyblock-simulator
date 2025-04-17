@@ -14,6 +14,8 @@ on:
       # Source files
       - 'public/**'
       - 'src/**'
+      # The fucking pnpm-lock.yaml
+      - 'pnpm-lock.yaml'
 
 jobs:
   deps-build-deploy:
