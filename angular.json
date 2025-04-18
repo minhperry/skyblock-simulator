@@ -100,7 +100,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "port": 6969
+            "port": 9000
           }
         },
         "extract-i18n": {
