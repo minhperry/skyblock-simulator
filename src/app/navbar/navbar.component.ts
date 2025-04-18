@@ -63,7 +63,7 @@ export class NavbarComponent implements OnInit {
         ]
       },
       {
-        label: 'Coming Soon',
+        label: 'Not Coming Soon',
         icon: 'bi bi-star',
         items: [
           {label: 'More terminals', disabled: true},
