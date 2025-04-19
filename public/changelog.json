@@ -229,6 +229,10 @@
                     {
                         "component": "Technical / Design",
                         "description": "Completely restyle the app using PrimeNG and Tailwind CSS"
+                    },
+                    {
+                        "component": "Live MP",
+                        "description": "Renamed to Magical Power. Added a sorting option."
                     }
                 ]
             }
