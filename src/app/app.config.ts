@@ -15,6 +15,7 @@ import {providePrimeNG} from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import {provideTanStackQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {definePreset} from '@primeng/themes';
+import {provideAnimations} from '@angular/platform-browser/animations';
 
 const PrimeNgPreset = definePreset(Aura, {
   semantic: {
@@ -50,6 +51,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
+    provideAnimations(),
     provideClientHydration(),
     provideHttpClient(withFetch()),
     providePrimeNG({
