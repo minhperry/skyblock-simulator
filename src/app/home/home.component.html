@@ -24,13 +24,16 @@
     </div>
   } @else {
     @let changelog = changelogRes.value();
-    <div>
-      <p-tabs value="1.0">
+    <div class="rounded-lg">
+      <p-tabs value="1.0" scrollable>
         <!-- Tablist Picker-->
         <p-tablist>
-          @for (minor of changelog; track minor.version) {
+          @for (minor of changelog; track minor.version; let lst = $last) {
             <p-tab [value]="minor.version">
               v{{ minor.version }}
+              @if (lst) {
+                <p-tag value="New"></p-tag>
+              }
             </p-tab>
           }
         </p-tablist>

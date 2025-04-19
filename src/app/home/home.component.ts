@@ -1,8 +1,8 @@
 import {Component, inject, resource} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {injectQuery} from '@tanstack/angular-query-experimental';
-import {catchError, firstValueFrom, lastValueFrom, throwError} from 'rxjs';
+import {catchError, firstValueFrom, throwError} from 'rxjs';
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from 'primeng/tabs';
+import {Tag} from 'primeng/tag';
 
 interface ChangelogEntry {
   component: string;
@@ -23,19 +23,21 @@ interface ChangelogMinorVersion {
   selector: 'sb-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
-  imports: [TabPanel, Tabs, TabList, Tab, TabPanel, TabPanels]
+  imports: [TabPanel, Tabs, TabList, Tab, TabPanel, TabPanels, Tag]
 })
 export class HomeComponent {
-  changelog: ChangelogMinorVersion[] = [];
-
   private http = inject(HttpClient);
 
   changelogRes = resource({
-    loader: () => this.httpGet
+    loader: () => firstValueFrom(
+      this.http.get<ChangelogMinorVersion[]>('/changelog.json').pipe(
+        catchError(err => {
+          return throwError(() => err)
+        })
+      ))
   })
 
-  private httpGet = firstValueFrom(this.http.get<ChangelogMinorVersion[]>('/changelog.json'))
-
+  /* Keep this for archive purposes
   changelogQuery = injectQuery(() => ({
     queryKey: ['changelog'],
     queryFn: () => firstValueFrom(
@@ -45,4 +47,5 @@ export class HomeComponent {
         })
       )), // or lastValueFrom if you want to wait for the last value
   }))
+  */
 }
