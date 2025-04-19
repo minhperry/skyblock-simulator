@@ -212,3 +212,7 @@ export const StatsMultiplier = {
     int: 1.5, health: 1.4, strength: 1, def: 1, critDmg: 1, speed: 0.5,
     critChance: 0.4, vitality: 0.333, atkSpd: 0.3, trueDef: 0.27, mending: 0.25
 }
+
+export const MULTIPLIER = 719.28;
+export const SCALING = 0.0019;
+export const EXPONENT = 1.2;
