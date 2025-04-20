@@ -83,3 +83,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     }
 }
 
+// Temp fix while waiting for https://github.com/primefaces/primeng/pull/18121
+.p-tablist-tab-list {
+    display: inline-flex !important;
+    min-width: 100% !important;
+}
