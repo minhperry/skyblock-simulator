@@ -1,8 +1,10 @@
-import {Component, inject, resource} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {catchError, firstValueFrom, throwError} from 'rxjs';
+import {firstValueFrom} from 'rxjs';
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from 'primeng/tabs';
 import {Tag} from 'primeng/tag';
+import {injectQuery} from '@tanstack/angular-query-experimental';
+import {FakeDelayService} from '../../services/fake-delay-service.service';
 
 interface ChangelogEntry {
   component: string;
@@ -23,29 +25,19 @@ interface ChangelogMinorVersion {
   selector: 'sb-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
-  imports: [TabPanel, Tabs, TabList, Tab, TabPanel, TabPanels, Tag]
+  imports: [TabPanel, Tabs, TabList, Tab, TabPanel, TabPanels, Tag],
 })
 export class HomeComponent {
   private http = inject(HttpClient);
+  #fds = inject(FakeDelayService)
 
-  changelogRes = resource({
-    loader: () => firstValueFrom(
-      this.http.get<ChangelogMinorVersion[]>('/changelog.json').pipe(
-        catchError(err => {
-          return throwError(() => err)
-        })
-      ))
-  })
-
-  /* Keep this for archive purposes
   changelogQuery = injectQuery(() => ({
     queryKey: ['changelog'],
-    queryFn: () => firstValueFrom(
-      this.http.get<ChangelogMinorVersion[]>('/changelog.json').pipe(
-        catchError(err => {
-          return throwError(() => err)
-        })
-      )), // or lastValueFrom if you want to wait for the last value
+    queryFn: () => {
+      // Delay the first load of changelog.json by 750ms to 2.5s
+      this.#fds.delayOnceRandom('changelog', 750, 2500).then()
+
+      return firstValueFrom(this.http.get<ChangelogMinorVersion[]>('/changelog.json'))
+    }
   }))
-  */
 }
