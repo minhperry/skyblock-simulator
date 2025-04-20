@@ -125,13 +125,23 @@ export class LiveMpComponent {
     return [...data].sort((a, b) => {
       const asKey = this.asKeyOfBasePower(sortBy);
       // Initiate the sort key
-      const aVal = a.stat[asKey] ?? 0;
-      const bVal = b.stat[asKey] ?? 0;
+      const aVal = a.stat[asKey];
+      const bVal = b.stat[asKey];
 
-      // Sort by the selected key in the selected order
+      const aUndef = aVal === undefined;
+      const bUndef = bVal === undefined;
+
+      // If a is undefined but b isn’t, push a to end
+      if (aUndef && !bUndef) return 1;
+      // If b is undefined but a isn’t, push b to end
+      if (bUndef && !aUndef) return -1;
+
+      // If both are undefined, or both are defined, sort by the value
+      const left = aVal as number;
+      const right = bVal as number;
       return orderBy.key === 'asc'
-        ? aVal - bVal
-        : bVal - aVal;
+        ? left - right
+        : right - left;
     });
   })
 
