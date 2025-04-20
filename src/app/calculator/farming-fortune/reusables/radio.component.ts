@@ -44,6 +44,4 @@ export class RadioComponent {
     this.choice = value;
     this.choiceChange.emit(value);
   }
-
-  size: any = false;
 }

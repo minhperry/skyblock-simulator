@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NumNumFunc, NumStringFunc } from '../../../../interfaces/functions';
-import { debounceTime, Subject } from 'rxjs';
+// import { debounceTime, Subject } from 'rxjs';
 import {StrengthComponent} from "../../strength.comp";
 import {Slider, SliderChangeEvent} from 'primeng/slider';
 import {FormsModule} from '@angular/forms';
