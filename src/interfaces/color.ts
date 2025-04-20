@@ -5,7 +5,8 @@ export enum Color {
     BLUE = '#55f',
     YELLOW = '#ff5',
     AQUA = '#5ff',
-    DARK_RED = '#a00'
+    DARK_RED = '#a00',
+    DARK_AQUA = '#0aa'
 }
 
 export const ColorCodes: Record<string, string> = {
