@@ -1,52 +1,58 @@
 <div class="mx-12 max-md:mx-3">
-
-
-  <form class="grid grid-cols-1 lg:grid-cols-2 gap-3" [formGroup]="inputFormGroup">
+  <form class="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-6" [formGroup]="inputFormGroup">
     <!-- Value enter -->
     <p-input-group>
-      <p-input-number formControlName="magicalPower" min="0"/>
+      <p-input-number formControlName="magicalPower"
+                      [min]="0" [max]="1000000" [useGrouping]="false"
+                      placeholder="Enter your magical power"
+      />
       <p-inputgroup-addon>Magical Power</p-inputgroup-addon>
     </p-input-group>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-      <p-inputgroup>
-        <!-- Sort by options -->
-        <p-inputgroup-addon>
-          Sort By
-        </p-inputgroup-addon>
-        <p-select formControlName="selectedSort" [options]="sorterOptions" optionValue="key">
-          <ng-template #item let-_item #selectedItem>
-            @let item = asSortOption(_item);
-            <div class="flex items-center" [style]="{color: item.color}">
-              @if (item.color) {
-                <span [innerHTML]="toHex(item.icon) + '&nbsp;'"></span>
-              }
-              <span>{{ item.displayText }}</span>
-            </div>
-          </ng-template>
-        </p-select>
-      </p-inputgroup>
+    <p-inputgroup>
+      <p-inputgroup-addon>Filter By Name</p-inputgroup-addon>
+      <input pInputText formControlName="filterByName" placeholder="Filter by stone name"/>
+    </p-inputgroup>
 
-      <p-inputgroup>
-        <!-- Sort order options -->
-        <p-inputgroup-addon>
-          Order By
-        </p-inputgroup-addon>
-        <p-select formControlName="selectedOrder" [options]="orderOptions" optionLabel="text"/>
-      </p-inputgroup>
-    </div>
+    <p-inputgroup>
+      <!-- Sort by options -->
+      <p-inputgroup-addon>
+        Sort By
+      </p-inputgroup-addon>
+      <p-select formControlName="selectedSort" [options]="sorterOptions" optionValue="key"
+                placeholder="Sort by stat">
+        <ng-template #item let-_item #selectedItem>
+          @let item = asSortOption(_item);
+          <div class="flex items-center" [style]="{color: item.color}">
+            @if (item.color) {
+              <span [innerHTML]="toHex(item.icon) + '&nbsp;'"></span>
+            }
+            <span>{{ item.displayText }}</span>
+          </div>
+        </ng-template>
+      </p-select>
+    </p-inputgroup>
+
+    <p-inputgroup>
+      <!-- Sort order options -->
+      <p-inputgroup-addon>
+        Order By
+      </p-inputgroup-addon>
+      <p-select formControlName="selectedOrder" [options]="orderOptions" optionLabel="text"
+                placeholder="Sort order"/>
+    </p-inputgroup>
   </form>
 
   <div class="hidden">
     {{ calculatedDataSignal() | json }}
   </div>
 
-  <div>
+  <div class="max-md:text-sm">
     <p-table [value]="calculatedDataSignal()">
       <ng-template #header>
         <tr>
           @for (col of columnConfigs; track $index) {
-            <th [ngStyle]="col.styles" class="text-center align-middle sticky-top">
+            <th [ngStyle]="col.styles" class="!text-center !align-middle !sticky z-50">
               @if (col.unicode) {
                 <span [innerHTML]="toHex(col.unicode)"></span>
               }
@@ -54,10 +60,10 @@
               @if (col.key === 'name') {
                 <span>{{ col.headerText }}</span>
               } @else {
-                <span class="lg-to-2xl">{{ col.shortText }}</span>
+                <span class="max-xl:hidden">{{ col.shortText }}</span>
               }
               <!-- Only shows for 2xl <= width -->
-              <span class="max-2xl:hidden">{{ col.headerText }}</span>
+              <span class="hidden">{{ col.headerText }}</span>
             </th>
           }
         </tr>
@@ -66,7 +72,7 @@
         @let row = asRowData(_row);
         <tr>
           @for (col of columnConfigs; track $index) {
-            <td [ngStyle]="col.styles" class="text-center align-middle">
+            <td [ngStyle]="col.styles" class="!align-middle !text-center">
               {{ getBasePowerValue(row, col.key) }}
             </td>
           }

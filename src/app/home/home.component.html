@@ -11,19 +11,19 @@
   <div class="text-center mb-6">
     <h2 class="text-3xl font-bold">Changelog</h2>
   </div>
-  @if (changelogRes.isLoading()) {
+  @if (changelogQuery.isPending()) {
     <div class="flex items-center justify-center py-16 text-gray-500">
       <span class="animate-spin mr-3 h-5 w-5 border-2 border-t-transparent border-current rounded-full"></span>
       <span>Loading changelog...</span>
     </div>
-  } @else if (changelogRes.error()) {
+  } @else if (changelogQuery.isError()) {
     <div class="flex flex-col items-center justify-center py-16 text-red-600">
       <i class="bi bi-exclamation-triangle-fill text-3xl mb-2"></i>
       <span class="text-lg font-semibold">Failed to load changelog</span>
       <span class="text-sm text-red-400">Please try refreshing the page.</span>
     </div>
   } @else {
-    @let changelog = changelogRes.value();
+    @let changelog = changelogQuery.data();
     <div class="rounded-lg">
       <p-tabs value="1.0" scrollable>
         <!-- Tablist Picker-->
@@ -57,8 +57,6 @@
           }
         </p-tabpanels>
       </p-tabs>
-
     </div>
   }
-
 </div>

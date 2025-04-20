@@ -10,6 +10,10 @@ export interface BasePower {
     trueDef?: number;
     mending?: number;
     vitality?: number;
+    // Bonus stats exclusive
+    ferocity?: number;
+    combatWisdom?: number;
+    abilityDamage?: number;
 }
 
 export interface PowerStone {
@@ -102,6 +106,8 @@ export const Stats: PowerStone[] = [
     {
         id: 'forceful', name: 'Forceful', basePower: {
             strength: 75, health: 5, critDmg: 20
+        }, bonus: {
+            ferocity: 4
         }
     },
     {
@@ -122,17 +128,21 @@ export const Stats: PowerStone[] = [
         id: 'shaded', name: 'Shaded', basePower: {
             strength: 20, speed: 5, critDmg: 75
         }, bonus: {
-            atkSpd: 3
+            atkSpd: 3, ferocity: 3
         }
     },
     {
         id: 'sighted', name: 'Sighted', basePower: {
             int: 100
+        }, bonus: {
+            abilityDamage: 3
         }
     },
     {
         id: 'bizzare', name: 'Bizzare', basePower: {
             strength: -10, critDmg: -10, int: 120
+        }, bonus: {
+            abilityDamage: 5
         }
     },
     {
@@ -163,9 +173,9 @@ export const Stats: PowerStone[] = [
     },
     {
         id: 'frozen', name: 'Frozen', basePower: {
-            def: 50
+            def: 60, strength: 25, speed: -15, critDmg: 50
         }, bonus: {
-            trueDef: 10
+            trueDef: 10, strength: 25, critDmg: 25
         }
     },
     {
@@ -192,6 +202,8 @@ export const Stats: PowerStone[] = [
     {
         id: 'bubba', name: 'Bubba', basePower: {
             strength: 25, def: -40, health: 15, critChance: 10, critDmg: 45, atkSpd: 25, trueDef: 20
+        }, bonus: {
+            combatWisdom: 2
         }
     },
     {
@@ -204,13 +216,17 @@ export const Stats: PowerStone[] = [
     {
         id: 'scorching', name: 'Scorching', basePower: {
             strength: 35, critDmg: 40, atkSpd: 25
+        }, bonus: {
+            ferocity: 7
         }
     }
 ]
 
 export const StatsMultiplier = {
     int: 1.5, health: 1.4, strength: 1, def: 1, critDmg: 1, speed: 0.5,
-    critChance: 0.4, vitality: 0.333, atkSpd: 0.3, trueDef: 0.27, mending: 0.25
+    critChance: 0.4, vitality: 0.333, atkSpd: 0.3, trueDef: 0.27, mending: 0.25,
+    // Bonus stats exclusive, doesn't matter the value since it's not used in the equation
+    ferocity: 1, combatWisdom: 1, abilityDamage: 1
 }
 
 export const MULTIPLIER = 719.28;
