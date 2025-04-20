@@ -1,0 +1,50 @@
+name: Deploy Angular App to VPS
+
+on:
+  push:
+    branches:
+      - preview
+    paths:
+      # Config files
+      - '*.json'
+      - '*.js'
+      # GitHub Actions
+      - '.github/**'
+      # Source files
+      - 'public/**'
+      - 'src/**'
+      # The fucking pnpm-lock.yaml
+      - 'pnpm-lock.yaml'
+
+jobs:
+  deps-build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: ${{ github.workspace }}
+
+      - name: Install Angular CLI
+        run: pnpm install -g @angular/cli
+
+      - name: Build Angular app
+        run: pnpm ng build --configuration=production
+
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -avzr --delete
+          path: dist/
+          remote_path: /var/www/skyblock-preview
+          remote_host: ${{ secrets.VPS_IP }}
+          remote_user: ${{ secrets.VPS_USER }}
+          remote_key: ${{ secrets.SSH_KEY }}
