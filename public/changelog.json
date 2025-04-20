@@ -232,7 +232,11 @@
                     },
                     {
                         "component": "Live MP",
-                        "description": "Renamed to Magical Power. Added a sorting option."
+                        "description": "Renamed to Magical Power. Added a sorting option and a filter."
+                    },
+                    {
+                        "component": "Moocow vs Elephant",
+                        "description": "--"
                     }
                 ]
             }
