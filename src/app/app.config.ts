@@ -52,7 +52,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
     provideAnimations(),
-    provideClientHydration(),
+    // provideClientHydration(),
     provideHttpClient(withFetch()),
     providePrimeNG({
       theme: {
