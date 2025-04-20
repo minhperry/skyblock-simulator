@@ -155,10 +155,8 @@ export class LiveMpComponent {
       const base = stone.basePower[key] ?? 0;
       const multiplierForStat = StatsMultiplier[key] ?? 0;
 
-      const res = (base / 100) * multiplierForStat * thePartAfterMultInEquation;
-
       // Round to int
-      result[key] = Math.round(res);
+      result[key] = (base / 100) * multiplierForStat * thePartAfterMultInEquation;
     }
 
     // Then add bonus as a flat value
@@ -167,6 +165,12 @@ export class LiveMpComponent {
       const bonus = stone.bonus[key] ?? 0;
 
       result[key] = result[key] ?? 0 + bonus;
+    }
+
+    // Then round the result to int
+    for (const keyz in result) {
+      const key = keyz as keyof BasePower;
+      result[key] = Math.round(result[key] ?? 0);
     }
 
     return {
