@@ -2,27 +2,38 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NumNumFunc, NumStringFunc } from '../../../../interfaces/functions';
 import { debounceTime, Subject } from 'rxjs';
 import {StrengthComponent} from "../../strength.comp";
+import {Slider, SliderChangeEvent} from 'primeng/slider';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'sb-slider',
   template: `
-    <div class="item {{label}}">
-      <label [for]="label" class="form-label">
-        {{ preString }} {{ displayValue }} {{ extraStr }}
-        <div class="res">
+    <div>
+      <!-- First row displaying text and str -->
+      <div class="flex justify-between mb-0">
+        <label [for]="label + '_slider'">
+          {{ preString }} {{ displayValue }} {{ extraStr }}
+        </label>
+        <div>
           {{ calculatedValue }}
           <sb-str/>
         </div>
-      </label>
-      <input type="range" class="form-range"
-             [id]="label" [min]="min" [max]="max" [step]="step"
-             [value]="value" (input)="onSliderInput($event)"/>
+      </div>
+      <div class="my-3">
+        <p-slider
+                [id]="label + '_slider'"
+                [min]="min" [max]="max" [step]="step"
+                [(ngModel)]="value"
+                (onChange)="onSliderInput($event)"
+        />
+      </div>
     </div>
   `,
   imports: [
-    StrengthComponent
-  ],
-  styles: ['.form-label { margin-bottom: 0; display: flex; justify-content: space-between; }']
+    StrengthComponent,
+    Slider,
+    FormsModule
+  ]
 })
 export class TextableSliderComponent {
   @Input() label!: string;
@@ -37,14 +48,16 @@ export class TextableSliderComponent {
 
   @Output() valueChange = new EventEmitter<number>();
 
-  private sliderInput$ = new Subject<number>();
+  // private sliderInput$ = new Subject<number>();
 
-  constructor() {
+  /*
+  __constructor() {
     this.sliderInput$.pipe(debounceTime(200)).subscribe(value => {
       this.value = value;
       this.valueChange.emit(value);
     });
   }
+  */
 
   get calculatedValue() {
     return this.fromValue(this.value);
@@ -54,8 +67,9 @@ export class TextableSliderComponent {
     return this.display(this.value);
   }
 
-  onSliderInput(event: Event) {
-    const value = (event.target as HTMLInputElement).valueAsNumber;
-    this.sliderInput$.next(value);
+  onSliderInput(event: SliderChangeEvent) {
+    const value = event.value as number;
+    // this.sliderInput$.next(value);
+    this.valueChange.emit(value)
   }
 }
