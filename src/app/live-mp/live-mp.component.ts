@@ -1,4 +1,4 @@
-import {Component, computed, effect} from '@angular/core';
+import {Component, computed} from '@angular/core';
 import {
   BasePower,
   EXPONENT,
@@ -18,6 +18,7 @@ import {Select} from 'primeng/select';
 import {Nullable} from 'primeng/ts-helpers';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {TableModule} from 'primeng/table';
+import {InputText} from 'primeng/inputtext';
 
 interface ColumnConfig {
   key: string,
@@ -57,7 +58,8 @@ interface RowData {
     ReactiveFormsModule,
     JsonPipe,
     TableModule,
-    NgStyle
+    NgStyle,
+    InputText
   ],
   styleUrl: './live-mp.component.scss'
 })
@@ -74,7 +76,22 @@ export class LiveMpComponent {
     {key: 'atkSpd', headerText: 'Atk Speed', shortText: 'ATK', unicode: '2694', styles: {color: Color.YELLOW}},
     {key: 'trueDef', headerText: 'True Def', shortText: 'TDEF', unicode: '2742', styles: {color: Color.WHITE}},
     {key: 'vitality', headerText: 'Vitality', shortText: 'VIT', unicode: '2668', styles: {color: Color.DARK_RED}},
-    {key: 'mending', headerText: 'Mending', shortText: 'MEND', unicode: '2604', styles: {color: Color.GREEN}}
+    {key: 'mending', headerText: 'Mending', shortText: 'MEND', unicode: '2604', styles: {color: Color.GREEN}},
+    {key: 'ferocity', headerText: 'Ferocity', shortText: 'FERO', unicode: '2AFD', styles: {color: Color.RED}},
+    {
+      key: 'combatWisdom',
+      headerText: 'Combat Wisdom',
+      shortText: 'CWIS',
+      unicode: '262F',
+      styles: {color: Color.DARK_AQUA}
+    },
+    {
+      key: 'abilityDamage',
+      headerText: 'Ability Damage',
+      shortText: 'ADMG',
+      unicode: '0E51',
+      styles: {color: Color.RED}
+    },
   ];
 
   // Form control object
@@ -82,6 +99,7 @@ export class LiveMpComponent {
     magicalPower: new FormControl<number | null>(null),
     selectedSort: new FormControl<Nullable<SortOption>>(null),
     selectedOrder: new FormControl<Nullable<OrderOption>>(null),
+    filterByName: new FormControl<Nullable<string>>(null)
   })
 
   // Options for sorting
@@ -96,8 +114,6 @@ export class LiveMpComponent {
     }
     })
 
-  // TODO: add filter by name to replace it being unsortable
-
   // Orders for sorting
   orderOptions: OrderOption[] = [
     {key: 'asc', text: '⬆️ Ascending'},
@@ -108,15 +124,22 @@ export class LiveMpComponent {
   #mp$ = toSignal(this.inputFormGroup.controls.magicalPower.valueChanges)
   #selSort$ = toSignal(this.inputFormGroup.controls.selectedSort.valueChanges)
   #selOrd$ = toSignal(this.inputFormGroup.controls.selectedOrder.valueChanges)
+  #filtName$ = toSignal(this.inputFormGroup.controls.filterByName.valueChanges)
 
   // Computed signal will change whenever any of the dependencies change
   calculatedDataSignal = computed(() => {
     const mp = this.#mp$() ?? 0;
     const sortBy = this.#selSort$()
     const orderBy = this.#selOrd$()
+    const filterBy = this.#filtName$()
 
     // Map the data to calculated power
-    const data = Stats.map(stone => this.calculatePower(stone, mp))
+    let data = Stats.map(stone => this.calculatePower(stone, mp))
+
+    // If filterBy is not null, filter the data. Happens before sorting
+    if (filterBy) {
+      data = data.filter(stone => stone.name.toLowerCase().includes(filterBy.toLowerCase()));
+    }
 
     // If sortBy or orderBy is null, return the mapped data
     if (!sortBy || !orderBy) return data;
@@ -145,15 +168,6 @@ export class LiveMpComponent {
     });
   })
 
-  __constructor() {
-    effect(() => {
-      console.log('=========================');
-      console.log('Magical Power:', this.#mp$());
-      console.log('Selected Sort:', this.#selSort$());
-      console.log('Selected Order:', this.#selOrd$());
-    });
-  }
-
   private calculatePower(stone: PowerStone, magicalPower: number): RowData {
     const result: BasePower = {};
 
@@ -174,7 +188,7 @@ export class LiveMpComponent {
       const key = bonuz as keyof BasePower;
       const bonus = stone.bonus[key] ?? 0;
 
-      result[key] = result[key] ?? 0 + bonus;
+      result[key] = (result[key] ?? 0) + bonus;
     }
 
     // Then round the result to int
