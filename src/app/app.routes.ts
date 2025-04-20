@@ -1,7 +1,6 @@
 import {Routes} from '@angular/router';
 import {TerminalComponent} from './terminal/terminal.component';
 import {HomeComponent} from './home/home.component';
-import {CalculatorComponent} from './calculator/calculator.component';
 import {LiveMpComponent} from './live-mp/live-mp.component';
 import {TodoComponent} from "./todo/todo.component";
 import {AboutComponent} from "./about/about.component";
@@ -11,6 +10,7 @@ import {ColorerComponent} from "./terminal/colorer/colorer.component";
 import {FruitDiggingComponent} from "./fruit-digging/fruit-digging.component";
 import {MayorCycleComponent} from "./mayor/mayor-cycle/mayor-cycle.component";
 import {ThankYouComponent} from "./mayor/thank-you/thank-you.component";
+import {FarmingFortuneComponent} from './calculator/farming-fortune/farming-fortune.component';
 
 export const routes: Routes = [
   {
@@ -42,7 +42,7 @@ export const routes: Routes = [
   },
   {
     path: 'cowvsele',
-    component: CalculatorComponent,
+    component: FarmingFortuneComponent,
     title: 'Calculator'
   },
   {
