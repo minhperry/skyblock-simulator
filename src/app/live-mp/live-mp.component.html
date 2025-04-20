@@ -1,36 +1,77 @@
-<div class="container-sm" data-bs-theme="dark">
+<div class="mx-12 max-md:mx-3">
 
-  <div class="input-group mb-3 mt-3 sticky-top">
-    <input type="number" class="form-control" min="0" max="999999"
-      placeholder="Your magical power"
-      aria-label="MP" aria-describedby="magical-power"
-      [(ngModel)]="magicalPower" (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
-      >
-    <span class="input-group-text" id="magical-power">Magical Power</span>
+
+  <form class="grid grid-cols-1 lg:grid-cols-2 gap-3" [formGroup]="inputFormGroup">
+    <!-- Value enter -->
+    <p-input-group>
+      <p-input-number formControlName="magicalPower" min="0"/>
+      <p-inputgroup-addon>Magical Power</p-inputgroup-addon>
+    </p-input-group>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <p-inputgroup>
+        <!-- Sort by options -->
+        <p-inputgroup-addon>
+          Sort By
+        </p-inputgroup-addon>
+        <p-select formControlName="selectedSort" [options]="sorterOptions" optionValue="key">
+          <ng-template #item let-_item #selectedItem>
+            @let item = asSortOption(_item);
+            <div class="flex items-center" [style]="{color: item.color}">
+              @if (item.color) {
+                <span [innerHTML]="toHex(item.icon) + '&nbsp;'"></span>
+              }
+              <span>{{ item.displayText }}</span>
+            </div>
+          </ng-template>
+        </p-select>
+      </p-inputgroup>
+
+      <p-inputgroup>
+        <!-- Sort order options -->
+        <p-inputgroup-addon>
+          Order By
+        </p-inputgroup-addon>
+        <p-select formControlName="selectedOrder" [options]="orderOptions" optionLabel="text"/>
+      </p-inputgroup>
+    </div>
+  </form>
+
+  <div class="hidden">
+    {{ calculatedDataSignal() | json }}
   </div>
-  <table class="table table-hover table-sm">
-    <thead>
-      <tr>
-        @for (column of columnConfigs; track column) {
-          <th [ngStyle]="column.styles" class="text-center align-middle sticky-top">
-            @if (column.unicode) {
-              <span [innerHTML]="toHex(column.unicode)"> </span>
-            }
-            <span class="d-none d-lg-inline">{{ column.headerText }}</span>
-          </th>
-        }
-      </tr>
-    </thead>
-    <tbody class="table-group-divider">
-      @for (stone of stats; track stone) {
+
+  <div>
+    <p-table [value]="calculatedDataSignal()">
+      <ng-template #header>
         <tr>
-          @for (col of columnConfigs; track col) {
-            <td [ngStyle]="{'color': col.styles?.color}" class="text-center align-middle">
-              {{ col.key !== 'name' ? calculate(stone, col.key) : getBasePowerValue(stone, col.key) }}
+          @for (col of columnConfigs; track $index) {
+            <th [ngStyle]="col.styles" class="text-center align-middle sticky-top">
+              @if (col.unicode) {
+                <span [innerHTML]="toHex(col.unicode)"></span>
+              }
+              <!-- Only shows for lg <= width <= 2xl -->
+              @if (col.key === 'name') {
+                <span>{{ col.headerText }}</span>
+              } @else {
+                <span class="lg-to-2xl">{{ col.shortText }}</span>
+              }
+              <!-- Only shows for 2xl <= width -->
+              <span class="max-2xl:hidden">{{ col.headerText }}</span>
+            </th>
+          }
+        </tr>
+      </ng-template>
+      <ng-template #body let-_row>
+        @let row = asRowData(_row);
+        <tr>
+          @for (col of columnConfigs; track $index) {
+            <td [ngStyle]="col.styles" class="text-center align-middle">
+              {{ getBasePowerValue(row, col.key) }}
             </td>
           }
         </tr>
-      }
-    </tbody>
-  </table>
+      </ng-template>
+    </p-table>
+  </div>
 </div>
