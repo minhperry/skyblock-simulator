@@ -12,7 +12,7 @@ import {FormsModule} from '@angular/forms';
       <!-- First row displaying text and str -->
       <div class="flex justify-between mb-0">
         <label [for]="label + '_slider'">
-          {{ preString }} {{ displayValue }} {{ extraStr }}
+          {{ preString }} {{ displayValue }}
         </label>
         <div>
           {{ calculatedValue }}

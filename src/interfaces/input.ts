@@ -29,7 +29,6 @@ export interface SliderItem {
     value: number,
     func: NumNumFunc,
     display?: NumStringFunc,
-    extraStr?: string,
 }
 
 
