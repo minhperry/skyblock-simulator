@@ -1,44 +1,42 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import {FormsModule} from "@angular/forms";
-import {StrengthComponent} from "../../strength.comp";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {StrengthComponent} from '../../strength.comp';
+import {Checkbox, CheckboxChangeEvent} from 'primeng/checkbox';
 
 @Component({
-    selector: 'sb-checkbox',
-    template: `
-        <div class="item {{label}}">
-            <label [for]="label" class="form-label">
-                @if (check) {
-                    <input type="checkbox" (change)="onCheckboxChange($event)" ngDefaultControl checked>
-                } @else {
+  selector: 'sb-checkbox',
+  template: `
+    <div class="flex items-center py-1">
+      <p-checkbox
+              [binary]="true"
+              [(ngModel)]="check"
+              (onChange)="onCheckboxChange($event)"
+              [inputId]="label + '_checkbox'"
+              class="mr-2 -translate-y-1" size="small"
+      /> <!-- Another bandage fix for checkbox not being vertically alignable -->
+      <label [for]="label + '_checkbox'" class="flex-1 cursor-pointer" [innerHTML]="text"></label>
 
-                    <input type="checkbox" (change)="onCheckboxChange($event)" ngDefaultControl>
-                }
-                <span [innerHTML]="text"> </span>
-                <div class="res">{{ check ? value : 0 }}
-                    <sb-str/>
-                </div>
-            </label>
-        </div>
-    `,
-    imports: [
-        FormsModule,
-        StrengthComponent
-    ],
-    styles: [
-        '.form-label { margin-bottom: 0; display: flex; justify-content: flex-start; }',
-        'input[type="checkbox"] { margin-right: 0.5em; }',
-        '.res { margin-left: auto; }'
-    ]
+      <div class="ml-auto">
+        {{ check ? value : 0 }}
+        <sb-str/>
+      </div>
+    </div>
+  `,
+  imports: [
+    FormsModule,
+    StrengthComponent,
+    Checkbox
+  ]
 })
 export class TextableCheckboxComponent {
-    @Input() label!: string;
-    @Input() text!: string;
-    @Input() value!: number;
-    @Input() check = false;
+  @Input() label!: string;
+  @Input() text!: string;
+  @Input() value!: number;
+  @Input() check = false;
 
-    @Output() checkChange = new EventEmitter<boolean>();
+  @Output() checkChange = new EventEmitter<boolean>();
 
-    onCheckboxChange(event: Event) {
-        this.checkChange.emit((event.target as HTMLInputElement).checked);
-    }
+  onCheckboxChange(event: CheckboxChangeEvent) {
+    this.checkChange.emit(event.checked);
+  }
 }
