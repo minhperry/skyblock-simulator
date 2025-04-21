@@ -9,7 +9,6 @@ import {RadioComponent} from "./reusables/radio.component";
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgClass} from "@angular/common";
 import {Accordion, AccordionContent, AccordionHeader, AccordionPanel} from 'primeng/accordion';
-import {InputText} from 'primeng/inputtext';
 import {InputGroup} from 'primeng/inputgroup';
 import {InputGroupAddon} from 'primeng/inputgroupaddon';
 import {InputNumber} from 'primeng/inputnumber';
