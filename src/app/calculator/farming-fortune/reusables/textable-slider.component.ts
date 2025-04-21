@@ -33,6 +33,18 @@ import {FormsModule} from '@angular/forms';
     StrengthComponent,
     Slider,
     FormsModule
+  ],
+  styles: [
+    `:host ::ng-deep .p-slider {
+      height: 8px !important;
+      @apply rounded;
+    }
+
+    :host ::ng-deep .p-slider-range {
+      @apply rounded;
+    }
+
+    ;`
   ]
 })
 export class TextableSliderComponent {
