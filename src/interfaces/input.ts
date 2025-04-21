@@ -31,6 +31,16 @@ export interface SliderItem {
     display?: NumStringFunc,
 }
 
+export interface SliderItemSignal {
+    min: number,
+    max: number,
+    step: number,
+    label: string,
+    preString: string,
+    value: WritableSignal<number>,
+    result: Signal<number>, // <=> func: num -> num
+    display: NumStringFunc
+}
 
 // Radio Buttons
 export interface RadioItem {
