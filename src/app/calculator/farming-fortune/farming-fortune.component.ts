@@ -198,16 +198,21 @@ export class FarmingFortuneComponent {
     return total
   })
 
-  mp = signal<Nullable<number>>(null);
 
-  $mp = computed(() => this.mp() ?? 0);
-  tuning = computed(() => Math.floor(this.$mp() / 10));
+  // region MP Input and Tuning
+  mpField = signal<Nullable<number>>(null);
 
-  get strengthFromMP() {
-    // https://wiki.hypixel.net/Powers#Stat_Calculation
-    const str = 0.75 * 719.28 * Math.pow(Math.log(1 + (0.0019 * this.$mp())), 1.2);
-    return round(str);
-  }
+  tuningField = computed(() => Math.floor((this.mpField() ?? 0) / 10));
+
+  computedStr = computed(() => {
+    const mpInt = this.mpField() ?? 0;
+
+    const strFromMP = 0.75 * 719.28 * Math.pow(Math.log(1 + (0.0019 * mpInt)), 1.2);
+    return round(strFromMP);
+  })
+
+  // endregion
+
 
   get fFortune() {
     const ff = this.totalStr / 20 * 0.7;

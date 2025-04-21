@@ -108,7 +108,7 @@
   <!-- Magical Power Input -->
   <div class="sticky top-0 z-10 mb-3 mt-3">
     <p-input-group>
-      <p-input-number [(ngModel)]="mp"
+      <p-input-number [(ngModel)]="mpField"
                       [min]="0" [max]="1000000" [useGrouping]="false"
                       placeholder="Enter your magical power"
       />
@@ -119,16 +119,16 @@
   <!-- MP and Tuning Display -->
   <div class="space-y-2 mb-4 text-white/90">
     <div class="flex justify-between">
-      <span>{{ mp() }} Magical Power</span>
+      <span>{{ mpField() ?? 0 }} Magical Power</span>
       <div class="text-right font-semibold">
-        {{ strengthFromMP }}
+        {{ computedStr() }}
         <sb-str/>
       </div>
     </div>
     <div class="flex justify-between">
-      <span>{{ tuning() }} Tuning Points</span>
+      <span>{{ tuningField() }} Tuning Points</span>
       <div class="text-right font-semibold">
-        {{ tuning() }}
+        {{ tuningField() }}
         <sb-str/>
       </div>
     </div>
