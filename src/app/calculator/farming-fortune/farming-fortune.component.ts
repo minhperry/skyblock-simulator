@@ -80,7 +80,7 @@ export class FarmingFortuneComponent {
 
   // region Checkboxes Handling
 
-  checkboxes: CheckBoxItem[] = [
+  #checkboxes: CheckBoxItem[] = [
     {check: false, label: 'dnc', value: 5, func: (v) => this.zeroOr(5, v), text: '<b>Both </b> Day and Night Crystal'},
     {check: false, label: 'cc', value: 2, func: (v) => this.zeroOr(2, v), text: 'aPunch Century Cake'},
     {
@@ -93,7 +93,7 @@ export class FarmingFortuneComponent {
     {check: false, label: 'jer', value: 20, func: (v) => this.zeroOr(20, v), text: 'Jerry Candy'},
     {check: false, label: 'aow', value: 5, func: (v) => this.zeroOr(5, v), text: 'The Art of War'},
   ]
-  checkboxSig: CheckBoxItemSignal[] = this.checkboxes.map((cb) => {
+  checkboxSig: CheckBoxItemSignal[] = this.#checkboxes.map((cb) => {
     const checkedSig = signal(cb.check);
     return {
       check: checkedSig,
@@ -158,7 +158,7 @@ export class FarmingFortuneComponent {
   calcTotal() {
     this.totalStr = 0;
     this.sliders.forEach(sl => this.totalStr += sl.func(sl.value));
-    this.checkboxes.forEach(cb => this.totalStr += cb.func(cb.check));
+    this.#checkboxes.forEach(cb => this.totalStr += cb.func(cb.check));
     this.radios.forEach(r => this.totalStr += r.choice);
     this.totalStr += this.tuning() + this.strengthFromMP;
     this.totalStr = round(this.totalStr);
