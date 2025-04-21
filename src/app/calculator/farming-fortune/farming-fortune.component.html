@@ -56,7 +56,7 @@
   </div>
 
   <!-- Accordion Section 2 -->
-  <p-accordion [multiple]="true" value="0" class="mb-5">
+  <p-accordion [multiple]="true" value="1" class="mb-5">
     <p-accordion-panel value="0">
       <p-accordion-header>
         Levels / Tiers
@@ -80,11 +80,11 @@
         Permanent Source Toggles
       </p-accordion-header>
       <p-accordion-content>
-        @for (box of checkboxes; track box; let i = $index) {
-          <sb-checkbox [check]="box.check" [label]="box.label"
-                       [value]="box.value"
-                       [text]="box.text"
-                       (checkChange)="onStateChange($event, i)"/>
+        @for (cbs of checkboxSig; track $index) {
+          <sb-checkbox [check]="cbs.check()" [label]="cbs.label"
+                       [value]="cbs.value" [text]="cbs.text"
+                       (checkChange)="onCheckboxChecked($event, $index)"
+          />
         }
       </p-accordion-content>
     </p-accordion-panel>
@@ -127,9 +127,9 @@
       </div>
     </div>
     <div class="flex justify-between">
-      <span>{{ tuning }} Tuning Points</span>
+      <span>{{ tuning() }} Tuning Points</span>
       <div class="text-right font-semibold">
-        {{ tuning }}
+        {{ tuning() }}
         <sb-str/>
       </div>
     </div>
@@ -138,7 +138,7 @@
   <!-- Final Total Display -->
   <div class="flex justify-between text-xl font-semibold text-white mt-3">
     <span>Total:</span>
-    <div>{{ totalStr }}
+    <div>{{ totalStrSig() }}
       <sb-str/>
     </div>
   </div>

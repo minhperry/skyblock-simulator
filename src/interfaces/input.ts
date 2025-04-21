@@ -1,5 +1,8 @@
 import { BoolNumFunc, NumNumFunc, NumOrZero, NumStringFunc } from "./functions";
+import {Signal, WritableSignal} from '@angular/core';
 
+
+// Checkboxes
 export interface CheckBoxItem {
     check: boolean,
     label: string,
@@ -8,6 +11,15 @@ export interface CheckBoxItem {
     text: string,
 }
 
+export interface CheckBoxItemSignal {
+    check: WritableSignal<boolean>,
+    label: string,
+    value: number,
+    result: Signal<number>
+    text: string,
+}
+
+// Sliders
 export interface SliderItem {
     min?: NumOrZero,
     max: number,
@@ -20,6 +32,8 @@ export interface SliderItem {
     extraStr?: string,
 }
 
+
+// Radio Buttons
 export interface RadioItem {
     options: RadioMapItem[],
     label: string,
