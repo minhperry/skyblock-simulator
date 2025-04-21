@@ -1,5 +1,5 @@
 import {Component, computed, signal} from '@angular/core';
-import {CheckBoxItem, CheckBoxItemSignal, RadioItem, SliderItem} from '../../../interfaces/input';
+import {CheckBoxItem, CheckBoxItemSignal, RadioItem, SliderItem, SliderItemSignal} from '../../../interfaces/input';
 import {identity, NumStringFunc, round} from '../../../interfaces/functions';
 import {FarmingFortunesComponent} from '../ff.comp';
 import {StrengthComponent} from '../strength.comp';
@@ -39,7 +39,7 @@ import {Nullable} from '../../../interfaces/types';
 export class FarmingFortuneComponent {
   defaultDisplay: NumStringFunc = (v) => v.toString();
 
-  // Todo: signal-izing the whole component
+  // region Sliders Handling
 
   sliders: SliderItem[] = [
     {
@@ -72,11 +72,25 @@ export class FarmingFortuneComponent {
       max: 15, step: 1, func: (v) => v * 2
     }
   ]
-  sliderSigs = this.sliders.map((sl) => {
+  sliderSigs: SliderItemSignal[] = this.sliders.map((sl) => {
+    const valSig = signal(sl.value);
     return {
       label: sl.label,
+      preString: sl.preString,
+      min: sl.min ?? 0,
+      max: sl.max,
+      step: sl.step,
+      value: valSig,
+      result: computed(() => sl.func(valSig())),
+      display: sl.display ?? this.defaultDisplay,
     }
   });
+
+  onSliderInputChange(newValue: number, index: number) {
+    this.sliderSigs[index].value.set(newValue);
+  }
+
+  // endregion
 
   // region Checkboxes Handling
 
@@ -176,9 +190,15 @@ export class FarmingFortuneComponent {
 
   totalStrSig = computed(() => {
     let total = 0;
+    // Add all the values from the checkboxes
     this.checkboxSig.forEach((cbs) => {
       total += cbs.result();
     })
+    // then the sliders
+    this.sliderSigs.forEach((sl) => {
+      total += sl.result();
+    })
+    // finally the radio buttons
     return total
   })
 

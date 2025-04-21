@@ -62,11 +62,11 @@
         Levels / Tiers
       </p-accordion-header>
       <p-accordion-content>
-        @for (sl of sliders; track sl) {
-          <sb-slider [min]="sl.min ?? 0" [max]="sl.max" [step]="sl.step"
+        @for (sl of sliderSigs; track sl) {
+          <sb-slider [min]="sl.min" [max]="sl.max" [step]="sl.step"
                      [label]="sl.label"
                      [preString]="sl.preString"
-                     [fromValue]="sl.func"
+                     [fromValue]="sl.result"
                      [display]="sl.display ?? defaultDisplay"
                      [(value)]="sl.value"
                      (valueChange)="calcTotal()"/>
