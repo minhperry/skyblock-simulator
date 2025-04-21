@@ -236,7 +236,7 @@
                     },
                     {
                         "component": "Moocow vs Elephant",
-                        "description": "--"
+                        "description": "Rewrite the logic layer to be more flexible. Added sliders to change the levels of the pets. Added Artifact/Relic of Power as a strength source."
                     }
                 ]
             }
