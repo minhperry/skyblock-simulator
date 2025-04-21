@@ -6,8 +6,14 @@ import {StrengthComponent} from "../strength.comp";
 import {TextableSliderComponent} from "./reusables/textable-slider.component";
 import {TextableCheckboxComponent} from "./reusables/textable-checkbox.component";
 import {RadioComponent} from "./reusables/radio.component";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgClass} from "@angular/common";
+import {Accordion, AccordionContent, AccordionHeader, AccordionPanel} from 'primeng/accordion';
+import {InputText} from 'primeng/inputtext';
+import {InputGroup} from 'primeng/inputgroup';
+import {InputGroupAddon} from 'primeng/inputgroupaddon';
+import {InputNumber} from 'primeng/inputnumber';
+import {Nullable} from '../../../interfaces/types';
 
 @Component({
   selector: 'sb-farming-fortune',
@@ -19,7 +25,15 @@ import {NgClass} from "@angular/common";
     TextableCheckboxComponent,
     RadioComponent,
     FormsModule,
-    NgClass
+    NgClass,
+    Accordion,
+    AccordionHeader,
+    AccordionContent,
+    AccordionPanel,
+    InputGroup,
+    InputGroupAddon,
+    InputNumber,
+    ReactiveFormsModule
   ],
     styleUrl: './farming-fortune.component.scss'
 })
@@ -35,7 +49,7 @@ export class FarmingFortuneComponent {
       max: 50, step: 1, func: (v) => v <= 14 ? v : 14 + 2 * (v - 14)
     }, {
       label: 'sb-level', preString: 'Skyblock Level', value: 0,
-      max: 470, step: 5, func: (v) => Math.floor(v / 5)
+      max: 500, step: 5, func: (v) => Math.floor(v / 5)
     }, {
       label: 'fstr', preString: 'Forbidden Strength', value: 0,
       max: 5, step: 1, func: identity
@@ -86,6 +100,16 @@ export class FarmingFortuneComponent {
         { value: 8, text: 'Sharp (Epic)'},
         { value: 10, text: 'Razor-sharp (Legendary)'},
       ]
+    }, {
+      title: 'Artifact/Relic of Power Line (with Perfect Jasper)',
+      label: 'arop',
+      choice: 0, options: [
+        {value: 0, text: 'None'},
+        {value: 4.5, text: 'Rare Artifact'},
+        {value: 5.5, text: 'Epic Artifact'},
+        {value: 6.5, text: 'Legendary Relic'},
+        {value: 8, text: 'Mythic Relic'},
+      ]
     }
   ]
 
@@ -109,12 +133,12 @@ export class FarmingFortuneComponent {
     this.totalStr = round(this.totalStr);
   }
 
-  mp: number | undefined = undefined;
+  mp: Nullable<number> = null;
   get $mp() {
     return this.mp ?? 0;
   }
   get tuning() {
-    if (this.mp === undefined) return 0;
+    if (this.mp === null) return 0;
     return Math.floor(this.mp / 10);
   }
   get strengthFromMP() {

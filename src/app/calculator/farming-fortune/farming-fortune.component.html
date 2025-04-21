@@ -1,200 +1,169 @@
-<div class="wrapper container" data-bs-theme="dark">
-  <div class="accordion" id="what">
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-          data-bs-target="#reqs" aria-expanded="false" aria-controls="reqs">
-          <b> &#x26A0; Requirements &#x26A0; </b>
-        </button>
-      </h2>
-      <div id="reqs" class="accordion-collapse collapse" data-bs-parent="#what">
-        <div class="accordion-body">
-          <p> This setup assumes you have the following:</p>
-          <ul>
+<div class="mt-5 px-4 md:container md:mx-auto" data-bs-theme="dark">
+  <!-- Accordion Section 1 -->
+  <div class="mb-5">
+    <p-accordion value="0">
+      <p-accordion-panel value="0">
+        <p-accordion-header>
+          &#x26A0; Requirements &#x26A0;
+        </p-accordion-header>
+        <p-accordion-content>
+          <p>This setup assumes you have the following:</p>
+          <ul class="list-disc list-inside space-y-1 text-white/90">
             <li>All armors and equipments on
               <sb-ff/>
               reforges, none on
               <sb-str/>
               reforges.
             </li>
-            <li>
-              Your
+            <li>Your
               <sb-ff/>
               setup stays the same during the comparision.
             </li>
-            <li>
-              You are not using any temporarty
+            <li>You are not using any temporary
               <sb-str/>
               boosts like Gravity Talisman or Weird Tuba.
             </li>
-            <li>
-              You are either using Elephant or Mooshroom Cow pet Level 100 only, with the same pet item on
-              both.
-            </li>
-            <li>
-              You are using dedicated farming tools instead of Daedalus Axe.
-            </li>
-            <li>
-              You are using Forceful power with
+            <li>You are either using Elephant or Mooshroom Cow pet Level 100 only, with the same pet item on both.</li>
+            <li>You are using dedicated farming tools instead of Daedalus Axe.</li>
+            <li>You are using Forceful power with
               <sb-str/>
               Tuning.
             </li>
           </ul>
-          <p>
+          <p class="mt-3">
             The main point of this is to see with which pet you would have more
             <sb-ff/>
             Farming Fortune with.
           </p>
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-          data-bs-target="#discl" aria-expanded="false" aria-controls="discl">
+        </p-accordion-content>
+      </p-accordion-panel>
+
+      <p-accordion-panel value="1">
+        <p-accordion-header>
           Disclaimer
-        </button>
-      </h2>
-      <div id="discl" class="accordion-collapse collapse" data-bs-parent="#what">
-        <div class="accordion-body">
+        </p-accordion-header>
+        <p-accordion-content>
           <p>
             Even when having more
             <sb-ff/>
-            with Elephant, you still get more money per hour with Mooshroom because
-            of all the extra mushroom drops.
+            with Elephant, you still get more money per hour with Mooshroom
+            because of all the extra mushroom drops.
           </p>
-          <p>
-            Artifact/Relic of Power with Jasper is currently ignored because incorrect Wiki result.
-            Please make an issue in the GitHub repo under Misc if you have the correct values.
-          </p>
-          <p>
-            Any other improvements or suggestions are welcome.
-          </p>
-        </div>
+          <p>Any other improvements or suggestions are welcome.</p>
+        </p-accordion-content>
+      </p-accordion-panel>
+    </p-accordion>
+  </div>
+
+  <!-- Accordion Section 2 -->
+  <p-accordion [multiple]="true" value="0" class="mb-5">
+    <p-accordion-panel value="0">
+      <p-accordion-header>
+        Levels / Tiers
+      </p-accordion-header>
+      <p-accordion-content>
+        @for (sl of sliders; track sl) {
+          <sb-slider [min]="sl.min ?? 0" [max]="sl.max" [step]="sl.step"
+                     [label]="sl.label"
+                     [preString]="sl.preString"
+                     [extraStr]="sl.extraStr ?? ''"
+                     [fromValue]="sl.func"
+                     [display]="sl.display ?? defaultDisplay"
+                     [(value)]="sl.value"
+                     (valueChange)="calcTotal()"/>
+        }
+      </p-accordion-content>
+    </p-accordion-panel>
+
+    <p-accordion-panel value="1">
+      <p-accordion-header>
+        Permanent Source Toggles
+      </p-accordion-header>
+      <p-accordion-content>
+        @for (box of checkboxes; track box; let i = $index) {
+          <sb-checkbox [check]="box.check" [label]="box.label"
+                       [value]="box.value"
+                       [text]="box.text"
+                       (checkChange)="onStateChange($event, i)"/>
+        }
+      </p-accordion-content>
+    </p-accordion-panel>
+
+    <p-accordion-panel value="2">
+      <p-accordion-header>
+        Accessories
+      </p-accordion-header>
+      <p-accordion-content>
+        @for (rad of radios; track rad; let i = $index) {
+          <sb-radio [options]="rad.options"
+                    [label]="rad.label"
+                    [title]="rad.title"
+                    [(choice)]="rad.choice"
+                    (choiceChange)="selectionChanged($event, i)"/>
+        }
+      </p-accordion-content>
+    </p-accordion-panel>
+  </p-accordion>
+
+
+  <!-- Magical Power Input -->
+  <div class="sticky top-0 z-10 mb-3 mt-3">
+    <p-input-group>
+      <p-input-number [(ngModel)]="mp"
+                      [min]="0" [max]="1000000" [useGrouping]="false"
+                      placeholder="Enter your magical power"
+      />
+      <p-inputgroup-addon>Magical Power</p-inputgroup-addon>
+    </p-input-group>
+  </div>
+
+  <!-- MP and Tuning Display -->
+  <div class="space-y-2 mb-4 text-white/90">
+    <div class="flex justify-between">
+      <span>{{ mp ?? 0 }} Magical Power</span>
+      <div class="text-right font-semibold">
+        {{ strengthFromMP }}
+        <sb-str/>
+      </div>
+    </div>
+    <div class="flex justify-between">
+      <span>{{ tuning }} Tuning Points</span>
+      <div class="text-right font-semibold">
+        {{ tuning }}
+        <sb-str/>
       </div>
     </div>
   </div>
 
-
-  <div class="accordion" id="calc">
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sliders"
-          aria-expanded="true" aria-controls="sliders">
-          Levels/Tiers
-        </button>
-      </h2>
-      <div class="accordion-collapse collapse show" id="sliders" data-bs-parent="#calc">
-        <div class="accordion-body">
-          @for (sl of sliders; track sl) {
-            <sb-slider [min]="sl.min ?? 0" [max]="sl.max" [step]="sl.step"
-              [label]="sl.label"
-              [preString]="sl.preString"
-              [extraStr]="sl.extraStr ?? ''"
-              [fromValue]="sl.func"
-              [display]="sl.display ?? defaultDisplay"
-              [(value)]="sl.value"
-              (valueChange)="calcTotal()"/>
-          }
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#toggles"
-          aria-expanded="true" aria-controls="toggles">
-          Permanent Source Toggle
-        </button>
-      </h2>
-      <div class="accordion-collapse collapse show" id="toggles" data-bs-parent="#calc">
-        <div class="accordion-body">
-          @for (box of checkboxes; track box; let i = $index) {
-            <sb-checkbox [check]="box.check" [label]="box.label"
-              [value]="box.value"
-              [text]="box.text"
-              (checkChange)="onStateChange($event, i)" />
-          }
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#line"
-          aria-expanded="true" aria-controls="line">
-          Line of Accessories
-        </button>
-      </h2>
-      <div class="accordion-collapse collapse show" id="line" data-bs-parent="#calc">
-        <div class="accordion-body">
-          @for (rad of radios; track rad; let i = $index) {
-            <sb-radio [options]="rad.options"
-              [label]="rad.label"
-              [title]="rad.title"
-              [(choice)]="rad.choice"
-              (choiceChange)="selectionChanged($event, i)"
-              />
-          }
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="mp">
-    <div class="input-group mb-3 mt-3">
-      <input type="number" class="form-control" min="0" max="999999"
-        placeholder="Your magical power"
-        aria-label="MP" aria-describedby="magical-power"
-        [(ngModel)]="mp" (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
-        (input)="calcTotal()">
-      <span class="input-group-text" id="magical-power">Magical Power</span>
-    </div>
-    <div class="text">
-      <span>
-        {{mp ?? 0}} Magical Power
-        <div class="numb">
-          {{ strengthFromMP }}
-          <sb-str/>
-        </div>
-      </span>
-      <span>
-        {{ tuning }} Tuning Points
-        <div class="numb">
-          {{ tuning }}
-          <sb-str/>
-        </div>
-      </span>
-    </div>
-  </div>
-
-  <span class="final mt-3">
-    Total:
-    <div class="numb">
-      {{ totalStr }}
+  <!-- Final Total Display -->
+  <div class="flex justify-between text-xl font-semibold text-white mt-3">
+    <span>Total:</span>
+    <div>{{ totalStr }}
       <sb-str/>
     </div>
-  </span>
+  </div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 d-flex align-items-center">
-        <div class="image-text-container" [ngClass]="{'highlight': isWinner('mcow')}">
-          <div class="image mcow"></div>
-          <div class="text">
-            {{ mCowFf }}
-            <sb-ff/>
-            Farming Fortune
-          </div>
-        </div>
+  <!-- Comparison Display -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+    <div class="flex items-center p-3 rounded-xl border-4"
+         [ngClass]="isWinner('mcow') ? 'border-yellow-400' : 'border-gray-600'">
+      <div class="w-32 h-28 bg-cover bg-no-repeat scale-75 mr-4"
+           style="background-image: url('/pets/mcow.png')"></div>
+      <div class="flex-1 text-center text-lg text-white">
+        {{ mCowFf }}
+        <sb-ff/>
+        Farming Fortune
       </div>
-      <div class="col-md-6 d-flex align-items-center">
-        <div class="image-text-container" [ngClass]="{'highlight': isWinner('ele')}">
-          <div class="image ele"></div>
-          <div class="text">
-            {{ eleFf }}
-            <sb-ff/>
-            Farming Fortune
-          </div>
-        </div>
+    </div>
+
+    <div class="flex items-center p-3 rounded-xl border-4"
+         [ngClass]="isWinner('ele') ? 'border-yellow-400' : 'border-gray-600'">
+      <div class="w-32 h-28 bg-cover bg-no-repeat scale-75 mr-4"
+           style="background-image: url('/pets/elephant.png')"></div>
+      <div class="flex-1 text-center text-lg text-white">
+        {{ eleFf }}
+        <sb-ff/>
+        Farming Fortune
       </div>
     </div>
   </div>
