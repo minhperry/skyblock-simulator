@@ -28,3 +28,7 @@ export function floorOfNextPlusOneExp(exp: number): (v: number) => number {
 export function round(num: number) {
     return Math.round(num * 100) / 100;
 }
+
+export function zeroOr(v: number, state: boolean) {
+    return state ? v : 0;
+}

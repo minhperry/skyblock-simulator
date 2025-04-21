@@ -7,7 +7,7 @@ import {
   SliderItem,
   SliderItemSignal
 } from '../../../interfaces/input';
-import {identity, NumStringFunc, round} from '../../../interfaces/functions';
+import {identity, NumStringFunc, round, zeroOr} from '../../../interfaces/functions';
 import {FarmingFortunesComponent} from '../ff.comp';
 import {StrengthComponent} from '../strength.comp';
 import {TextableSliderComponent} from './reusables/textable-slider.component';
@@ -102,17 +102,17 @@ export class FarmingFortuneComponent {
   // region Checkboxes Handling
 
   #checkboxes: CheckBoxItem[] = [
-    {check: false, label: 'dnc', value: 5, func: (v) => this.zeroOr(5, v), text: '<b>Both </b> Day and Night Crystal'},
-    {check: false, label: 'cc', value: 2, func: (v) => this.zeroOr(2, v), text: 'aPunch Century Cake'},
+    {check: false, label: 'dnc', value: 5, func: (v) => zeroOr(5, v), text: '<b>Both </b> Day and Night Crystal'},
+    {check: false, label: 'cc', value: 2, func: (v) => zeroOr(2, v), text: 'aPunch Century Cake'},
     {
       check: false,
       label: 'gpot',
       value: 78.75,
-      func: (v) => this.zeroOr(78.75, v),
+      func: (v) => zeroOr(78.75, v),
       text: 'God Potion: Strength Effect'
     },
-    {check: false, label: 'jer', value: 20, func: (v) => this.zeroOr(20, v), text: 'Jerry Candy'},
-    {check: false, label: 'aow', value: 5, func: (v) => this.zeroOr(5, v), text: 'The Art of War'},
+    {check: false, label: 'jer', value: 20, func: (v) => zeroOr(20, v), text: 'Jerry Candy'},
+    {check: false, label: 'aow', value: 5, func: (v) => zeroOr(5, v), text: 'The Art of War'},
   ]
   checkboxSig: CheckBoxItemSignal[] = this.#checkboxes.map((cb) => {
     const checkedSig = signal(cb.check);
@@ -191,13 +191,14 @@ export class FarmingFortuneComponent {
     this.sliderSigs.forEach((sl) => {
       total += sl.result();
     })
-    // finally the radio buttons
+    // then the radio buttons
     this.radioSig.forEach((r) => {
       total += r.choice();
     })
+    // And at last the strength from the mp + tuning
+    total += this.computedStr() + this.tuningField();
     return total
   })
-
 
   // region MP Input and Tuning
   mpField = signal<Nullable<number>>(null);
@@ -236,10 +237,6 @@ export class FarmingFortuneComponent {
       return 'ele';
     }
     return null;
-  }
-
-  private zeroOr(v: number, state: boolean) {
-    return state ? v : 0;
   }
 }
 
