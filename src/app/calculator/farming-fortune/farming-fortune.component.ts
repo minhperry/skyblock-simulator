@@ -1,5 +1,12 @@
 import {Component, computed, signal} from '@angular/core';
-import {CheckBoxItem, CheckBoxItemSignal, RadioItem, SliderItem, SliderItemSignal} from '../../../interfaces/input';
+import {
+  CheckBoxItem,
+  CheckBoxItemSignal,
+  RadioItem,
+  RadioItemSignal,
+  SliderItem,
+  SliderItemSignal
+} from '../../../interfaces/input';
 import {identity, NumStringFunc, round} from '../../../interfaces/functions';
 import {FarmingFortunesComponent} from '../ff.comp';
 import {StrengthComponent} from '../strength.comp';
@@ -157,36 +164,22 @@ export class FarmingFortuneComponent {
       ]
     }
   ]
-  radioSig = this.radios.map((r) => signal(r.choice));
+  radioSig: RadioItemSignal[] = this.radios.map((r) => {
+    return {
+      title: r.title,
+      label: r.label,
+      options: r.options,
+      choice: signal(r.choice),
+    }
+  });
+
+  onChoiceChange(newValue: number, index: number) {
+    this.radioSig[index].choice.set(newValue);
+  }
 
   // endregion
 
-
-  selectionChanged(value: number, index: number) {
-    this.radios[index].choice = value;
-    this.calcTotal();
-  }
-
   totalStr = 0;
-
-  calcTotal() {
-    this.totalStr = 0;
-    this.sliders.forEach(sl => this.totalStr += sl.func(sl.value));
-    this.#checkboxes.forEach(cb => this.totalStr += cb.func(cb.check));
-    this.radios.forEach(r => this.totalStr += r.choice);
-    this.totalStr += this.tuning() + this.strengthFromMP;
-    this.totalStr = round(this.totalStr);
-  }
-
-  /*
-  totalComp = computed(() => {
-    let total = 0;
-    this.sliderSig.forEach((sl, idx) => {
-      const calced = sl().
-    })
-  })
-
-   */
 
   totalStrSig = computed(() => {
     let total = 0;
@@ -199,6 +192,9 @@ export class FarmingFortuneComponent {
       total += sl.result();
     })
     // finally the radio buttons
+    this.radioSig.forEach((r) => {
+      total += r.choice();
+    })
     return total
   })
 

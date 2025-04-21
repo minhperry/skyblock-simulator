@@ -50,6 +50,13 @@ export interface RadioItem {
     choice: number
 }
 
+export interface RadioItemSignal {
+    options: RadioMapItem[],
+    label: string,
+    title: string,
+    choice: WritableSignal<number>,
+}
+
 export interface RadioMapItem {
     value: number,
     text: string
