@@ -7,7 +7,7 @@ import {
   SliderItem,
   SliderItemSignal
 } from '../../../interfaces/input';
-import {identity, NumStringFunc, round, zeroOr} from '../../../interfaces/functions';
+import {formatDecimalNoTrailingZero, identity, NumStringFunc, round, zeroOr} from '../../../interfaces/functions';
 import {FarmingFortunesComponent} from '../ff.comp';
 import {StrengthComponent} from '../strength.comp';
 import {TextableSliderComponent} from './reusables/textable-slider.component';
@@ -20,6 +20,7 @@ import {InputGroup} from 'primeng/inputgroup';
 import {InputGroupAddon} from 'primeng/inputgroupaddon';
 import {InputNumber} from 'primeng/inputnumber';
 import {Nullable} from '../../../interfaces/types';
+import {Slider} from 'primeng/slider';
 
 @Component({
   selector: 'sb-farming-fortune',
@@ -39,7 +40,8 @@ import {Nullable} from '../../../interfaces/types';
     InputGroup,
     InputGroupAddon,
     InputNumber,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Slider
   ],
   styleUrl: './farming-fortune.component.scss'
 })
@@ -179,8 +181,6 @@ export class FarmingFortuneComponent {
 
   // endregion
 
-  totalStr = 0;
-
   totalStrSig = computed(() => {
     let total = 0;
     // Add all the values from the checkboxes
@@ -214,29 +214,26 @@ export class FarmingFortuneComponent {
 
   // endregion
 
+  // region Pets Level Slider
+  mcowLevel = signal(1);
+  mcowFortune = computed(() => (
+    this.mcowLevel() + 10 + round(this.totalStrSig() / (40 - 0.2 * this.mcowLevel()))
+  ))
 
-  get fFortune() {
-    const ff = this.totalStr / 20 * 0.7;
-    return round(ff);
-  }
+  eleLevel = signal(1);
+  eleFortune = computed(() => this.eleLevel() * 1.5)
 
-  get mCowFf() {
-    return round(110 + this.fFortune);
-  }
-
-  readonly eleFf = 150;
-
-  isWinner(item: string): boolean {
-    return this.getWinner() === item;
-  }
-
-  private getWinner(): 'mcow' | 'ele' | null {
-    if (this.mCowFf > this.eleFf) {
+  winner = computed(() => {
+    const mcow = this.mcowFortune();
+    const ele = this.eleFortune();
+    if (mcow > ele) {
       return 'mcow';
-    } else if (this.eleFf > this.mCowFf) {
+    } else if (ele > mcow) {
       return 'ele';
     }
     return null;
-  }
+  })
+  // endregion
+  protected readonly formatNum = formatDecimalNoTrailingZero;
 }
 

@@ -1,4 +1,4 @@
-<div class="mt-5 px-4 md:container md:mx-auto" data-bs-theme="dark">
+<div class="mt-4 px-4 md:container md:mx-auto" data-bs-theme="dark">
   <!-- Accordion Section 1 -->
   <div class="mb-5">
     <p-accordion value="0">
@@ -23,7 +23,7 @@
               <sb-str/>
               boosts like Gravity Talisman or Weird Tuba.
             </li>
-            <li>You are either using Elephant or Mooshroom Cow pet Level 100 only, with the same pet item on both.</li>
+            <li>You are either using Elephant or Mooshroom Cow pet with the same pet item on both.</li>
             <li>You are using dedicated farming tools instead of Daedalus Axe.</li>
             <li>You are using Forceful power with
               <sb-str/>
@@ -135,35 +135,47 @@
   </div>
 
   <!-- Final Total Display -->
-  <div class="flex justify-between text-xl font-semibold text-white mt-3">
+  <div class="flex justify-between text-2xl font-semibold text-white mt-3">
     <span>Total:</span>
-    <div>{{ totalStrSig() }}
+    <div>{{ formatNum(totalStrSig()) }}
       <sb-str/>
     </div>
   </div>
 
   <!-- Comparison Display -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-    <div class="flex items-center p-3 rounded-xl border-4"
-         [ngClass]="isWinner('mcow') ? 'border-yellow-400' : 'border-gray-600'">
-      <div class="w-32 h-28 bg-cover bg-no-repeat scale-75 mr-4"
-           style="background-image: url('/pets/mcow.png')"></div>
-      <div class="flex-1 text-center text-lg text-white">
-        {{ mCowFf }}
-        <sb-ff/>
-        Farming Fortune
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 pb-4">
+    <div class="flex flex-col items-center p-3 rounded-xl border-4"
+         [ngClass]="winner() === 'mcow' ? 'border-yellow-400' : 'border-gray-600'">
+      <div class="flex flex-row w-full items-center">
+        <div class="w-32 h-28 bg-cover bg-no-repeat scale-75 mr-4"
+             style="background-image: url('/pets/mcow.png')"></div>
+        <div class="flex-1 text-center text-lg mc gold">
+          {{ formatNum(mcowFortune()) }}
+          <sb-ff/>
+          Farming Fortune
+          <div class="text-white">
+            Legendary Level {{ mcowLevel() }}
+          </div>
+        </div>
       </div>
+      <p-slider [(ngModel)]="mcowLevel" min="1" max="100" step="1" class="w-full"/>
     </div>
 
-    <div class="flex items-center p-3 rounded-xl border-4"
-         [ngClass]="isWinner('ele') ? 'border-yellow-400' : 'border-gray-600'">
-      <div class="w-32 h-28 bg-cover bg-no-repeat scale-75 mr-4"
-           style="background-image: url('/pets/elephant.png')"></div>
-      <div class="flex-1 text-center text-lg text-white">
-        {{ eleFf }}
-        <sb-ff/>
-        Farming Fortune
+    <div class="flex flex-col items-center p-3 rounded-xl border-4"
+         [ngClass]="winner() === 'ele' ? 'border-yellow-400' : 'border-gray-600'">
+      <div class="flex flex-row w-full items-center">
+        <div class="w-32 h-28 bg-cover bg-no-repeat scale-75 mr-4"
+             style="background-image: url('/pets/elephant.png')"></div>
+        <div class="flex-1 text-center text-lg mc gold">
+          {{ eleFortune() }}
+          <sb-ff/>
+          Farming Fortune
+          <div class="text-white">
+            Legendary Level {{ eleLevel() }}
+          </div>
+        </div>
       </div>
+      <p-slider [(ngModel)]="eleLevel" min="1" max="100" step="1" class="w-full"/>
     </div>
   </div>
 </div>
