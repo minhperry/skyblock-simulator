@@ -81,14 +81,14 @@ export class LiveMpComponent {
     {
       key: 'combatWisdom',
       headerText: 'Combat Wisdom',
-      shortText: 'CWIS',
+      shortText: 'CW',
       unicode: '262F',
       styles: {color: Color.DARK_AQUA}
     },
     {
       key: 'abilityDamage',
       headerText: 'Ability Damage',
-      shortText: 'ADMG',
+      shortText: 'AD',
       unicode: '0E51',
       styles: {color: Color.RED}
     },

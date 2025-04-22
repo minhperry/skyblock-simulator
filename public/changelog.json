@@ -228,15 +228,15 @@
                 "entries": [
                     {
                         "component": "Technical / Design",
-                        "description": "Completely restyle the app using PrimeNG and Tailwind CSS"
+                        "description": "Completely restyle the app using PrimeNG and Tailwind CSS."
                     },
                     {
                         "component": "Live MP",
-                        "description": "Renamed to Magical Power. Added a sorting option and a filter."
+                        "description": "Renamed to Magical Power. Added sorting and filtering."
                     },
                     {
                         "component": "Moocow vs Elephant",
-                        "description": "Rewrite the logic layer to be more flexible. Added sliders to change the levels of the pets. Added Artifact/Relic of Power as a strength source."
+                        "description": "Refactored logic the logic for more flexibility. Added pet level sliders. Added Artifact/Relic of Power as a strength source."
                     }
                 ]
             }
