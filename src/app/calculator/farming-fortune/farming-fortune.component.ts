@@ -67,7 +67,7 @@ export class FarmingFortuneComponent {
       display: (v) => (10 ** v).toLocaleString()
     }, {
       label: 'talis', preString: 'Strength Enrichment Count:', value: 0,
-      max: 52, step: 1, func: identity
+      max: 60, step: 1, func: identity
     }, {
       label: 'beacon', preString: 'Beacon ', value: 0,
       max: 5, step: 1, func: (v) => v * 2
