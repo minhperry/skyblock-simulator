@@ -1,4 +1,4 @@
-<div class="mx-12 max-md:mx-3">
+<div class="mx-12 max-md:mx-3" xmlns="http://www.w3.org/1999/html">
   <form class="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-6" [formGroup]="inputFormGroup">
     <!-- Value enter -->
     <p-input-group>
@@ -10,8 +10,11 @@
     </p-input-group>
 
     <p-inputgroup>
-      <p-inputgroup-addon>Filter By Name</p-inputgroup-addon>
+      <p-inputgroup-addon>Filter</p-inputgroup-addon>
       <input pInputText formControlName="filterByName" placeholder="Filter by stone name"/>
+      <p-inputgroup-addon styleClass="hover:cursor-pointer" (click)="inputFormGroup.controls.filterByName.reset()">
+        <i class="bi bi-arrow-counterclockwise"></i>
+      </p-inputgroup-addon>
     </p-inputgroup>
 
     <p-inputgroup>
@@ -31,6 +34,9 @@
           </div>
         </ng-template>
       </p-select>
+      <p-inputgroup-addon styleClass="hover:cursor-pointer" (click)="inputFormGroup.controls.selectedSort.reset()">
+        <i class="bi bi-arrow-counterclockwise"></i>
+      </p-inputgroup-addon>
     </p-inputgroup>
 
     <p-inputgroup>
@@ -40,6 +46,9 @@
       </p-inputgroup-addon>
       <p-select formControlName="selectedOrder" [options]="orderOptions" optionLabel="text"
                 placeholder="Sort order"/>
+      <p-inputgroup-addon styleClass="hover:cursor-pointer" (click)="inputFormGroup.controls.selectedOrder.reset()">
+        <i class="bi bi-arrow-counterclockwise"></i>
+      </p-inputgroup-addon>
     </p-inputgroup>
   </form>
 
