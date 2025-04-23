@@ -47,8 +47,8 @@ export class NavbarComponent implements OnInit {
         ]
       },
       {
-        label: 'Tools',
-        icon: 'bi bi-tools',
+        label: 'Calendar',
+        icon: 'bi bi-calendar',
         items: [
           {label: 'To-do', routerLink: '/todo'},
           {separator: true},
