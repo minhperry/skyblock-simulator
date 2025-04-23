@@ -1,18 +1,9 @@
 <nav class="p-4">
   <p-menubar [model]="items" class="shadow-md">
-    <!-- Left side branding -->
-    <ng-template pTemplate="start">
+    <ng-template pTemplate="end">
       <a class="flex items-center gap-2 no-underline" routerLink="/">
         <i class="bi bi-controller text-warning"></i>
         <span class="font-semibold text-xl">Skyblock Website</span>
-      </a>
-    </ng-template>
-
-    <!-- Right side Ko-fi support button -->
-    <ng-template pTemplate="end">
-      <a href="https://ko-fi.com/minhperry" target="_blank"
-         class="btn btn-outline-light rounded-pill flex items-center justify-center gap-2">
-        Support <i class="bi bi-heart-fill text-red-500"></i>
       </a>
     </ng-template>
   </p-menubar>

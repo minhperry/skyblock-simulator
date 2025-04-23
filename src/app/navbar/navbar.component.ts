@@ -63,15 +63,6 @@ export class NavbarComponent implements OnInit {
         ]
       },
       {
-        label: 'Not Coming Soon',
-        icon: 'bi bi-star',
-        items: [
-          {label: 'More terminals', disabled: true},
-          {label: 'Dungeon chest simulator', disabled: true},
-          {label: 'Experiments', disabled: true}
-        ]
-      },
-      {
         label: 'About',
         icon: 'bi bi-info-circle',
         items: [
@@ -79,6 +70,11 @@ export class NavbarComponent implements OnInit {
           {label: 'Source Code', url: 'https://github.com/minhperry/skyblock-simulator', target: '_blank'},
           {label: 'API docs', routerLink: '/api/v2/docs'}
         ]
+      },
+      {
+        label: 'Support',
+        icon: 'bi bi-heart-fill !text-red-500',
+        url: 'https://ko-fi.com/minhperry',
       }
     ];
   }
