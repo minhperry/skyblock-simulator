@@ -1,1 +1,28 @@
-<p>single-mayor-view works!</p>
+<div class="p-2 mb-4 border rounded text-center relative bg-black text-white"
+     [id]="isActive() ? 'active' : ''">
+  @if (mayor().imageSrc) {
+    <img [src]="mayor().imageSrc"
+         alt="{{mayor().name}}"
+         class="max-h-[25vh] object-cover cursor-default">
+  } @else {
+    <div class="text-2xl text-gray-500">
+      <span>{{ mayor().name }}</span>
+    </div>
+  }
+</div>
+
+@if (isBeingHovered()) {
+  <div class="fixed z-50"
+       [ngStyle]="{
+        'top': tooltipPos.y + 'px',
+        'right': isRightHalf() ? (screenWidth - XPos + 10) + 'px' : 'auto',
+        'left': isRightHalf() ? 'auto' : (XPos) + 'px',
+      }">
+    <div class="block relative">
+      <div class="border rounded-lg bg-gray-500">
+        Top is {{ tooltipPos.y }}px, left is {{ tooltipPos.x }}px, left relative is {{ XPos }}px
+        Is X right half? {{ isRightHalf() }}
+      </div>
+    </div>
+  </div>
+}
