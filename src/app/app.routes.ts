@@ -76,7 +76,32 @@ export const routes: Routes = [
       order: ['??', '??', '??', '??', '??', '??']
     }
     */
-    redirectTo: 'archive'
+    children: [
+      {
+        path: 'oct24',
+        component: MayorCycleComponent,
+        title: 'Oct 24 Jerry Cycle',
+        data: {
+          start: 1728227700,
+          month: 'October 2024',
+          order: ['Finnegan', 'Marina', 'Paul', 'Cole', 'Aatrox', 'Diana']
+        }
+      },
+      {
+        path: 'feb25',
+        component: MayorCycleComponent,
+        title: 'Feb 25 Jerry Cycle',
+        data: {
+          start: 1738941300,
+          month: 'February 2025',
+          order: ['Finnegan', 'Cole', 'Marina', 'Diana', 'Aatrox', 'Paul']
+        }
+      },
+      {
+        path: '**',
+        redirectTo: 'archive'
+      }
+    ]
   },
   /*
   {
@@ -85,41 +110,6 @@ export const routes: Routes = [
     title: 'Heart of the Mountain Sim'
   },
   */
-  {
-    path: 'archive',
-    children: [
-      {
-        path: 'jerry',
-        children: [
-          {
-            path: 'oct24',
-            component: MayorCycleComponent,
-            title: 'Oct 24 Jerry Cycle',
-            data: {
-              start: 1728227700,
-              month: 'October 2024',
-              order: ['Finnegan', 'Marina', 'Paul', 'Cole', 'Aatrox', 'Diana']
-            }
-          },
-          {
-            path: 'feb25',
-            component: MayorCycleComponent,
-            title: 'Feb 25 Jerry Cycle',
-            data: {
-              start: 1738941300,
-              month: 'February 2025',
-              order: ['Finnegan', 'Cole', 'Marina', 'Diana', 'Aatrox', 'Paul']
-            }
-          }
-        ]
-      },
-      {
-        path: '**',
-        component: ThankYouComponent,
-        title: 'Jerry is over!'
-      }
-    ]
-  },
   {
     path: '**',
     redirectTo: ''
