@@ -1,3 +1,9 @@
-.lg-to-2xl {
-  @apply max-lg:hidden 2xl:hidden;
+:host ::ng-deep {
+  .p-multiselect-header {
+    @apply hidden;
+  }
+
+  .p-multiselect-list-container {
+    min-height: max(14rem, 40vh);
+  }
 }

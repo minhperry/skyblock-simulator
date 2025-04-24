@@ -21,6 +21,11 @@ interface ChangelogMinorVersion {
   patches: ChangelogPatch[];
 }
 
+interface FeatureBox {
+  title: string;
+  description: string[];
+}
+
 @Component({
   selector: 'sb-home',
   templateUrl: './home.component.html',
@@ -40,4 +45,32 @@ export class HomeComponent {
       return firstValueFrom(this.http.get<ChangelogMinorVersion[]>('/changelog.json'))
     }
   }))
+
+  features: FeatureBox[] = [
+    {
+      title: 'Games',
+      description: [
+        'Floor 7 terminals simulation',
+        'Fruit digging simulation',
+        'CS!Dungeon chest simulator',
+        'CS!More terminals',
+        'CS!Experiments simulator',
+      ]
+    },
+    {
+      title: 'Calculators',
+      description: [
+        'Live Magical Power calculator',
+        'Comparing your Mooshroom Cow and Elephant',
+        'CS!Heart of the Mountain calculator',
+      ]
+    },
+    {
+      title: 'Calendars',
+      description: [
+        'Jerry Calendar',
+        'CS!Skyblock Calendar'
+      ]
+    }
+  ]
 }

@@ -33,6 +33,27 @@
     You can track the development status
     here.
   </a>
+  <h1 class="text-4xl font-semibold mb-4">Welcome to the Skyblock Website!</h1>
+  <div class="grid grid-cols-1 lg:grid-cols-3 mx-auto">
+    @for (feat of features; track $index) {
+      <div class="border rounded-lg border-slate-500 m-2 shadow-md p-4">
+        <h3 class="text-xl font-semibold mb-2">{{ feat.title }}</h3>
+        @for (desc of feat.description; track $index) {
+          <p class="text-inherit mb-2">
+            @if (desc.startsWith("CS!")) {
+              <span class="text-gray-500">[Coming Soon] {{ desc.substring(3) }}</span>
+            } @else {
+              {{ desc }}
+            }
+          </p>
+        }
+      </div>
+    }
+  </div>
+
+  <h5 class="text-lg mt-3">
+    Use the navigation bar to explore the website!
+  </h5>
 </div>
 <div class="px-10 text-inherit">
   <div class="text-center mb-6">

@@ -47,8 +47,8 @@ export class NavbarComponent implements OnInit {
         ]
       },
       {
-        label: 'Tools',
-        icon: 'bi bi-tools',
+        label: 'Calendar',
+        icon: 'bi bi-calendar',
         items: [
           {label: 'To-do', routerLink: '/todo'},
           {separator: true},
@@ -56,19 +56,10 @@ export class NavbarComponent implements OnInit {
             label: 'Jerry Calendar',
             items: [
               {label: 'Jerry Jun25', routerLink: '/jerry'},
-              {label: 'Jerry Feb25 Archive', routerLink: '/archive/jerry/feb25'},
-              {label: 'Jerry Oct24 Archive', routerLink: '/archive/jerry/oct24'},
+              {label: 'Jerry Feb25 Archive', routerLink: '/jerry/feb25'},
+              {label: 'Jerry Oct24 Archive', routerLink: '/jerry/oct24'},
             ]
           }
-        ]
-      },
-      {
-        label: 'Not Coming Soon',
-        icon: 'bi bi-star',
-        items: [
-          {label: 'More terminals', disabled: true},
-          {label: 'Dungeon chest simulator', disabled: true},
-          {label: 'Experiments', disabled: true}
         ]
       },
       {
@@ -79,6 +70,11 @@ export class NavbarComponent implements OnInit {
           {label: 'Source Code', url: 'https://github.com/minhperry/skyblock-simulator', target: '_blank'},
           {label: 'API docs', routerLink: '/api/v2/docs'}
         ]
+      },
+      {
+        label: 'Support',
+        icon: 'bi bi-heart-fill !text-red-500',
+        url: 'https://ko-fi.com/minhperry',
       }
     ];
   }

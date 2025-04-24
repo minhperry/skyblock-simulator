@@ -2,7 +2,7 @@ import {ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
-import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
+import {BrowserModule} from '@angular/platform-browser';
 import {MarkdownModule} from "ngx-markdown";
 import {HttpClient, provideHttpClient, withFetch} from "@angular/common/http";
 import {MatSliderModule} from "@angular/material/slider";

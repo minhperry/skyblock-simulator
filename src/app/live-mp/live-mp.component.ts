@@ -1,4 +1,4 @@
-import {Component, computed} from '@angular/core';
+import {Component, computed, effect} from '@angular/core';
 import {
   BasePower,
   EXPONENT,
@@ -18,7 +18,7 @@ import {Select} from 'primeng/select';
 import {Nullable} from 'primeng/ts-helpers';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {TableModule} from 'primeng/table';
-import {InputText} from 'primeng/inputtext';
+import {MultiSelect} from 'primeng/multiselect';
 
 interface ColumnConfig {
   key: string,
@@ -59,7 +59,7 @@ interface RowData {
     JsonPipe,
     TableModule,
     NgStyle,
-    InputText
+    MultiSelect
   ],
   styleUrl: './live-mp.component.scss'
 })
@@ -99,7 +99,7 @@ export class LiveMpComponent {
     magicalPower: new FormControl<number | null>(null),
     selectedSort: new FormControl<Nullable<SortOption>>(null),
     selectedOrder: new FormControl<Nullable<OrderOption>>(null),
-    filterByName: new FormControl<Nullable<string>>(null)
+    filterByName: new FormControl<Nullable<string[]>>(null)
   })
 
   // Options for sorting
@@ -120,6 +120,15 @@ export class LiveMpComponent {
     {key: 'desc', text: '⬇️ Descending'}
   ]
 
+  // Options for filtering
+  filterOptions: string[] = Stats.map(ps => ps.name)
+
+  constructor() {
+    effect(() => {
+      console.log(this.#filtName$())
+    });
+  }
+
   // Convert the form control value to a signal to listen to changes
   #mp$ = toSignal(this.inputFormGroup.controls.magicalPower.valueChanges)
   #selSort$ = toSignal(this.inputFormGroup.controls.selectedSort.valueChanges)
@@ -136,10 +145,12 @@ export class LiveMpComponent {
     // Map the data to calculated power
     let data = Stats.map(stone => this.calculatePower(stone, mp))
 
-    // If filterBy is not null, filter the data. Happens before sorting
-    if (filterBy) {
-      data = data.filter(stone => stone.name.toLowerCase().includes(filterBy.toLowerCase()));
-    }
+    // Early return if no filter is selected (undefined or [])
+    if (!filterBy) return data
+    if (filterBy.length === 0) return data;
+    data = data.filter(
+      stone => filterBy.includes(stone.name)
+    );
 
     // If sortBy or orderBy is null, return the mapped data
     if (!sortBy || !orderBy) return data;

@@ -1,0 +1,68 @@
+<div class="p-2 border rounded bg-slate-700 flex flex-col items-center "
+     [id]="isActive() ? 'active' : ''"
+     [ngClass]="{'!bg-yellow-500/20': isActive()}"
+>
+  @let $mayor = mayor();
+  @let theMayor = $mayor.mayor;
+  @if (theMayor.imageSrc) {
+    <img [src]="theMayor.imageSrc"
+         alt="{{theMayor.name}}"
+         class="max-h-[30vh] object-cover cursor-default">
+  } @else {
+    <div class="text-2xl text-gray-500">
+      <span>{{ theMayor.name }}</span>
+    </div>
+  }
+  <div class="flex flex-col text-center w-full">
+    <span>{{ formatLocalTime($mayor.startTime) }}</span>
+    @let when = whenIsMayorComparedToNow($mayor)[0];
+    @let timeString = whenIsMayorComparedToNow($mayor)[1];
+    @switch (when) {
+      @case ('past') {
+        <span class="text-red-500">{{ timeString }} ago</span>
+      }
+      @case ('present') {
+        <span class="text-white">Ends in {{ timeString }}</span>
+      }
+      @case ('future') {
+        <span class="text-green-500">In {{ timeString }}</span>
+      }
+    }
+  </div>
+</div>
+
+<!-- Tooltip -->
+@if (isBeingHovered()) {
+  <div class="fixed z-50"
+       [ngStyle]="{
+        'top': tooltipPos.y + 'px',
+        'right': isRightHalf() ? (screenWidth - XPos + 10) + 'px' : 'auto',
+        'left': isRightHalf() ? 'auto' : (XPos) + 'px',
+      }">
+    <div class="block relative">
+      <div class="border rounded bg-gray-800/90 max-w-[max(50vw,700px)] p-3">
+        @let $mayor = mayor();
+        <div class="font-semibold text-xl items-center w-full">Mayor {{ $mayor.mayor.name }}</div>
+        @if (hasEvent($mayor)) {
+          <div class="text-base font-bold">
+            <span class="mc blue">
+              {{ $mayor.event!.eventName }}
+            </span>:
+            <span class="mc yellow">
+              {{ formatLocalTime($mayor.event!.start) }} -
+              {{ formatLocalTime($mayor.event!.end) }}
+            </span>
+          </div>
+        }
+        @for (perk of $mayor.mayor.perks; track $index; let lst = $last) {
+          <div class="flex flex-col">
+            <span class="mc green font-bold">{{ perk.name }}</span>
+            <span class="text-sm max-md:hidden" [ngClass]="{'mb-2': !lst}">
+              {{ perk.desc }}
+            </span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}
