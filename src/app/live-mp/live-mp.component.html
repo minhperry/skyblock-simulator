@@ -11,7 +11,7 @@
 
     <p-inputgroup>
       <p-inputgroup-addon>Filter</p-inputgroup-addon>
-      <input pInputText formControlName="filterByName" placeholder="Filter by stone name"/>
+      <p-multi-select [options]="filterOptions" formControlName="filterByName" placeholder="Filter by power name"/>
       <p-inputgroup-addon styleClass="hover:cursor-pointer" (click)="inputFormGroup.controls.filterByName.reset()">
         <i class="bi bi-arrow-counterclockwise"></i>
       </p-inputgroup-addon>
