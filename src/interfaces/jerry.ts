@@ -6,6 +6,61 @@ export interface Mayor {
   perks?: Perk[],
 }
 
+/**
+ * Represents the data of a mayor in the game.
+ */
+export class MayorData {
+  private readonly _mayor: Mayor
+  private readonly _start: number // unix time
+  private readonly _end: number // + 6 hours
+  private readonly _event?: MayorEvent
+
+  constructor(may: Mayor, startTime: number, event?: MayorEvent) {
+    this._mayor = may
+    this._start = startTime
+    this._end = startTime + 6 * HOUR
+    this._event = event
+  }
+
+  get startTime(): number {
+    return this._start
+  }
+
+  get endTime(): number {
+    return this._end
+  }
+
+  get mayor(): Mayor {
+    return this._mayor
+  }
+
+  get event(): MayorEvent | undefined {
+    return this._event
+  }
+}
+
+export class MayorEvent {
+  private readonly _start: number
+  private readonly _duration: number
+
+  constructor(mayorStart: number, duration: number) {
+    this._start = mayorStart + 15 * MINUTE
+    this._duration = duration
+  }
+
+  get start(): number {
+    return this._start
+  }
+
+  get end(): number {
+    return this._start + this._duration
+  }
+
+  get duration(): number {
+    return this._duration
+  }
+}
+
 export interface Perk {
   name: string;
   desc: string;
