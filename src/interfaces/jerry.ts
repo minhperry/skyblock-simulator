@@ -1,8 +1,6 @@
 export interface Mayor {
   name: string,
   imageSrc?: string,
-  eventDuration?: number,
-  eventName?: string,
   perks?: Perk[],
 }
 
@@ -42,10 +40,12 @@ export class MayorData {
 export class MayorEvent {
   private readonly _start: number
   private readonly _duration: number
+  private readonly _name: string
 
-  constructor(mayorStart: number, duration: number) {
+  constructor(mayorStart: number, duration: number, eventName: string) {
     this._start = mayorStart + 15 * MINUTE
     this._duration = duration
+    this._name = eventName
   }
 
   get start(): number {
@@ -59,6 +59,10 @@ export class MayorEvent {
   get duration(): number {
     return this._duration
   }
+
+  get eventName(): string {
+    return this._name
+  }
 }
 
 export interface Perk {
@@ -66,7 +70,7 @@ export interface Perk {
   desc: string;
 }
 
-export const mayorData:
+export const MAYOR_PERKS_DATA:
   Record<string, {
       imageSrc?: string,
       eventDuration?: number,
