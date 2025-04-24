@@ -1,50 +1,15 @@
-<div class="container py-4">
-  <div class="row">
-    <div class="col text-center mb-3">
-      <h3>Jerry Mayor Cycle {{ month }} (Your Local Time)</h3>
+<div class="grid grid-cols-1 gap-3 text-center mb-3">
+  <h3>Jerry Mayor Cycle {{ month }} (Your Local Time)</h3>
+</div>
+<div class="select-none">
+  Show seconds:
+  <p-toggle-switch [(ngModel)]="showSecondSig"/>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 justify-items-center">
+  @for (mayor of mayors; track $index) {
+    <div class="my-2 min-w-[75%]">
+      <sb-single-mayor-view [mayor]="mayor" [isActive]="isMayorActive(mayor)" [showSecond]="showSecondSig()"/>
     </div>
-  </div>
-  <div class="row justify-content-center row-gap-3">
-    @for (mayor of mayors; track mayor; let i = $index) {
-      <div class="col-lg-3 col-md-4 col-6">
-        <div class="mayor-container p-2 mb-4 border rounded text-center"
-          [id]="isMayorActive(i) ? 'active' : null">
-          @if (mayor.imageSrc) {
-            <div>
-              <img [src]="mayor.imageSrc"
-                alt="{{mayor.name}}"
-                class="img-fluid mayor-img user-select-none"
-                (mouseenter)="showPerks($event, mayor)"
-                (mouseleave)="hidePerks()"
-                (mousemove)="updateTooltipPosition($event)"
-                (click)="togglePerks($event, mayor)"
-                >
-              </div>
-            }
-            @if (!mayor.imageSrc) {
-              <div class="mayor-unknown user-select-none">
-                <span>{{ mayor.name }}</span>
-              </div>
-            }
-            <p class="text-light">
-              {{ getLocalTime(getMayorStartTime(i)) }}
-            </p>
-            <span [innerHTML]="getRelativeTime(i)">
-            </span>
-            @if (isEventActive(mayor, i)) {
-              <p class="text-info">
-                {{ mayor.eventName }}: {{ getTimeLeftUntilEventEnds(mayor, i) }}
-              </p>
-            }
-          </div>
-        </div>
-      }
-    </div>
-  </div>
+  }
+</div>
 
-  <!-- Perks display -->
-  <div id="perks-popup" class="tooltip bs-tooltip-top" role="tooltip">
-    <div class="tooltip-inner">
-      <div id="perks-content"></div>
-    </div>
-  </div>
