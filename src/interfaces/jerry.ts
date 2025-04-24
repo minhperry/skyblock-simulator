@@ -139,3 +139,5 @@ export const mayorData:
 export const DAY = 86400
 export const HOUR = 3600
 export const MINUTE = 60
+
+export type MayorTime = 'past' | 'present' | 'future'
