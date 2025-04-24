@@ -70,6 +70,10 @@ export interface Perk {
   desc: string;
 }
 
+export const DAY = 86400
+export const HOUR = 3600
+export const MINUTE = 60
+
 export const MAYOR_PERKS_DATA:
   Record<string, {
       imageSrc?: string,
@@ -94,7 +98,7 @@ export const MAYOR_PERKS_DATA:
   },
   'Cole': {
     imageSrc: '/mayor/cole.png',
-    eventDuration: 140,
+    eventDuration: 140 * MINUTE,
     eventMessage: 'Mining Fiesta',
     perks: [
       {
@@ -150,7 +154,7 @@ export const MAYOR_PERKS_DATA:
   },
   'Marina': {
     imageSrc: '/mayor/marina.png',
-    eventDuration: 60,
+    eventDuration: 60 * MINUTE,
     eventMessage: 'Fishing Festival',
     perks: [
       {
@@ -193,10 +197,5 @@ export const MAYOR_PERKS_DATA:
     ]
   }
 }
-
-
-export const DAY = 86400
-export const HOUR = 3600
-export const MINUTE = 60
 
 export type MayorTime = 'past' | 'present' | 'future'
