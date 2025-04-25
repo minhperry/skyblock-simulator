@@ -237,6 +237,14 @@
                     {
                         "component": "Moocow vs Elephant",
                         "description": "Refactored logic the logic for more flexibility. Added pet level sliders. Added Artifact/Relic of Power as a strength source."
+                    },
+                    {
+                        "component": "Jerry Calendar",
+                        "description": "Fixed broken styling, added a progress bar."
+                    },
+                    {
+                        "component": "Terminal, Fruit Digging",
+                        "description": "Fixed broken styling."
                     }
                 ]
             }
