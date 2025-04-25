@@ -1,9 +1,4 @@
-:host {
-    font-size: 17px;
-    line-height: 1.6;
-}
-
-.hidden {
+.hiddened {
     color: #191724;
     text-align: center;
     font-size: 18px;
@@ -11,34 +6,6 @@
 
     &:hover {
         background-color: #685e93;
-    }
-}
-
-h1 {
-    text-align: center;
-}
-
-.container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-    padding: 20px;
-}
-
-.about-section {
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-
-    li {
-        margin: 10px 0;
-        padding: 10px;
-        border-radius: 4px;
     }
 }
 
