@@ -1,10 +1,15 @@
-<sb-jerry-progress/>
-<div class="grid grid-cols-1 gap-3 text-center mb-3">
-  <h3>Jerry Mayor Cycle {{ month }} (Your Local Time)</h3>
+@if (currentTime() > endTime) {
+  <sb-thank-you/>
+}
+<div class="text-center mb-3">
+  <h3 class="text-2xl font-semibold">Jerry Mayor Cycle {{ month }} (Your Local Time)</h3>
 </div>
-<div class="select-none">
-  Show seconds:
-  <p-toggle-switch [(ngModel)]="showSecondSig"/>
+<sb-jerry-progress [mayors]="mayors" [startTime]="startTime"/>
+<div class="select-none text-center mb-2">
+  <div>
+    Show seconds:
+    <p-toggle-switch [(ngModel)]="showSecondSig" styleClass="translate-y-2"/>
+  </div>
 </div>
 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 justify-items-center">
   @for (mayor of mayors; track $index) {

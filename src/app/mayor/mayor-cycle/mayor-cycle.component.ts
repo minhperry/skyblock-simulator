@@ -6,6 +6,7 @@ import {NullableInterval} from '../../../services/utils';
 import {FormsModule} from '@angular/forms';
 import {ToggleSwitch} from 'primeng/toggleswitch';
 import {JerryProgressComponent} from '../jerry-progress/jerry-progress.component';
+import {ThankYouComponent} from '../thank-you/thank-you.component';
 
 @Component({
   selector: 'sb-mayor-cycle',
@@ -14,18 +15,20 @@ import {JerryProgressComponent} from '../jerry-progress/jerry-progress.component
     SingleMayorViewComponent,
     FormsModule,
     ToggleSwitch,
-    JerryProgressComponent
+    JerryProgressComponent,
+    ThankYouComponent
   ],
   styleUrl: './mayor-cycle.component.scss'
 })
 export class MayorCycleComponent implements OnInit, OnDestroy {
   // Input from route
-  absoluteStartTime!: number
+  startTime!: number
   month!: string
   order!: string[]
 
   currentTime = this.nowSignal()
   private cycleLength = 6 * HOUR
+  endTime = 0
 
   mayors: MayorData[] = [];
 
@@ -34,13 +37,15 @@ export class MayorCycleComponent implements OnInit, OnDestroy {
 
   showSecondSig = signal(false)
 
+
   ngOnInit(): void {
     // Fetch data from the route
     this.route.data.subscribe(data => {
-      this.absoluteStartTime = data['start'];
+      this.startTime = data['start'];
       this.month = data['month'];
       this.order = data['order'];
     });
+    this.endTime = this.startTime + 5 * DAY + 4 * HOUR;
     // Fill the mayor list with the data until Jerry's end
     this.extendMayorListUntilEnd()
   }
@@ -60,7 +65,7 @@ export class MayorCycleComponent implements OnInit, OnDestroy {
       const mayorOrderIndex = Math.floor(i / this.order.length) % this.order.length + 1;
       const mayorName = this.order[mayorIndex];
 
-      const currentStart = this.absoluteStartTime + (i * this.cycleLength);
+      const currentStart = this.startTime + (i * this.cycleLength);
       const currentMayorPerks = MAYOR_PERKS_DATA[mayorName];
 
       const doesCurrentHaveEvent = currentMayorPerks.eventDuration !== undefined;

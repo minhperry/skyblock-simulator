@@ -99,7 +99,13 @@ export const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'archive'
+        component: MayorCycleComponent,
+        title: 'Jun 25 Jerry Cycle',
+        data: {
+          start: 1749654900,
+          month: 'June 2025',
+          order: ['??', '??', '??', '??', '??', '??']
+        }
       }
     ]
   },
