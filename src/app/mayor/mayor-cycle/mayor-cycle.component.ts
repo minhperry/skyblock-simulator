@@ -5,6 +5,7 @@ import {SingleMayorViewComponent} from '../single-mayor-view/single-mayor-view.c
 import {NullableInterval} from '../../../services/utils';
 import {FormsModule} from '@angular/forms';
 import {ToggleSwitch} from 'primeng/toggleswitch';
+import {JerryProgressComponent} from '../jerry-progress/jerry-progress.component';
 
 @Component({
   selector: 'sb-mayor-cycle',
@@ -12,7 +13,8 @@ import {ToggleSwitch} from 'primeng/toggleswitch';
   imports: [
     SingleMayorViewComponent,
     FormsModule,
-    ToggleSwitch
+    ToggleSwitch,
+    JerryProgressComponent
   ],
   styleUrl: './mayor-cycle.component.scss'
 })
