@@ -11,10 +11,23 @@
 
     <p-inputgroup>
       <p-inputgroup-addon>Filter</p-inputgroup-addon>
-      <p-multi-select [options]="filterOptions" formControlName="filterByName" placeholder="Filter by power name"/>
-      <p-inputgroup-addon styleClass="hover:cursor-pointer" (click)="inputFormGroup.controls.filterByName.reset()">
-        <i class="bi bi-arrow-counterclockwise"></i>
-      </p-inputgroup-addon>
+      <p-multi-select [options]="filterOptions" formControlName="filterByName" placeholder="Filter by power name">
+        <ng-template pTemplate="header">
+          <div class="m-2 font-semibold">
+            Available Power Stones
+          </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <div class="flex justify-between m-2">
+            <p-button label="Select All" (click)="inputFormGroup.controls.filterByName.setValue(filterOptions)"
+                      class="mr-2" size="small"
+            ></p-button>
+            <p-button label="Unselect All" (click)="inputFormGroup.controls.filterByName.reset()"
+                      size="small"
+            ></p-button>
+          </div>
+        </ng-template>
+      </p-multi-select>
     </p-inputgroup>
 
     <p-inputgroup>
@@ -52,11 +65,7 @@
     </p-inputgroup>
   </form>
 
-  <div class="hidden">
-    {{ calculatedDataSignal() | json }}
-  </div>
-
-  <div class="max-md:text-sm">
+  <div class="max-md:text-sm select-none">
     <p-table [value]="calculatedDataSignal()">
       <ng-template #header>
         <tr>

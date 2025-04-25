@@ -9,7 +9,7 @@ import {
   StatsMultiplier
 } from '../../interfaces/base-power';
 import {Color} from '../../interfaces/color';
-import {JsonPipe, NgStyle} from '@angular/common';
+import {NgStyle} from '@angular/common';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {InputGroup} from 'primeng/inputgroup';
 import {InputNumber} from 'primeng/inputnumber';
@@ -19,6 +19,7 @@ import {Nullable} from 'primeng/ts-helpers';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {TableModule} from 'primeng/table';
 import {MultiSelect} from 'primeng/multiselect';
+import {Button} from 'primeng/button';
 
 interface ColumnConfig {
   key: string,
@@ -56,10 +57,10 @@ interface RowData {
     InputGroupAddon,
     Select,
     ReactiveFormsModule,
-    JsonPipe,
     TableModule,
     NgStyle,
-    MultiSelect
+    MultiSelect,
+    Button
   ],
   styleUrl: './live-mp.component.scss'
 })
@@ -99,7 +100,7 @@ export class LiveMpComponent {
     magicalPower: new FormControl<number | null>(null),
     selectedSort: new FormControl<Nullable<SortOption>>(null),
     selectedOrder: new FormControl<Nullable<OrderOption>>(null),
-    filterByName: new FormControl<Nullable<string[]>>(null)
+    filterByName: new FormControl<string[]>([])
   })
 
   // Options for sorting
@@ -145,12 +146,10 @@ export class LiveMpComponent {
     // Map the data to calculated power
     let data = Stats.map(stone => this.calculatePower(stone, mp))
 
-    // Early return if no filter is selected (undefined or [])
-    if (!filterBy) return data
-    if (filterBy.length === 0) return data;
-    data = data.filter(
-      stone => filterBy.includes(stone.name)
-    );
+    // Filter the data based on the selected filter
+    if (filterBy && filterBy.length > 0) {
+      data = data.filter(stone => filterBy.includes(stone.name))
+    }
 
     // If sortBy or orderBy is null, return the mapped data
     if (!sortBy || !orderBy) return data;

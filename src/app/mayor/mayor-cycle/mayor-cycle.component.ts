@@ -1,10 +1,12 @@
 import {Component, DestroyRef, inject, OnDestroy, OnInit, signal} from '@angular/core';
-import {DAY, HOUR, MAYOR_PERKS_DATA, MayorData, MayorEvent, MINUTE} from '../../../interfaces/jerry';
+import {DAY, HOUR, MAYOR_PERKS_DATA, MayorData, MayorEvent} from '../../../interfaces/jerry';
 import {ActivatedRoute} from '@angular/router';
 import {SingleMayorViewComponent} from '../single-mayor-view/single-mayor-view.component';
 import {NullableInterval} from '../../../services/utils';
 import {FormsModule} from '@angular/forms';
 import {ToggleSwitch} from 'primeng/toggleswitch';
+import {JerryProgressComponent} from '../jerry-progress/jerry-progress.component';
+import {ThankYouComponent} from '../thank-you/thank-you.component';
 
 @Component({
   selector: 'sb-mayor-cycle',
@@ -12,18 +14,21 @@ import {ToggleSwitch} from 'primeng/toggleswitch';
   imports: [
     SingleMayorViewComponent,
     FormsModule,
-    ToggleSwitch
+    ToggleSwitch,
+    JerryProgressComponent,
+    ThankYouComponent
   ],
   styleUrl: './mayor-cycle.component.scss'
 })
 export class MayorCycleComponent implements OnInit, OnDestroy {
   // Input from route
-  absoluteStartTime!: number
+  startTime!: number
   month!: string
   order!: string[]
 
   currentTime = this.nowSignal()
   private cycleLength = 6 * HOUR
+  endTime = 0
 
   mayors: MayorData[] = [];
 
@@ -32,13 +37,15 @@ export class MayorCycleComponent implements OnInit, OnDestroy {
 
   showSecondSig = signal(false)
 
+
   ngOnInit(): void {
     // Fetch data from the route
     this.route.data.subscribe(data => {
-      this.absoluteStartTime = data['start'];
+      this.startTime = data['start'];
       this.month = data['month'];
       this.order = data['order'];
     });
+    this.endTime = this.startTime + 5 * DAY + 4 * HOUR;
     // Fill the mayor list with the data until Jerry's end
     this.extendMayorListUntilEnd()
   }
@@ -58,7 +65,7 @@ export class MayorCycleComponent implements OnInit, OnDestroy {
       const mayorOrderIndex = Math.floor(i / this.order.length) % this.order.length + 1;
       const mayorName = this.order[mayorIndex];
 
-      const currentStart = this.absoluteStartTime + (i * this.cycleLength);
+      const currentStart = this.startTime + (i * this.cycleLength);
       const currentMayorPerks = MAYOR_PERKS_DATA[mayorName];
 
       const doesCurrentHaveEvent = currentMayorPerks.eventDuration !== undefined;
@@ -68,7 +75,7 @@ export class MayorCycleComponent implements OnInit, OnDestroy {
       if (doesCurrentHaveEvent) {
         toBeAdded = new MayorData(
           {
-            name: `${mayorName} #${mayorOrderIndex} `,
+            name: `${mayorName} #${mayorOrderIndex}`,
             imageSrc: currentMayorPerks.imageSrc,
             perks: currentMayorPerks.perks
           },
@@ -82,7 +89,7 @@ export class MayorCycleComponent implements OnInit, OnDestroy {
       } else {
         toBeAdded = new MayorData(
           {
-            name: `${mayorName} #${mayorOrderIndex} `,
+            name: `${mayorName} #${mayorOrderIndex}`,
             imageSrc: currentMayorPerks.imageSrc,
             perks: currentMayorPerks.perks
           },

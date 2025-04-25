@@ -1,14 +1,14 @@
-<div class="container my-4 p-3 rounded shadow">
-  <div class="row">
+<div class="my-4 p-3 rounded shadow">
+  <div class="flex flex-wrap">
     <!-- Left Panel -->
-    <div class="col-md-4 text-center text-light">
+    <div class="md:w-4/12 text-center">
       <div class="mb-4">
-        <h1 class="h4">Terminal - Panes</h1>
+        <h1 class="text-2xl font-semibold">Terminal - Panes</h1>
         <p>Click on the panes to change their color.</p>
         <p>The timer will start when you click the first pane.</p>
         <p>From {{ minPercent * 100 }}% up to {{ maxPercent * 100 }}% of the grid is filled.</p>
       </div>
-      <div class="mb-3 fs-5 timer">
+      <div class="mb-3">
         {{ timer.time().toFixed(1) }}s
       </div>
       <button class="btn btn-primary btn-sm mb-4" (click)="onRestartButtonClick()">New game</button>
@@ -29,7 +29,7 @@
     </div>
 
     <!-- Right Panel -->
-    <div class="col-md-8 d-flex justify-content-center align-items-center">
+    <div class="md:w-8/12 flex justify-center items-center">
       <sb-pane [grid]="config.grid" (cellClicked)="onCellClicked($event)"></sb-pane>
     </div>
   </div>
