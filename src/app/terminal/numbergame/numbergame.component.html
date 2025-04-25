@@ -1,20 +1,20 @@
-<div class="container my-4 p-3 rounded shadow">
-  <div class="row">
+<div class="my-4 p-3 rounded shadow">
+  <div class="flex flex-wrap justify-center">
     <!-- Left Panel -->
-    <div class="col-md-4 text-center text-light">
+    <div class="md:w-4/12 text-center">
       <div class="mb-4">
-        <h1 class="h4">Terminal - Numbers</h1>
+        <h1 class="text-2xl font-semibold">Terminal - Numbers</h1>
         <p>Click on the panes in ascending order.</p>
         <p>The timer will start when you click the first pane.</p>
       </div>
-      <div class="timer mb-3 fs-5">
+      <div class="mb-3">
         {{ timer.time().toFixed(1) }}s
       </div>
       <button class="btn btn-primary btn-sm mt-2" (click)="onRestartButtonClick()">New game</button>
       <button class="btn btn-secondary btn-sm mt-2" (click)="toggleStupidity()">
         You are {{ !stupid ? 'smart' : 'dumb' }}
       </button>
-      <div class="sliders mt-4">
+      <div class="mt-4">
         <div class="mb-3">
           <label for="width-slider" class="form-label">Width:</label>
           <mat-slider id="width-slider" min="6" max="10" step="1" discrete>
@@ -31,7 +31,7 @@
     </div>
 
     <!-- Right Panel -->
-    <div class="col-md-8 d-flex justify-content-center align-items-center">
+    <div class="md:w-8/12 flex justify-center items-center">
       <sb-pane [grid]="config.grid" (cellClicked)="onCellClicked($event)"></sb-pane>
     </div>
   </div>
