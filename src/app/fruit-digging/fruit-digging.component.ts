@@ -4,13 +4,15 @@ import {Queue} from "../../interfaces/collections";
 import {CommonModule} from "@angular/common";
 import {RollingNumberComponent} from "../animation/rolling-number/rolling-number.component";
 import {Nullable} from "../../interfaces/types";
+import {Accordion, AccordionContent, AccordionHeader, AccordionPanel} from 'primeng/accordion';
+import {Button} from 'primeng/button';
 
 // https://wiki.hypixel.net/Carnival#Fruit_Digging
 @Component({
     selector: 'sb-fruit-digging',
   templateUrl: './fruit-digging.component.html',
   styleUrl: './fruit-digging.component.scss',
-    imports: [CommonModule, RollingNumberComponent]
+    imports: [CommonModule, RollingNumberComponent, Accordion, AccordionPanel, AccordionHeader, AccordionContent, Button]
 })
 export class FruitDiggingComponent implements OnInit {
     Q = new Queue<FruitCell>()
