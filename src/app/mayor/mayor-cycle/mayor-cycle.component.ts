@@ -1,5 +1,5 @@
 import {Component, DestroyRef, inject, OnDestroy, OnInit, signal} from '@angular/core';
-import {DAY, HOUR, MAYOR_PERKS_DATA, MayorData, MayorEvent, MINUTE} from '../../../interfaces/jerry';
+import {DAY, HOUR, MAYOR_PERKS_DATA, MayorData, MayorEvent} from '../../../interfaces/jerry';
 import {ActivatedRoute} from '@angular/router';
 import {SingleMayorViewComponent} from '../single-mayor-view/single-mayor-view.component';
 import {NullableInterval} from '../../../services/utils';
@@ -70,7 +70,7 @@ export class MayorCycleComponent implements OnInit, OnDestroy {
       if (doesCurrentHaveEvent) {
         toBeAdded = new MayorData(
           {
-            name: `${mayorName} #${mayorOrderIndex} `,
+            name: `${mayorName} #${mayorOrderIndex}`,
             imageSrc: currentMayorPerks.imageSrc,
             perks: currentMayorPerks.perks
           },
@@ -84,7 +84,7 @@ export class MayorCycleComponent implements OnInit, OnDestroy {
       } else {
         toBeAdded = new MayorData(
           {
-            name: `${mayorName} #${mayorOrderIndex} `,
+            name: `${mayorName} #${mayorOrderIndex}`,
             imageSrc: currentMayorPerks.imageSrc,
             perks: currentMayorPerks.perks
           },
