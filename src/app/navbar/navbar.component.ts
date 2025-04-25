@@ -50,16 +50,9 @@ export class NavbarComponent implements OnInit {
         label: 'Calendar',
         icon: 'bi bi-calendar',
         items: [
-          {label: 'To-do', routerLink: '/todo'},
-          {separator: true},
-          {
-            label: 'Jerry Calendar',
-            items: [
-              {label: 'Jerry Jun25', routerLink: '/jerry'},
-              {label: 'Jerry Feb25 Archive', routerLink: '/jerry/feb25'},
-              {label: 'Jerry Oct24 Archive', routerLink: '/jerry/oct24'},
-            ]
-          }
+          {label: 'Jerry Jun25', routerLink: '/jerry'},
+          {label: 'Jerry Feb25 Archive', routerLink: '/jerry/feb25'},
+          {label: 'Jerry Oct24 Archive', routerLink: '/jerry/oct24'},
         ]
       },
       {
