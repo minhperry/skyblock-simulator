@@ -245,6 +245,10 @@
                     {
                         "component": "Terminal, Fruit Digging",
                         "description": "Fixed broken styling."
+                    },
+                    {
+                        "component": "Home",
+                        "description": "Added a home page with a list of all tools, "
                     }
                 ]
             }
