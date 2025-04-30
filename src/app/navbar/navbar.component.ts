@@ -1,15 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {MenuItem, PrimeTemplate} from 'primeng/api';
+import {MenuItem} from 'primeng/api';
 import {Menubar} from 'primeng/menubar';
-import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'sb-navbar',
   templateUrl: './navbar.component.html',
   imports: [
-    Menubar,
-    PrimeTemplate,
-    RouterLink
+    Menubar
   ],
   styleUrl: './navbar.component.scss'
 })
@@ -18,6 +15,11 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.items = [
+      {
+        label: 'Home',
+        icon: 'bi bi-house',
+        routerLink: '/'
+      },
       {
         label: 'Games',
         icon: 'bi bi-joystick',
