@@ -9,7 +9,6 @@ import {NumbergameComponent} from "./terminal/numbergame/numbergame.component";
 import {ColorerComponent} from "./terminal/colorer/colorer.component";
 import {FruitDiggingComponent} from "./fruit-digging/fruit-digging.component";
 import {MayorCycleComponent} from "./mayor/mayor-cycle/mayor-cycle.component";
-import {ThankYouComponent} from "./mayor/thank-you/thank-you.component";
 import {FarmingFortuneComponent} from './calculator/farming-fortune/farming-fortune.component';
 
 export const routes: Routes = [
