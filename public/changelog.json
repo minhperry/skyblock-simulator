@@ -248,7 +248,7 @@
                     },
                     {
                         "component": "Home",
-                        "description": "Added a home page with a list of all tools, "
+                        "description": "Added a home page with a list of all tools."
                     }
                 ]
             }
