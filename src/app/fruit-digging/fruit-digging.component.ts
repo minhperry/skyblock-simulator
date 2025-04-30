@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Bomb, Fruit, FruitCell, Rum, ShovelMode, State} from "../../interfaces/fruit-game";
+import {Bomb, Fruit, FruitCell, Rum, ShovelMode, State} from './fruit.model';
 import {Queue} from "../../interfaces/collections";
 import {CommonModule} from "@angular/common";
 import {RollingNumberComponent} from "../animation/rolling-number/rolling-number.component";
