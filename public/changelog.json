@@ -1,0 +1,261 @@
+[
+    {
+        "version": "0.1",
+        "patches": [
+            {
+                "version": "0.1",
+                "entries": [
+                    {
+                        "component": "Terminal",
+                        "description": "Added Panes game"
+                    }
+                ]
+            },
+            {
+                "version": "0.1.1",
+                "entries": [
+                    {
+                        "component": "Terminal",
+                        "description": "Register on mouse down instead of a full click"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "version": "0.2",
+        "patches": [
+            {
+                "version": "0.2",
+                "entries": [
+                    {
+                        "component": "Terminal",
+                        "description": "Added Numbers game"
+                    }
+                ]
+            },
+            {
+                "version": "0.2.1",
+                "entries": [
+                    {
+                        "component": "Terminal",
+                        "description": "Add number solver for stupid people"
+                    }
+                ]
+            },
+            {
+                "version": "0.2.2",
+                "entries": [
+                    {
+                        "component": "Terminal",
+                        "description": "Rework class logic"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "version": "0.3",
+        "patches": [
+            {
+                "version": "0.3",
+                "entries": [
+                    {
+                        "component": "Terminal",
+                        "description": "Added Same Color game"
+                    }
+                ]
+            },
+            {
+                "version": "0.3.1",
+                "entries": [
+                    {
+                        "component": "Navbar",
+                        "description": "Rework navbar"
+                    }
+                ]
+            },
+            {
+                "version": "0.3.2",
+                "entries": [
+                    {
+                        "component": "Terminal",
+                        "description": "Make expandable games"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "version": "0.4",
+        "patches": [
+            {
+                "version": "0.4",
+                "entries": [
+                    {
+                        "component": "Pet Compare",
+                        "description": "Adds a Mooshroom Cow vs Elephant calculator"
+                    }
+                ]
+            },
+            {
+                "version": "0.4.1",
+                "entries": [
+                    {
+                        "component": "Pet Compare",
+                        "description": "Adds a \"winner\" border"
+                    },
+                    {
+                        "component": "Terminal",
+                        "description": "Makes number text not selectable"
+                    }
+                ]
+            },
+            {
+                "version": "0.4.2",
+                "entries": [
+                    {
+                        "component": "Live MP",
+                        "description": "Add real-time MP calculator"
+                    },
+                    {
+                        "component": "Pet Compare",
+                        "description": "Fix max level blaze level"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "version": "0.5",
+        "patches": [
+            {
+                "version": "0.5",
+                "entries": [
+                    {
+                        "component": "To Do",
+                        "description": "A simple todo app"
+                    },
+                    {
+                        "component": "Navbar",
+                        "description": "Migrated to bootstrap navbar."
+                    },
+                    {
+                        "component": "About",
+                        "description": "About component to simply explain what the site is"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "version": "0.6",
+        "patches": [
+            {
+                "version": "0.6",
+                "entries": [
+                    {
+                        "component": "Jerry",
+                        "description": "A calendar-ish Jerry mayor cycle display"
+                    }
+                ]
+            },
+            {
+                "version": "0.6.1",
+                "entries": [
+                    {
+                        "component": "Jerry",
+                        "description": "Added relative time"
+                    }
+                ]
+            },
+            {
+                "version": "0.6.2",
+                "entries": [
+                    {
+                        "component": "Jerry",
+                        "description": "Archiving Jerry. Thanks for using."
+                    }
+                ]
+            },
+            {
+                "version": "0.6.3",
+                "entries": [
+                    {
+                        "component": "Technical",
+                        "description": "Attempt to convert the app to Server Side Rendering."
+                    }
+                ]
+            },
+            {
+                "version": "0.6.3.1",
+                "entries": [
+                    {
+                        "component": "Technical",
+                        "description": "Improving and fix SSR issues"
+                    }
+                ]
+            },
+            {
+                "version": "0.6.3.2",
+                "entries": [
+                    {
+                        "component": "Terminal",
+                        "description": "More responsive design"
+                    }
+                ]
+            },
+            {
+                "version": "0.6.3.3",
+                "entries": [
+                    {
+                        "component": "Technical",
+                        "description": "Migrate to Angular 19"
+                    },
+                    {
+                        "component": "Technical",
+                        "description": "Migrate to standalone components"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "version": "1.0",
+        "patches": [
+            {
+                "version": "1.0.0",
+                "entries": [
+                    {
+                        "component": "Technical / Design",
+                        "description": "Completely restyle the app using PrimeNG and Tailwind CSS."
+                    },
+                    {
+                        "component": "Live MP",
+                        "description": "Renamed to Magical Power. Added sorting and filtering."
+                    },
+                    {
+                        "component": "Moocow vs Elephant",
+                        "description": "Refactored logic the logic for more flexibility. Added pet level sliders. Added Artifact/Relic of Power as a strength source."
+                    },
+                    {
+                        "component": "Jerry Calendar",
+                        "description": "Fixed broken styling, added a progress bar."
+                    },
+                    {
+                        "component": "Terminal, Fruit Digging",
+                        "description": "Fixed broken styling."
+                    },
+                    {
+                        "component": "Home",
+                        "description": "Added a home page with a list of all tools."
+                    },
+                    {
+                        "component": "Not Found",
+                        "description": "Added a 404 page."
+                    }
+                ]
+            }
+        ]
+    }
+]

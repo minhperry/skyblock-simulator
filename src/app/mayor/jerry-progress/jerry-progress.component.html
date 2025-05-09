@@ -1,0 +1,40 @@
+<div class="relative mx-8 mt-4 mb-12 max-md:hidden">
+  <p-progressBar [value]="nowPercentage()" styleClass="w-full h-6" showValue="false"></p-progressBar>
+
+  <!-- Markers -->
+  <div class="absolute_ top-0 left-0 h-full w-full pointer-events-none">
+    <!-- Mayor markers -->
+    @for (marker of mayorMarkers; track marker) {
+      <div class="absolute top-0 h-full border-l-2 border-zinc-400"
+           [ngStyle]="{ left: marker.percentage + '%' }"
+      >
+        @let txt = marker.text.split(' ');
+        @let name = txt[0];
+        @let time = txt[1].charAt(1);
+        <span class="absolute translate-y-5 -translate-x-1/2 text-sm">
+          {{ name.substring(0, 1) + time }}
+        </span>
+      </div>
+    }
+
+    <!-- Experimental event markers -->
+    <div class="hidden experimental-for-now">
+      @for (event of eventMarkers; track $index) {
+        @let start = event.start;
+        @let end = event.end;
+        @let type = event.type;
+        <div class="absolute top-0 h-full border-r-2"
+             [ngStyle]="{ left: start.percentage + '%' }"
+             [ngClass]="type === 'mining' ? 'border-amber-500' : 'border-sky-700'"
+        >
+        </div>
+
+        <div class="absolute top-0 h-full border-r-2"
+             [ngStyle]="{ left: end.percentage + '%' }"
+             [ngClass]="type === 'mining' ? 'border-amber-500' : 'border-sky-700'"
+        >
+        </div>
+      }
+    </div>
+  </div>
+</div>

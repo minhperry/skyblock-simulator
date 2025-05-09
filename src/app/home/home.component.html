@@ -1,15 +1,76 @@
-<div class="home">
-  <h1>Welcome to the Skyblock Website!</h1>
-    <p>Use the navigation bar to go to your category!</p>
-    <h5>
-        <b class="mc red">NEW!</b> This site now operates under
-        <a href="https://chatgpt.com/share/671c2c1c-136c-8006-94b4-ef2bee014f64">Server Side Rendering</a>
-        technology.
-    </h5>
+<div class="text-center m-6 text-inherit">
+  <h1 class="text-4xl font-semibold mb-4">Welcome to the Skyblock Website!</h1>
+  <div class="grid grid-cols-1 lg:grid-cols-3 mx-auto">
+    @for (feat of features; track $index) {
+      <div class="border rounded-lg border-slate-500 m-2 shadow-md p-4">
+        <h3 class="text-xl font-semibold mb-2">{{ feat.title }}</h3>
+        @for (desc of feat.description; track $index) {
+          <p class="text-inherit mb-2">
+            @if (desc.startsWith("CS!")) {
+              <span class="text-gray-500">[Coming Soon] {{ desc.substring(3) }}</span>
+            } @else {
+              {{ desc }}
+            }
+          </p>
+        }
+      </div>
+    }
+  </div>
+
+  <h5 class="text-lg mt-3">
+    Use the navigation bar to explore the website!
+  </h5>
 </div>
-<div class="md-wrapper">
-  <div class="title">
-  <h2>Changelog</h2>
+<div class="px-10 text-inherit">
+  <div class="text-center mb-6">
+    <h2 class="text-3xl font-bold">Changelog</h2>
+  </div>
+  @if (changelogQuery.isPending()) {
+    <div class="flex items-center justify-center py-16 text-gray-500">
+      <span class="animate-spin mr-3 h-5 w-5 border-2 border-t-transparent border-current rounded-full"></span>
+      <span>Loading changelog...</span>
     </div>
-  <markdown [src]="'CHANGELOG.md'"/>
+  } @else if (changelogQuery.isError()) {
+    <div class="flex flex-col items-center justify-center py-16 text-red-600">
+      <i class="bi bi-exclamation-triangle-fill text-3xl mb-2"></i>
+      <span class="text-lg font-semibold">Failed to load changelog</span>
+      <span class="text-sm text-red-400">Please try refreshing the page.</span>
+    </div>
+  } @else {
+    @let changelog = changelogQuery.data();
+    <div class="rounded-lg">
+      <p-tabs value="1.0" scrollable>
+        <!-- Tablist Picker-->
+        <p-tablist>
+          @for (minor of changelog; track minor.version; let lst = $last) {
+            <p-tab [value]="minor.version">
+              v{{ minor.version }}
+              @if (lst) {
+                <p-tag value="New"></p-tag>
+              }
+            </p-tab>
+          }
+        </p-tablist>
+
+        <!-- Tab Panels Views -->
+        <p-tabpanels>
+          @for (minor of changelog; track $index) {
+            <! -- Each small panel for each minor version -->
+            <p-tabpanel [value]="minor.version">
+              @for (patch of minor.patches; track $index) {
+                <ul class="mb-2 list-disc">
+                  <div class="text-2xl font-bold">{{ patch.version }}</div>
+                  @for (entry of patch.entries; track $index) {
+                    <li>
+                      <strong>{{ entry.component }}</strong>: {{ entry.description }}
+                    </li>
+                  }
+                </ul>
+              }
+            </p-tabpanel>
+          }
+        </p-tabpanels>
+      </p-tabs>
+    </div>
+  }
 </div>

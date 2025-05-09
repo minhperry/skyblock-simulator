@@ -39,8 +39,8 @@ testem.log
 
 # My shit
 deploy.sh
-src/server/hypixelApi/.env
-logs/*
+**/.env
+/logs
 
 # System files
 .DS_Store

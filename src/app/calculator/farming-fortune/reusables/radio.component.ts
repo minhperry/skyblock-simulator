@@ -1,49 +1,46 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { RadioMapItem } from "../../../../interfaces/input";
-import {StrengthComponent} from "../../strength.comp";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {RadioMapItem} from '../../../../interfaces/input';
+import {StrengthComponent} from '../../strength.comp';
+import {RadioButton} from 'primeng/radiobutton';
+import {FormsModule} from '@angular/forms';
 
 @Component({
-    selector: 'radio',
-    template: `
-        <div class="title">
-          <span class="title-text">{{ title }}</span>
-          <span class="choice">{{ choice }}
-          <str/></span>
+  selector: 'sb-radio',
+  template: `
+    <div class="flex">
+      <span class="mr-auto text-[1.2rem]">{{ title }}</span>
+      <span class="ml-auto">{{ choice }}
+        <sb-str/></span>
+    </div>
+    <div class="flex flex-col py-1">
+      @for (option of options; track option; let i = $index) {
+        <div class="inline-flex items-center gap-2 ml-4">
+          <p-radioButton
+                  [inputId]="label + '_radio_' + i" size="small"
+                  [value]="option.value" [name]="label" [(ngModel)]="choice"
+                  (onClick)="onSelectionChange(option.value)"
+                  class="-translate-y-1"
+          /> <!-- Bandage fix for button not being vertically alignable -->
+          <label [innerHTML]="option.text" [for]="label + '_radio_' + i" class="text-base"></label>
         </div>
-        <div class="options">
-          @for (option of options; track option) {
-            <label class="option">
-              <input type="radio"
-                [value]="option.value"
-                [name]="label"
-                [checked]="option.value === choice"
-                (change)="onSelectionChange(option.value)"/>
-              <span [innerHTML]="option.text"></span>
-            </label>
-          }
-        </div>
-        `,
-    imports: [
-        StrengthComponent
-    ],
-    styles: [
-        '.title { display: flex; }',
-        '.title-text { margin-right: auto; font-size: 1.2em; }',
-        '.options { display: flex; flex-direction: column; }',
-        '.option { margin-left: 1em; }',
-        'input[type="radio"] { margin-right: 0.5em; }',
-        '.choice { margin-left: auto; }'
-    ]
+      }
+    </div>
+  `,
+  imports: [
+    StrengthComponent,
+    RadioButton,
+    FormsModule
+  ]
 })
 export class RadioComponent {
   @Input() options: RadioMapItem[] = [];
   @Input() title!: string;
   @Input() label!: string;
-  @Input() choice: any;
+  @Input() choice!: number;
 
-  @Output() choiceChange = new EventEmitter<any>();
+  @Output() choiceChange = new EventEmitter();
 
-  onSelectionChange(value: any) {
+  onSelectionChange(value: number) {
     this.choice = value;
     this.choiceChange.emit(value);
   }

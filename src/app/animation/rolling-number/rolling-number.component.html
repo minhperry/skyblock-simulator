@@ -1,4 +1,4 @@
-<div class="animated-rolling-number d-flex justify-content-center" [style.height]="size">
+<div class="animated-rolling-number flex justify-center" [style.height]="size">
   @for (char of rollingCharacters; track i; let i = $index) {
     @if (isDigit(char)) {
       <div

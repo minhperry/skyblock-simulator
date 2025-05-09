@@ -2,18 +2,18 @@ import {Component, Input} from '@angular/core';
 import {identity} from "rxjs";
 
 @Component({
-    selector: 'rolling-number',
+    selector: 'sb-rolling-number',
     templateUrl: './rolling-number.component.html',
     styleUrls: ['./rolling-number.component.scss']
 })
 export class RollingNumberComponent {
     public rollingCharacters: string[] = [];
     readonly identity = identity<number>;
-    private _value: number = -1;
+    private _value = -1;
 
-    @Input() transitionInMs: number = 200;
+    @Input() transitionInMs = 200;
 
-    @Input() size: string = '30px'
+    @Input() size = '30px'
 
     @Input()
     set value(newValue: number) {

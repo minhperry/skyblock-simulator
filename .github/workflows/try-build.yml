@@ -1,0 +1,38 @@
+name: Try to build Angular app
+
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - '*.js'
+      - '*.ts'
+    types: [ opened, synchronize, reopened, closed ]
+
+jobs:
+  try-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.11.0'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: ${{ github.workspace }}
+
+      - name: Install Angular CLI
+        run: pnpm install -g @angular/cli
+
+      - name: Build Angular app
+        run: pnpm ng build --configuration=production

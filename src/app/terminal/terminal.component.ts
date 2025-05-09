@@ -4,7 +4,7 @@ import {NumbergameComponent} from "./numbergame/numbergame.component";
 import {ColorerComponent} from "./colorer/colorer.component";
 
 @Component({
-    selector: 'terminal',
+    selector: 'sb-terminal',
     templateUrl: './terminal.component.html',
     imports: [
         PaneGameComponent,

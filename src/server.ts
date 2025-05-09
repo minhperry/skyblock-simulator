@@ -4,18 +4,6 @@ import express from 'express';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import bootstrap from './main.server';
-import skycryptRouter from "./server/skycryptApi";
-import NodeCache from "node-cache";
-
-// Profile cache check every 2hrs.
-export const profileCache = new NodeCache({checkperiod: 60 * 60 * 2});
-// Profile data cache check every 1min.
-export const profileDataCache = new NodeCache({checkperiod: 60});
-
-export const skycryptEndpoint = 'https://sky.shiiyu.moe/api/v2';
-
-export const hypixelEndpoint = 'https://api.hypixel.net';
-
 
 export function app(): express.Express {
   const server = express();
@@ -27,8 +15,6 @@ export function app(): express.Express {
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
-
-  server.use('/api/v1', skycryptRouter);
 
   // Serve static files from /browser
   server.get('**', express.static(browserDistFolder, {
