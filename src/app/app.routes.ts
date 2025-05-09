@@ -10,6 +10,7 @@ import {ColorerComponent} from "./terminal/colorer/colorer.component";
 import {FruitDiggingComponent} from "./fruit-digging/fruit-digging.component";
 import {MayorCycleComponent} from "./mayor/mayor-cycle/mayor-cycle.component";
 import {FarmingFortuneComponent} from './calculator/farming-fortune/farming-fortune.component';
+import {NotFoundComponent} from './not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -117,6 +118,7 @@ export const routes: Routes = [
   */
   {
     path: '**',
-    redirectTo: ''
+    component: NotFoundComponent,
+    title: '404 Not Found',
   }
 ];
