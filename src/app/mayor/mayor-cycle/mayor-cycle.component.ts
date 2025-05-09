@@ -1,201 +1,127 @@
-import {Component, Inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
-import {DAY, HOUR, Mayor, mayorData, MINUTE} from "../../../interfaces/jerry";
-import {NullableInterval, Utils} from "../../../services/utils";
-import {ActivatedRoute} from "@angular/router";
+import {Component, DestroyRef, inject, OnDestroy, OnInit, signal} from '@angular/core';
+import {DAY, HOUR, MAYOR_PERKS_DATA, MayorData, MayorEvent} from '../../../interfaces/jerry';
+import {ActivatedRoute} from '@angular/router';
+import {SingleMayorViewComponent} from '../single-mayor-view/single-mayor-view.component';
+import {NullableInterval} from '../../../services/utils';
+import {FormsModule} from '@angular/forms';
+import {ToggleSwitch} from 'primeng/toggleswitch';
+import {JerryProgressComponent} from '../jerry-progress/jerry-progress.component';
+import {ThankYouComponent} from '../thank-you/thank-you.component';
 
 @Component({
   selector: 'sb-mayor-cycle',
   templateUrl: './mayor-cycle.component.html',
+  imports: [
+    SingleMayorViewComponent,
+    FormsModule,
+    ToggleSwitch,
+    JerryProgressComponent,
+    ThankYouComponent
+  ],
   styleUrl: './mayor-cycle.component.scss'
 })
 export class MayorCycleComponent implements OnInit, OnDestroy {
-  absoluteStartTime!: number
-  jerryEndTime = this.absoluteStartTime + 5 * DAY + 4 * HOUR
-
-  currentTime: number = Math.floor(Date.now() / 1000);
-  eventOffset = 15 * MINUTE
-  cycleLength = 6 * HOUR
+  // Input from route
+  startTime!: number
   month!: string
+  order!: string[]
 
-  mayors: Mayor[] = [];
-  private mayorOrder!: string[] //= ['Finnegan', 'Marina', 'Paul', 'Cole', 'Aatrox', 'Diana']
-  private fullMayors: string[] = []
+  currentTime = this.nowSignal()
+  private cycleLength = 6 * HOUR
+  endTime = 0
 
-  private interval: NullableInterval | null = null;
+  mayors: MayorData[] = [];
 
-  constructor(@Inject(PLATFORM_ID) private platform: object, private route: ActivatedRoute) {
-  }
+  private route = inject(ActivatedRoute)
+  private interval: NullableInterval = null
+
+  showSecondSig = signal(false)
+
 
   ngOnInit(): void {
+    // Fetch data from the route
     this.route.data.subscribe(data => {
-      this.absoluteStartTime = data['start'];
+      this.startTime = data['start'];
       this.month = data['month'];
-      this.mayorOrder = data['order'];
-      this.jerryEndTime = this.absoluteStartTime + 5 * DAY + 4 * HOUR;
+      this.order = data['order'];
     });
-    this.updateTime();
-    this.extendMayorNamesUntilJerryEnd()
-    this.mayors = this.fullMayors.map(name => {
-      const data = mayorData[name];
-      return {
-        name: name,
-        imageSrc: data?.imageSrc,
-        eventDuration: data?.eventDuration,
-        eventName: data?.eventMessage,
-        perks: data?.perks
-      } as Mayor;
-    })
-    Utils.doIfBrowser(this.platform, () => {
-      this.interval = setInterval(() => this.updateTime(), 1000);
-    })
+    this.endTime = this.startTime + 5 * DAY + 4 * HOUR;
+    // Fill the mayor list with the data until Jerry's end
+    this.extendMayorListUntilEnd()
   }
 
   ngOnDestroy() {
     if (this.interval) {
-      clearInterval(this.interval)
+      clearInterval(this.interval);
     }
   }
 
-  getLocalTime(unixTime: number): string {
-    return new Date(unixTime * 1000).toLocaleString([], {
-      hour: '2-digit', minute: '2-digit',
-      day: 'numeric', year: 'numeric', month: "numeric"
-    });
-  }
-
-  getMayorStartTime(index: number): number {
-    return this.absoluteStartTime + (index * 6 * HOUR);
-  }
-
-  getMayorEndTime(index: number): number {
-    return this.getMayorStartTime(index) + 6 * HOUR;
-  }
-
-  getRelativeTime(index: number): string {
-    const startTime = this.getMayorStartTime(index);
-    const endTime = this.getMayorEndTime(index);
-
-    const timeDiffStart = startTime - this.currentTime;
-    const timeDiffEnd = endTime - this.currentTime;
-
-    if (timeDiffStart > 0) {
-      return `<p class="text-success">In ${this.formatTimeDifference(timeDiffStart)}</p>`;
-    } else if (timeDiffEnd > 0) {
-      return `<p class="text-light"><b>Ends in ${this.formatTimeDifference(timeDiffEnd)}</b></p>`;
-    } else {
-      return `<p class="text-danger">${this.formatTimeDifference(-timeDiffEnd)} ago</p>`;
-    }
-  }
-
-  private formatTimeDifference(timeInSeconds: number): string {
-    const hours = Math.floor(timeInSeconds / HOUR);
-    const minutes = Math.floor((timeInSeconds % HOUR) / MINUTE);
-    return `${hours}h${minutes}m`;
-  }
-
-  private getMayorEventTime(index: number): number {
-    return this.getMayorStartTime(index) + this.eventOffset;
-  }
-
-  private updateTime(): void {
-    this.currentTime = Math.floor(Date.now() / 1000);
-  }
-
-  isMayorActive(index: number): boolean {
-    const startTime = this.getMayorStartTime(index);
-    const endTime = startTime + (6 * HOUR);
-    return this.currentTime >= startTime && this.currentTime < endTime && this.currentTime < this.jerryEndTime;
-  }
-
-  isEventActive(mayor: Mayor, index: number): boolean {
-    const eventStartTime = this.getMayorEventTime(index);
-    if (mayor.eventDuration) {
-      return this.currentTime >= eventStartTime && this.currentTime < eventStartTime + (mayor.eventDuration * MINUTE);
-    }
-    return false;
-  }
-
-  getTimeLeftUntilEventEnds(mayor: Mayor, index: number): string {
-    if (mayor.eventDuration === undefined) return '';
-    const eventStartTime = this.getMayorEventTime(index);
-    const eventEndTime = eventStartTime + (mayor.eventDuration * MINUTE);
-    const timeLeft = eventEndTime - this.currentTime;
-
-    if (timeLeft > 0) {
-      const hours = Math.floor(timeLeft / HOUR);
-      const minutes = Math.floor((timeLeft % HOUR) / MINUTE);
-      const seconds = Math.floor((timeLeft % MINUTE));
-      return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-    return 'Event ended';
-  }
-
-  private extendMayorNamesUntilJerryEnd(): void {
-    const totalDuration = this.jerryEndTime - this.absoluteStartTime;
+  private extendMayorListUntilEnd(): void {
+    const totalDuration = 5 * DAY + 4 * HOUR;
     const totalSlots = Math.floor(totalDuration / this.cycleLength);
 
     for (let i = 0; i <= totalSlots; i++) {
-      const mayorIndex = i % this.mayorOrder.length;
-      this.fullMayors.push(this.mayorOrder[mayorIndex]);
-    }
-  }
+      const mayorIndex = i % this.order.length;
+      const mayorOrderIndex = Math.floor(i / this.order.length) % this.order.length + 1;
+      const mayorName = this.order[mayorIndex];
 
-  showPerks(event: MouseEvent, mayor: Mayor): void {
-    const tooltip = document.getElementById('perks-popup');
-    if (tooltip) {
-      const tooltipContent = document.getElementById('perks-content');
-      if (tooltipContent) {
-        let perksList = mayor.perks?.map(perk =>
-          `<div><b class="mc green">${perk.name}</b><br><p>${perk.desc}</p></div>`
-        ).join('') || '';
+      const currentStart = this.startTime + (i * this.cycleLength);
+      const currentMayorPerks = MAYOR_PERKS_DATA[mayorName];
 
-        if (mayor.eventDuration) {
-          const eventStartTime = this.getMayorEventTime(this.mayors.indexOf(mayor));
-          const formattedEventStartTime = this.getLocalTime(eventStartTime);
-          perksList += `<div class="mt-2"><b class="mc blue">${mayor.eventName} starts at ${formattedEventStartTime}</b></div>`;
-        }
+      const doesCurrentHaveEvent = currentMayorPerks.eventDuration !== undefined;
 
-        tooltipContent.innerHTML = perksList
-      }
-      this.updateTooltipPosition(event);
-      tooltip.classList.add('show');
-    }
-  }
+      let toBeAdded: MayorData
 
-  hidePerks(): void {
-    const tooltip = document.getElementById('perks-popup');
-    if (tooltip) {
-      tooltip.classList.remove('show');
-    }
-  }
-
-  togglePerks(event: MouseEvent, mayor: Mayor): void {
-    if (event.type === 'click') {
-      this.showPerks(event, mayor);
-    }
-  }
-
-  updateTooltipPosition(event: MouseEvent): void {
-    const tooltip = document.getElementById('perks-popup');
-    if (tooltip) {
-      const screenWidth = window.innerWidth;
-      const cursorPositionX = event.pageX;
-
-      const openToLeft = cursorPositionX < screenWidth / 2;
-
-      if (openToLeft) {
-        tooltip.classList.add('right');
-        tooltip.classList.remove('left');
-        tooltip.style.left = `${event.pageX + 10}px`;
-        tooltip.style.right = 'auto';
+      if (doesCurrentHaveEvent) {
+        toBeAdded = new MayorData(
+          {
+            name: `${mayorName} #${mayorOrderIndex}`,
+            imageSrc: currentMayorPerks.imageSrc,
+            perks: currentMayorPerks.perks
+          },
+          currentStart,
+          new MayorEvent(
+            currentStart,
+            currentMayorPerks.eventDuration!,
+            currentMayorPerks.eventMessage!
+          )
+        )
       } else {
-        tooltip.classList.add('left');
-        tooltip.classList.remove('right');
-        tooltip.style.right = `${screenWidth - event.pageX + 10}px`;
-        tooltip.style.left = 'auto';
+        toBeAdded = new MayorData(
+          {
+            name: `${mayorName} #${mayorOrderIndex}`,
+            imageSrc: currentMayorPerks.imageSrc,
+            perks: currentMayorPerks.perks
+          },
+          currentStart
+        )
       }
-
-      tooltip.style.top = `${event.pageY + 10}px`;
+      this.mayors.push(toBeAdded)
     }
   }
+
+  // region Helpers
+  isMayorActive(mayor: MayorData): boolean {
+    const startTime = mayor.startTime
+    const endTime = startTime + this.cycleLength
+
+    return this.currentTime() >= startTime && this.currentTime() < endTime
+  }
+
+  nowSignal(intervalMs = 500) {
+    const now = signal(Date.now() / 1000);
+    const destroyRef = inject(DestroyRef)
+
+    const timer = setInterval(() => {
+      now.set(Date.now() / 1000);
+    }, intervalMs);
+
+    destroyRef.onDestroy(() => {
+      clearInterval(timer);
+    });
+
+    return now;
+  }
+
+  // endregion
 }

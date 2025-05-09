@@ -28,7 +28,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "sb",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
@@ -55,16 +55,7 @@
               "@angular/material/prebuilt-themes/cyan-orange.css",
               "src/styles.scss"
             ],
-            "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.js"
-            ],
-            "server": "src/main.server.ts",
-            "prerender": {
-              "discoverRoutes": true
-            },
-            "ssr": {
-              "entry": "src/server.ts"
-            },
+            "scripts": [],
             "allowedCommonJsDependencies": []
           },
           "configurations": {
@@ -103,7 +94,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "port": 6969
+            "port": 9000
           }
         },
         "extract-i18n": {

@@ -1,21 +1,9 @@
-.container, .table, th, td {
-    background-color: inherit;
-    $table-bg: inherit;
-}
+:host ::ng-deep {
+  .p-multiselect-header {
+    @apply hidden;
+  }
 
-.input-group {
-    .sticky-top {
-        top: 0;
-    }
-}
-
-.table {
-    .sticky-top {
-        top: 37.5px;
-        background-color: rgba(25, 23, 36, 0.9);
-    }
-}
-
-.align-middle {
-    padding: 4px 0;
+  .p-multiselect-list-container {
+    min-height: max(14rem, 40vh);
+  }
 }

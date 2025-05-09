@@ -1,18 +1,16 @@
-<div class="container py-4 user-select-none">
-    <div class="row">
-        <h3 class="col text-center mb-3">Jerry is over!</h3>
-    </div>
-    <div class="row">
-        <p class="text-center">
-            Thank you for using the website. We will come back during the next Jerry, maybe with some more UI and UX improvements!
-        </p>
-        <p class="text-center">
-          The Feburary 2025 Jerry can still be found at
-          <a routerLink="/archive/jerry/feb25">this archive</a>.
-            Next Jerry is on {{ formatNextJerry() }}, or in:
-        </p>
-    </div>
-    <div class="row">
-        <h1 class="text-center">{{ calcDiff() }}</h1>
-    </div>
+<div class="py-4 select-none text-white">
+  <div class="mb-3 text-center">
+    <h3 class="text-2xl font-bold">Jerry is over!</h3>
+  </div>
+  <div class="gap-2 text-center text-gray-300">
+    <p>
+      Past Jerry archive can still be found under the navbar.
+    </p>
+    <p>
+      Next Jerry is on {{ formatNextJerry() }}, or in:
+    </p>
+  </div>
+  <div class="mt-4 text-center">
+    <h1 class="text-3xl text-yellow-200 font-bold">{{ calcDiff() }}</h1>
+  </div>
 </div>

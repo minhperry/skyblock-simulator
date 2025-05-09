@@ -1,7 +1,6 @@
 import {Routes} from '@angular/router';
 import {TerminalComponent} from './terminal/terminal.component';
 import {HomeComponent} from './home/home.component';
-import {CalculatorComponent} from './calculator/calculator.component';
 import {LiveMpComponent} from './live-mp/live-mp.component';
 import {TodoComponent} from "./todo/todo.component";
 import {AboutComponent} from "./about/about.component";
@@ -10,7 +9,8 @@ import {NumbergameComponent} from "./terminal/numbergame/numbergame.component";
 import {ColorerComponent} from "./terminal/colorer/colorer.component";
 import {FruitDiggingComponent} from "./fruit-digging/fruit-digging.component";
 import {MayorCycleComponent} from "./mayor/mayor-cycle/mayor-cycle.component";
-import {ThankYouComponent} from "./mayor/thank-you/thank-you.component";
+import {FarmingFortuneComponent} from './calculator/farming-fortune/farming-fortune.component';
+import {NotFoundComponent} from './not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -42,7 +42,7 @@ export const routes: Routes = [
   },
   {
     path: 'cowvsele',
-    component: CalculatorComponent,
+    component: FarmingFortuneComponent,
     title: 'Calculator'
   },
   {
@@ -76,7 +76,38 @@ export const routes: Routes = [
       order: ['??', '??', '??', '??', '??', '??']
     }
     */
-    redirectTo: 'archive'
+    children: [
+      {
+        path: 'oct24',
+        component: MayorCycleComponent,
+        title: 'Oct 24 Jerry Cycle',
+        data: {
+          start: 1728227700,
+          month: 'October 2024',
+          order: ['Finnegan', 'Marina', 'Paul', 'Cole', 'Aatrox', 'Diana']
+        }
+      },
+      {
+        path: 'feb25',
+        component: MayorCycleComponent,
+        title: 'Feb 25 Jerry Cycle',
+        data: {
+          start: 1738941300,
+          month: 'February 2025',
+          order: ['Finnegan', 'Cole', 'Marina', 'Diana', 'Aatrox', 'Paul']
+        }
+      },
+      {
+        path: '**',
+        component: MayorCycleComponent,
+        title: 'Jun 25 Jerry Cycle',
+        data: {
+          start: 1749654900,
+          month: 'June 2025',
+          order: ['??', '??', '??', '??', '??', '??']
+        }
+      }
+    ]
   },
   /*
   {
@@ -86,42 +117,8 @@ export const routes: Routes = [
   },
   */
   {
-    path: 'archive',
-    children: [
-      {
-        path: 'jerry',
-        children: [
-          {
-            path: 'oct24',
-            component: MayorCycleComponent,
-            title: 'Oct 24 Jerry Cycle',
-            data: {
-              start: 1728227700,
-              month: 'October 2024',
-              order: ['Finnegan', 'Marina', 'Paul', 'Cole', 'Aatrox', 'Diana']
-            }
-          },
-          {
-            path: 'feb25',
-            component: MayorCycleComponent,
-            title: 'Feb 25 Jerry Cycle',
-            data: {
-              start: 1738941300,
-              month: 'February 2025',
-              order: ['Finnegan', 'Cole', 'Marina', 'Diana', 'Aatrox', 'Paul']
-            }
-          }
-        ]
-      },
-      {
-        path: '**',
-        component: ThankYouComponent,
-        title: 'Jerry is over!'
-      }
-    ]
-  },
-  {
     path: '**',
-    redirectTo: ''
+    component: NotFoundComponent,
+    title: '404 Not Found',
   }
 ];

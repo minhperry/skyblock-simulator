@@ -1,9 +1,68 @@
 export interface Mayor {
   name: string,
   imageSrc?: string,
-  eventDuration?: number,
-  eventName?: string,
   perks?: Perk[],
+}
+
+/**
+ * Represents the data of a mayor in the game.
+ */
+export class MayorData {
+  private readonly _mayor: Mayor
+  private readonly _start: number // unix time
+  private readonly _end: number // + 6 hours
+  private readonly _event?: MayorEvent
+
+  constructor(may: Mayor, startTime: number, event?: MayorEvent) {
+    this._mayor = may
+    this._start = startTime
+    this._end = startTime + 6 * HOUR
+    this._event = event
+  }
+
+  get startTime(): number {
+    return this._start
+  }
+
+  get endTime(): number {
+    return this._end
+  }
+
+  get mayor(): Mayor {
+    return this._mayor
+  }
+
+  get event(): MayorEvent | undefined {
+    return this._event
+  }
+}
+
+export class MayorEvent {
+  private readonly _start: number
+  private readonly _duration: number
+  private readonly _name: string
+
+  constructor(mayorStart: number, duration: number, eventName: string) {
+    this._start = mayorStart + 15 * MINUTE
+    this._duration = duration
+    this._name = eventName
+  }
+
+  get start(): number {
+    return this._start
+  }
+
+  get end(): number {
+    return this._start + this._duration
+  }
+
+  get duration(): number {
+    return this._duration
+  }
+
+  get eventName(): string {
+    return this._name
+  }
 }
 
 export interface Perk {
@@ -11,7 +70,11 @@ export interface Perk {
   desc: string;
 }
 
-export const mayorData:
+export const DAY = 86400
+export const HOUR = 3600
+export const MINUTE = 60
+
+export const MAYOR_PERKS_DATA:
   Record<string, {
       imageSrc?: string,
       eventDuration?: number,
@@ -35,7 +98,7 @@ export const mayorData:
   },
   'Cole': {
     imageSrc: '/mayor/cole.png',
-    eventDuration: 140,
+    eventDuration: 140 * MINUTE,
     eventMessage: 'Mining Fiesta',
     perks: [
       {
@@ -91,7 +154,7 @@ export const mayorData:
   },
   'Marina': {
     imageSrc: '/mayor/marina.png',
-    eventDuration: 60,
+    eventDuration: 60 * MINUTE,
     eventMessage: 'Fishing Festival',
     perks: [
       {
@@ -135,7 +198,4 @@ export const mayorData:
   }
 }
 
-
-export const DAY = 86400
-export const HOUR = 3600
-export const MINUTE = 60
+export type MayorTime = 'past' | 'present' | 'future'

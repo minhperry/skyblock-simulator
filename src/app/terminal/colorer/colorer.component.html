@@ -1,39 +1,38 @@
-<div class="container my-4 p-3 rounded shadow">
-    <div class="row justify-content-center">
-        <!-- Left Panel -->
-        <div class="col-md-4 text-center text-light">
-            <div class="mb-4">
-                <h1 class="h4">Terminal - Colors</h1>
-                <p>Click on the panes to change their color.</p>
-                <p>Currently only support left click.</p>
-                <p>The timer will start when you click the first pane.</p>
-                <p class="d-flex align-items-center justify-content-center">
-                    Cycle:
-                    <img ngSrc="/textures/darkgreen.png" alt="dark green" class="mx-1" height="32" width="32"/> →
-                    <img ngSrc="/textures/blue.png" alt="blue" class="mx-1" height="32" width="32"/> →
-                    <img ngSrc="/textures/red.png" alt="red" class="mx-1" height="32" width="32"/> →
-                    <img ngSrc="/textures/orange.png" alt="orange" class="mx-1" height="32" width="32"/> →
-                    <img ngSrc="/textures/yellow.png" alt="yellow" class="mx-1" height="32" width="32"/>
-                </p>
-            </div>
-            <div class="mb-3 fs-5 timer">
-                {{ timer.time().toFixed(1) }}s
-            </div>
-            <button class="btn btn-primary btn-sm" (click)="onRestart()">New game</button>
-            <div class="mt-3">
-                <label for="edge-size-slider" class="form-label">Side:</label>
-                <mat-slider id="edge-size-slider" min="2" max="10" step="1" discrete>
-                    <input
-                            matSliderThumb [(value)]="edgeSize" (input)="onEdgeSizeChange($event)"
-                    />
-                </mat-slider>
-            </div>
-        </div>
-
-        <!-- Right Panel -->
-        <div class="col-md-8 d-flex justify-content-center align-items-center">
-          <sb-pane [grid]="config.grid" (cellClicked)="onCellClick($event)"></sb-pane>
-        </div>
+<div class="my-4 p-3 rounded shadow">
+  <div class="flex flex-wrap justify-center flex-col md:flex-row">
+    <!-- Left Panel -->
+    <div class="md:w-6/12 text-center">
+      <div class="mb-4">
+        <h1 class="text-2xl font-semibold">Terminal - Colors</h1>
+        <p>Click on the panes to change their color.</p>
+        <p>Currently only support left click.</p>
+        <p>The timer will start when you click the first pane.</p>
+        <p class="flex align-center justify-center">
+          Cycle:
+          <img ngSrc="/textures/darkgreen.png" alt="dark green" class="mx-1" height="32" width="32"/> →
+          <img ngSrc="/textures/blue.png" alt="blue" class="mx-1" height="32" width="32"/> →
+          <img ngSrc="/textures/red.png" alt="red" class="mx-1" height="32" width="32"/> →
+          <img ngSrc="/textures/orange.png" alt="orange" class="mx-1" height="32" width="32"/> →
+          <img ngSrc="/textures/yellow.png" alt="yellow" class="mx-1" height="32" width="32"/>
+        </p>
+      </div>
+      <div class="mb-3">
+        {{ timer.time().toFixed(1) }}s
+      </div>
+      <button class="btn btn-primary btn-sm" (click)="onRestart()">New game</button>
+      <div class="mt-3">
+        <label for="edge-size-slider" class="form-label">Side:</label>
+        <mat-slider id="edge-size-slider" min="2" max="10" step="1" discrete>
+          <input matSliderThumb [(value)]="edgeSize" (input)="onEdgeSizeChange($event)"
+          />
+        </mat-slider>
+      </div>
     </div>
+
+    <!-- Right Panel -->
+    <div class="md:w-6/12 flex justify-center items-center">
+      <sb-pane [grid]="config.grid" (cellClicked)="onCellClick($event)"></sb-pane>
+    </div>
+  </div>
 </div>
 
