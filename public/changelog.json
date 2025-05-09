@@ -249,6 +249,10 @@
                     {
                         "component": "Home",
                         "description": "Added a home page with a list of all tools."
+                    },
+                    {
+                        "component": "Not Found",
+                        "description": "Added a 404 page."
                     }
                 ]
             }
