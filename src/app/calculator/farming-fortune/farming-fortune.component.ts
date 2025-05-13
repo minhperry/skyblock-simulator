@@ -231,7 +231,7 @@ export class FarmingFortuneComponent {
     } else if (ele > mcow) {
       return 'ele';
     }
-    return null;
+    return "mcow";
   })
   // endregion
   protected readonly formatNum = formatDecimalNoTrailingZero;
