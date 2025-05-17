@@ -19,13 +19,15 @@
     border-radius: 6px;
 
     &.selected {
-      outline: 0.1rem solid rgba(0, 194, 0, 0.77);
-      outline-offset: 2px;
+      // outline: 0.1rem solid rgba(0, 194, 0, 0.77);
+      background-color: rgba(56, 122, 56, 0.37);
+      // outline-offset: 2px;
     }
 
     &.selected-locked {
-      outline: 0.1rem solid rgba(255, 0, 0, 0.77);
-      outline-offset: 2px;
+      // outline: 0.1rem solid rgba(255, 0, 0, 0.77);
+      background-color: rgba(122, 56, 56, 0.37);
+      // outline-offset: 2px;
     }
 
   }
