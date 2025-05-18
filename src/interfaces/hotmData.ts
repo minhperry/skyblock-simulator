@@ -1,5 +1,6 @@
-import {StatString} from "./symbols";
-import {floorOfNextPlusOneExp, PerkFunction, PowderFunction} from "./functions";
+import {PowderString, StatString} from './symbols';
+import {floorOfNextPlusOneExp, PerkFunction, PowderFunction, round} from './functions';
+import {ColorizePipe} from '../pipes/colorize.pipe';
 
 // ==================== The very base ====================
 // Basically is the smallest definable unit
@@ -83,9 +84,7 @@ export enum AbilityState {
   LOCKED = 'coalblock',
   CORE = 'redstoneblock' // Core of the mountain
 }
-
 // Differentiate between AbilityState and PerkState
-
 
 export interface Powder {
   mithril: number,
@@ -105,9 +104,15 @@ export interface Perk {
   requires: HotmNode[]
 }
 
-interface Position {
+export interface Position {
   x: number,
   y: number
+}
+
+export enum PerkType {
+  STATIC = 'static',
+  ABILITY = 'ability',
+  DYNAMIC = 'dynamic'
 }
 
 // ==================== Dynamic Perk Data ====================
@@ -119,30 +124,71 @@ interface NodeState {
 
 // ==================== Combined Perk Data ====================
 
-export interface TreeNode {
+export interface TreeNodeConstants {
   id: HotmNode,
   position: Position,
   perk: Perk,
-  state: NodeState
+  type: PerkType
 }
 
 // ==================== Define datas here ====================
 
-const InitialPerkState: NodeState = {
-  state: PerkState.LOCKED,
-  currentLevel: 1,
+// Data that is changed in the tree
+export interface TreeNodeDynamics {
+  id: HotmNode // id for mapping
+  data: NodeState
 }
 
-const InitialStaticPerkState: NodeState = {
-  state: PerkState.LOCKED,
+export function initStateByType(type: PerkType): NodeState {
+  switch (type) {
+    case PerkType.ABILITY:
+      return {
+        state: AbilityState.LOCKED
+      };
+    case PerkType.DYNAMIC:
+      return {
+        state: PerkState.LOCKED,
+        currentLevel: 1
+      }
+    case PerkType.STATIC:
+      return {
+        state: PerkState.LOCKED
+      }
+  }
 }
 
-const InitialAbilityState: NodeState = {
-  state: AbilityState.LOCKED,
+export function getDescriptionCalculated($const: TreeNodeConstants, $dyn: TreeNodeDynamics) {
+  const curr = $dyn.data.currentLevel as number
+  const desc = new ColorizePipe().transform($const.perk.description);
+
+  const func = $const.perk.perkFunc as PerkFunction
+  const c1 = round(func(curr).first).toString();
+  const c2 = round(func(curr).second).toString();
+  return desc.replace('#{1}', c1).replace('#{2}', c2);
 }
+
+export function getPowderAmount($const: TreeNodeConstants, $dyn: TreeNodeDynamics): string {
+  const curr = $dyn.data.currentLevel as number;
+  const powderFunc = $const.perk.powderFunc as PowderFunction
+
+  const y = $const.position.y
+  let pType: PowderString;
+  if (y >= 7 && y <= 9) {
+    pType = PowderString.MITHRIL;
+  } else if (y >= 3 && y <= 6) {
+    pType = PowderString.GEMSTONE;
+  } else {
+    pType = PowderString.GLACITE;
+  }
+
+  const amountFormatted = powderFunc(curr).toLocaleString('en-US');
+  return pType.replace('#{#}', amountFormatted);
+}
+
+// =================== Tree Constant Data ====================
 
 // #{1}, #{2} for the numbers
-export const InitialHotmTree: TreeNode[] = [
+export const HotmTreeData: TreeNodeConstants[] = [
   // Hotm 1
   {
     id: HotmNode.MINING_SPEED,
@@ -155,7 +201,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [],
     },
     position: {x: 3, y: 9},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   // Hotm 2
   {
@@ -166,7 +212,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.PRECISION_MINING]
     },
     position: {x: 1, y: 8},
-    state: InitialAbilityState,
+    type: PerkType.ABILITY
   },
   {
     id: HotmNode.PRECISION_MINING,
@@ -176,7 +222,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.MINING_FORTUNE]
     },
     position: {x: 2, y: 8},
-    state: InitialStaticPerkState
+    type: PerkType.STATIC
   },
   {
     id: HotmNode.MINING_FORTUNE,
@@ -189,7 +235,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.MINING_SPEED]
     },
     position: {x: 3, y: 8},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.TITANIUM_INSANIUM,
@@ -202,7 +248,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.MINING_FORTUNE]
     },
     position: {x: 4, y: 8},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.PICKAXE_TOSS,
@@ -212,7 +258,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.TITANIUM_INSANIUM]
     },
     position: {x: 5, y: 8},
-    state: InitialAbilityState,
+    type: PerkType.ABILITY
   },
   // Hotm 3
   {
@@ -227,7 +273,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.MINING_SPEED_BOOST]
     },
     position: {x: 1, y: 7},
-    state: InitialPerkState,
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.EFFICIENT_MINER,
@@ -240,7 +286,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.MINING_FORTUNE]
     },
     position: {x: 3, y: 7},
-    state: InitialPerkState,
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.FORGE_TIME,
@@ -253,7 +299,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.PICKAXE_TOSS]
     },
     position: {x: 5, y: 7},
-    state: InitialPerkState,
+    type: PerkType.DYNAMIC
   },
   // Hotm 4
   {
@@ -271,7 +317,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.OLD_SCHOOL]
     },
     position: {x: 0, y: 6},
-    state: InitialStaticPerkState,
+    type: PerkType.STATIC
   },
   {
     id: HotmNode.OLD_SCHOOL,
@@ -284,7 +330,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.RANDOM_EVENT, HotmNode.PROFESSIONAL]
     },
     position: {x: 1, y: 6},
-    state: InitialPerkState,
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.PROFESSIONAL,
@@ -297,7 +343,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.MOLE, HotmNode.OLD_SCHOOL]
     },
     position: {x: 2, y: 6},
-    state: InitialPerkState,
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.MOLE,
@@ -310,7 +356,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.EFFICIENT_MINER, HotmNode.PROFESSIONAL, HotmNode.FORTUNATE]
     },
     position: {x: 3, y: 6},
-    state: InitialPerkState,
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.FORTUNATE,
@@ -323,7 +369,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.MOLE, HotmNode.MINING_EXPERIENCE]
     },
     position: {x: 4, y: 6},
-    state: InitialPerkState,
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.MINING_EXPERIENCE,
@@ -336,7 +382,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.FORTUNATE, HotmNode.FORGE_TIME]
     },
     position: {x: 5, y: 6},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.FRONT_LOADED,
@@ -349,7 +395,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.MINING_EXPERIENCE],
     },
     position: {x: 6, y: 6},
-    state: InitialStaticPerkState,
+    type: PerkType.STATIC
   },
   // Hotm 5
   {
@@ -360,18 +406,18 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.OLD_SCHOOL, HotmNode.BLOCKHEAD]
     },
     position: {x: 1, y: 5},
-    state: InitialStaticPerkState,
+    type: PerkType.STATIC
   },
   {
     id: HotmNode.SPECIAL_0,
     perk: {
-      name: 'Special 0',
+      name: 'Peak of the Mountain',
       description: '%GRAY%Grants multiple perks. See wiki for more details, I can\'t be asked to write all with formatting. ' +
         'Plus it isn\'t levelable here anyways.',
       requires: []
     },
     position: {x: 3, y: 5},
-    state: InitialAbilityState
+    type: PerkType.ABILITY
   },
   {
     id: HotmNode.DAILY_POWDER,
@@ -381,7 +427,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.GREAT_EXPLORER, HotmNode.MINING_EXPERIENCE]
     },
     position: {x: 5, y: 5},
-    state: InitialStaticPerkState
+    type: PerkType.STATIC
   },
   // Hotm 6
   {
@@ -392,7 +438,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.BLOCKHEAD]
     },
     position: {x: 0, y: 4},
-    state: InitialStaticPerkState
+    type: PerkType.STATIC
   },
   {
     id: HotmNode.BLOCKHEAD,
@@ -405,7 +451,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.DAILY_GRIND, HotmNode.SUBTERRANEAN_FISHER, HotmNode.MINING_SPEED_2]
     },
     position: {x: 1, y: 4},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.SUBTERRANEAN_FISHER,
@@ -419,7 +465,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.KEEP_IT_COOL, HotmNode.BLOCKHEAD]
     },
     position: {x: 2, y: 4},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.KEEP_IT_COOL,
@@ -432,7 +478,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.MOLE, HotmNode.POWDER_BUFF]
     },
     position: {x: 3, y: 4},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.LONESOME_MINER,
@@ -446,7 +492,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.KEEP_IT_COOL, HotmNode.GREAT_EXPLORER]
     },
     position: {x: 4, y: 4},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.GREAT_EXPLORER,
@@ -460,7 +506,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.LONESOME_MINER, HotmNode.DAILY_POWDER, HotmNode.MINING_FORTUNE_2]
     },
     position: {x: 5, y: 4},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.MANIAC_MINER,
@@ -471,7 +517,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.GREAT_EXPLORER]
     },
     position: {x: 6, y: 4},
-    state: InitialAbilityState
+    type: PerkType.ABILITY
   },
   // Hotm 7
   {
@@ -485,7 +531,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.BLOCKHEAD, HotmNode.NO_STONE_UNTURNED]
     },
     position: {x: 1, y: 3},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.POWDER_BUFF,
@@ -498,7 +544,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.KEEP_IT_COOL, HotmNode.STEADY_HAND]
     },
     position: {x: 3, y: 3},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.MINING_FORTUNE_2,
@@ -511,7 +557,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.GREAT_EXPLORER, HotmNode.SURVEYOR]
     },
     position: {x: 5, y: 3},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   // Hotm 8
   {
@@ -522,7 +568,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.NO_STONE_UNTURNED]
     },
     position: {x: 0, y: 2},
-    state: InitialStaticPerkState
+    type: PerkType.STATIC
   },
   {
     id: HotmNode.NO_STONE_UNTURNED,
@@ -535,7 +581,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.METAL_HEAD, HotmNode.STRONG_ARM, HotmNode.MINING_SPEED_2]
     },
     position: {x: 1, y: 2},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.STRONG_ARM,
@@ -548,7 +594,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.NO_STONE_UNTURNED, HotmNode.STEADY_HAND]
     },
     position: {x: 2, y: 2},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.STEADY_HAND,
@@ -561,7 +607,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.STRONG_ARM, HotmNode.WARM_HEARTED, HotmNode.POWDER_BUFF, HotmNode.RAGS_TO_RICHES]
     },
     position: {x: 3, y: 2},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.WARM_HEARTED,
@@ -574,7 +620,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.SURVEYOR, HotmNode.STEADY_HAND]
     },
     position: {x: 4, y: 2},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   }, {
     id: HotmNode.SURVEYOR,
     perk: {
@@ -586,7 +632,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.WARM_HEARTED, HotmNode.EAGER_ADVENTURER, HotmNode.MINING_FORTUNE_2]
     },
     position: {x: 5, y: 2},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.MINESHAFT_MAYHEM,
@@ -601,7 +647,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.SURVEYOR]
     },
     position: {x: 6, y: 2},
-    state: InitialStaticPerkState
+    type: PerkType.STATIC
   },
   // Hotm 9
   {
@@ -615,7 +661,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.NO_STONE_UNTURNED, HotmNode.CRYSTALLINE]
     },
     position: {x: 1, y: 1},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.RAGS_TO_RICHES,
@@ -628,7 +674,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.MINING_MASTER, HotmNode.STEADY_HAND]
     },
     position: {x: 3, y: 1},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.EAGER_ADVENTURER,
@@ -641,7 +687,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.VANGUARD_SEEKER, HotmNode.SURVEYOR]
     },
     position: {x: 5, y: 1},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   // Hotm 10
   {
@@ -652,7 +698,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.CRYSTALLINE]
     },
     position: {x: 0, y: 0},
-    state: InitialAbilityState
+    type: PerkType.ABILITY
   },
   {
     id: HotmNode.CRYSTALLINE,
@@ -665,7 +711,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.METAL_HEAD, HotmNode.GIFTS_FROM_THE_DEPARTED]
     },
     position: {x: 1, y: 0},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.GIFTS_FROM_THE_DEPARTED,
@@ -678,7 +724,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.CRYSTALLINE, HotmNode.MINING_MASTER]
     },
     position: {x: 2, y: 0},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.MINING_MASTER,
@@ -691,7 +737,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.GIFTS_FROM_THE_DEPARTED, HotmNode.HUNGRY_FOR_MORE, HotmNode.RAGS_TO_RICHES]
     },
     position: {x: 3, y: 0},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.HUNGRY_FOR_MORE,
@@ -704,7 +750,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.MINING_MASTER, HotmNode.VANGUARD_SEEKER]
     },
     position: {x: 4, y: 0},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.VANGUARD_SEEKER,
@@ -717,7 +763,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.HUNGRY_FOR_MORE, HotmNode.EAGER_ADVENTURER]
     },
     position: {x: 5, y: 0},
-    state: InitialPerkState
+    type: PerkType.DYNAMIC
   },
   {
     id: HotmNode.SHEER_FORCE,
@@ -727,7 +773,7 @@ export const InitialHotmTree: TreeNode[] = [
       requires: [HotmNode.VANGUARD_SEEKER]
     },
     position: {x: 6, y: 0},
-    state: InitialAbilityState
+    type: PerkType.ABILITY
   }
 ]
 

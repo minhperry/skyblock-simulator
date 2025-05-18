@@ -54,6 +54,64 @@
 </div-->
 
 <div class="flex justify-center flex-col lg:flex-row container mx-auto">
-
-
+  <!-- Left panel: the grid -->
+  <div class="inventory-view container">
+    @let data = gridData();
+    @for (row of data; let _row = $index; track _row) {
+      @for (node of row; let _col = $index; track _col) {
+        @if (isNotNull(node)) {
+          @let $node = node!;
+          <div class="inventory-slot rich-item"
+               (click)="onCellClick(_col, _row)">
+            <div class="item-icon piece-icon" [ngClass]="getStateClass($node)"></div>
+          </div>
+        } @else {
+          <div class="inventory-slot"></div>
+        }
+      }
+    }
+  </div>
+  <!-- Right panel: the picker -->
+  <div class="container flex justify-center">
+    <div class="my-auto tooltip-mc">
+      @if (selectedPos) {
+        @let pos = selectedPos!;
+        @let perkData = getDescriptionByPosition(pos.x, pos.y);
+        @let selData = gridData()[pos.y][pos.x]!;
+        <div>
+          <!-- Title -->
+          <div class="flex flex-col items-center justify-center">
+            <div class="font-semibold text-lg">
+              {{ perkData.perk.name }}
+            </div>
+            <div class="flex flex-row">
+              @if (perkData.type === PerkType.DYNAMIC) {
+                <span class="mc gray">
+                Level {{ selData.data.currentLevel }}
+              </span>
+                <span class="mc darkgray">/{{ perkData.perk.maxLevel }}</span>
+              }
+            </div>
+          </div>
+          <hr class="w-[66%] h-[3px] mx-auto my-2 bg-gray-500/40 border-0 rounded-sm "/>
+          <!-- Description -->
+          @if (isLevelable(perkData)) {
+            <span [innerHTML]="getDescriptionCalculated(perkData, selData) | parse | safeHtml"></span>
+          } @else {
+            <span [innerHTML]="perkData.perk.description | colorize | parse | safeHtml "></span>
+          }
+          @if (perkData.type === PerkType.DYNAMIC) {
+            <div class="flex justify-center">
+              Cost:
+              <span [innerHTML]="getPowderAmount(perkData, selData) | parse | safeHtml"></span>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="flex flex-col justify-center items-center">
+          <span class="mc gray">Select a perk to see its description!</span>
+        </div>
+      }
+    </div>
+  </div>
 </div>

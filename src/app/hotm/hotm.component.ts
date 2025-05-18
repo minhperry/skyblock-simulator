@@ -1,90 +1,106 @@
-import {Component, signal} from '@angular/core';
-import {TreeNode} from '../../interfaces/hotmData';
+import {Component, OnInit, signal} from '@angular/core';
+import {
+  HotmTreeData,
+  TreeNodeConstants,
+  TreeNodeDynamics,
+  initStateByType,
+  Position,
+  PerkType,
+  getDescriptionCalculated,
+  getPowderAmount
+} from '../../interfaces/hotmData';
 import {Nullable} from '../../interfaces/types';
+import {NgClass} from '@angular/common';
+import {ColorizePipe} from '../../pipes/colorize.pipe';
+import {ParseMCPipe} from '../../pipes/parse-mc.pipe';
+import {SafeHtmlPipe} from '../../pipes/safe-html.pipe';
 
 @Component({
   selector: 'sb-hotm',
   templateUrl: './hotm.component.html',
   styleUrl: './hotm.component.scss',
   imports: [
+    NgClass,
+    ColorizePipe,
+    ParseMCPipe,
+    SafeHtmlPipe
   ]
 })
-export class HotmComponent {
-  grid = signal<Nullable<TreeNode>[][]>([]);
+export class HotmComponent implements OnInit {
+  grid: Nullable<TreeNodeConstants>[][] = []
+  gridData = signal<Nullable<TreeNodeDynamics>[][]>([]);
 
-  // Maybe tanstack table is not right for this use case
-  // table = createAngularTable(() => ({  }))
-  /*
-  grid: Nullable<TreeNode>[][] = [];
-  selected_: Nullable<TreeNode> = null;
-  sigSelected = signal<Nullable<TreeNode>>(null);
-
-  constructor(
-    private hotmSS: HotmStateService
-  ) {
-  }
+  selectedPos: Nullable<Position> = null;
 
   ngOnInit() {
-    this.initializeGrid()
-
-    //this.hotmSS.grid$.subscribe(grid => this.grid = grid)
-    //this.hotmSS.selected$.subscribe(selected => this.selected = selected)
+    this.initializeGrid();
   }
 
   private initializeGrid() {
-    const initGrid: TreeNode[][] = Array.from({length: 10}, () => Array(7).fill(null))
+    const initGrid: TreeNodeConstants[][] = Array.from({length: 10}, () => Array(7).fill(null));
+    const initGridData: TreeNodeDynamics[][] = Array.from({length: 10}, () => Array(7).fill(null));
 
-    for (const nodeData of Object.values(InitialHotmTree)) {
-      const node = nodeData.perk
-      const {x, y} = nodeData.position
+    for (const nodeData of Object.values(HotmTreeData)) {
+      const node = nodeData.perk;
+      const {x, y} = nodeData.position;
 
       initGrid[y][x] = {
         id: nodeData.id,
         position: {x, y},
         perk: node,
-        state: nodeData.state,
+        type: nodeData.type,
+      };
+      initGridData[y][x] = {
+        id: nodeData.id,
+        data: initStateByType(nodeData.type),
       }
     }
 
-    this.hotmSS.initializeGrid(initGrid)
+    this.grid = initGrid;
+    this.gridData.set(initGridData);
   }
 
-  onCellClick(x: number, y: number) {
-    this.hotmSS.selectNode(x, y)
+
+  // Helpers
+  protected isNotNull<T>(node: Nullable<T>): boolean {
+    return node !== null;
   }
 
-  onCellClick2(x: number, y: number) {
-    const node = this.grid[y][x]
+  protected getStateClass(node: Nullable<TreeNodeDynamics>) {
+    return this.asTreeNodeDyn(node).data.state
+  }
+
+  protected asTreeNodeDyn(node: Nullable<TreeNodeDynamics>): TreeNodeDynamics {
+    return node as TreeNodeDynamics;
+  }
+
+  protected getDescriptionByPosition(x: number, y: number): TreeNodeConstants {
+    const node = this.grid[y][x];
     if (node) {
-      this.sigSelected.set(node)
+      return node;
+    } else {
+      throw new Error(`Node at position (${x}, ${y}) is null`);
     }
   }
 
-  // Helpers
-
-  protected getStateClass(node: Nullable<TreeNode>) {
-    return this.asTreeNode(node).state.state
+  protected isLevelable(node: TreeNodeConstants): boolean {
+    return !!node.perk.maxLevel;
   }
 
-  protected asTreeNode(node: Nullable<TreeNode>): TreeNode {
-    return node as TreeNode;
+  // Click handlers
+
+  onCellClick(x: number, y: number) {
+    const node = this.gridData()[y][x];
+    if (node) {
+      // this.selected = node;
+      this.selectedPos = {x, y};
+    }
   }
 
-  protected isNotNull(node: Nullable<TreeNode>): boolean {
-    return node !== null
-  }
+  // Processors
 
-  protected isLevelable(node: Nullable<TreeNode>): boolean {
-    return !!node?.perk.maxLevel;
-  }
 
-  protected isAbility(node: Nullable<TreeNode>): boolean {
-    return node ? this.stateIsAbility(node.state.state) : false;
-  }
-
-  private stateIsAbility(state: AbilityState | PerkState): boolean {
-    return Object.values(AbilityState).includes(state as AbilityState)
-  }
+  /*
 
   // Processors
 
@@ -121,39 +137,8 @@ export class HotmComponent {
   }
 
 
-  protected getDescCalculated(node: Nullable<TreeNode>) {
-    const asTN = this.asTreeNode(node)
-    const curr = asTN.state.currentLevel as number;
-    const desc = new ColorizePipe().transform(asTN.perk.description);
-
-    const func = asTN.perk.perkFunc as PerkFunction
-    const c1 = round(func(curr).first).toString();
-    const c2 = round(func(curr).second).toString();
-    return desc.replace('#{1}', c1).replace('#{2}', c2);
-  }
-
-  protected getPowderAmount(node: Nullable<TreeNode>): string {
-    const asTN = this.asTreeNode(node)
-
-    const curr = asTN.state.currentLevel as number;
-    const powderFunc = asTN.perk.powderFunc as PowderFunction
-
-    const y = asTN.position.y
-    let pType: PowderString;
-    if (y >= 7 && y <= 9) {
-      pType = PowderString.MITHRIL;
-    } else if (y >= 3 && y <= 6) {
-      pType = PowderString.GEMSTONE;
-    } else {
-      pType = PowderString.GLACITE;
-    }
-
-    const amountFormatted = powderFunc(curr).toLocaleString('en-US');
-    return pType.replace('#{#}', amountFormatted);
-  }
-
-  protected isSelectedEqualNode(selected: Nullable<TreeNode>, node: Nullable<TreeNode>) {
-    return selected === node
-  }
   */
+  protected readonly PerkType = PerkType;
+  protected readonly getDescriptionCalculated = getDescriptionCalculated;
+  protected readonly getPowderAmount = getPowderAmount;
 }
