@@ -1,32 +1,25 @@
-import {Component, OnInit} from '@angular/core';
-import {AbilityState, InitialHotmTree, PerkState, TreeNode} from "../../interfaces/hotmData";
-import {NgClass} from "@angular/common";
-import {Nullable} from "../../interfaces/types";
-import {SafeHtmlPipe} from "../../pipes/safe-html.pipe";
-import {PerkFunction, PowderFunction, round} from "../../interfaces/functions";
-import {PowderString} from "../../interfaces/symbols";
-import {ColorizePipe} from "../../pipes/colorize.pipe";
-import {ParseMCPipe} from "../../pipes/parse-mc.pipe";
-import {HotmStateService} from "../../services/hotm-state.service";
+import {Component, signal} from '@angular/core';
+import {TreeNode} from '../../interfaces/hotmData';
+import {Nullable} from '../../interfaces/types';
 
 @Component({
   selector: 'sb-hotm',
   templateUrl: './hotm.component.html',
   styleUrl: './hotm.component.scss',
   imports: [
-    NgClass,
-    SafeHtmlPipe,
-    ColorizePipe,
-    ParseMCPipe
   ]
 })
-export class HotmComponent implements OnInit {
+export class HotmComponent {
+  grid = signal<Nullable<TreeNode>[][]>([]);
+
+  // Maybe tanstack table is not right for this use case
+  // table = createAngularTable(() => ({  }))
+  /*
   grid: Nullable<TreeNode>[][] = [];
-  selected: Nullable<TreeNode> = null;
+  selected_: Nullable<TreeNode> = null;
+  sigSelected = signal<Nullable<TreeNode>>(null);
 
   constructor(
-    // private hotm: HotmBackendService
-    //@Inject(PLATFORM_ID) private platform: Object,
     private hotmSS: HotmStateService
   ) {
   }
@@ -34,8 +27,8 @@ export class HotmComponent implements OnInit {
   ngOnInit() {
     this.initializeGrid()
 
-    this.hotmSS.grid$.subscribe(grid => this.grid = grid)
-    this.hotmSS.selected$.subscribe(selected => this.selected = selected)
+    //this.hotmSS.grid$.subscribe(grid => this.grid = grid)
+    //this.hotmSS.selected$.subscribe(selected => this.selected = selected)
   }
 
   private initializeGrid() {
@@ -56,16 +49,15 @@ export class HotmComponent implements OnInit {
     this.hotmSS.initializeGrid(initGrid)
   }
 
-  onCellClick_(x: number, y: number) {
-    const selected = this.grid[x][y];
-    this.selected = null
-    console.log('clicked: ', x, y)
-    this.selected = selected
-    console.log('selected: ', this.selected?.id, 'level in grid: ', this.grid[x][y]?.state.currentLevel)
-  }
-
   onCellClick(x: number, y: number) {
     this.hotmSS.selectNode(x, y)
+  }
+
+  onCellClick2(x: number, y: number) {
+    const node = this.grid[y][x]
+    if (node) {
+      this.sigSelected.set(node)
+    }
   }
 
   // Helpers
@@ -96,6 +88,7 @@ export class HotmComponent implements OnInit {
 
   // Processors
 
+  /*
   protected modifySelectedLevel_(amount: number) {
     if (!this.selected) return;
 
@@ -106,19 +99,20 @@ export class HotmComponent implements OnInit {
     selected.state.currentLevel = Math.min(max, Math.max(1, curr + amount));
     const {x, y} = selected.position;
     this.grid[y][x] = selected;
-    console.log(this.grid[y][x].state.currentLevel)
-  }
+    // console.log(this.grid[y][x].state.currentLevel)
+  }**
 
   modifySelectedLevel(amount: number) {
-    if (!this.selected) return;
+    const selected = this.sigSelected();
+    if (!selected) return;
 
     const updatedNode = {
-      ...this.selected,
+      ...selected,
       state: {
-        ...this.selected.state,
+        ...selected.state,
         currentLevel: Math.min(
-          this.selected.perk.maxLevel as number,
-          Math.max(1, (this.selected.state.currentLevel || 0) + amount)
+          selected.perk.maxLevel as number,
+          Math.max(1, (selected.state.currentLevel || 0) + amount)
         ),
       },
     };
@@ -159,10 +153,7 @@ export class HotmComponent implements OnInit {
   }
 
   protected isSelectedEqualNode(selected: Nullable<TreeNode>, node: Nullable<TreeNode>) {
-    if (selected?.id === node?.id) {
-      console.log('selected: ', selected, 'node: ', node)
-    }
-    console.log(selected === node)
     return selected === node
   }
+  */
 }
