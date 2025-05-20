@@ -1,6 +1,6 @@
 import {PowderString, StatString} from './symbols';
-import {floorOfNextPlusOneExp, PerkFunction, PowderFunction, round} from './functions';
-import {ColorizePipe} from '../pipes/colorize.pipe';
+import {floorOfNextPlusOneExp, PerkFunction, PowderFunction, round} from '../../interfaces/functions';
+import {ColorizePipe} from '../../pipes/colorize.pipe';
 
 // ==================== The very base ====================
 // Basically is the smallest definable unit

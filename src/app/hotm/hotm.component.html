@@ -102,7 +102,7 @@
           }
           @if (perkData.type === PerkType.DYNAMIC) {
             <div class="flex justify-center">
-              Cost:
+              Cost:&nbsp;
               <span [innerHTML]="getPowderAmount(perkData, selData) | parse | safeHtml"></span>
             </div>
           }

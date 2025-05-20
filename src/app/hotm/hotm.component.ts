@@ -8,7 +8,7 @@ import {
   PerkType,
   getDescriptionCalculated,
   getPowderAmount
-} from '../../interfaces/hotmData';
+} from './hotmData';
 import {Nullable} from '../../interfaces/types';
 import {NgClass} from '@angular/common';
 import {ColorizePipe} from '../../pipes/colorize.pipe';
