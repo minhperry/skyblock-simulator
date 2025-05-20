@@ -1,12 +1,8 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {
-  HotmTreeData,
   TreeNodeConstants,
   TreeNodeDynamics,
-  initStateByType,
-  Position,
   PerkType,
-  getDescriptionCalculated,
   getPowderAmount
 } from './hotmData';
 import {Nullable} from '../../interfaces/types';
@@ -14,6 +10,7 @@ import {NgClass} from '@angular/common';
 import {ColorizePipe} from '../../pipes/colorize.pipe';
 import {ParseMCPipe} from '../../pipes/parse-mc.pipe';
 import {SafeHtmlPipe} from '../../pipes/safe-html.pipe';
+import {HotmService} from './hotm.service';
 
 @Component({
   selector: 'sb-hotm',
@@ -26,40 +23,8 @@ import {SafeHtmlPipe} from '../../pipes/safe-html.pipe';
     SafeHtmlPipe
   ]
 })
-export class HotmComponent implements OnInit {
-  grid: Nullable<TreeNodeConstants>[][] = []
-  gridData = signal<Nullable<TreeNodeDynamics>[][]>([]);
-
-  selectedPos: Nullable<Position> = null;
-
-  ngOnInit() {
-    this.initializeGrid();
-  }
-
-  private initializeGrid() {
-    const initGrid: TreeNodeConstants[][] = Array.from({length: 10}, () => Array(7).fill(null));
-    const initGridData: TreeNodeDynamics[][] = Array.from({length: 10}, () => Array(7).fill(null));
-
-    for (const nodeData of Object.values(HotmTreeData)) {
-      const node = nodeData.perk;
-      const {x, y} = nodeData.position;
-
-      initGrid[y][x] = {
-        id: nodeData.id,
-        position: {x, y},
-        perk: node,
-        type: nodeData.type,
-      };
-      initGridData[y][x] = {
-        id: nodeData.id,
-        data: initStateByType(nodeData.type),
-      }
-    }
-
-    this.grid = initGrid;
-    this.gridData.set(initGridData);
-  }
-
+export class HotmComponent {
+  hotmServ = inject(HotmService);
 
   // Helpers
   protected isNotNull<T>(node: Nullable<T>): boolean {
@@ -67,20 +32,7 @@ export class HotmComponent implements OnInit {
   }
 
   protected getStateClass(node: Nullable<TreeNodeDynamics>) {
-    return this.asTreeNodeDyn(node).data.state
-  }
-
-  protected asTreeNodeDyn(node: Nullable<TreeNodeDynamics>): TreeNodeDynamics {
-    return node as TreeNodeDynamics;
-  }
-
-  protected getDescriptionByPosition(x: number, y: number): TreeNodeConstants {
-    const node = this.grid[y][x];
-    if (node) {
-      return node;
-    } else {
-      throw new Error(`Node at position (${x}, ${y}) is null`);
-    }
+    return (node as TreeNodeDynamics).data.state
   }
 
   protected isLevelable(node: TreeNodeConstants): boolean {
@@ -90,10 +42,10 @@ export class HotmComponent implements OnInit {
   // Click handlers
 
   onCellClick(x: number, y: number) {
-    const node = this.gridData()[y][x];
+    const node = this.hotmServ.gridData[y][x];
     if (node) {
       // this.selected = node;
-      this.selectedPos = {x, y};
+      this.hotmServ.selectedPos.set({x, y});
     }
   }
 
@@ -139,6 +91,4 @@ export class HotmComponent implements OnInit {
 
   */
   protected readonly PerkType = PerkType;
-  protected readonly getDescriptionCalculated = getDescriptionCalculated;
-  protected readonly getPowderAmount = getPowderAmount;
 }

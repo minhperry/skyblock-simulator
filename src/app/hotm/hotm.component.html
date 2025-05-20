@@ -56,8 +56,7 @@
 <div class="flex justify-center flex-col lg:flex-row container mx-auto">
   <!-- Left panel: the grid -->
   <div class="inventory-view container">
-    @let data = gridData();
-    @for (row of data; let _row = $index; track _row) {
+    @for (row of hotmServ.gridData; let _row = $index; track _row) {
       @for (node of row; let _col = $index; track _col) {
         @if (isNotNull(node)) {
           @let $node = node!;
@@ -74,10 +73,11 @@
   <!-- Right panel: the picker -->
   <div class="container flex justify-center">
     <div class="my-auto tooltip-mc">
-      @if (selectedPos) {
-        @let pos = selectedPos!;
-        @let perkData = getDescriptionByPosition(pos.x, pos.y);
-        @let selData = gridData()[pos.y][pos.x]!;
+      @if (hotmServ.selectedPos()) {
+        @let pos = hotmServ.selectedPos()!;
+        <!-- Because selectedPos can only be position for non-null items, data for that position is guaranteed to exist-->
+        @let perkData = hotmServ.getNonNullConstantsAt(pos);
+        @let selData = hotmServ.getNonNullDynamicsAt(pos);
         <div>
           <!-- Title -->
           <div class="flex flex-col items-center justify-center">
@@ -96,14 +96,14 @@
           <hr class="w-[66%] h-[3px] mx-auto my-2 bg-gray-500/40 border-0 rounded-sm "/>
           <!-- Description -->
           @if (isLevelable(perkData)) {
-            <span [innerHTML]="getDescriptionCalculated(perkData, selData) | parse | safeHtml"></span>
+            <span [innerHTML]="hotmServ.formattedDescription() | parse | safeHtml"></span>
           } @else {
             <span [innerHTML]="perkData.perk.description | colorize | parse | safeHtml "></span>
           }
           @if (perkData.type === PerkType.DYNAMIC) {
             <div class="flex justify-center">
               Cost:&nbsp;
-              <span [innerHTML]="getPowderAmount(perkData, selData) | parse | safeHtml"></span>
+              <span [innerHTML]="hotmServ.formattedPowderCost() | parse | safeHtml"></span>
             </div>
           }
         </div>
