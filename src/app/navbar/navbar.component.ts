@@ -67,6 +67,13 @@ export class NavbarComponent implements OnInit {
         ]
       },
       {
+        label: 'Legacy',
+        icon: 'bi bi-archive',
+        items: [
+          {label: 'To-do', routerLink: '/todo'}
+        ]
+      },
+      {
         label: 'Support',
         icon: 'bi bi-heart-fill !text-red-500',
         url: 'https://ko-fi.com/minhperry',
