@@ -255,6 +255,23 @@
                         "description": "Added a 404 page."
                     }
                 ]
+            },
+            {
+                "version": "1.0.1",
+                "entries": [
+                    {
+                        "component": "Navbar",
+                        "description": "Added a Legacy dropdown."
+                    },
+                    {
+                        "component": "Terminal",
+                        "description": "Fixed broken styling."
+                    },
+                    {
+                        "component": "Moocow vs Elephant",
+                        "description": "(by not-a-cowfr) Added extra notes, removed old notes and fixed calculation."
+                    }
+                ]
             }
         ]
     }
