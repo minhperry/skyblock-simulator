@@ -7,6 +7,7 @@ import {
   HotmTreeData,
   initStateByType,
   PerkState,
+  PerkType,
   Position,
   TreeNodeConstants,
   TreeNodeDynamics
@@ -51,9 +52,9 @@ export class HotmService {
     const pos = this.selectedPos()
     if (!pos) return '';
     const nodeConst = this.getNonNullConstantsAt(pos)
-    const nodeDyn = this.getNonNullDynamicsAt(pos)
+    const nodeDyn = signal(this.getNonNullDynamicsAt(pos))
 
-    return getDescriptionCalculated(nodeConst, nodeDyn)
+    return getDescriptionCalculated(nodeConst, nodeDyn())
   })
 
   formattedPowderCost = computed(() => {
@@ -72,17 +73,43 @@ export class HotmService {
 
   // Click handlers
 
+  // TODO: Enforce requirements
   openPerk(pos: Position) {
     const state = this.gridData[pos.y][pos.x].data.state
+    const nodeType = this.gridConstant[pos.y][pos.x].type
+
     let newState;
     if (state === PerkState.LOCKED) {
-      newState = PerkState.PROGRESSING
+      if (nodeType === PerkType.DYNAMIC) {
+        newState = PerkState.PROGRESSING
+      } else {
+        newState = PerkState.MAXED
+      }
     } else if (state === AbilityState.LOCKED) {
       newState = AbilityState.UNLOCKED
     } else {
       newState = state
     }
     this.gridData[pos.y][pos.x].data.state = newState
+  }
+
+  modifyLevel(pos: Position, amount: number) {
+    const nodeDyn = this.getNonNullDynamicsAt(pos);
+    const nodeConst = this.getNonNullConstantsAt(pos);
+
+    const curr = nodeDyn.data.currentLevel as number;
+    const max = nodeConst.perk.maxLevel as number;
+
+    const levelToSet = Math.min(max, Math.max(1, curr + amount));
+    this.gridData[pos.y][pos.x].data.currentLevel = levelToSet
+
+    console.log(`curr: ${curr}, max: ${max}, toSet: ${levelToSet}`);
+    // Set icon if max level
+    if (levelToSet >= max) {
+      this.gridData[pos.y][pos.x].data.state = PerkState.MAXED;
+    } else {
+      this.gridData[pos.y][pos.x].data.state = PerkState.PROGRESSING;
+    }
   }
 
   // Helpers and getters
@@ -101,4 +128,7 @@ export class HotmService {
   getNonNullDynamicsAt(pos: Position): TreeNodeDynamics {
     return this.getDynamicsAt(pos) as TreeNodeDynamics;
   }
+
+  // Load from API option
+  // ...
 }
