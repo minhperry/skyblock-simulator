@@ -16,6 +16,8 @@ on:
       - 'src/**'
       # The fucking pnpm-lock.yaml
       - 'pnpm-lock.yaml'
+      # changelog.json
+      - 'public/changelog.json'
 
 jobs:
   deps-build-deploy:
