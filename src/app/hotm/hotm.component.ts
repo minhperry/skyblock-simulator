@@ -3,7 +3,7 @@ import {
   TreeNodeConstants,
   TreeNodeDynamics,
   PerkType,
-  getPowderAmount
+  getPowderAmount, PerkState, AbilityState
 } from './hotmData';
 import {Nullable} from '../../interfaces/types';
 import {NgClass} from '@angular/common';
@@ -11,6 +11,7 @@ import {ColorizePipe} from '../../pipes/colorize.pipe';
 import {ParseMCPipe} from '../../pipes/parse-mc.pipe';
 import {SafeHtmlPipe} from '../../pipes/safe-html.pipe';
 import {HotmService} from './hotm.service';
+import {Button} from 'primeng/button';
 
 @Component({
   selector: 'sb-hotm',
@@ -20,7 +21,8 @@ import {HotmService} from './hotm.service';
     NgClass,
     ColorizePipe,
     ParseMCPipe,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    Button
   ]
 })
 export class HotmComponent {
@@ -91,4 +93,6 @@ export class HotmComponent {
 
   */
   protected readonly PerkType = PerkType;
+  protected readonly PerkState = PerkState;
+  protected readonly AbilityState = AbilityState;
 }

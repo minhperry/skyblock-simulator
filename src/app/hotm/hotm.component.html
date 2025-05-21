@@ -100,10 +100,13 @@
           } @else {
             <span [innerHTML]="perkData.perk.description | colorize | parse | safeHtml "></span>
           }
-          @if (perkData.type === PerkType.DYNAMIC) {
-            <div class="flex justify-center">
-              Cost:&nbsp;
-              <span [innerHTML]="hotmServ.formattedPowderCost() | parse | safeHtml"></span>
+          <!-- Something something opened -->
+          @let selState = hotmServ.currentSelectedState().data.state;
+          @if (selState === PerkState.LOCKED || selState === AbilityState.LOCKED) {
+            <div class="flex justify-center mt-4" (click)="hotmServ.openPerk(pos)">
+              <p-button severity="primary">
+                Open Perk
+              </p-button>
             </div>
           }
         </div>

@@ -1,9 +1,12 @@
 import {computed, Injectable, signal, WritableSignal} from '@angular/core';
 import {Nullable} from '../../interfaces/types';
 import {
-  getDescriptionCalculated, getPowderAmount,
+  AbilityState,
+  getDescriptionCalculated,
+  getPowderAmount,
   HotmTreeData,
   initStateByType,
+  PerkState,
   Position,
   TreeNodeConstants,
   TreeNodeDynamics
@@ -61,6 +64,26 @@ export class HotmService {
 
     return getPowderAmount(nodeConst, nodeDyn)
   })
+
+  currentSelectedState = computed(() => {
+    const pos = this.selectedPos()!
+    return this.getNonNullDynamicsAt(pos)
+  })
+
+  // Click handlers
+
+  openPerk(pos: Position) {
+    const state = this.gridData[pos.y][pos.x].data.state
+    let newState;
+    if (state === PerkState.LOCKED) {
+      newState = PerkState.PROGRESSING
+    } else if (state === AbilityState.LOCKED) {
+      newState = AbilityState.UNLOCKED
+    } else {
+      newState = state
+    }
+    this.gridData[pos.y][pos.x].data.state = newState
+  }
 
   // Helpers and getters
   private getConstantsAt(pos: Position): Nullable<TreeNodeConstants> {
