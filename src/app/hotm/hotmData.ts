@@ -84,6 +84,15 @@ export enum AbilityState {
   LOCKED = 'coalblock',
   CORE = 'redstoneblock' // Core of the mountain
 }
+
+export enum NodeState {
+  LOCKED = 'locked',
+  LOCKED_ABILITY = 'coalblock',
+  UNLOCKED_ABILITY = 'emeraldblock',
+  UNLOCKED_CORE = 'redstoneblock',
+  PROGRESSING = 'emerald',
+  MAXED = 'diamond'
+}
 // Differentiate between AbilityState and PerkState
 
 export interface Powder {
@@ -117,7 +126,7 @@ export enum PerkType {
 
 // ==================== Dynamic Perk Data ====================
 
-interface NodeState {
+interface NodeState2 {
   state: PerkState | AbilityState;
   currentLevel?: number;
 }
@@ -136,10 +145,10 @@ export interface TreeNodeConstants {
 // Data that is changed in the tree
 export interface TreeNodeDynamics {
   id: HotmNode // id for mapping
-  data: NodeState
+  data: NodeState2
 }
 
-export function initStateByType(type: PerkType): NodeState {
+export function initStateByType(type: PerkType): NodeState2 {
   switch (type) {
     case PerkType.ABILITY:
       return {

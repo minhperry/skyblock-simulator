@@ -1,17 +1,9 @@
-import {Component, inject} from '@angular/core';
-import {
-  TreeNodeConstants,
-  TreeNodeDynamics,
-  PerkType,
-  getPowderAmount, PerkState, AbilityState
-} from './hotmData';
+import {Component, inject, signal, WritableSignal} from '@angular/core';
+import {Position} from './hotmData';
 import {Nullable} from '../../interfaces/types';
 import {NgClass} from '@angular/common';
-import {ColorizePipe} from '../../pipes/colorize.pipe';
-import {ParseMCPipe} from '../../pipes/parse-mc.pipe';
-import {SafeHtmlPipe} from '../../pipes/safe-html.pipe';
 import {HotmService} from './hotm.service';
-import {Button} from 'primeng/button';
+import {StaticComponent} from './static.component';
 
 @Component({
   selector: 'sb-hotm',
@@ -19,36 +11,17 @@ import {Button} from 'primeng/button';
   styleUrl: './hotm.component.scss',
   imports: [
     NgClass,
-    ColorizePipe,
-    ParseMCPipe,
-    SafeHtmlPipe,
-    Button
+    StaticComponent
   ]
 })
 export class HotmComponent {
   hotmServ = inject(HotmService);
-
-  // Helpers
-  protected isNotNull<T>(node: Nullable<T>): boolean {
-    return node !== null;
-  }
-
-  protected getStateClass(node: Nullable<TreeNodeDynamics>) {
-    return (node as TreeNodeDynamics).data.state
-  }
-
-  protected isLevelable(node: TreeNodeConstants): boolean {
-    return !!node.perk.maxLevel;
-  }
+  selectedPos: WritableSignal<Nullable<Position>> = signal(null)
 
   // Click handlers
 
   onCellClick(x: number, y: number) {
-    const node = this.hotmServ.gridData[y][x];
-    if (node) {
-      // this.selected = node;
-      this.hotmServ.selectedPos.set({x, y});
-    }
+    this.selectedPos.set({x, y});
   }
 
   // Processors
@@ -88,11 +61,5 @@ export class HotmComponent {
     };
 
     this.hotmSS.updateNode(updatedNode);
-  }
-
-
-  */
-  protected readonly PerkType = PerkType;
-  protected readonly PerkState = PerkState;
-  protected readonly AbilityState = AbilityState;
+  }*/
 }

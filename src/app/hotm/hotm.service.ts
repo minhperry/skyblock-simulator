@@ -1,134 +1,198 @@
-import {computed, Injectable, signal, WritableSignal} from '@angular/core';
+import {computed, Injectable, Signal, signal, WritableSignal} from '@angular/core';
 import {Nullable} from '../../interfaces/types';
 import {
-  AbilityState,
-  getDescriptionCalculated,
-  getPowderAmount,
-  HotmTreeData,
-  initStateByType,
-  PerkState,
-  PerkType,
+  HotmTreeData, PerkType,
   Position,
-  TreeNodeConstants,
-  TreeNodeDynamics
 } from './hotmData';
+import {PerkFunction, PowderFunction} from '../../interfaces/functions';
+import {PowderString} from './symbols';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class HotmService {
-  gridConstant: TreeNodeConstants[][]
-  gridData: TreeNodeDynamics[][];
-  selectedPos: WritableSignal<Nullable<Position>>
+  grid: BaseNode[][] = Array.from({length: 10}, () => Array(7).fill(null));
 
   constructor() {
-    // Initialize the grids with null values
-    this.gridConstant = Array.from({length: 10}, () => Array(7).fill(null));
-    this.gridData = Array.from({length: 10}, () => Array(7).fill(null));
-
-    this.selectedPos = signal(null);
-
-    // Now replace with the actual data
-    for (const node of Object.values(HotmTreeData)) {
-      const perk = node.perk
+    for (const node of HotmTreeData) {
       const {x, y} = node.position
-      this.gridConstant[y][x] = {
-        id: node.id,
-        position: {x, y},
-        perk,
-        type: node.type,
-      }
-      this.gridData[y][x] = {
-        id: node.id,
-        data: initStateByType(node.type)
+      const perk = node.perk
+      switch (node.type) {
+        case PerkType.DYNAMIC:
+          this.grid[y][x] = new LevelableNode(
+            node.id,
+            perk.name,
+            perk.description,
+            {x, y},
+            perk.perkFunc!,
+            perk.powderFunc!,
+            perk.maxLevel!
+          )
+          break;
+        case PerkType.ABILITY:
+          this.grid[y][x] = new AbilityNode(
+            node.id,
+            perk.name,
+            perk.description,
+            {x, y},
+          )
+          break;
+        case PerkType.STATIC:
+          this.grid[y][x] = new StaticNode(
+            node.id,
+            perk.name,
+            perk.description,
+            {x, y},
+          )
+          break;
       }
     }
   }
+}
 
-  // Processors, based on selected position -> Ensured to take a non-null position
+export abstract class BaseNode {
+  protected constructor(
+    public id: string,
+    public name: string,
+    public description: string, // can be template description
+    public position: Position,
+    public status: WritableSignal<Status>
+  ) {
+  }
 
-  formattedDescription = computed(() => {
-    const pos = this.selectedPos()
-    if (!pos) return '';
-    const nodeConst = this.getNonNullConstantsAt(pos)
-    const nodeDyn = signal(this.getNonNullDynamicsAt(pos))
+  abstract readonly type: 'ability' | 'levelable' | 'static';
 
-    return getDescriptionCalculated(nodeConst, nodeDyn())
-  })
+  abstract cssClass(): Signal<string>;
 
-  formattedPowderCost = computed(() => {
-    const pos = this.selectedPos()
-    if (!pos) return '';
-    const nodeConst = this.getNonNullConstantsAt(pos)
-    const nodeDyn = this.getNonNullDynamicsAt(pos)
+  abstract onNodeOpened(): void
+}
 
-    return getPowderAmount(nodeConst, nodeDyn)
-  })
+class StaticNode extends BaseNode {
+  readonly type = 'static'
 
-  currentSelectedState = computed(() => {
-    const pos = this.selectedPos()!
-    return this.getNonNullDynamicsAt(pos)
-  })
+  constructor(
+    id: string,
+    name: string,
+    description: string,
+    position: Position,
+  ) {
+    super(id, name, description, position, signal(Status.LOCKED));
+  }
 
-  // Click handlers
+  override cssClass(): Signal<string> {
+    return computed(() => {
+      return this.status() === Status.LOCKED ? 'coal' : 'diamond';
+    }) // Coal = locked, Diamond = unlocked
+  }
 
-  // TODO: Enforce requirements
-  openPerk(pos: Position) {
-    const state = this.gridData[pos.y][pos.x].data.state
-    const nodeType = this.gridConstant[pos.y][pos.x].type
+  override onNodeOpened(): void {
+    this.status.set(Status.MAXED)
+  }
+}
 
-    let newState;
-    if (state === PerkState.LOCKED) {
-      if (nodeType === PerkType.DYNAMIC) {
-        newState = PerkState.PROGRESSING
-      } else {
-        newState = PerkState.MAXED
+class AbilityNode extends BaseNode {
+  readonly type = 'ability'
+
+  constructor(
+    id: string,
+    name: string,
+    description: string,
+    position: Position,
+  ) {
+    super(id, name, description, position, signal(Status.LOCKED));
+  }
+
+  override cssClass(): Signal<string> {
+    return computed(() => {
+      return this.status() === Status.LOCKED ? 'coalblock' : 'emeraldblock';
+    })
+  }
+
+  override onNodeOpened() {
+    this.status.set(Status.UNLOCKED)
+  }
+}
+
+class LevelableNode extends BaseNode {
+  readonly type = 'levelable'
+
+  private readonly perkFunction: PerkFunction = (() => ({first: 0, second: 0}))
+  private readonly powderFunction: PowderFunction = (() => 0)
+  currentLevel: WritableSignal<number> = signal(1)
+  private readonly maxLevel: number;
+
+  constructor(
+    id: string,
+    name: string,
+    description: string,
+    position: Position,
+    perkFunction: PerkFunction,
+    powderFunction: PowderFunction,
+    maxLevel: number
+  ) {
+    super(id, name, description, position, signal(Status.LOCKED));
+    this.perkFunction = perkFunction;
+    this.powderFunction = powderFunction;
+    this.maxLevel = maxLevel;
+  }
+
+  override cssClass(): Signal<string> {
+    return computed(() => {
+      switch (this.status()) {
+        case Status.LOCKED:
+          return 'coal';
+        case Status.PROGRESSING:
+          return 'emerald';
+        case Status.MAXED:
+          return 'diamond';
+        default:
+          return '';
       }
-    } else if (state === AbilityState.LOCKED) {
-      newState = AbilityState.UNLOCKED
+    })
+  }
+
+  override onNodeOpened(): void {
+    this.status.set(Status.PROGRESSING)
+  }
+
+  updateLevel(delta: number) {
+    this.currentLevel.update(
+      (prev) => Math.min(this.maxLevel, Math.max(1, prev + delta))
+    )
+  }
+
+  readonly formattedPowderString = computed(() => {
+    const curr = this.currentLevel()
+    const neededPowder = this.powderFunction(curr)
+
+    const y = this.position.y
+    let pString: PowderString
+    if (y >= 7 && y <= 9) {
+      pString = PowderString.MITHRIL;
+    } else if (y >= 3 && y <= 6) {
+      pString = PowderString.GEMSTONE;
     } else {
-      newState = state
+      pString = PowderString.GLACITE;
     }
-    this.gridData[pos.y][pos.x].data.state = newState
-  }
 
-  modifyLevel(pos: Position, amount: number) {
-    const nodeDyn = this.getNonNullDynamicsAt(pos);
-    const nodeConst = this.getNonNullConstantsAt(pos);
+    return pString.replace('#{#}', neededPowder.toLocaleString())
+  })
 
-    const curr = nodeDyn.data.currentLevel as number;
-    const max = nodeConst.perk.maxLevel as number;
+  readonly formattedDescription = computed(() => {
+    const curr = this.currentLevel()
+    const numTup = this.perkFunction(curr)
 
-    const levelToSet = Math.min(max, Math.max(1, curr + amount));
-    this.gridData[pos.y][pos.x].data.currentLevel = levelToSet
+    const num1 = Math.floor(numTup.first).toLocaleString()
+    const num2 = Math.floor(numTup.second).toLocaleString()
+    return this.description.replace('#{1}', num1).replace('#{2}', num2);
+  })
 
-    console.log(`curr: ${curr}, max: ${max}, toSet: ${levelToSet}`);
-    // Set icon if max level
-    if (levelToSet >= max) {
-      this.gridData[pos.y][pos.x].data.state = PerkState.MAXED;
-    } else {
-      this.gridData[pos.y][pos.x].data.state = PerkState.PROGRESSING;
-    }
-  }
+}
 
-  // Helpers and getters
-  private getConstantsAt(pos: Position): Nullable<TreeNodeConstants> {
-    return this.gridConstant[pos.y][pos.x];
-  }
-
-  getNonNullConstantsAt(pos: Position): TreeNodeConstants {
-    return this.getConstantsAt(pos) as TreeNodeConstants;
-  }
-
-  private getDynamicsAt(pos: Position): Nullable<TreeNodeDynamics> {
-    return this.gridData[pos.y][pos.x];
-  }
-
-  getNonNullDynamicsAt(pos: Position): TreeNodeDynamics {
-    return this.getDynamicsAt(pos) as TreeNodeDynamics;
-  }
-
-  // Load from API option
-  // ...
+enum Status {
+  LOCKED,
+  UNLOCKED,
+  PROGRESSING,
+  MAXED
 }

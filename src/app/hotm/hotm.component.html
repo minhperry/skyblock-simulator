@@ -56,6 +56,7 @@
 <div class="flex justify-center flex-col lg:flex-row container mx-auto">
   <!-- Left panel: the grid -->
   <div class="inventory-view container">
+    <!--
     @for (row of hotmServ.gridData; let _row = $index; track _row) {
       @for (node of row; let _col = $index; track _col) {
         @if (isNotNull(node)) {
@@ -68,40 +69,53 @@
           <div class="inventory-slot"></div>
         }
       }
+    }-->
+    @for (row of hotmServ.grid; let rwIdx = $index; track rwIdx) {
+      @for (cell of row; let colIdx = $index; track colIdx) {
+        @if (cell) {
+          <div class="inventory-slot rich-item"
+               (click)="onCellClick(colIdx, rwIdx)"
+          >
+            <div class="item-icon piece-icon" [ngClass]="cell.cssClass()()"></div>
+          </div>
+        } @else {
+          <div class="inventory-slot"></div>
+        }
+      }
     }
   </div>
   <!-- Right panel: the picker -->
   <div class="container flex justify-center">
     <div class="my-auto tooltip-mc">
-      @if (hotmServ.selectedPos()) {
-        @let pos = hotmServ.selectedPos()!;
-        <!-- Because selectedPos can only be position for non-null items, data for that position is guaranteed to exist-->
-        @let perkData = hotmServ.getNonNullConstantsAt(pos);
-        @let selData = hotmServ.getNonNullDynamicsAt(pos);
-        @let levelable = isLevelable(perkData);
-        <div>
-          <!-- Title -->
-          <div class="flex flex-col items-center justify-center">
-            <div class="font-semibold text-lg">
-              {{ perkData.perk.name }}
-            </div>
-            <div class="flex flex-row">
-              @if (perkData.type === PerkType.DYNAMIC) {
-                <span class="mc gray">
-                Level {{ selData.data.currentLevel }}
-              </span>
-                <span class="mc darkgray">/{{ perkData.perk.maxLevel }}</span>
-              }
-            </div>
-          </div>
-          <hr class="w-[66%] h-[3px] mx-auto my-2 bg-gray-500/40 border-0 rounded-sm "/>
-          <!-- Description -->
+      @if (selectedPos()) {
+        @let pos = selectedPos()!;
+        @let selectedNode = hotmServ.grid[pos.y][pos.x];
+        @switch (selectedNode.type) {
+          @case ('ability') {
+            <sb-card-static [title]="selectedNode.name"
+                            [bodyHtml]="selectedNode.description"
+                            [instance]="selectedNode"/>
+          }
+          @case ('static') {
+            <sb-card-static [title]="selectedNode.name"
+                            [bodyHtml]="selectedNode.description"
+                            [instance]="selectedNode"/>
+          }
+          @case ('levelable') {
+            Dynamic
+          }
+        }
+
+        <!--div>
+
+
+          <-- Description ->
           @if (levelable) {
             <span [innerHTML]="hotmServ.formattedDescription() | parse | safeHtml"></span>
           } @else {
             <span [innerHTML]="perkData.perk.description | colorize | parse | safeHtml "></span>
           }
-          <!-- Something something opened -->
+          <-- Something something opened ->
           @let selState = hotmServ.currentSelectedState().data.state;
           <div class="flex justify-center mt-2">
             @if (selState === PerkState.LOCKED || selState === AbilityState.LOCKED) {
@@ -123,7 +137,7 @@
               </div>
             }
           </div>
-        </div>
+        </div-->
       } @else {
         <div class="flex flex-col justify-center items-center">
           <span class="mc gray">Select a perk to see its description!</span>
