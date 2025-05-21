@@ -16,5 +16,7 @@ The whole backend and frontend will be served on `http://localhost:4000/`.
 
 * [Angular 19](https://angular.dev/)
 * [Node.js 22](https://nodejs.org/)
-* [Bootstrap 5](https://getbootstrap.com/)
+* ~~[Bootstrap 5](https://getbootstrap.com/)~~
+* [Tailwind CSS](https://tailwindcss.com/)
+* [PrimeNG](https://primeng.org/)
 * [Gangnam Style](https://www.youtube.com/watch?v=9bZkp7q19f0)
