@@ -106,6 +106,10 @@ export interface TreeNodeConstants {
 
 // =================== Tree Constant Data ====================
 
+export function getNameById(id: HotmNode): string {
+  return HotmTreeData.find(node => node.id === id)?.perk.name ?? '';
+}
+
 // #{1}, #{2} for the numbers
 export const HotmTreeData: TreeNodeConstants[] = [
   // Hotm 1
