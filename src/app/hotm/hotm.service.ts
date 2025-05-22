@@ -123,7 +123,7 @@ class AbilityNode extends BaseNode {
   }
 }
 
-class LevelableNode extends BaseNode {
+export class LevelableNode extends BaseNode {
   readonly type = 'levelable'
 
   private readonly perkFunction: PerkFunction = (() => ({first: 0, second: 0}))
