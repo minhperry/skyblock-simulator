@@ -133,7 +133,7 @@ class LevelableNode extends BaseNode {
   private readonly perkFunction: PerkFunction = (() => ({first: 0, second: 0}))
   private readonly powderFunction: PowderFunction = (() => 0)
   currentLevel: WritableSignal<number> = signal(1)
-  private readonly maxLevel: number;
+  readonly maxLevel: number;
 
   constructor(
     id: HotmNode,
