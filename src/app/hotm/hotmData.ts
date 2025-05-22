@@ -149,7 +149,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
       name: 'Mining Fortune',
       description: `%GRAY%Grants %GOLD%+#{1} ${StatString.MINING_FORTUNE}%GRAY%.`,
       maxLevel: 50,
-      perkFunc: l => ({first: l * 20, second: 0}),
+      perkFunc: l => ({first: l * 2, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.05),
       requires: [HotmNode.MINING_SPEED]
     },
@@ -696,4 +696,9 @@ export const HotmTreeData: TreeNodeConstants[] = [
   }
 ]
 
-// https://github.com/SkyCryptWebsite/SkyCrypt/blob/development/src/constants/hotm.js#L1972
+export enum Status {
+  LOCKED,
+  UNLOCKED,
+  PROGRESSING,
+  MAXED
+}
