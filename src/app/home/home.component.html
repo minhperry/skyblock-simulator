@@ -57,7 +57,7 @@
   } @else {
     @let changelog = changelogQuery.data();
     <div class="rounded-lg">
-      <p-tabs value="1.0" scrollable>
+      <p-tabs value="1.1" scrollable>
         <!-- Tablist Picker-->
         <p-tablist>
           @for (minor of changelog; track minor.version; let lst = $last) {

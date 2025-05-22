@@ -62,7 +62,7 @@ export class HomeComponent {
       description: [
         'Live Magical Power calculator',
         'Comparing your Mooshroom Cow and Elephant',
-        'CS!Heart of the Mountain calculator',
+        'Heart of the Mountain calculator',
       ]
     },
     {
