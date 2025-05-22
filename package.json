@@ -1,6 +1,6 @@
 {
   "name": "skyblock",
-  "version": "0.6.3.3",
+  "version": "1.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
