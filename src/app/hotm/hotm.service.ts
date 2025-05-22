@@ -57,6 +57,10 @@ export class HotmService {
   }
 }
 
+export function castToLevelable(base: BaseNode) {
+  return base as LevelableNode
+}
+
 export abstract class BaseNode {
   protected constructor(
     public id: HotmNode,
