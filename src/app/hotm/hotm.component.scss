@@ -19,8 +19,15 @@
     border-radius: 6px;
 
     &.selected {
-      outline: 0.1rem solid rgba(0, 194, 0, 0.77);
-      outline-offset: 2px;
+      // outline: 0.1rem solid rgba(0, 194, 0, 0.77);
+      background-color: rgba(56, 122, 56, 0.37);
+      // outline-offset: 2px;
+    }
+
+    &.selected-locked {
+      // outline: 0.1rem solid rgba(255, 0, 0, 0.77);
+      background-color: rgba(122, 56, 56, 0.37);
+      // outline-offset: 2px;
     }
 
   }
@@ -51,7 +58,7 @@
 .piece-icon {
   position: absolute;
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.4));
-  z-index: 1500;
+  z-index: 10;
   pointer-events: none;
   top: 50%;
   left: 50%;
@@ -90,4 +97,19 @@
 
 .redstoneblock {
   background-position: -896px -768px;
+}
+
+.tooltip-mc {
+  display: inline-block;
+  padding: 10px 15px;
+  background: #222222; /* Dark gradient */
+  color: white;
+  border: 2px solid #777; /* Thin border around the tooltip */
+  border-radius: 4px; /* Slightly rounded corners */
+  width: fit-content;
+  text-align: start;
+}
+
+#name {
+  font-weight: bold;
 }

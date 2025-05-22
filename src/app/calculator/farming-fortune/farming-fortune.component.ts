@@ -217,7 +217,7 @@ export class FarmingFortuneComponent {
   // region Pets Level Slider
   mcowLevel = signal(1);
   mcowFortune = computed(() => (
-    this.mcowLevel() + 10 + round(this.totalStrSig() / (40 - 0.2 * this.mcowLevel())) * 0.7
+    this.mcowLevel() + 10 + Math.floor((this.totalStrSig() / (40 - 0.2 * this.mcowLevel())) * 0.7)
   ))
 
   eleLevel = signal(1);
@@ -231,7 +231,7 @@ export class FarmingFortuneComponent {
     } else if (ele > mcow) {
       return 'ele';
     }
-    return null;
+    return "mcow";
   })
   // endregion
   protected readonly formatNum = formatDecimalNoTrailingZero;

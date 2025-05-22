@@ -9,8 +9,9 @@ import {NumbergameComponent} from "./terminal/numbergame/numbergame.component";
 import {ColorerComponent} from "./terminal/colorer/colorer.component";
 import {FruitDiggingComponent} from "./fruit-digging/fruit-digging.component";
 import {MayorCycleComponent} from "./mayor/mayor-cycle/mayor-cycle.component";
-import {ThankYouComponent} from "./mayor/thank-you/thank-you.component";
 import {FarmingFortuneComponent} from './calculator/farming-fortune/farming-fortune.component';
+import {NotFoundComponent} from './not-found/not-found.component';
+import {HotmComponent} from './hotm/hotm.component';
 
 export const routes: Routes = [
   {
@@ -109,15 +110,22 @@ export const routes: Routes = [
       }
     ]
   },
-  /*
   {
     path: 'hotm',
     component: HotmComponent,
     title: 'Heart of the Mountain Sim'
   },
-  */
   {
     path: '**',
-    redirectTo: ''
+    component: NotFoundComponent,
+    title: '404 Not Found',
   }
 ];
+
+/*
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {
+}*/
