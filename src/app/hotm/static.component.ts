@@ -24,7 +24,7 @@ import {BaseNode, HotmService} from './hotm.service';
       </div>
       <div class="flex justify-center mt-2">
         <!-- TODO: Enforce requirement on open -->
-        <p-button severity="primary" (onClick)="instance().onNodeOpened()">
+        <p-button severity="primary" (onClick)="enforceOpenRequirement()">
           Open Perk
         </p-button>
       </div>
@@ -35,6 +35,13 @@ export class StaticComponent {
   title = input.required<string>()
   bodyHtml = input.required<string>()
   instance = input.required<BaseNode>()
+
+  enforceOpenRequirement() {
+    const reqs = this.instance().requires;
+    if (reqs.length === 0 || reqs.every(req => req in this.hotmServ.getOpenIds())) {
+      this.instance().onNodeOpened()
+    }
+  }
 
   hotmServ = inject(HotmService)
 }

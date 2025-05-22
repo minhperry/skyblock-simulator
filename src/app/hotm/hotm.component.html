@@ -56,30 +56,16 @@
 <div class="flex justify-center flex-col lg:flex-row container mx-auto">
   <!-- Left panel: the grid -->
   <div class="inventory-view container">
-    <!--
-    @for (row of hotmServ.gridData; let _row = $index; track _row) {
-      @for (node of row; let _col = $index; track _col) {
-        @if (isNotNull(node)) {
-          @let $node = node!;
-          <div class="inventory-slot rich-item"
-               (click)="onCellClick(_col, _row)">
-            <div class="item-icon piece-icon" [ngClass]="getStateClass($node)"></div>
-          </div>
-        } @else {
-          <div class="inventory-slot"></div>
-        }
-      }
-    }-->
     @for (row of hotmServ.grid; let rwIdx = $index; track rwIdx) {
       @for (cell of row; let colIdx = $index; track colIdx) {
         @if (cell) {
           <div class="inventory-slot rich-item"
                (click)="onCellClick(colIdx, rwIdx)"
-          >
+               [id]="'cell_' + colIdx + '_' + rwIdx">
             <div class="item-icon piece-icon" [ngClass]="cell.cssClass()()"></div>
           </div>
         } @else {
-          <div class="inventory-slot"></div>
+          <div class="inventory-slot" [id]="'cell_' + colIdx + '_' + rwIdx"></div>
         }
       }
     }

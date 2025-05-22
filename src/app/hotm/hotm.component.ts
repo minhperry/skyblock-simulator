@@ -22,6 +22,7 @@ export class HotmComponent {
 
   onCellClick(x: number, y: number) {
     this.selectedPos.set({x, y});
+    console.log(this.hotmServ.getOpenIds())
   }
 
   // Processors

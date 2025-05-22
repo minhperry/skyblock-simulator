@@ -1,12 +1,7 @@
 import {computed, Injectable, Signal, signal, WritableSignal} from '@angular/core';
-import {Nullable} from '../../interfaces/types';
-import {
-  HotmTreeData, PerkType,
-  Position,
-} from './hotmData';
+import {HotmNode, HotmTreeData, PerkType, Position,} from './hotmData';
 import {PerkFunction, PowderFunction} from '../../interfaces/functions';
 import {PowderString} from './symbols';
-
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +22,8 @@ export class HotmService {
             {x, y},
             perk.perkFunc!,
             perk.powderFunc!,
-            perk.maxLevel!
+            perk.maxLevel!,
+            perk.requires
           )
           break;
         case PerkType.ABILITY:
@@ -36,6 +32,7 @@ export class HotmService {
             perk.name,
             perk.description,
             {x, y},
+            perk.requires
           )
           break;
         case PerkType.STATIC:
@@ -44,20 +41,30 @@ export class HotmService {
             perk.name,
             perk.description,
             {x, y},
+            perk.requires
           )
           break;
       }
     }
   }
+
+  getOpenIds(): HotmNode[] {
+    return this.grid
+      .flatMap(inner => inner.map(innerer => innerer)) // Flatten
+      .filter(node => node !== null) // Filter nulls
+      .filter(node => node.status() !== Status.LOCKED) // Filter locked nodes
+      .map(node => node.id) // Map to ids
+  }
 }
 
 export abstract class BaseNode {
   protected constructor(
-    public id: string,
+    public id: HotmNode,
     public name: string,
     public description: string, // can be template description
     public position: Position,
-    public status: WritableSignal<Status>
+    public status: WritableSignal<Status>,
+    public requires: HotmNode[]
   ) {
   }
 
@@ -72,12 +79,13 @@ class StaticNode extends BaseNode {
   readonly type = 'static'
 
   constructor(
-    id: string,
+    id: HotmNode,
     name: string,
     description: string,
     position: Position,
+    reqs: HotmNode[]
   ) {
-    super(id, name, description, position, signal(Status.LOCKED));
+    super(id, name, description, position, signal(Status.LOCKED), reqs);
   }
 
   override cssClass(): Signal<string> {
@@ -95,12 +103,13 @@ class AbilityNode extends BaseNode {
   readonly type = 'ability'
 
   constructor(
-    id: string,
+    id: HotmNode,
     name: string,
     description: string,
     position: Position,
+    reqs: HotmNode[]
   ) {
-    super(id, name, description, position, signal(Status.LOCKED));
+    super(id, name, description, position, signal(Status.LOCKED), reqs);
   }
 
   override cssClass(): Signal<string> {
@@ -123,15 +132,16 @@ class LevelableNode extends BaseNode {
   private readonly maxLevel: number;
 
   constructor(
-    id: string,
+    id: HotmNode,
     name: string,
     description: string,
     position: Position,
     perkFunction: PerkFunction,
     powderFunction: PowderFunction,
-    maxLevel: number
+    maxLevel: number,
+    reqs: HotmNode[]
   ) {
-    super(id, name, description, position, signal(Status.LOCKED));
+    super(id, name, description, position, signal(Status.LOCKED), reqs);
     this.perkFunction = perkFunction;
     this.powderFunction = powderFunction;
     this.maxLevel = maxLevel;
