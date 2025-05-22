@@ -1,6 +1,5 @@
-import {PowderString, StatString} from './symbols';
-import {floorOfNextPlusOneExp, PerkFunction, PowderFunction, round} from '../../interfaces/functions';
-import {ColorizePipe} from '../../pipes/colorize.pipe';
+import {StatString} from './symbols';
+import {floorOfNextPlusOneExp, PerkFunction, PowderFunction} from '../../interfaces/functions';
 
 // ==================== The very base ====================
 // Basically is the smallest definable unit
@@ -73,34 +72,6 @@ export enum HotmNode {
   MINING_SPEED = "mining_speed",
 }
 
-export enum PerkState {
-  MAXED = 'diamond',
-  PROGRESSING = 'emerald',
-  LOCKED = 'coal'
-}
-
-export enum AbilityState {
-  UNLOCKED = 'emeraldblock',
-  LOCKED = 'coalblock',
-  CORE = 'redstoneblock' // Core of the mountain
-}
-
-export enum NodeState {
-  LOCKED = 'locked',
-  LOCKED_ABILITY = 'coalblock',
-  UNLOCKED_ABILITY = 'emeraldblock',
-  UNLOCKED_CORE = 'redstoneblock',
-  PROGRESSING = 'emerald',
-  MAXED = 'diamond'
-}
-// Differentiate between AbilityState and PerkState
-
-export interface Powder {
-  mithril: number,
-  gemstone: number,
-  glacite: number
-}
-
 // ==================== Static Perk Data ====================
 // hotm 1-3 is mithril, 4-7 is gemstone, 8-10 is glacite
 // y =  9-7             6-3              2-0
@@ -124,13 +95,6 @@ export enum PerkType {
   DYNAMIC = 'dynamic'
 }
 
-// ==================== Dynamic Perk Data ====================
-
-interface NodeState2 {
-  state: PerkState | AbilityState;
-  currentLevel?: number;
-}
-
 // ==================== Combined Perk Data ====================
 
 export interface TreeNodeConstants {
@@ -138,60 +102,6 @@ export interface TreeNodeConstants {
   position: Position,
   perk: Perk,
   type: PerkType
-}
-
-// ==================== Define datas here ====================
-
-// Data that is changed in the tree
-export interface TreeNodeDynamics {
-  id: HotmNode // id for mapping
-  data: NodeState2
-}
-
-export function initStateByType(type: PerkType): NodeState2 {
-  switch (type) {
-    case PerkType.ABILITY:
-      return {
-        state: AbilityState.LOCKED
-      };
-    case PerkType.DYNAMIC:
-      return {
-        state: PerkState.LOCKED,
-        currentLevel: 1
-      }
-    case PerkType.STATIC:
-      return {
-        state: PerkState.LOCKED
-      }
-  }
-}
-
-export function getDescriptionCalculated($const: TreeNodeConstants, $dyn: TreeNodeDynamics) {
-  const curr = $dyn.data.currentLevel as number
-  const desc = new ColorizePipe().transform($const.perk.description);
-
-  const func = $const.perk.perkFunc as PerkFunction
-  const c1 = round(func(curr).first).toString();
-  const c2 = round(func(curr).second).toString();
-  return desc.replace('#{1}', c1).replace('#{2}', c2);
-}
-
-export function getPowderAmount($const: TreeNodeConstants, $dyn: TreeNodeDynamics): string {
-  const curr = $dyn.data.currentLevel as number;
-  const powderFunc = $const.perk.powderFunc as PowderFunction
-
-  const y = $const.position.y
-  let pType: PowderString;
-  if (y >= 7 && y <= 9) {
-    pType = PowderString.MITHRIL;
-  } else if (y >= 3 && y <= 6) {
-    pType = PowderString.GEMSTONE;
-  } else {
-    pType = PowderString.GLACITE;
-  }
-
-  const amountFormatted = powderFunc(curr).toLocaleString('en-US');
-  return pType.replace('#{#}', amountFormatted);
 }
 
 // =================== Tree Constant Data ====================
