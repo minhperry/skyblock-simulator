@@ -23,7 +23,6 @@ import {BaseNode, HotmService} from './hotm.service';
         <span [innerHTML]="bodyHtml() | colorize | parse | safeHtml"></span>
       </div>
       <div class="flex justify-center mt-2">
-        <!-- TODO: Enforce requirement on open -->
         <p-button severity="primary" (onClick)="enforceOpenRequirement()">
           Open Perk
         </p-button>
