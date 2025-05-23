@@ -51,9 +51,56 @@
       <br/>
       <span>{{ hotmServ.maxAllowedTokens }} token(s) left</span>
       <div class="mt-2">
-        <p-button>
+        <p-button (onClick)="openDialog()">
           Log in
         </p-button>
+        <p-dialog header="Log in" [modal]="true" [(visible)]="dialogVisible" styleClass="mx-8 lg:w-6/12">
+          <div class="flex flex-col h-fit">
+            <!-- RAT warning -->
+            <div class="flex justify-center">
+              <p-message closable severity="warn"
+                         styleClass="w-full">
+                <i class="bi bi-exclamation-triangle text-yellow-400 text-xl mr-4"></i>
+                <div>
+                  <p>
+                    This form only requires your Minecraft username as well as your profile info. <br/>
+                    We would <span class="font-bold text-yellow-300">NEVER</span> need your email for any reason!
+                  </p>
+                  <p>
+                    See <a href="https://hypixel.net/threads/5231557/" target="_blank"
+                           class="font-semibold underline text-yellow-200">this Hypixel Forum</a> post to learn
+                    more about account security!
+                  </p>
+                </div>
+              </p-message>
+            </div>
+            <!-- Actual input form -->
+            <div class="flex flex-col gap-4 mt-6">
+              <!-- Username Row -->
+              <div class="flex items-center gap-2">
+                <label for="ign" class="w-32">Minecraft name:</label>
+                <input id="ign" type="text" pInputText [(ngModel)]="ign"
+                       class="flex-1 bg-gray-800 border border-gray-600 rounded px-2 py-1 text-white"
+                />
+                <p-button (onClick)="submitUsername()">Find profiles</p-button>
+              </div>
+
+              <!-- Profiles Row -->
+              <div class="flex items-center gap-2">
+                <label for="profiles" class="w-32">Profile:</label>
+                <p-select appendTo="body" id="profiles" [options]="profiles" [(ngModel)]="selectedProfile"
+                          optionLabel="displayName"
+                          class="flex-1 bg-gray-800 text-white" [disabled]="selectDisabled"
+                          styleClass="w-full bg-gray-800 text-white border border-gray-600 rounded"
+                ></p-select>
+              </div>
+              <div class="flex justify-end gap-2">
+                <p-button label="Cancel" severity="secondary" (onClick)="dialogVisible = false"/>
+                <p-button label="Load data"/>
+              </div>
+            </div>
+          </div>
+        </p-dialog>
       </div>
     </div>
   </div>
