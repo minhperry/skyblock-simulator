@@ -7,6 +7,8 @@ import {CardComponent} from './card.component';
 import {ColorizePipe} from '../../pipes/colorize.pipe';
 import {ParseMCPipe} from '../../pipes/parse-mc.pipe';
 import {SafeHtmlPipe} from 'primeng/menu';
+import {Button} from 'primeng/button';
+import {DialogService} from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'sb-hotm',
@@ -17,12 +19,16 @@ import {SafeHtmlPipe} from 'primeng/menu';
     CardComponent,
     ColorizePipe,
     ParseMCPipe,
-    SafeHtmlPipe
-  ]
+    SafeHtmlPipe,
+    Button
+  ],
+  providers: [DialogService]
 })
 export class HotmComponent {
   hotmServ = inject(HotmService);
   selectedPos: WritableSignal<Nullable<Position>> = signal(null)
+
+  dialogServ = inject(DialogService)
 
   // Click handlers
 
