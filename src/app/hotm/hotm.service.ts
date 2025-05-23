@@ -118,7 +118,12 @@ class AbilityNode extends BaseNode {
 
   override cssClass(): Signal<string> {
     return computed(() => {
-      return this.status() === Status.LOCKED ? 'coalblock' : 'emeraldblock';
+      return this.status() === Status.LOCKED
+        ? 'coalblock'
+        : (this.position.x === 3 && this.position.y === 5
+            ? 'redstoneblock'
+            : 'emeraldblock'
+        );
     })
   }
 
@@ -180,30 +185,33 @@ class LevelableNode extends BaseNode {
     this.status.set(Status.PROGRESSING)
   }
 
-  readonly formattedPowderString = computed(() => {
+  readonly powderAmount = computed(() => {
     const curr = this.currentLevel()
-    const neededPowder = this.powderFunction(curr)
+    return this.powderFunction(curr)
+  });
 
-    const y = this.position.y
-    let pString: PowderString
-    if (y >= 7 && y <= 9) {
-      pString = PowderString.MITHRIL;
-    } else if (y >= 3 && y <= 6) {
-      pString = PowderString.GEMSTONE;
-    } else {
-      pString = PowderString.GLACITE;
+  readonly totalPowderAmount = computed(() => {
+    const curr = this.currentLevel()
+    let total = 0
+    for (let i = 2; i <= curr; i++) {
+      total += this.powderFunction(i)
     }
-
-    return pString.replace('#{#}', neededPowder.toLocaleString())
+    return total
   })
 
   readonly formattedDescription = computed(() => {
     const curr = this.currentLevel()
     const numTup = this.perkFunction(curr)
 
-    const num1 = Math.floor(numTup.first).toLocaleString()
-    const num2 = Math.floor(numTup.second).toLocaleString()
+    const num1 = LevelableNode.formatNumberLocale(numTup.first)
+    const num2 = LevelableNode.formatNumberLocale(numTup.second)
     return this.description.replace('#{1}', num1).replace('#{2}', num2);
   })
 
+  private static formatNumberLocale(num: number): string {
+    return num.toLocaleString(undefined, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    });
+  }
 }
