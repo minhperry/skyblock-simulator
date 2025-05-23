@@ -358,9 +358,9 @@ export const HotmTreeData: TreeNodeConstants[] = [
   {
     id: HotmNode.SPECIAL_0,
     perk: {
-      name: 'Peak of the Mountain',
+      name: 'Core of the Mountain',
       description: '%GRAY%Grants multiple perks. See wiki for more details, I can\'t be asked to write all with formatting. ' +
-        'Plus it isn\'t levelable here anyways.',
+        'Plus it isn\'t levelable here anyways. Also opened by default, and should not matter whether you opened it ingame or not.',
       requires: []
     },
     position: {x: 3, y: 5},
