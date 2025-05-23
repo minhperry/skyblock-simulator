@@ -460,7 +460,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
     id: HotmNode.POWDER_BUFF,
     perk: {
       name: 'Powder Buff',
-      description: `%GRAY%Grants %GREEN%+#{1}% %GRAY%from any sources.`,
+      description: `%GRAY%Grants %GREEN%+#{1}% %GRAY% more Powder from any sources.`,
       maxLevel: 50,
       perkFunc: l => ({first: l, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.2),
