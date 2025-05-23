@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit {
           {separator: true},
           {label: 'Moocow vs Elephant', routerLink: '/cowvsele'},
           {separator: true},
-          {label: 'Heart of the Mountain', routerLink: '/hotm', disabled: true}
+          {label: 'Heart of the Mountain', routerLink: '/hotm'}
         ]
       },
       {

@@ -12,6 +12,9 @@ enum StatSymbol {
   CRIT_DAMAGE = '☠',
   DEFENSE = '❈',
   HEALTH = '❤',
+  WISDOM = '☯',
+  FISHING_SPEED = '☂',
+  SEA_CREATURE_CHANCE = 'α',
 }
 
 export enum StatString {
@@ -29,6 +32,17 @@ export enum StatString {
   BLOCK_FORTUNE = `${StatSymbol.FORTUNE} Block Fortune`,
   DWARVEN_METAL_FORTUNE = `${StatSymbol.FORTUNE} Dwarven Metal Fortune`,
   GEMSTONE_FORTUNE = `${StatSymbol.FORTUNE} Gemstone Fortune`,
+
+  // Wisdom
+  MINING_WISDOM = `${StatSymbol.WISDOM} Mining Wisdom`,
+
+  // Fishing
+  FISHING_SPEED = `${StatSymbol.FISHING_SPEED} Fishing Speed`,
+  SEA_CREATURE_CHANCE = `${StatSymbol.SEA_CREATURE_CHANCE} Sea Creature Chance`,
+
+  // Resistance
+  HEAT_RESISTANCE = `${StatSymbol.HEAT_RES} Heat Resistance`,
+  COLD_RESISTANCE = `${StatSymbol.COLD_RES} Cold Resistance`,
 
   // Combat stats
   STRENGTH = `${StatSymbol.STRENGTH} Strength`,
