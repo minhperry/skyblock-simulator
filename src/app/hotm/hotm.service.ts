@@ -1,5 +1,5 @@
 import {computed, effect, Injectable, Signal, signal, WritableSignal} from '@angular/core';
-import {HotmNode, HotmTreeData, PerkType, Position, Status} from './hotmData';
+import {HotmNode, HotmTreeData, PerkType, Position, PowderType, Status} from './hotmData';
 import {PerkFunction, PowderFunction} from '../../interfaces/functions';
 
 @Injectable({
@@ -46,6 +46,30 @@ export class HotmService {
       }
     }
   }
+
+  maxAllowedTokens = 25;
+  totalPowder = computed(() => {
+    const total = {mithril: 0, gemstone: 0, glacite: 0}
+    for (const inner of this.grid) {
+      for (const innerer of inner) {
+        if (innerer instanceof LevelableNode) {
+          const powder = innerer.totalPowderAmount()
+          switch (innerer.powderType) {
+            case PowderType.MITHRIL:
+              total.mithril += powder
+              break;
+            case PowderType.GEMSTONE:
+              total.gemstone += powder
+              break;
+            case PowderType.GLACITE:
+              total.glacite += powder
+              break;
+          }
+        }
+      }
+    }
+    return total
+  })
 
   getOpenIds(): HotmNode[] {
     return this.grid
@@ -112,7 +136,9 @@ class AbilityNode extends BaseNode {
     position: Position,
     reqs: HotmNode[]
   ) {
-    super(id, name, description, position, signal(Status.LOCKED), reqs);
+    // Open Core by default
+    if (id === HotmNode.SPECIAL_0) super(id, name, description, position, signal(Status.UNLOCKED), reqs);
+    else super(id, name, description, position, signal(Status.LOCKED), reqs);
   }
 
   override cssClass(): Signal<string> {
@@ -138,6 +164,7 @@ class LevelableNode extends BaseNode {
   private readonly powderFunction: PowderFunction = (() => 0)
   currentLevel: WritableSignal<number> = signal(1)
   readonly maxLevel: number;
+  readonly powderType: PowderType
 
   constructor(
     id: HotmNode,
@@ -153,6 +180,9 @@ class LevelableNode extends BaseNode {
     this.perkFunction = perkFunction;
     this.powderFunction = powderFunction;
     this.maxLevel = maxLevel;
+
+    const y = position.y
+    this.powderType = y >= 7 && y <= 9 ? PowderType.MITHRIL : y >= 3 && y <= 6 ? PowderType.GEMSTONE : PowderType.GLACITE;
 
     // Change icon on level change
     effect(() => {

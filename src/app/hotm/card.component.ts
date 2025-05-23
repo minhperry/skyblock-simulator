@@ -55,11 +55,11 @@ import {FormsModule} from '@angular/forms';
             <div class="flex flex-col items-center w-full">
               <div class="mb-2">
                 Cost: <span
-                      [innerHTML]="formattedPowderString(levInst.powderAmount, levInst.position.y) | colorize | parse | safeHtml"></span>
+                      [innerHTML]="formattedPowderString(levInst.powderAmount, levInst.powderType) | colorize | parse | safeHtml"></span>
               </div>
               <div class="mb-2">
                 Total: <span
-                      [innerHTML]="formattedPowderString(levInst.totalPowderAmount, levInst.position.y) | colorize | parse | safeHtml"></span>
+                      [innerHTML]="formattedPowderString(levInst.totalPowderAmount, levInst.powderType) | colorize | parse | safeHtml"></span>
               </div>
               <p-slider [(ngModel)]="levInst.currentLevel" [min]="1" [max]="levInst.maxLevel" [step]="1"
                         class="mx-4 my-2 w-full"/>
@@ -81,8 +81,12 @@ export class CardComponent {
 
   enforceOpenRequirement() {
     const reqs = this.instance().requires;
+    // Open if no requirements or if one of the requirements is unlocked
     if (reqs.length === 0 || reqs.some(req => this.hotmServ.getOpenIds().includes(req))) {
-      this.instance().onNodeOpened()
+      if (this.hotmServ.maxAllowedTokens > 0) {
+        this.hotmServ.maxAllowedTokens--;
+        this.instance().onNodeOpened()
+      }
     } else {
       this.msgServ.add({
         severity: 'error',
