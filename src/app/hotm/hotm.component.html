@@ -42,8 +42,14 @@
         }
       </div>
     </div>
-    <div class="h-[50%] flex justify-center items-center">
-      Total: ddd
+    <div class="h-[50%] flex justify-center items-center flex-col">
+      <span class="font-semibold text-xl">Total</span>
+      @let total = hotmServ.totalPowder();
+      <span [innerHTML]="formattedPowderString(total.mithril, PowderType.MITHRIL) | colorize | parse | safeHtml"></span>
+      <span [innerHTML]="formattedPowderString(total.gemstone, PowderType.GEMSTONE) | colorize | parse | safeHtml"></span>
+      <span [innerHTML]="formattedPowderString(total.glacite, PowderType.GLACITE) | colorize | parse | safeHtml"></span>
+      <br/>
+      <span>Allowed tokens: {{ hotmServ.maxAllowedTokens }}</span>
     </div>
   </div>
 </div>

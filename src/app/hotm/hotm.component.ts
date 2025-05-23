@@ -1,9 +1,12 @@
 import {Component, inject, signal, WritableSignal} from '@angular/core';
-import {Position} from './hotmData';
+import {formattedPowderString, Position, PowderType} from './hotmData';
 import {Nullable} from '../../interfaces/types';
 import {NgClass} from '@angular/common';
 import {HotmService} from './hotm.service';
 import {CardComponent} from './card.component';
+import {ColorizePipe} from '../../pipes/colorize.pipe';
+import {ParseMCPipe} from '../../pipes/parse-mc.pipe';
+import {SafeHtmlPipe} from 'primeng/menu';
 
 @Component({
   selector: 'sb-hotm',
@@ -11,7 +14,10 @@ import {CardComponent} from './card.component';
   styleUrl: './hotm.component.scss',
   imports: [
     NgClass,
-    CardComponent
+    CardComponent,
+    ColorizePipe,
+    ParseMCPipe,
+    SafeHtmlPipe
   ]
 })
 export class HotmComponent {
@@ -23,4 +29,7 @@ export class HotmComponent {
   onCellClick(x: number, y: number) {
     this.selectedPos.set({x, y});
   }
+
+  protected readonly formattedPowderString = formattedPowderString;
+  protected readonly PowderType = PowderType;
 }
