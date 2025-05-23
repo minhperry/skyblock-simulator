@@ -1,7 +1,6 @@
 import {computed, effect, Injectable, Signal, signal, WritableSignal} from '@angular/core';
 import {HotmNode, HotmTreeData, PerkType, Position, Status} from './hotmData';
 import {PerkFunction, PowderFunction} from '../../interfaces/functions';
-import {PowderString} from './symbols';
 
 @Injectable({
   providedIn: 'root'
