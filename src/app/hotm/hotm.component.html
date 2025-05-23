@@ -18,27 +18,32 @@
     }
   </div>
   <!-- Right panel: the picker -->
-  <div class="container flex justify-center">
-    <div class="my-auto tooltip-mc">
-      @if (selectedPos()) {
-        @let pos = selectedPos()!;
-        @let selectedNode = hotmServ.grid[pos.y][pos.x];
-        @switch (selectedNode.type) {
-          @case ('ability') {
-            <sb-hotm-card [instance]="selectedNode" [isLevelable]="false"/>
+  <div class="container flex justify-center flex-row lg:flex-col max-lg:mt-4">
+    <div id="tooltip-box" class="h-[50%] flex justify-center items-center">
+      <div class="tooltip-mc">
+        @if (selectedPos()) {
+          @let pos = selectedPos()!;
+          @let selectedNode = hotmServ.grid[pos.y][pos.x];
+          @switch (selectedNode.type) {
+            @case ('ability') {
+              <sb-hotm-card [instance]="selectedNode" [isLevelable]="false"/>
+            }
+            @case ('static') {
+              <sb-hotm-card [instance]="selectedNode" [isLevelable]="false"/>
+            }
+            @case ('levelable') {
+              <sb-hotm-card [instance]="selectedNode" [isLevelable]="true"/>
+            }
           }
-          @case ('static') {
-            <sb-hotm-card [instance]="selectedNode" [isLevelable]="false"/>
-          }
-          @case ('levelable') {
-            <sb-hotm-card [instance]="selectedNode" [isLevelable]="true"/>
-          }
+        } @else {
+          <div class="flex flex-col justify-center items-center">
+            <span class="mc gray">Select a perk to see its description!</span>
+          </div>
         }
-      } @else {
-        <div class="flex flex-col justify-center items-center">
-          <span class="mc gray">Select a perk to see its description!</span>
-        </div>
-      }
+      </div>
+    </div>
+    <div class="h-[50%] flex justify-center items-center">
+      Total: ddd
     </div>
   </div>
 </div>
