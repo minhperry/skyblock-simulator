@@ -1,4 +1,4 @@
-<div class="flex justify-center flex-col lg:flex-row container mx-auto">
+<div class="flex justify-center flex-col lg:flex-row container mx-auto pb-4 select-none">
   <!-- Left panel: the grid -->
   <div class="inventory-view container">
     @for (row of hotmServ.grid; let rwIdx = $index; track rwIdx) {
@@ -18,9 +18,9 @@
     }
   </div>
   <!-- Right panel: the picker -->
-  <div class="container flex justify-center flex-row lg:flex-col max-lg:mt-4">
+  <div class="container flex justify-center flex-col max-lg:flex-col-reverse max-lg:mt-4 gap-3">
     <div id="tooltip-box" class="h-[50%] flex justify-center items-center">
-      <div class="tooltip-mc">
+      <div class="tooltip-mc px-3">
         @if (selectedPos()) {
           @let pos = selectedPos()!;
           @let selectedNode = hotmServ.grid[pos.y][pos.x];
