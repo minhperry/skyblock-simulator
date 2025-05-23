@@ -68,7 +68,7 @@ import {FormsModule} from '@angular/forms';
         }
       </div>
     </div>
-    <p-toast/>
+    <p-toast [breakpoints]="{'920px': { width: '90%', right: '-5%', left: '5%', }}"></p-toast>
   `,
   providers: [MessageService],
 })
