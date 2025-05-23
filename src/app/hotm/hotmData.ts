@@ -1,5 +1,6 @@
-import {StatString} from './symbols';
+import {PowderString, StatString} from './symbols';
 import {floorOfNextPlusOneExp, PerkFunction, PowderFunction} from '../../interfaces/functions';
+import {Signal} from '@angular/core';
 
 // ==================== The very base ====================
 // Basically is the smallest definable unit
@@ -104,11 +105,27 @@ export interface TreeNodeConstants {
   type: PerkType
 }
 
-// =================== Tree Constant Data ====================
+// =================== Helper functions ====================
 
 export function getNameById(id: HotmNode): string {
   return HotmTreeData.find(node => node.id === id)?.perk.name ?? '';
 }
+
+export function formattedPowderString(inputSignal: Signal<number>, posY: number) {
+  const y = posY
+  let pString: PowderString
+  if (y >= 7 && y <= 9) {
+    pString = PowderString.MITHRIL;
+  } else if (y >= 3 && y <= 6) {
+    pString = PowderString.GEMSTONE;
+  } else {
+    pString = PowderString.GLACITE;
+  }
+
+  return pString.replace('#{#}', inputSignal().toLocaleString())
+}
+
+// =================== Tree Constant Data ====================
 
 // #{1}, #{2} for the numbers
 export const HotmTreeData: TreeNodeConstants[] = [
@@ -380,7 +397,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
     id: HotmNode.SUBTERRANEAN_FISHER,
     perk: {
       name: 'Subterranean Fisher',
-      description: `%GRAY%Grants %AQUA%+#{1} ${StatString.FISHING_SPEED} %GRAY%and %CYAN%+#{2} ${StatString.SEA_CREATURE_CHANCE} %GRAY%\n` +
+      description: `%GRAY%Grants %AQUA%+#{1} ${StatString.FISHING_SPEED} %GRAY%and %CYAN%+#{2} ${StatString.SEA_CREATURE_CHANCE} %GRAY%` +
         'when in %DPURPLE%Crystal Hollows %GRAY%and %AQUA%Glacite Tunnels%GRAY%.',
       maxLevel: 40,
       perkFunc: l => ({first: 5 + l * 0.5, second: 1 + l * 0.1}),
@@ -497,7 +514,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
     id: HotmNode.NO_STONE_UNTURNED,
     perk: {
       name: 'No Stone Unturned',
-      description: `%GRAY%Increases %BLUE%Suspicious Scrap %GRAY%chance by %GREEN%#{1} in %AQUA%Glacite Mineshafts %GRAY%.`,
+      description: `%GRAY%Increases %BLUE%Suspicious Scrap %GRAY%chance by %GREEN%#{1}% %GRAY%in %AQUA%Glacite Mineshafts%GRAY%.`,
       maxLevel: 50,
       perkFunc: l => ({first: l * 0.5, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.05),
@@ -640,7 +657,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
     id: HotmNode.GIFTS_FROM_THE_DEPARTED,
     perk: {
       name: 'Gifts from the Departed',
-      description: `%GRAY%Gain a %GREEN%0.2% %GRAY%chance to get an extra item when looting a %AQUA%Frozen Corpse%GRAY%.`,
+      description: `%GRAY%Gain a %GREEN%#{1}% %GRAY%chance to get an extra item when looting a %AQUA%Frozen Corpse%GRAY%.`,
       maxLevel: 100,
       perkFunc: l => ({first: 0.2 * l, second: 0}),
       powderFunc: floorOfNextPlusOneExp(2.45),
