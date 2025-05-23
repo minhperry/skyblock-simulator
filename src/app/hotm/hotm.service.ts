@@ -1,4 +1,4 @@
-import {computed, Injectable, Signal, signal, WritableSignal} from '@angular/core';
+import {computed, effect, Injectable, Signal, signal, WritableSignal} from '@angular/core';
 import {HotmNode, HotmTreeData, PerkType, Position, Status} from './hotmData';
 import {PerkFunction, PowderFunction} from '../../interfaces/functions';
 import {PowderString} from './symbols';
@@ -149,6 +149,16 @@ class LevelableNode extends BaseNode {
     this.perkFunction = perkFunction;
     this.powderFunction = powderFunction;
     this.maxLevel = maxLevel;
+
+    // Change icon on level change
+    effect(() => {
+      const curr = this.currentLevel()
+      if (curr >= this.maxLevel) {
+        this.status.set(Status.MAXED)
+      } else if (curr > 1 && curr < this.maxLevel) {
+        this.status.set(Status.PROGRESSING)
+      }
+    });
   }
 
   override cssClass(): Signal<string> {
@@ -168,12 +178,6 @@ class LevelableNode extends BaseNode {
 
   override onNodeOpened(): void {
     this.status.set(Status.PROGRESSING)
-  }
-
-  updateLevel(delta: number) {
-    this.currentLevel.update(
-      (prev) => Math.min(this.maxLevel, Math.max(1, prev + delta))
-    )
   }
 
   readonly formattedPowderString = computed(() => {
