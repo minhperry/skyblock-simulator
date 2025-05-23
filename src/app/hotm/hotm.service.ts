@@ -1,7 +1,6 @@
-import {computed, Injectable, Signal, signal, WritableSignal} from '@angular/core';
-import {HotmNode, HotmTreeData, PerkType, Position, Status} from './hotmData';
+import {computed, effect, Injectable, Signal, signal, WritableSignal} from '@angular/core';
+import {HotmNode, HotmTreeData, PerkType, Position, PowderType, Status} from './hotmData';
 import {PerkFunction, PowderFunction} from '../../interfaces/functions';
-import {PowderString} from './symbols';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +46,30 @@ export class HotmService {
       }
     }
   }
+
+  maxAllowedTokens = 25;
+  totalPowder = computed(() => {
+    const total = {mithril: 0, gemstone: 0, glacite: 0}
+    for (const inner of this.grid) {
+      for (const innerer of inner) {
+        if (innerer instanceof LevelableNode) {
+          const powder = innerer.totalPowderAmount()
+          switch (innerer.powderType) {
+            case PowderType.MITHRIL:
+              total.mithril += powder
+              break;
+            case PowderType.GEMSTONE:
+              total.gemstone += powder
+              break;
+            case PowderType.GLACITE:
+              total.glacite += powder
+              break;
+          }
+        }
+      }
+    }
+    return total
+  })
 
   getOpenIds(): HotmNode[] {
     return this.grid
@@ -113,12 +136,19 @@ class AbilityNode extends BaseNode {
     position: Position,
     reqs: HotmNode[]
   ) {
-    super(id, name, description, position, signal(Status.LOCKED), reqs);
+    // Open Core by default
+    if (id === HotmNode.SPECIAL_0) super(id, name, description, position, signal(Status.UNLOCKED), reqs);
+    else super(id, name, description, position, signal(Status.LOCKED), reqs);
   }
 
   override cssClass(): Signal<string> {
     return computed(() => {
-      return this.status() === Status.LOCKED ? 'coalblock' : 'emeraldblock';
+      return this.status() === Status.LOCKED
+        ? 'coalblock'
+        : (this.position.x === 3 && this.position.y === 5
+            ? 'redstoneblock'
+            : 'emeraldblock'
+        );
     })
   }
 
@@ -134,6 +164,7 @@ class LevelableNode extends BaseNode {
   private readonly powderFunction: PowderFunction = (() => 0)
   currentLevel: WritableSignal<number> = signal(1)
   readonly maxLevel: number;
+  readonly powderType: PowderType
 
   constructor(
     id: HotmNode,
@@ -149,6 +180,19 @@ class LevelableNode extends BaseNode {
     this.perkFunction = perkFunction;
     this.powderFunction = powderFunction;
     this.maxLevel = maxLevel;
+
+    const y = position.y
+    this.powderType = y >= 7 && y <= 9 ? PowderType.MITHRIL : y >= 3 && y <= 6 ? PowderType.GEMSTONE : PowderType.GLACITE;
+
+    // Change icon on level change
+    effect(() => {
+      const curr = this.currentLevel()
+      if (curr >= this.maxLevel) {
+        this.status.set(Status.MAXED)
+      } else if (curr > 1 && curr < this.maxLevel) {
+        this.status.set(Status.PROGRESSING)
+      }
+    });
   }
 
   override cssClass(): Signal<string> {
@@ -170,36 +214,33 @@ class LevelableNode extends BaseNode {
     this.status.set(Status.PROGRESSING)
   }
 
-  updateLevel(delta: number) {
-    this.currentLevel.update(
-      (prev) => Math.min(this.maxLevel, Math.max(1, prev + delta))
-    )
-  }
-
-  readonly formattedPowderString = computed(() => {
+  readonly powderAmount = computed(() => {
     const curr = this.currentLevel()
-    const neededPowder = this.powderFunction(curr)
+    return this.powderFunction(curr)
+  });
 
-    const y = this.position.y
-    let pString: PowderString
-    if (y >= 7 && y <= 9) {
-      pString = PowderString.MITHRIL;
-    } else if (y >= 3 && y <= 6) {
-      pString = PowderString.GEMSTONE;
-    } else {
-      pString = PowderString.GLACITE;
+  readonly totalPowderAmount = computed(() => {
+    const curr = this.currentLevel()
+    let total = 0
+    for (let i = 2; i <= curr; i++) {
+      total += this.powderFunction(i)
     }
-
-    return pString.replace('#{#}', neededPowder.toLocaleString())
+    return total
   })
 
   readonly formattedDescription = computed(() => {
     const curr = this.currentLevel()
     const numTup = this.perkFunction(curr)
 
-    const num1 = Math.floor(numTup.first).toLocaleString()
-    const num2 = Math.floor(numTup.second).toLocaleString()
+    const num1 = LevelableNode.formatNumberLocale(numTup.first)
+    const num2 = LevelableNode.formatNumberLocale(numTup.second)
     return this.description.replace('#{1}', num1).replace('#{2}', num2);
   })
 
+  private static formatNumberLocale(num: number): string {
+    return num.toLocaleString(undefined, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    });
+  }
 }

@@ -1,5 +1,6 @@
-import {StatString} from './symbols';
+import {PowderString, StatString} from './symbols';
 import {floorOfNextPlusOneExp, PerkFunction, PowderFunction} from '../../interfaces/functions';
+import {Signal} from '@angular/core';
 
 // ==================== The very base ====================
 // Basically is the smallest definable unit
@@ -72,7 +73,7 @@ export enum HotmNode {
   MINING_SPEED = "mining_speed",
 }
 
-// ==================== Static Perk Data ====================
+// ==================== Perk Data ====================
 // hotm 1-3 is mithril, 4-7 is gemstone, 8-10 is glacite
 // y =  9-7             6-3              2-0
 export interface Perk {
@@ -95,8 +96,6 @@ export enum PerkType {
   DYNAMIC = 'dynamic'
 }
 
-// ==================== Combined Perk Data ====================
-
 export interface TreeNodeConstants {
   id: HotmNode,
   position: Position,
@@ -104,11 +103,36 @@ export interface TreeNodeConstants {
   type: PerkType
 }
 
-// =================== Tree Constant Data ====================
+export enum PowderType {
+  MITHRIL = 'mithril',
+  GEMSTONE = 'gemstone',
+  GLACITE = 'glacite'
+}
+
+// =================== Helper functions ====================
 
 export function getNameById(id: HotmNode): string {
   return HotmTreeData.find(node => node.id === id)?.perk.name ?? '';
 }
+
+export function formattedPowderString(input: Signal<number> | number, type: PowderType) {
+  let pString: string
+  switch (type) {
+    case PowderType.MITHRIL:
+      pString = PowderString.MITHRIL
+      break
+    case PowderType.GEMSTONE:
+      pString = PowderString.GEMSTONE
+      break
+    case PowderType.GLACITE:
+      pString = PowderString.GLACITE
+      break
+  }
+  if (typeof input === 'number') return pString.replace('#{#}', input.toLocaleString())
+  return pString.replace('#{#}', input().toLocaleString())
+}
+
+// =================== Tree Constant Data ====================
 
 // #{1}, #{2} for the numbers
 export const HotmTreeData: TreeNodeConstants[] = [
@@ -334,9 +358,9 @@ export const HotmTreeData: TreeNodeConstants[] = [
   {
     id: HotmNode.SPECIAL_0,
     perk: {
-      name: 'Peak of the Mountain',
+      name: 'Core of the Mountain',
       description: '%GRAY%Grants multiple perks. See wiki for more details, I can\'t be asked to write all with formatting. ' +
-        'Plus it isn\'t levelable here anyways.',
+        'Plus it isn\'t levelable here anyways. Also opened by default, and should not matter whether you opened it ingame or not.',
       requires: []
     },
     position: {x: 3, y: 5},
@@ -380,7 +404,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
     id: HotmNode.SUBTERRANEAN_FISHER,
     perk: {
       name: 'Subterranean Fisher',
-      description: `%GRAY%Grants %AQUA%+#{1} ${StatString.FISHING_SPEED} %GRAY%and %CYAN%+#{2} ${StatString.SEA_CREATURE_CHANCE} %GRAY%\n` +
+      description: `%GRAY%Grants %AQUA%+#{1} ${StatString.FISHING_SPEED} %GRAY%and %CYAN%+#{2} ${StatString.SEA_CREATURE_CHANCE} %GRAY%` +
         'when in %DPURPLE%Crystal Hollows %GRAY%and %AQUA%Glacite Tunnels%GRAY%.',
       maxLevel: 40,
       perkFunc: l => ({first: 5 + l * 0.5, second: 1 + l * 0.1}),
@@ -398,7 +422,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
       maxLevel: 50,
       perkFunc: l => ({first: l * 0.4, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.07),
-      requires: [HotmNode.MOLE, HotmNode.POWDER_BUFF]
+      requires: [HotmNode.MOLE, HotmNode.POWDER_BUFF, HotmNode.LONESOME_MINER]
     },
     position: {x: 3, y: 4},
     type: PerkType.DYNAMIC
@@ -460,7 +484,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
     id: HotmNode.POWDER_BUFF,
     perk: {
       name: 'Powder Buff',
-      description: `%GRAY%Grants %GREEN%+#{1}% %GRAY%from any sources.`,
+      description: `%GRAY%Grants %GREEN%+#{1}% %GRAY% more Powder from any sources.`,
       maxLevel: 50,
       perkFunc: l => ({first: l, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.2),
@@ -497,7 +521,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
     id: HotmNode.NO_STONE_UNTURNED,
     perk: {
       name: 'No Stone Unturned',
-      description: `%GRAY%Increases %BLUE%Suspicious Scrap %GRAY%chance by %GREEN%#{1} in %AQUA%Glacite Mineshafts %GRAY%.`,
+      description: `%GRAY%Increases %BLUE%Suspicious Scrap %GRAY%chance by %GREEN%#{1}% %GRAY%in %AQUA%Glacite Mineshafts%GRAY%.`,
       maxLevel: 50,
       perkFunc: l => ({first: l * 0.5, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.05),
@@ -640,7 +664,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
     id: HotmNode.GIFTS_FROM_THE_DEPARTED,
     perk: {
       name: 'Gifts from the Departed',
-      description: `%GRAY%Gain a %GREEN%0.2% %GRAY%chance to get an extra item when looting a %AQUA%Frozen Corpse%GRAY%.`,
+      description: `%GRAY%Gain a %GREEN%#{1}% %GRAY%chance to get an extra item when looting a %AQUA%Frozen Corpse%GRAY%.`,
       maxLevel: 100,
       perkFunc: l => ({first: 0.2 * l, second: 0}),
       powderFunc: floorOfNextPlusOneExp(2.45),
