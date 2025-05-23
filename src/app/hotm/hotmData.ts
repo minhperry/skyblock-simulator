@@ -398,7 +398,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
       maxLevel: 50,
       perkFunc: l => ({first: l * 0.4, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.07),
-      requires: [HotmNode.MOLE, HotmNode.POWDER_BUFF]
+      requires: [HotmNode.MOLE, HotmNode.POWDER_BUFF, HotmNode.LONESOME_MINER]
     },
     position: {x: 3, y: 4},
     type: PerkType.DYNAMIC
