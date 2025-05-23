@@ -73,7 +73,7 @@ export enum HotmNode {
   MINING_SPEED = "mining_speed",
 }
 
-// ==================== Static Perk Data ====================
+// ==================== Perk Data ====================
 // hotm 1-3 is mithril, 4-7 is gemstone, 8-10 is glacite
 // y =  9-7             6-3              2-0
 export interface Perk {
@@ -96,13 +96,17 @@ export enum PerkType {
   DYNAMIC = 'dynamic'
 }
 
-// ==================== Combined Perk Data ====================
-
 export interface TreeNodeConstants {
   id: HotmNode,
   position: Position,
   perk: Perk,
   type: PerkType
+}
+
+export enum PowderType {
+  MITHRIL = 'mithril',
+  GEMSTONE = 'gemstone',
+  GLACITE = 'glacite'
 }
 
 // =================== Helper functions ====================
@@ -111,18 +115,21 @@ export function getNameById(id: HotmNode): string {
   return HotmTreeData.find(node => node.id === id)?.perk.name ?? '';
 }
 
-export function formattedPowderString(inputSignal: Signal<number>, posY: number) {
-  const y = posY
-  let pString: PowderString
-  if (y >= 7 && y <= 9) {
-    pString = PowderString.MITHRIL;
-  } else if (y >= 3 && y <= 6) {
-    pString = PowderString.GEMSTONE;
-  } else {
-    pString = PowderString.GLACITE;
+export function formattedPowderString(input: Signal<number> | number, type: PowderType) {
+  let pString: string
+  switch (type) {
+    case PowderType.MITHRIL:
+      pString = PowderString.MITHRIL
+      break
+    case PowderType.GEMSTONE:
+      pString = PowderString.GEMSTONE
+      break
+    case PowderType.GLACITE:
+      pString = PowderString.GLACITE
+      break
   }
-
-  return pString.replace('#{#}', inputSignal().toLocaleString())
+  if (typeof input === 'number') return pString.replace('#{#}', input.toLocaleString())
+  return pString.replace('#{#}', input().toLocaleString())
 }
 
 // =================== Tree Constant Data ====================
