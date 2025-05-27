@@ -1,18 +1,10 @@
 import {Component, inject, signal, WritableSignal} from '@angular/core';
-import {formattedPowderString, Position, PowderType} from './hotmData';
+import {formattedPowderNumber, Position, PowderType} from './hotmData';
 import {Nullable} from '../../interfaces/types';
 import {NgClass} from '@angular/common';
 import {HotmService} from './hotm.service';
 import {CardComponent} from './card.component';
-import {ColorizePipe} from '../../pipes/colorize.pipe';
-import {ParseMCPipe} from '../../pipes/parse-mc.pipe';
-import {SafeHtmlPipe} from 'primeng/menu';
-import {Button} from 'primeng/button';
 import {DialogService} from 'primeng/dynamicdialog';
-import {Dialog} from 'primeng/dialog';
-import {InputText} from 'primeng/inputtext';
-import {Message} from 'primeng/message';
-import {Select} from 'primeng/select';
 import {FormsModule} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment.development';
@@ -24,14 +16,6 @@ import {environment} from '../../environments/environment.development';
   imports: [
     NgClass,
     CardComponent,
-    ColorizePipe,
-    ParseMCPipe,
-    SafeHtmlPipe,
-    Button,
-    Dialog,
-    InputText,
-    Message,
-    Select,
     FormsModule
   ],
   providers: [DialogService]
@@ -79,7 +63,7 @@ export class HotmComponent {
     })
   }
 
-  protected readonly formattedPowderString = formattedPowderString;
+  protected readonly format = formattedPowderNumber;
   protected readonly PowderType = PowderType;
 }
 

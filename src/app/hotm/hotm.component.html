@@ -1,4 +1,4 @@
-<div class="flex justify-center flex-col lg:flex-row container mx-auto pb-4 select-none">
+<div class="flex justify-center flex-col lg:flex-row container mx-auto pb-4 select-none px-[3%]">
   <!-- Left panel: the grid -->
   <div class="inventory-view container">
     @for (row of hotmServ.grid; let rwIdx = $index; track rwIdx) {
@@ -18,12 +18,14 @@
     }
   </div>
   <!-- Right panel: the picker -->
-  <div class="container flex justify-center flex-col max-lg:flex-col-reverse max-lg:mt-4 gap-3">
-    <div id="tooltip-box" class="h-[50%] flex justify-center items-center">
-      <div class="tooltip-mc px-3">
-        @if (selectedPos()) {
-          @let pos = selectedPos()!;
-          @let selectedNode = hotmServ.grid[pos.y][pos.x];
+  <div class="container flex justify-center flex-col max-lg:mt-4 gap-3">
+    <!-- Tooltip box -->
+    <div id="tooltip-box"
+         class="w-full  bg-gray-800/40 p-3 rounded-md border min-h-[250px] flex flex-col items-center justify-center border-gray-500">
+      @if (selectedPos()) {
+        @let pos = selectedPos()!;
+        @let selectedNode = hotmServ.grid[pos.y][pos.x];
+        <div class="w-full">
           @switch (selectedNode.type) {
             @case ('ability') {
               <sb-hotm-card [instance]="selectedNode" [isLevelable]="false"/>
@@ -35,29 +37,120 @@
               <sb-hotm-card [instance]="selectedNode" [isLevelable]="true"/>
             }
           }
-        } @else {
-          <div class="flex flex-col justify-center items-center">
-            <span class="mc gray">Select a perk to see its description!</span>
+        </div>
+      } @else {
+        <div class="flex flex-col justify-center items-center">
+          <span class="mc gray">Select a perk to see its description!</span>
+        </div>
+      }
+    </div>
+
+    <!-- Powder and Tools panel -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Powder panel -->
+      @let total = hotmServ.totalPowder();
+      <div class="bg-gray-800/40 p-5 rounded-md !border-gray-500 border">
+        <h2 class="text-xl font-bold text-emerald-400 mb-4">Powders</h2>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 rounded-lg border border-[#00AA00]/60 bg-white/10 backdrop-blur-md">
+            <span class="text-[#00AA00] font-semibold">Mithril</span>
+            <span class="text-[#00AA00] font-bold">{{ format(total.mithril) }}</span>
           </div>
-        }
+          <div class="flex items-center justify-between p-3 rounded-lg border border-[#FF55FF]/60 bg-white/10 backdrop-blur-md">
+            <span class="text-[#FF55FF] font-semibold">Gemstone</span>
+            <span class="text-[#FF55FF] font-bold">{{ format(total.gemstone) }}</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-lg border border-[#55FFFF]/60 bg-white/10 backdrop-blur-md">
+            <span class="text-[#55FFFF] font-semibold">Glacite</span>
+            <span class="text-[#55FFFF] font-bold">{{ format(total.glacite) }}</span>
+          </div>
+        </div>
+        <div class="my-4 border-t border-gray-600"></div>
+        <div class="flex flex-col items-center justify-center p-4 rounded-lg bg-indigo-700">
+          <span class="text-gray-200 text-lg font-bold tracking-wide">{{ hotmServ.maxAllowedTokens }}</span>
+          <span class="text-gray-200 font-semibold text-sm">Tokens left</span>
+        </div>
+      </div>
+
+      <!-- Tools panel -->
+      <div class="bg-gray-800/40 p-6 rounded-md !border-gray-500 border">
+        <h2 class="text-xl font-bold text-sky-300 mb-4">Tools</h2>
+        <div class="mb-6 flex flex-col md:flex-row gap-3 justify-center items-center">
+          <button class="w-full md:w-auto flex-1 h-12 bg-gray-700 hover:bg-blue-400 hover:text-gray-900 rounded-lg text-center font-semibold border border-blue-400 text-blue-300 transition-colors flex items-center justify-center">
+            Free Mode
+          </button>
+          <button class="w-full md:w-auto flex-1 h-12 bg-gray-700 hover:bg-pink-300 hover:text-gray-900 border border-pink-300 text-pink-200 font-semibold rounded-lg transition-colors flex items-center justify-center">
+            Log in
+          </button>
+        </div>
+        <div class="mb-6">
+          <div class="space-y-3">
+            <div>
+              <label for="predefined-tree" class="block mb-1 text-sm text-white font-semibold">
+                Load Predefined Tree
+              </label>
+              <select id="predefined-tree"
+                      class="w-full bg-gray-700 border border-white text-white p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white">
+                <option disabled selected>Select a tree</option>
+                <option value="powder_grinder">Powder Grinder</option>
+                <option value="mithril_miner">Mithril Miner</option>
+                <option value="gemstone_grinder">Gemstone Grinder</option>
+                <option value="balanced_setup">Balanced Setup</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <button class="bg-gray-700 hover:bg-white hover:text-gray-900 p-3 rounded-lg text-center font-semibold border border-white text-white transition-colors">
+                Export
+              </button>
+              <button class="bg-gray-700 hover:bg-white hover:text-gray-900 p-3 rounded-lg text-center font-semibold border border-white text-white transition-colors">
+                Import
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="h-[50%] flex justify-center items-center flex-col">
-      <span class="font-semibold text-xl">Total</span>
-      @let total = hotmServ.totalPowder();
-      <span [innerHTML]="formattedPowderString(total.mithril, PowderType.MITHRIL) | colorize | parse | safeHtml"></span>
-      <span [innerHTML]="formattedPowderString(total.gemstone, PowderType.GEMSTONE) | colorize | parse | safeHtml"></span>
-      <span [innerHTML]="formattedPowderString(total.glacite, PowderType.GLACITE) | colorize | parse | safeHtml"></span>
-      <br/>
-      <span>{{ hotmServ.maxAllowedTokens }} token(s) left</span>
-      <!-- Disabled for now -->
+
+    <!-- Stats aggregator panel -->
+    <div class="w-full bg-gray-800/40 p-6 rounded-md !border-gray-500 border">
+      <h2 class="text-xl font-bold text-lime-400 mb-4">Stats Aggregator</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <div class="p-4 bg-gray-700/50 rounded-lg">
+          <p class="text-sm text-gray-400">Total Mining Speed</p>
+          <p class="text-xl font-bold text-white mt-1">0</p>
+        </div>
+        <div class="p-4 bg-gray-700/50 rounded-lg">
+          <p class="text-sm text-gray-400">Total Mining Fortune</p>
+          <p class="text-xl font-bold text-white mt-1">0</p>
+        </div>
+        <div class="p-4 bg-gray-700/50 rounded-lg">
+          <p class="text-sm text-gray-400">Total Powder Buffs</p>
+          <p class="text-xl font-bold text-white mt-1">0%</p>
+        </div>
+        <div class="p-4 bg-gray-700/50 rounded-lg">
+          <p class="text-sm text-gray-400">Pickaxe Ability Boost</p>
+          <p class="text-xl font-bold text-white mt-1">0%</p>
+        </div>
+        <div class="p-4 bg-gray-700/50 rounded-lg">
+          <p class="text-sm text-gray-400">Treasure Finder</p>
+          <p class="text-xl font-bold text-white mt-1">0%</p>
+        </div>
+        <div class="p-4 bg-gray-700/50 rounded-lg">
+          <p class="text-sm text-gray-400">Effective Tokens Used</p>
+          <p class="text-xl font-bold text-white mt-1">0</p>
+        </div>
+      </div>
+    </div>
+
+    <!--div class="h-[50%] flex- justify-center items-center flex-col hidden">
+      <-- Disabled for now ->
       <div class="mt-2">
-        <p-button (onClick)="openDialog()">
+        <p-button (onClick)="openDialog()" disabled="true">
           Log in
         </p-button>
         <p-dialog header="Log in" [modal]="true" [(visible)]="dialogVisible" styleClass="mx-8 lg:w-6/12">
           <div class="flex flex-col h-fit">
-            <!-- RAT warning -->
+            <-- RAT warning ->
             <div class="flex justify-center">
               <p-message closable severity="warn"
                          styleClass="w-full">
@@ -75,9 +168,9 @@
                 </div>
               </p-message>
             </div>
-            <!-- Actual input form -->
+            <-- Actual input form ->
             <div class="flex flex-col gap-4 mt-6">
-              <!-- Username Row -->
+              <-- Username Row ->
               <div class="flex items-center gap-2">
                 <label for="ign" class="w-32">Minecraft name:</label>
                 <input id="ign" type="text" pInputText [(ngModel)]="ign"
@@ -86,7 +179,7 @@
                 <p-button (onClick)="submitUsername()">Find profiles</p-button>
               </div>
 
-              <!-- Profiles Row -->
+              <-- Profiles Row ->
               <div class="flex items-center gap-2">
                 <label for="profiles" class="w-32">Profile:</label>
                 <p-select appendTo="body" id="profiles" [options]="profiles" [(ngModel)]="selectedProfile"
@@ -103,6 +196,6 @@
           </div>
         </p-dialog>
       </div>
-    </div>
+    </div-->
   </div>
 </div>
