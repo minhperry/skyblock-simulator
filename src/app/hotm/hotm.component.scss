@@ -1,9 +1,5 @@
 @use '../../commons';
 
-.grid7x10 {
-  @include commons.grid(7, 10, 0.25rem);
-}
-
 .inventory-view {
   display: grid;
   place-content: center center;
@@ -97,20 +93,4 @@
 
 .redstoneblock {
   background-position: -896px -768px;
-}
-
-.tooltip-mc {
-  display: inline-block;
-  padding: 10px 15px;
-  background: #222222; /* Dark gradient */
-  color: white;
-  border: 2px solid #777; /* Thin border around the tooltip */
-  border-radius: 4px; /* Slightly rounded corners */
-  width: max(70%, 350px);
-  height: fit-content;
-  text-align: start;
-}
-
-#name {
-  font-weight: bold;
 }
