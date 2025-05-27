@@ -132,6 +132,11 @@ export function formattedPowderString(input: Signal<number> | number, type: Powd
   return pString.replace('#{#}', input().toLocaleString())
 }
 
+export function formattedPowderNumber(input: Signal<number> | number) {
+  if (typeof input === 'number') return input.toLocaleString()
+  return input().toLocaleString()
+}
+
 // =================== Tree Constant Data ====================
 
 // #{1}, #{2} for the numbers
