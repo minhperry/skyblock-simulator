@@ -47,7 +47,7 @@ export class HotmService {
     }
   }
 
-  maxAllowedTokens = 25;
+  maxAllowedTokens = 25; // TODO: Replace with used tokens instead, and impl freeload mode
   totalPowder = computed(() => {
     const total = {mithril: 0, gemstone: 0, glacite: 0}
     for (const inner of this.grid) {
