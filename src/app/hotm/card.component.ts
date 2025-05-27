@@ -61,8 +61,9 @@ import {FormsModule} from '@angular/forms';
                 Total: <span
                       [innerHTML]="formattedPowderString(levInst.totalPowderAmount, levInst.powderType) | colorize | parse | safeHtml"></span>
               </div>
-              <p-slider [(ngModel)]="levInst.currentLevel" [min]="1" [max]="levInst.maxLevel" [step]="1"
-                        class="mx-4 my-2 w-full"/>
+              <div class="mx-8 w-[95%] my-2">
+                <p-slider [(ngModel)]="levInst.currentLevel" [min]="1" [max]="levInst.maxLevel" [step]="1"/>
+              </div>
             </div>
           }
         }
