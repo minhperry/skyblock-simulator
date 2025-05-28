@@ -108,28 +108,25 @@
         <div
           class="mb-6 flex flex-col md:flex-row gap-3 justify-center items-center grid md:grid-cols-2 gap-3 grid-cols-1"
         >
-          <p-button
-            [outlined]="true"
-            [text]="true"
-            severity="info"
-            [styleClass]="
-              'w-full font-semibold rounded-lg transition-colors flex items-center justify-center ' +
+          <button
+            type="button"
+            (click)="hotmServ.freeMode = !hotmServ.freeMode"
+            [ngClass]="
+              'h-8 w-full font-semibold rounded-lg transition-colors flex items-center justify-center ' +
               (hotmServ.freeMode
-                ? '!border !border-green-600 !bg-green-600 !text-white !hover:bg-green-700'
-                : '!border !border-gray-500 !bg-gray-700 !text-sky-300 !hover:bg-indigo-500/80 !hover:text-gray-900')"
-            (onClick)="hotmServ.freeMode = !hotmServ.freeMode"
+                ? 'border border-green-600 bg-green-600 text-white hover:bg-green-700'
+                : 'border border-gray-500 bg-gray-700 text-sky-300 hover:bg-indigo-500/80 hover:text-gray-900')
+            "
           >
             Free Mode
-          </p-button>
-          <p-button
-            [outlined]="true"
-            [text]="true"
-            severity="secondary"
-            [disabled]="true"
-            styleClass="!bg-gray-700 !text-slate-300 !border-slate-400/60 font-semibold rounded-lg transition-colors flex items-center justify-center w-full"
+          </button>
+          <button
+            type="button"
+            class="h-8 w-full border border-slate-400/60 bg-gray-700 text-slate-400 font-semibold rounded-lg transition-colors flex items-center justify-center opacity-60 cursor-not-allowed"
+            disabled
           >
             Log in
-          </p-button>
+          </button>
         </div>
         <div class="mb-6">
           <div class="space-y-3">
@@ -140,30 +137,28 @@
               >
                 Load Predefined Tree
               </label>
-              <p-dropdown
+              <p-select
                 id="predefined-tree"
                 [options]="predefinedTrees"
                 placeholder="Select a tree"
-                styleClass="!bg-gray-700 !text-white !border-white focus:!ring-2 focus:!ring-white rounded-lg w-full"
-              ></p-dropdown>
+                [styleClass]="
+                  'w-full bg-gray-700 text-white border-white focus:ring-2 focus:ring-white rounded-lg'
+                "
+              ></p-select>
             </div>
             <div class="grid grid-cols-2 gap-3">
-              <p-button
-                [outlined]="true"
-                [text]="true"
-                severity="secondary"
-                styleClass="!bg-gray-700 !text-slate-300 !border-slate-400/60 font-semibold rounded-lg transition-colors w-full"
+              <button
+                type="button"
+                class="h-10 w-full border border-slate-400/60 bg-gray-700 text-slate-300 font-semibold rounded-lg transition-colors hover:bg-slate-300 hover:text-gray-900"
               >
                 Export
-              </p-button>
-              <p-button
-                [outlined]="true"
-                [text]="true"
-                severity="secondary"
-                styleClass="!bg-gray-700 !text-slate-300 !border-slate-400/60 font-semibold rounded-lg transition-colors w-full"
+              </button>
+              <button
+                type="button"
+                class="w-full border border-slate-400/60 bg-gray-700 text-slate-300 font-semibold rounded-lg transition-colors hover:bg-slate-300 hover:text-gray-900"
               >
                 Import
-              </p-button>
+              </button>
             </div>
           </div>
         </div>

@@ -6,14 +6,13 @@ import { HotmService } from "./hotm.service";
 import { CardComponent } from "./card.component";
 import { DialogService } from "primeng/dynamicdialog";
 import { FormsModule } from "@angular/forms";
-import { Button } from "primeng/button";
-import { DropdownModule } from "primeng/dropdown";
+import { Select } from "primeng/select";
 
 @Component({
   selector: "sb-hotm",
   templateUrl: "./hotm.component.html",
   styleUrl: "./hotm.component.scss",
-  imports: [NgClass, CardComponent, FormsModule, Button, DropdownModule],
+  imports: [NgClass, CardComponent, FormsModule, Select],
   providers: [DialogService],
 })
 export class HotmComponent {
