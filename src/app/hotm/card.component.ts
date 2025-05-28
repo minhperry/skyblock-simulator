@@ -1,5 +1,6 @@
 import {Component, inject, input} from '@angular/core';
-import {HotmService, BaseNode, castToLevelable} from './hotm.service';
+import {HotmService} from './hotm.service';
+import { BaseNode, castToLevelable } from './hotm.model';
 import {Button} from 'primeng/button';
 import {ColorizePipe} from '../../pipes/colorize.pipe';
 import {ParseMCPipe} from '../../pipes/parse-mc.pipe';
