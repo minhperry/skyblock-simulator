@@ -77,8 +77,10 @@
         <h2 class="text-xl font-bold text-sky-300 mb-4">Tools</h2>
         <div class="mb-6 flex flex-col md:flex-row gap-3 justify-center items-center">
           <button
-            class="w-full md:w-auto flex-1 h-8 md:h-12 bg-gray-700 hover:bg-indigo-500/80 hover:text-gray-900 rounded-lg text-center font-semibold border border-indigo-500/60 text-indigo-300 transition-colors flex items-center justify-center">
-            Free Mode
+            class="w-full md:w-auto flex-1 h-8 md:h-12 bg-gray-700 hover:bg-indigo-500/80 hover:text-gray-900 rounded-lg text-center font-semibold border border-indigo-500/60 text-indigo-300 transition-colors flex items-center justify-center"
+            (click)="hotmServ.freeMode = !hotmServ.freeMode"
+          >
+            Free Mode {{ hotmServ.freeMode ? "ON" : "OFF" }}
           </button>
           <button
             class="w-full md:w-auto flex-1 h-8 md:h-12 bg-gray-700 hover:bg-slate-400/80 hover:text-gray-900 border border-slate-400/60 text-slate-300 font-semibold rounded-lg transition-colors flex items-center justify-center">
