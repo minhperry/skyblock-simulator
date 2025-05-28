@@ -1,105 +1,96 @@
-import {Component, inject, signal, WritableSignal} from '@angular/core';
-import {formattedPowderString, Position, PowderType} from './hotmData';
-import {Nullable} from '../../interfaces/types';
-import {NgClass} from '@angular/common';
-import {HotmService} from './hotm.service';
-import {CardComponent} from './card.component';
-import {ColorizePipe} from '../../pipes/colorize.pipe';
-import {ParseMCPipe} from '../../pipes/parse-mc.pipe';
-import {SafeHtmlPipe} from 'primeng/menu';
-import {Button} from 'primeng/button';
-import {DialogService} from 'primeng/dynamicdialog';
-import {Dialog} from 'primeng/dialog';
-import {InputText} from 'primeng/inputtext';
-import {Message} from 'primeng/message';
-import {Select} from 'primeng/select';
-import {FormsModule} from '@angular/forms';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../environments/environment.development';
+import { Component, inject, signal, WritableSignal } from "@angular/core";
+import { formattedPowderNumber, Position, PowderType } from "./hotmData";
+import { Nullable } from "../../interfaces/types";
+import { NgClass } from "@angular/common";
+import { HotmService } from "./hotm.service";
+import { CardComponent } from "./card.component";
+import { DialogService } from "primeng/dynamicdialog";
+import { FormsModule } from "@angular/forms";
+import { Select } from "primeng/select";
 
 @Component({
-  selector: 'sb-hotm',
-  templateUrl: './hotm.component.html',
-  styleUrl: './hotm.component.scss',
-  imports: [
-    NgClass,
-    CardComponent,
-    ColorizePipe,
-    ParseMCPipe,
-    SafeHtmlPipe,
-    Button,
-    Dialog,
-    InputText,
-    Message,
-    Select,
-    FormsModule
-  ],
-  providers: [DialogService]
+  selector: "sb-hotm",
+  templateUrl: "./hotm.component.html",
+  styleUrl: "./hotm.component.scss",
+  imports: [NgClass, CardComponent, FormsModule, Select],
+  providers: [DialogService],
 })
 export class HotmComponent {
   hotmServ = inject(HotmService);
-  selectedPos: WritableSignal<Nullable<Position>> = signal(null)
+  selectedPos: WritableSignal<Nullable<Position>> = signal(null);
 
-  dialogVisible = false
+  dialogVisible = false;
+
+  predefinedTrees = [
+    { label: "Powder Grinder", value: "powder_grinder" },
+    { label: "Mithril Miner", value: "mithril_miner" },
+    { label: "Gemstone Grinder", value: "gemstone_grinder" },
+    { label: "Balanced Setup", value: "balanced_setup" },
+  ];
 
   // Click handlers
 
   onCellClick(x: number, y: number) {
-    this.selectedPos.set({x, y});
+    this.selectedPos.set({ x, y });
   }
 
   openDialog() {
-    this.dialogVisible = true
+    this.dialogVisible = true;
   }
 
-  // Profile stuffs
-  ign = ''
-  profiles: Profile[] = []
+  //#region Load from backend
+  /* Profile stuffs
+  ign = "";
+  profiles: Profile[] = [];
   selectedProfile = this.profiles[0];
 
-  selectDisabled = true
+  selectDisabled = true;
 
-  http = inject(HttpClient)
-  backend = environment.backendUrl
+  http = inject(HttpClient);
+  backend = environment.backendUrl;
 
   submitUsername() {
     //this.profiles = []
-    this.http.get<ProfileResponse[]>(this.backend + '/profiles/' + this.ign).subscribe({
-      next: (val: ProfileResponse[]) => {
-        for (const prof of val) {
-          const profile = responseToProfileMapper(prof)
-          this.profiles.push(profile)
-        }
-        this.selectDisabled = false
-        console.log(this.profiles)
-      },
-      error: (err) => {
-        console.error(err)
-      }
-    })
+    this.http
+      .get<ProfileResponse[]>(this.backend + "/profiles/" + this.ign)
+      .subscribe({
+        next: (val: ProfileResponse[]) => {
+          for (const prof of val) {
+            const profile = responseToProfileMapper(prof);
+            this.profiles.push(profile);
+          }
+          this.selectDisabled = false;
+          console.log(this.profiles);
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
   }
+  */
+  //#endregion
 
-  protected readonly formattedPowderString = formattedPowderString;
+  protected readonly format = formattedPowderNumber;
   protected readonly PowderType = PowderType;
 }
 
 function responseToProfileMapper(prof: ProfileResponse): Profile {
-  let icon = '';
+  let icon = "";
   switch (prof.gameMode) {
-    case 'ironman':
-      icon = '♻'
+    case "ironman":
+      icon = "♻";
       break;
-    case 'bingo':
-      icon = 'Ⓑ' // letter B in circle
+    case "bingo":
+      icon = "Ⓑ"; // letter B in circle
       break;
-    case 'island':
-      icon = '☀'
+    case "island":
+      icon = "☀";
       break;
   }
   return {
-    displayName: `${prof.active ? '>>>' : ''} ${icon} ${prof.profileFruit}`,
-    uuid: prof.profileId
-  }
+    displayName: `${prof.active ? ">>>" : ""} ${icon} ${prof.profileFruit}`,
+    uuid: prof.profileId,
+  };
 }
 
 interface Profile {
@@ -109,7 +100,7 @@ interface Profile {
 
 interface ProfileResponse {
   active: boolean;
-  gameMode: 'normal' | 'ironman' | 'bingo' | 'island';
+  gameMode: "normal" | "ironman" | "bingo" | "island";
   profileFruit: string;
   profileId: string;
 }

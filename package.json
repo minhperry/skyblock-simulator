@@ -10,7 +10,8 @@
     "kill": "~/.killold.sh 6969",
     "serve:ssr": "node dist/server/server.mjs",
     "lint": "ng lint",
-    "lint:json": "npx eslint src/ -f json -o reports/lint.json"
+    "lint:json": "npx eslint src/ -f json -o reports/lint.json",
+    "prettier": "prettier \"**/*.html\" --write"
   },
   "private": true,
   "dependencies": {
@@ -61,6 +62,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "postcss": "^8.5.3",
+    "prettier": "3.5.3",
     "tailwindcss": "3",
     "typescript": "~5.5.2",
     "typescript-eslint": "8.18.0"
