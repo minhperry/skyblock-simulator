@@ -10,7 +10,8 @@
     "kill": "~/.killold.sh 6969",
     "serve:ssr": "node dist/server/server.mjs",
     "lint": "ng lint",
-    "lint:json": "npx eslint src/ -f json -o reports/lint.json"
+    "lint:json": "npx eslint src/ -f json -o reports/lint.json",
+    "prettier": "prettier \"**/*.html\" --write"
   },
   "private": true,
   "dependencies": {
