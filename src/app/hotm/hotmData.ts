@@ -161,7 +161,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
     perk: {
       name: 'Mining Speed Boost',
       description: `%GRAY%Grants %GOLD%+250% ${StatString.MINING_SPEED}%GRAY% for %GREEN%15s%GRAY%.`,
-      requires: [HotmNode.PRECISION_MINING]
+      requires: [HotmNode.PRECISION_MINING, HotmNode.RANDOM_EVENT]
     },
     position: {x: 1, y: 8},
     type: PerkType.ABILITY
@@ -171,7 +171,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
     perk: {
       name: 'Precision Mining',
       description: `%GRAY%Aiming at particle increases your %GOLD%${StatString.MINING_SPEED} by %GREEN%30%%GRAY%.`,
-      requires: [HotmNode.MINING_FORTUNE]
+      requires: [HotmNode.MINING_FORTUNE, HotmNode.MINING_SPEED_BOOST]
     },
     position: {x: 2, y: 8},
     type: PerkType.STATIC
@@ -197,7 +197,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
       maxLevel: 50,
       perkFunc: l => ({first: 2 + (l * 0.1), second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.1),
-      requires: [HotmNode.MINING_FORTUNE]
+      requires: [HotmNode.MINING_FORTUNE, HotmNode.PICKAXE_TOSS]
     },
     position: {x: 4, y: 8},
     type: PerkType.DYNAMIC
@@ -207,7 +207,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
     perk: {
       name: 'Pickobulus',
       description: `%GRAY%Throw a pickaxe mining all ores in a %GREEN%3%GRAY% block radius.`,
-      requires: [HotmNode.TITANIUM_INSANIUM]
+      requires: [HotmNode.TITANIUM_INSANIUM, HotmNode.FORGE_TIME]
     },
     position: {x: 5, y: 8},
     type: PerkType.ABILITY
@@ -222,7 +222,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
       maxLevel: 45,
       perkFunc: l => ({first: 5 + l, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.07),
-      requires: [HotmNode.MINING_SPEED_BOOST]
+      requires: [HotmNode.MINING_SPEED_BOOST, HotmNode.OLD_SCHOOL]
     },
     position: {x: 1, y: 7},
     type: PerkType.DYNAMIC
@@ -235,7 +235,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
       maxLevel: 100,
       perkFunc: l => ({first: l * 3, second: 0}),
       powderFunc: floorOfNextPlusOneExp(2.6),
-      requires: [HotmNode.MINING_FORTUNE]
+      requires: [HotmNode.MINING_FORTUNE, HotmNode.MOLE]
     },
     position: {x: 3, y: 7},
     type: PerkType.DYNAMIC
@@ -248,7 +248,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
       maxLevel: 20,
       perkFunc: l => ({first: Math.min(30, 10 + l * 0.5 + Math.floor(l / 20) * 10), second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.2),
-      requires: [HotmNode.PICKAXE_TOSS]
+      requires: [HotmNode.PICKAXE_TOSS, HotmNode.MINING_EXPERIENCE]
     },
     position: {x: 5, y: 7},
     type: PerkType.DYNAMIC
@@ -279,7 +279,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
       maxLevel: 20,
       perkFunc: l => ({first: l * 20, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.05),
-      requires: [HotmNode.RANDOM_EVENT, HotmNode.PROFESSIONAL]
+      requires: [HotmNode.RANDOM_EVENT, HotmNode.PROFESSIONAL, HotmNode.DAILY_GRIND]
     },
     position: {x: 1, y: 6},
     type: PerkType.DYNAMIC
@@ -331,7 +331,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
       maxLevel: 100,
       perkFunc: l => ({first: l * 0.1 + 5, second: 0}),
       powderFunc: floorOfNextPlusOneExp(2.3),
-      requires: [HotmNode.FORTUNATE, HotmNode.FORGE_TIME]
+      requires: [HotmNode.FORTUNATE, HotmNode.FORGE_TIME, HotmNode.DAILY_POWDER]
     },
     position: {x: 5, y: 6},
     type: PerkType.DYNAMIC
@@ -390,7 +390,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
       requires: [HotmNode.BLOCKHEAD]
     },
     position: {x: 0, y: 4},
-    type: PerkType.STATIC
+    type: PerkType.ABILITY
   },
   {
     id: HotmNode.BLOCKHEAD,
@@ -427,7 +427,7 @@ export const HotmTreeData: TreeNodeConstants[] = [
       maxLevel: 50,
       perkFunc: l => ({first: l * 0.4, second: 0}),
       powderFunc: floorOfNextPlusOneExp(3.07),
-      requires: [HotmNode.MOLE, HotmNode.POWDER_BUFF, HotmNode.LONESOME_MINER]
+      requires: [HotmNode.MOLE, HotmNode.POWDER_BUFF, HotmNode.LONESOME_MINER, HotmNode.SUBTERRANEAN_FISHER]
     },
     position: {x: 3, y: 4},
     type: PerkType.DYNAMIC
