@@ -53,7 +53,8 @@ export class HotmService {
     }
   }
 
-  maxAllowedTokens = 25; // TODO: Replace with used tokens instead, and impl freeload mode
+  readonly strictAllowedTokens = 25;
+  usedTokens = 0; // TODO: Replace with used tokens instead, and impl freeload mode
   freeMode = false;
 
   totalPowder = computed(() => {

@@ -119,6 +119,7 @@ export class CardComponent {
   enforceOpenRequirement() {
     if (this.hotmServ.freeMode) {
       this.instance().onNodeOpened();
+      this.hotmServ.usedTokens++;
       return;
     }
 
@@ -128,8 +129,8 @@ export class CardComponent {
       reqs.length === 0 ||
       reqs.some((req) => this.hotmServ.getOpenIds().includes(req))
     ) {
-      if (this.hotmServ.maxAllowedTokens > 0) {
-        this.hotmServ.maxAllowedTokens--;
+      if (this.hotmServ.usedTokens < this.hotmServ.strictAllowedTokens) {
+        this.hotmServ.usedTokens++;
         this.instance().onNodeOpened();
       }
     } else {
