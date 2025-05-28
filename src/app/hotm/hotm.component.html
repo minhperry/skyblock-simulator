@@ -2,46 +2,43 @@
   <!-- Left panel: the grid -->
   <div class="inventory-view container">
     @for (row of hotmServ.grid; let rwIdx = $index; track rwIdx) {
-      @for (cell of row; let colIdx = $index; track colIdx) {
-        @if (cell) {
-          <div class="inventory-slot rich-item"
-               (click)="onCellClick(colIdx, rwIdx)"
-               [id]="'cell_' + colIdx + '_' + rwIdx"
-               [ngClass]="{'selected': selectedPos()?.x === colIdx && selectedPos()!.y === rwIdx}"
-          >
-            <div class="item-icon piece-icon" [ngClass]="cell.cssClass()()"></div>
-          </div>
-        } @else {
-          <div class="inventory-slot" [id]="'cell_' + colIdx + '_' + rwIdx"></div>
-        }
-      }
+    @for (cell of row; let colIdx = $index; track colIdx) {
+    @if (cell) {
+    <div class="inventory-slot rich-item" (click)="onCellClick(colIdx, rwIdx)" [id]="'cell_' + colIdx + '_' + rwIdx"
+      [ngClass]="{'selected': selectedPos()?.x === colIdx && selectedPos()!.y === rwIdx}">
+      <div class="item-icon piece-icon" [ngClass]="cell.cssClass()()"></div>
+    </div>
+    } @else {
+    <div class="inventory-slot" [id]="'cell_' + colIdx + '_' + rwIdx"></div>
+    }
+    }
     }
   </div>
   <!-- Right panel: the picker -->
   <div class="container flex justify-center flex-col max-lg:mt-4 gap-3">
     <!-- Tooltip box -->
     <div id="tooltip-box"
-         class="w-full  bg-gray-800/40 p-3 rounded-md border min-h-[250px] flex flex-col items-center justify-center border-gray-500">
+      class="w-full  bg-gray-800/40 p-3 rounded-md border min-h-[250px] flex flex-col items-center justify-center border-gray-500">
       @if (selectedPos()) {
-        @let pos = selectedPos()!;
-        @let selectedNode = hotmServ.grid[pos.y][pos.x];
-        <div class="w-full">
-          @switch (selectedNode.type) {
-            @case ('ability') {
-              <sb-hotm-card [instance]="selectedNode" [isLevelable]="false"/>
-            }
-            @case ('static') {
-              <sb-hotm-card [instance]="selectedNode" [isLevelable]="false"/>
-            }
-            @case ('levelable') {
-              <sb-hotm-card [instance]="selectedNode" [isLevelable]="true"/>
-            }
-          }
-        </div>
+      @let pos = selectedPos()!;
+      @let selectedNode = hotmServ.grid[pos.y][pos.x];
+      <div class="w-full">
+        @switch (selectedNode.type) {
+        @case ('ability') {
+        <sb-hotm-card [instance]="selectedNode" [isLevelable]="false" />
+        }
+        @case ('static') {
+        <sb-hotm-card [instance]="selectedNode" [isLevelable]="false" />
+        }
+        @case ('levelable') {
+        <sb-hotm-card [instance]="selectedNode" [isLevelable]="true" />
+        }
+        }
+      </div>
       } @else {
-        <div class="flex flex-col justify-center items-center">
-          <span class="mc gray">Select a perk to see its description!</span>
-        </div>
+      <div class="flex flex-col justify-center items-center">
+        <span class="mc gray">Select a perk to see its description!</span>
+      </div>
       }
     </div>
 
@@ -52,15 +49,18 @@
       <div class="bg-gray-800/40 p-5 rounded-md !border-gray-500 border">
         <h2 class="text-xl font-bold text-emerald-400 mb-4">Powders</h2>
         <div class="space-y-3">
-          <div class="flex items-center justify-between p-3 rounded-lg border border-[#00AA00]/60 bg-white/10 backdrop-blur-md">
+          <div
+            class="flex items-center justify-between p-3 rounded-lg border border-slate-400/60 bg-white/10 backdrop-blur-md">
             <span class="text-[#00AA00] font-semibold">Mithril</span>
             <span class="text-[#00AA00] font-bold">{{ format(total.mithril) }}</span>
           </div>
-          <div class="flex items-center justify-between p-3 rounded-lg border border-[#FF55FF]/60 bg-white/10 backdrop-blur-md">
+          <div
+            class="flex items-center justify-between p-3 rounded-lg border border-slate-400/60 bg-white/10 backdrop-blur-md">
             <span class="text-[#FF55FF] font-semibold">Gemstone</span>
             <span class="text-[#FF55FF] font-bold">{{ format(total.gemstone) }}</span>
           </div>
-          <div class="flex items-center justify-between p-3 rounded-lg border border-[#55FFFF]/60 bg-white/10 backdrop-blur-md">
+          <div
+            class="flex items-center justify-between p-3 rounded-lg border border-slate-400/60 bg-white/10 backdrop-blur-md">
             <span class="text-[#55FFFF] font-semibold">Glacite</span>
             <span class="text-[#55FFFF] font-bold">{{ format(total.glacite) }}</span>
           </div>
@@ -76,10 +76,12 @@
       <div class="bg-gray-800/40 p-6 rounded-md !border-gray-500 border">
         <h2 class="text-xl font-bold text-sky-300 mb-4">Tools</h2>
         <div class="mb-6 flex flex-col md:flex-row gap-3 justify-center items-center">
-          <button class="w-full md:w-auto flex-1 h-12 bg-gray-700 hover:bg-blue-400 hover:text-gray-900 rounded-lg text-center font-semibold border border-blue-400 text-blue-300 transition-colors flex items-center justify-center">
+          <button
+            class="w-full md:w-auto flex-1 h-8 md:h-12 bg-gray-700 hover:bg-indigo-500/80 hover:text-gray-900 rounded-lg text-center font-semibold border border-indigo-500/60 text-indigo-300 transition-colors flex items-center justify-center">
             Free Mode
           </button>
-          <button class="w-full md:w-auto flex-1 h-12 bg-gray-700 hover:bg-pink-300 hover:text-gray-900 border border-pink-300 text-pink-200 font-semibold rounded-lg transition-colors flex items-center justify-center">
+          <button
+            class="w-full md:w-auto flex-1 h-8 md:h-12 bg-gray-700 hover:bg-slate-400/80 hover:text-gray-900 border border-slate-400/60 text-slate-300 font-semibold rounded-lg transition-colors flex items-center justify-center">
             Log in
           </button>
         </div>
@@ -90,7 +92,7 @@
                 Load Predefined Tree
               </label>
               <select id="predefined-tree"
-                      class="w-full bg-gray-700 border border-white text-white p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white">
+                class="w-full bg-gray-700 border border-white text-white p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white">
                 <option disabled selected>Select a tree</option>
                 <option value="powder_grinder">Powder Grinder</option>
                 <option value="mithril_miner">Mithril Miner</option>
@@ -99,10 +101,12 @@
               </select>
             </div>
             <div class="grid grid-cols-2 gap-3">
-              <button class="bg-gray-700 hover:bg-white hover:text-gray-900 p-3 rounded-lg text-center font-semibold border border-white text-white transition-colors">
+              <button
+                class="bg-gray-700 hover:bg-slate-400/80 hover:text-gray-900 p-2 md:p-3 rounded-lg text-center font-semibold border border-slate-400/60 text-slate-300 transition-colors">
                 Export
               </button>
-              <button class="bg-gray-700 hover:bg-white hover:text-gray-900 p-3 rounded-lg text-center font-semibold border border-white text-white transition-colors">
+              <button
+                class="bg-gray-700 hover:bg-slate-400/80 hover:text-gray-900 p-2 md:p-3 rounded-lg text-center font-semibold border border-slate-400/60 text-slate-300 transition-colors">
                 Import
               </button>
             </div>
@@ -112,7 +116,7 @@
     </div>
 
     <!-- Stats aggregator panel -->
-    <div class="w-full bg-gray-800/40 p-6 rounded-md !border-gray-500 border">
+    <div class="w-full bg-gray-800/40 p-6 rounded-md !border-gray-500 border !hidden">
       <h2 class="text-xl font-bold text-lime-400 mb-4">Stats Aggregator</h2>
       <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
         <div class="p-4 bg-gray-700/50 rounded-lg">
