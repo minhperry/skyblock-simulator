@@ -1,6 +1,10 @@
-import {PowderString, StatString} from './symbols';
-import {floorOfNextPlusOneExp, PerkFunction, PowderFunction} from '../../interfaces/functions';
-import {Signal} from '@angular/core';
+import { PowderString, StatString } from "./symbols";
+import {
+  floorOfNextPlusOneExp,
+  PerkFunction,
+  PowderFunction,
+} from "../../interfaces/functions";
+import { Signal } from "@angular/core";
 
 // ==================== The very base ====================
 // Basically is the smallest definable unit
@@ -77,64 +81,68 @@ export enum HotmNode {
 // hotm 1-3 is mithril, 4-7 is gemstone, 8-10 is glacite
 // y =  9-7             6-3              2-0
 export interface Perk {
-  name: string,
-  description: string,
-  maxLevel?: number,
-  perkFunc?: PerkFunction,
-  powderFunc?: PowderFunction,
-  requires: HotmNode[]
+  name: string;
+  description: string;
+  maxLevel?: number;
+  perkFunc?: PerkFunction;
+  powderFunc?: PowderFunction;
+  requires: HotmNode[];
 }
 
 export interface Position {
-  x: number,
-  y: number
+  x: number;
+  y: number;
 }
 
 export enum PerkType {
-  STATIC = 'static',
-  ABILITY = 'ability',
-  DYNAMIC = 'dynamic'
+  STATIC = "static",
+  ABILITY = "ability",
+  DYNAMIC = "dynamic",
 }
 
 export interface TreeNodeConstants {
-  id: HotmNode,
-  position: Position,
-  perk: Perk,
-  type: PerkType
+  id: HotmNode;
+  position: Position;
+  perk: Perk;
+  type: PerkType;
 }
 
 export enum PowderType {
-  MITHRIL = 'mithril',
-  GEMSTONE = 'gemstone',
-  GLACITE = 'glacite'
+  MITHRIL = "mithril",
+  GEMSTONE = "gemstone",
+  GLACITE = "glacite",
 }
 
 // =================== Helper functions ====================
 
 export function getNameById(id: HotmNode): string {
-  return HotmTreeData.find(node => node.id === id)?.perk.name ?? '';
+  return HotmTreeData.find((node) => node.id === id)?.perk.name ?? "";
 }
 
-export function formattedPowderString(input: Signal<number> | number, type: PowderType) {
-  let pString: string
+export function formattedPowderString(
+  input: Signal<number> | number,
+  type: PowderType,
+) {
+  let pString: string;
   switch (type) {
     case PowderType.MITHRIL:
-      pString = PowderString.MITHRIL
-      break
+      pString = PowderString.MITHRIL;
+      break;
     case PowderType.GEMSTONE:
-      pString = PowderString.GEMSTONE
-      break
+      pString = PowderString.GEMSTONE;
+      break;
     case PowderType.GLACITE:
-      pString = PowderString.GLACITE
-      break
+      pString = PowderString.GLACITE;
+      break;
   }
-  if (typeof input === 'number') return pString.replace('#{#}', input.toLocaleString())
-  return pString.replace('#{#}', input().toLocaleString())
+  if (typeof input === "number")
+    return pString.replace("#{#}", input.toLocaleString());
+  return pString.replace("#{#}", input().toLocaleString());
 }
 
 export function formattedPowderNumber(input: Signal<number> | number) {
-  if (typeof input === 'number') return input.toLocaleString()
-  return input().toLocaleString()
+  if (typeof input === "number") return input.toLocaleString();
+  return input().toLocaleString();
 }
 
 // =================== Tree Constant Data ====================
@@ -145,593 +153,655 @@ export const HotmTreeData: TreeNodeConstants[] = [
   {
     id: HotmNode.MINING_SPEED,
     perk: {
-      name: 'Mining Speed',
+      name: "Mining Speed",
       description: `%GRAY%Grants %GOLD%+#{1} ${StatString.MINING_SPEED}%GRAY%.`,
       maxLevel: 50,
-      perkFunc: l => ({first: l * 20, second: 0}),
+      perkFunc: (l) => ({ first: l * 20, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3),
       requires: [],
     },
-    position: {x: 3, y: 9},
-    type: PerkType.DYNAMIC
+    position: { x: 3, y: 9 },
+    type: PerkType.DYNAMIC,
   },
   // Hotm 2
   {
     id: HotmNode.MINING_SPEED_BOOST,
     perk: {
-      name: 'Mining Speed Boost',
+      name: "Mining Speed Boost",
       description: `%GRAY%Grants %GOLD%+250% ${StatString.MINING_SPEED}%GRAY% for %GREEN%15s%GRAY%.`,
-      requires: [HotmNode.PRECISION_MINING, HotmNode.RANDOM_EVENT]
+      requires: [HotmNode.PRECISION_MINING, HotmNode.RANDOM_EVENT],
     },
-    position: {x: 1, y: 8},
-    type: PerkType.ABILITY
+    position: { x: 1, y: 8 },
+    type: PerkType.ABILITY,
   },
   {
     id: HotmNode.PRECISION_MINING,
     perk: {
-      name: 'Precision Mining',
+      name: "Precision Mining",
       description: `%GRAY%Aiming at particle increases your %GOLD%${StatString.MINING_SPEED} by %GREEN%30%%GRAY%.`,
-      requires: [HotmNode.MINING_FORTUNE, HotmNode.MINING_SPEED_BOOST]
+      requires: [HotmNode.MINING_FORTUNE, HotmNode.MINING_SPEED_BOOST],
     },
-    position: {x: 2, y: 8},
-    type: PerkType.STATIC
+    position: { x: 2, y: 8 },
+    type: PerkType.STATIC,
   },
   {
     id: HotmNode.MINING_FORTUNE,
     perk: {
-      name: 'Mining Fortune',
+      name: "Mining Fortune",
       description: `%GRAY%Grants %GOLD%+#{1} ${StatString.MINING_FORTUNE}%GRAY%.`,
       maxLevel: 50,
-      perkFunc: l => ({first: l * 2, second: 0}),
+      perkFunc: (l) => ({ first: l * 2, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.05),
-      requires: [HotmNode.MINING_SPEED]
+      requires: [HotmNode.MINING_SPEED],
     },
-    position: {x: 3, y: 8},
-    type: PerkType.DYNAMIC
+    position: { x: 3, y: 8 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.TITANIUM_INSANIUM,
     perk: {
-      name: 'Titanium Insanium',
+      name: "Titanium Insanium",
       description: `%GRAY%Has a %GREEN%#{1}%%GRAY% chance to convert a block into %WHITE%Titanium Ore%GRAY% while mining %DGREEN%Mithril Ore%GRAY%.`,
       maxLevel: 50,
-      perkFunc: l => ({first: 2 + (l * 0.1), second: 0}),
+      perkFunc: (l) => ({ first: 2 + l * 0.1, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.1),
-      requires: [HotmNode.MINING_FORTUNE, HotmNode.PICKAXE_TOSS]
+      requires: [HotmNode.MINING_FORTUNE, HotmNode.PICKAXE_TOSS],
     },
-    position: {x: 4, y: 8},
-    type: PerkType.DYNAMIC
+    position: { x: 4, y: 8 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.PICKAXE_TOSS,
     perk: {
-      name: 'Pickobulus',
+      name: "Pickobulus",
       description: `%GRAY%Throw a pickaxe mining all ores in a %GREEN%3%GRAY% block radius.`,
-      requires: [HotmNode.TITANIUM_INSANIUM, HotmNode.FORGE_TIME]
+      requires: [HotmNode.TITANIUM_INSANIUM, HotmNode.FORGE_TIME],
     },
-    position: {x: 5, y: 8},
-    type: PerkType.ABILITY
+    position: { x: 5, y: 8 },
+    type: PerkType.ABILITY,
   },
   // Hotm 3
   {
     id: HotmNode.RANDOM_EVENT,
     perk: {
-      name: 'Luck of the Cave',
-      description: '%GREEN%#{1}% %GRAY%chance to trigger one rare occurence while mining:\n' +
-        '%GOLD%Golden Goblin \n %DPURPLE%Fallen Stars \n %GOLD%Powder Ghast%GRAY%',
+      name: "Luck of the Cave",
+      description:
+        "%GREEN%#{1}% %GRAY%chance to trigger one rare occurence while mining:\n" +
+        "%GOLD%Golden Goblin \n %DPURPLE%Fallen Stars \n %GOLD%Powder Ghast%GRAY%",
       maxLevel: 45,
-      perkFunc: l => ({first: 5 + l, second: 0}),
+      perkFunc: (l) => ({ first: 5 + l, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.07),
-      requires: [HotmNode.MINING_SPEED_BOOST, HotmNode.OLD_SCHOOL]
+      requires: [HotmNode.MINING_SPEED_BOOST, HotmNode.OLD_SCHOOL],
     },
-    position: {x: 1, y: 7},
-    type: PerkType.DYNAMIC
+    position: { x: 1, y: 7 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.EFFICIENT_MINER,
     perk: {
-      name: 'Efficient Miner',
+      name: "Efficient Miner",
       description: `%GRAY%Grants %YELLOW%+#{1} ${StatString.MINING_SPREAD}%GRAY%.`,
       maxLevel: 100,
-      perkFunc: l => ({first: l * 3, second: 0}),
+      perkFunc: (l) => ({ first: l * 3, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(2.6),
-      requires: [HotmNode.MINING_FORTUNE, HotmNode.MOLE]
+      requires: [HotmNode.MINING_FORTUNE, HotmNode.MOLE],
     },
-    position: {x: 3, y: 7},
-    type: PerkType.DYNAMIC
+    position: { x: 3, y: 7 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.FORGE_TIME,
     perk: {
-      name: 'Quick Forge',
+      name: "Quick Forge",
       description: `%GRAY%Reduces the time it takes to forge by %GREEN%#{1}%%GRAY%.`,
       maxLevel: 20,
-      perkFunc: l => ({first: Math.min(30, 10 + l * 0.5 + Math.floor(l / 20) * 10), second: 0}),
+      perkFunc: (l) => ({
+        first: Math.min(30, 10 + l * 0.5 + Math.floor(l / 20) * 10),
+        second: 0,
+      }),
       powderFunc: floorOfNextPlusOneExp(3.2),
-      requires: [HotmNode.PICKAXE_TOSS, HotmNode.MINING_EXPERIENCE]
+      requires: [HotmNode.PICKAXE_TOSS, HotmNode.MINING_EXPERIENCE],
     },
-    position: {x: 5, y: 7},
-    type: PerkType.DYNAMIC
+    position: { x: 5, y: 7 },
+    type: PerkType.DYNAMIC,
   },
   // Hotm 4
   {
     id: HotmNode.DAILY_EFFECT,
     perk: {
-      name: 'Daily Effect',
-      description: '%GRAY%Gains one random buff every Skyblock Day on any %AQUA%Mining Island%GRAY%:\n' +
+      name: "Daily Effect",
+      description:
+        "%GRAY%Gains one random buff every Skyblock Day on any %AQUA%Mining Island%GRAY%:\n" +
         `%GOLD%+100 ${StatString.MINING_SPEED}%GRAY%.\n` +
         `%GOLD%+50 ${StatString.MINING_FORTUNE}%GRAY%.\n` +
-        '%GREEN%15% %GRAY%more Powder while mining.\n' +
-        '%GREEN%-20% %GRAY%Pickaxe Ability cooldown.\n' +
-        '%GREEN%10x %GRAY%chance to spawn %GOLD%Golden %GRAY%and %AQUA%Diamond Goblins%GRAY%.\n' +
-        '%GREEN%5x %BLUE%Titanium %GRAY%drops.'
-      ,
-      requires: [HotmNode.OLD_SCHOOL]
+        "%GREEN%15% %GRAY%more Powder while mining.\n" +
+        "%GREEN%-20% %GRAY%Pickaxe Ability cooldown.\n" +
+        "%GREEN%10x %GRAY%chance to spawn %GOLD%Golden %GRAY%and %AQUA%Diamond Goblins%GRAY%.\n" +
+        "%GREEN%5x %BLUE%Titanium %GRAY%drops.",
+      requires: [HotmNode.OLD_SCHOOL],
     },
-    position: {x: 0, y: 6},
-    type: PerkType.STATIC
+    position: { x: 0, y: 6 },
+    type: PerkType.STATIC,
   },
   {
     id: HotmNode.OLD_SCHOOL,
     perk: {
-      name: 'Old School',
+      name: "Old-School",
       description: `%GRAY%Grants %GOLD%+#{1} ${StatString.ORE_FORTUNE}%GRAY%.`,
       maxLevel: 20,
-      perkFunc: l => ({first: l * 20, second: 0}),
+      perkFunc: (l) => ({ first: l * 5, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.05),
-      requires: [HotmNode.RANDOM_EVENT, HotmNode.PROFESSIONAL, HotmNode.DAILY_GRIND]
+      requires: [
+        HotmNode.RANDOM_EVENT,
+        HotmNode.PROFESSIONAL,
+        HotmNode.DAILY_GRIND,
+      ],
     },
-    position: {x: 1, y: 6},
-    type: PerkType.DYNAMIC
+    position: { x: 1, y: 6 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.PROFESSIONAL,
     perk: {
-      name: 'Professional',
+      name: "Professional",
       description: `%GRAY%Gain %GOLD%+#{1} ${StatString.MINING_SPEED} %GRAY%while mining %PURPLE%Gemstones%GRAY%.`,
       maxLevel: 140,
-      perkFunc: l => ({first: 50 + l * 5, second: 0}),
+      perkFunc: (l) => ({ first: 50 + l * 5, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(2.3),
-      requires: [HotmNode.MOLE, HotmNode.OLD_SCHOOL]
+      requires: [HotmNode.MOLE, HotmNode.OLD_SCHOOL],
     },
-    position: {x: 2, y: 6},
-    type: PerkType.DYNAMIC
+    position: { x: 2, y: 6 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.MOLE,
     perk: {
-      name: 'Mole',
+      name: "Mole",
       description: `%GRAY%Grants %YELLOW%+#{1} ${StatString.MINING_SPREAD}%GRAY% when mining Hard Stone.`,
       maxLevel: 200,
-      perkFunc: l => ({first: 50 + (l - 1) * (350 / 199), second: 0}),
+      perkFunc: (l) => ({ first: 50 + (l - 1) * (350 / 199), second: 0 }),
       powderFunc: floorOfNextPlusOneExp(2.17883),
-      requires: [HotmNode.EFFICIENT_MINER, HotmNode.PROFESSIONAL, HotmNode.FORTUNATE]
+      requires: [
+        HotmNode.EFFICIENT_MINER,
+        HotmNode.PROFESSIONAL,
+        HotmNode.FORTUNATE,
+      ],
     },
-    position: {x: 3, y: 6},
-    type: PerkType.DYNAMIC
+    position: { x: 3, y: 6 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.FORTUNATE,
     perk: {
-      name: 'Gem Lover',
+      name: "Gem Lover",
       description: `%GRAY%Grants %GOLD%+#{1} ${StatString.GEMSTONE_FORTUNE}%GRAY%.`,
       maxLevel: 20,
-      perkFunc: l => ({first: l * 4 + 20, second: 0}),
+      perkFunc: (l) => ({ first: l * 4 + 20, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(4),
-      requires: [HotmNode.MOLE, HotmNode.MINING_EXPERIENCE]
+      requires: [HotmNode.MOLE, HotmNode.MINING_EXPERIENCE],
     },
-    position: {x: 4, y: 6},
-    type: PerkType.DYNAMIC
+    position: { x: 4, y: 6 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.MINING_EXPERIENCE,
     perk: {
-      name: 'Seasoned Mineman',
+      name: "Seasoned Mineman",
       description: `%GRAY%Grants %CYAN%+#{1} ${StatString.MINING_WISDOM}%GRAY%.`,
       maxLevel: 100,
-      perkFunc: l => ({first: l * 0.1 + 5, second: 0}),
+      perkFunc: (l) => ({ first: l * 0.1 + 5, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(2.3),
-      requires: [HotmNode.FORTUNATE, HotmNode.FORGE_TIME, HotmNode.DAILY_POWDER]
+      requires: [
+        HotmNode.FORTUNATE,
+        HotmNode.FORGE_TIME,
+        HotmNode.DAILY_POWDER,
+      ],
     },
-    position: {x: 5, y: 6},
-    type: PerkType.DYNAMIC
+    position: { x: 5, y: 6 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.FRONT_LOADED,
     perk: {
-      name: 'Front Loaded',
-      description: '%GRAY%Grants these buffs for the first %PURPLE%2500 Gemstones %GRAY%you mine each day:\n' +
-        '%PURPLE%3x Gemstone Powder\n' +
+      name: "Front Loaded",
+      description:
+        "%GRAY%Grants these buffs for the first %PURPLE%2500 Gemstones %GRAY%you mine each day:\n" +
+        "%PURPLE%3x Gemstone Powder\n" +
         `%GOLD%+150 ${StatString.GEMSTONE_FORTUNE}\n` +
         `%GOLD%+250 ${StatString.MINING_SPEED}`,
       requires: [HotmNode.MINING_EXPERIENCE],
     },
-    position: {x: 6, y: 6},
-    type: PerkType.STATIC
+    position: { x: 6, y: 6 },
+    type: PerkType.STATIC,
   },
   // Hotm 5
   {
     id: HotmNode.DAILY_GRIND,
     perk: {
-      name: 'Daily Grind',
-      description: '%GRAY%Your first daily commission on each %AQUA%Mining Island %GRAY%grants %BLUE%+500 Powder %GRAY%multiplied by your %DPURPLE%HOTM level%GRAY%.',
-      requires: [HotmNode.OLD_SCHOOL, HotmNode.BLOCKHEAD]
+      name: "Daily Grind",
+      description:
+        "%GRAY%Your first daily commission on each %AQUA%Mining Island %GRAY%grants %BLUE%+500 Powder %GRAY%multiplied by your %DPURPLE%HOTM level%GRAY%.",
+      requires: [HotmNode.OLD_SCHOOL, HotmNode.BLOCKHEAD],
     },
-    position: {x: 1, y: 5},
-    type: PerkType.STATIC
+    position: { x: 1, y: 5 },
+    type: PerkType.STATIC,
   },
   {
     id: HotmNode.SPECIAL_0,
     perk: {
-      name: 'Core of the Mountain',
-      description: '%GRAY%Grants multiple perks. See wiki for more details, I can\'t be asked to write all with formatting. ' +
-        'Plus it isn\'t levelable here anyways. Also opened by default, and should not matter whether you opened it ingame or not.',
-      requires: []
+      name: "Core of the Mountain",
+      description:
+        "%GRAY%Grants multiple perks. See wiki for more details, I can't be asked to write all with formatting. " +
+        "Plus it isn't levelable here anyways. Also opened by default, and should not matter whether you opened it ingame or not.",
+      requires: [],
     },
-    position: {x: 3, y: 5},
-    type: PerkType.ABILITY
+    position: { x: 3, y: 5 },
+    type: PerkType.ABILITY,
   },
   {
     id: HotmNode.DAILY_POWDER,
     perk: {
-      name: 'Daily Powder',
-      description: '%GRAY%Your first daily ore %GRAY%grants %BLUE%+500 Powder %GRAY%multiplied by your %DPURPLE%HOTM level%GRAY%.',
-      requires: [HotmNode.GREAT_EXPLORER, HotmNode.MINING_EXPERIENCE]
+      name: "Daily Powder",
+      description:
+        "%GRAY%Your first daily ore %GRAY%grants %BLUE%+500 Powder %GRAY%multiplied by your %DPURPLE%HOTM level%GRAY%.",
+      requires: [HotmNode.GREAT_EXPLORER, HotmNode.MINING_EXPERIENCE],
     },
-    position: {x: 5, y: 5},
-    type: PerkType.STATIC
+    position: { x: 5, y: 5 },
+    type: PerkType.STATIC,
   },
   // Hotm 6
   {
     id: HotmNode.ANOMALOUS_DESIRE,
     perk: {
-      name: 'Anomalous Desire',
-      description: 'Increases the chance of triggering rare occurrences by %YELLOW%+30% %GRAY%for %GREEN%30s%GRAY%.',
-      requires: [HotmNode.BLOCKHEAD]
+      name: "Anomalous Desire",
+      description:
+        "Increases the chance of triggering rare occurrences by %YELLOW%+30% %GRAY%for %GREEN%30s%GRAY%.",
+      requires: [HotmNode.BLOCKHEAD],
     },
-    position: {x: 0, y: 4},
-    type: PerkType.ABILITY
+    position: { x: 0, y: 4 },
+    type: PerkType.ABILITY,
   },
   {
     id: HotmNode.BLOCKHEAD,
     perk: {
-      name: 'Blockhead',
+      name: "Blockhead",
       description: `%GRAY%Grants %GOLD%+#{1} ${StatString.BLOCK_FORTUNE}%GRAY%.`,
       maxLevel: 20,
-      perkFunc: l => ({first: l * 5, second: 0}),
+      perkFunc: (l) => ({ first: l * 5, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(4),
-      requires: [HotmNode.DAILY_GRIND, HotmNode.SUBTERRANEAN_FISHER, HotmNode.MINING_SPEED_2]
+      requires: [
+        HotmNode.DAILY_GRIND,
+        HotmNode.SUBTERRANEAN_FISHER,
+        HotmNode.MINING_SPEED_2,
+      ],
     },
-    position: {x: 1, y: 4},
-    type: PerkType.DYNAMIC
+    position: { x: 1, y: 4 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.SUBTERRANEAN_FISHER,
     perk: {
-      name: 'Subterranean Fisher',
-      description: `%GRAY%Grants %AQUA%+#{1} ${StatString.FISHING_SPEED} %GRAY%and %CYAN%+#{2} ${StatString.SEA_CREATURE_CHANCE} %GRAY%` +
-        'when in %DPURPLE%Crystal Hollows %GRAY%and %AQUA%Glacite Tunnels%GRAY%.',
+      name: "Subterranean Fisher",
+      description:
+        `%GRAY%Grants %AQUA%+#{1} ${StatString.FISHING_SPEED} %GRAY%and %CYAN%+#{2} ${StatString.SEA_CREATURE_CHANCE} %GRAY%` +
+        "when in %DPURPLE%Crystal Hollows %GRAY%and %AQUA%Glacite Tunnels%GRAY%.",
       maxLevel: 40,
-      perkFunc: l => ({first: 5 + l * 0.5, second: 1 + l * 0.1}),
+      perkFunc: (l) => ({ first: 5 + l * 0.5, second: 1 + l * 0.1 }),
       powderFunc: floorOfNextPlusOneExp(3.07),
-      requires: [HotmNode.KEEP_IT_COOL, HotmNode.BLOCKHEAD]
+      requires: [HotmNode.KEEP_IT_COOL, HotmNode.BLOCKHEAD],
     },
-    position: {x: 2, y: 4},
-    type: PerkType.DYNAMIC
+    position: { x: 2, y: 4 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.KEEP_IT_COOL,
     perk: {
-      name: 'Keep It Cool',
+      name: "Keep It Cool",
       description: `%GRAY%Grants %RED%+#{1} ${StatString.HEAT_RESISTANCE}%GRAY%.`,
       maxLevel: 50,
-      perkFunc: l => ({first: l * 0.4, second: 0}),
+      perkFunc: (l) => ({ first: l * 0.4, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.07),
-      requires: [HotmNode.MOLE, HotmNode.POWDER_BUFF, HotmNode.LONESOME_MINER, HotmNode.SUBTERRANEAN_FISHER]
+      requires: [
+        HotmNode.MOLE,
+        HotmNode.POWDER_BUFF,
+        HotmNode.LONESOME_MINER,
+        HotmNode.SUBTERRANEAN_FISHER,
+      ],
     },
-    position: {x: 3, y: 4},
-    type: PerkType.DYNAMIC
+    position: { x: 3, y: 4 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.LONESOME_MINER,
     perk: {
-      name: 'Lonesome Miner',
-      description: `%GRAY%Increases %RED%${StatString.STRENGTH}%GRAY%, %BLUE%${StatString.CRIT_CHANCE}%GRAY%, %BLUE%${StatString.CRIT_DAMAGE}%GRAY%, ` +
+      name: "Lonesome Miner",
+      description:
+        `%GRAY%Increases %RED%${StatString.STRENGTH}%GRAY%, %BLUE%${StatString.CRIT_CHANCE}%GRAY%, %BLUE%${StatString.CRIT_DAMAGE}%GRAY%, ` +
         `%RED%${StatString.HEALTH} %GRAY%and %GREEN%${StatString.DEFENSE} %GRAY%by %GREEN%#{1}% while on %AQUA%Mining Islands%GRAY%.`,
       maxLevel: 45,
-      perkFunc: l => ({first: 5 + (l - 1) * 0.5, second: 0}),
+      perkFunc: (l) => ({ first: 5 + (l - 1) * 0.5, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.07),
-      requires: [HotmNode.KEEP_IT_COOL, HotmNode.GREAT_EXPLORER]
+      requires: [HotmNode.KEEP_IT_COOL, HotmNode.GREAT_EXPLORER],
     },
-    position: {x: 4, y: 4},
-    type: PerkType.DYNAMIC
+    position: { x: 4, y: 4 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.GREAT_EXPLORER,
     perk: {
-      name: 'Great Explorer',
-      description: `%GRAY%Boosts %BLUE%Treasure Chests %GRAY%chance in %DPURPLE%Crystal Hollows %GRAY%by %GREEN%#{1}%` +
+      name: "Great Explorer",
+      description:
+        `%GRAY%Boosts %BLUE%Treasure Chests %GRAY%chance in %DPURPLE%Crystal Hollows %GRAY%by %GREEN%#{1}%` +
         `%GRAY% and reduces the amount of locks by %GREEN%#{2}%GRAY%.`,
       maxLevel: 20,
-      perkFunc: l => ({first: 20 + (l - 1) * 4, second: 1 + Math.floor(l / 5)}),
+      perkFunc: (l) => ({
+        first: 20 + (l - 1) * 4,
+        second: 1 + Math.floor(l / 5),
+      }),
       powderFunc: floorOfNextPlusOneExp(4),
-      requires: [HotmNode.LONESOME_MINER, HotmNode.DAILY_POWDER, HotmNode.MINING_FORTUNE_2]
+      requires: [
+        HotmNode.LONESOME_MINER,
+        HotmNode.DAILY_POWDER,
+        HotmNode.MINING_FORTUNE_2,
+      ],
     },
-    position: {x: 5, y: 4},
-    type: PerkType.DYNAMIC
+    position: { x: 5, y: 4 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.MANIAC_MINER,
     perk: {
-      name: 'Maniac Miner',
-      description: `%GRAY%Grants %DGREEN%+1 Ⓟ Breaking Power %GRAY%and a stack of %GOLD%+5 ${StatString.MINING_FORTUNE} %DGRAY%(caps at 1000) %GRAY%per block broken for %GREEN%25s%GRAY%.` +
-        ' Each block broken consumes %AQUA%20 Mana%GRAY%.',
-      requires: [HotmNode.GREAT_EXPLORER]
+      name: "Maniac Miner",
+      description:
+        `%GRAY%Grants %DGREEN%+1 Ⓟ Breaking Power %GRAY%and a stack of %GOLD%+5 ${StatString.MINING_FORTUNE} %DGRAY%(caps at 1000) %GRAY%per block broken for %GREEN%25s%GRAY%.` +
+        " Each block broken consumes %AQUA%20 Mana%GRAY%.",
+      requires: [HotmNode.GREAT_EXPLORER],
     },
-    position: {x: 6, y: 4},
-    type: PerkType.ABILITY
+    position: { x: 6, y: 4 },
+    type: PerkType.ABILITY,
   },
   // Hotm 7
   {
     id: HotmNode.MINING_SPEED_2,
     perk: {
-      name: 'Speedy Mineman',
+      name: "Speedy Mineman",
       description: `%GRAY%Grants %GOLD%+#{1} ${StatString.MINING_SPEED}%GRAY%.`,
       maxLevel: 50,
-      perkFunc: l => ({first: l * 40, second: 0}),
+      perkFunc: (l) => ({ first: l * 40, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.2),
-      requires: [HotmNode.BLOCKHEAD, HotmNode.NO_STONE_UNTURNED]
+      requires: [HotmNode.BLOCKHEAD, HotmNode.NO_STONE_UNTURNED],
     },
-    position: {x: 1, y: 3},
-    type: PerkType.DYNAMIC
+    position: { x: 1, y: 3 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.POWDER_BUFF,
     perk: {
-      name: 'Powder Buff',
+      name: "Powder Buff",
       description: `%GRAY%Grants %GREEN%+#{1}% %GRAY% more Powder from any sources.`,
       maxLevel: 50,
-      perkFunc: l => ({first: l, second: 0}),
+      perkFunc: (l) => ({ first: l, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.2),
-      requires: [HotmNode.KEEP_IT_COOL, HotmNode.STEADY_HAND]
+      requires: [HotmNode.KEEP_IT_COOL, HotmNode.STEADY_HAND],
     },
-    position: {x: 3, y: 3},
-    type: PerkType.DYNAMIC
+    position: { x: 3, y: 3 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.MINING_FORTUNE_2,
     perk: {
-      name: 'Fortunate Mineman',
+      name: "Fortunate Mineman",
       description: `%GRAY%Grants %GOLD%+#{1} ${StatString.MINING_FORTUNE}%GRAY%.`,
       maxLevel: 50,
-      perkFunc: l => ({first: l * 3, second: 0}),
+      perkFunc: (l) => ({ first: l * 3, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.2),
-      requires: [HotmNode.GREAT_EXPLORER, HotmNode.SURVEYOR]
+      requires: [HotmNode.GREAT_EXPLORER, HotmNode.SURVEYOR],
     },
-    position: {x: 5, y: 3},
-    type: PerkType.DYNAMIC
+    position: { x: 5, y: 3 },
+    type: PerkType.DYNAMIC,
   },
   // Hotm 8
   {
     id: HotmNode.MINERS_BLESSING,
     perk: {
-      name: 'Miner\'s Blessing',
+      name: "Miner's Blessing",
       description: `%GRAY%Grants %AQUA%+30 ✯ Magic Find %GRAY%on all %AQUA%Mining Islands%GRAY%.`,
-      requires: [HotmNode.NO_STONE_UNTURNED]
+      requires: [HotmNode.NO_STONE_UNTURNED],
     },
-    position: {x: 0, y: 2},
-    type: PerkType.STATIC
+    position: { x: 0, y: 2 },
+    type: PerkType.STATIC,
   },
   {
     id: HotmNode.NO_STONE_UNTURNED,
     perk: {
-      name: 'No Stone Unturned',
+      name: "No Stone Unturned",
       description: `%GRAY%Increases %BLUE%Suspicious Scrap %GRAY%chance by %GREEN%#{1}% %GRAY%in %AQUA%Glacite Mineshafts%GRAY%.`,
       maxLevel: 50,
-      perkFunc: l => ({first: l * 0.5, second: 0}),
+      perkFunc: (l) => ({ first: l * 0.5, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.05),
-      requires: [HotmNode.METAL_HEAD, HotmNode.STRONG_ARM, HotmNode.MINING_SPEED_2]
+      requires: [
+        HotmNode.METAL_HEAD,
+        HotmNode.STRONG_ARM,
+        HotmNode.MINING_SPEED_2,
+      ],
     },
-    position: {x: 1, y: 2},
-    type: PerkType.DYNAMIC
+    position: { x: 1, y: 2 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.STRONG_ARM,
     perk: {
-      name: 'Strong Arm',
+      name: "Strong Arm",
       description: `%GRAY%Gains %GOLD%+#{1} ${StatString.MINING_SPEED}%GRAY% while mining %GOLD%Dwarven Metals%GRAY%.`,
       maxLevel: 100,
-      perkFunc: l => ({first: l * 5, second: 0}),
+      perkFunc: (l) => ({ first: l * 5, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(2.3),
-      requires: [HotmNode.NO_STONE_UNTURNED, HotmNode.STEADY_HAND]
+      requires: [HotmNode.NO_STONE_UNTURNED, HotmNode.STEADY_HAND],
     },
-    position: {x: 2, y: 2},
-    type: PerkType.DYNAMIC
+    position: { x: 2, y: 2 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.STEADY_HAND,
     perk: {
-      name: 'Steady Hand',
+      name: "Steady Hand",
       description: `%GRAY%Grants %YELLOW%+#{1} ${StatString.MINING_SPREAD} %GRAY%while in %AQUA%Glacite Mineshaft%GRAY%.`,
       maxLevel: 100,
-      perkFunc: l => ({first: l * 0.1, second: 0}),
+      perkFunc: (l) => ({ first: l * 0.1, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(2.6),
-      requires: [HotmNode.STRONG_ARM, HotmNode.WARM_HEARTED, HotmNode.POWDER_BUFF, HotmNode.RAGS_TO_RICHES]
+      requires: [
+        HotmNode.STRONG_ARM,
+        HotmNode.WARM_HEARTED,
+        HotmNode.POWDER_BUFF,
+        HotmNode.RAGS_TO_RICHES,
+      ],
     },
-    position: {x: 3, y: 2},
-    type: PerkType.DYNAMIC
+    position: { x: 3, y: 2 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.WARM_HEARTED,
     perk: {
-      name: 'Warm Heart',
+      name: "Warm Heart",
       description: `%GRAY%Grants %AQUA%+#{1} ${StatString.COLD_RESISTANCE}%GRAY%.`,
       maxLevel: 50,
-      perkFunc: l => ({first: l * 0.4, second: 0}),
+      perkFunc: (l) => ({ first: l * 0.4, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.1),
-      requires: [HotmNode.SURVEYOR, HotmNode.STEADY_HAND]
+      requires: [HotmNode.SURVEYOR, HotmNode.STEADY_HAND],
     },
-    position: {x: 4, y: 2},
-    type: PerkType.DYNAMIC
-  }, {
+    position: { x: 4, y: 2 },
+    type: PerkType.DYNAMIC,
+  },
+  {
     id: HotmNode.SURVEYOR,
     perk: {
-      name: 'Surveyor',
-      description: '%GRAY%Increases your chance of %AQUA%Glacite Mineshaft %GRAY%while mining in the %AQUA%Glacite Tunnels %GRAY% by %GREEN%+#{1}%%GRAY%.',
+      name: "Surveyor",
+      description:
+        "%GRAY%Increases your chance of %AQUA%Glacite Mineshaft %GRAY%while mining in the %AQUA%Glacite Tunnels %GRAY% by %GREEN%+#{1}%%GRAY%.",
       maxLevel: 20,
-      perkFunc: l => ({first: l * 0.75, second: 0}),
+      perkFunc: (l) => ({ first: l * 0.75, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(4),
-      requires: [HotmNode.WARM_HEARTED, HotmNode.EAGER_ADVENTURER, HotmNode.MINING_FORTUNE_2]
+      requires: [
+        HotmNode.WARM_HEARTED,
+        HotmNode.EAGER_ADVENTURER,
+        HotmNode.MINING_FORTUNE_2,
+      ],
     },
-    position: {x: 5, y: 2},
-    type: PerkType.DYNAMIC
+    position: { x: 5, y: 2 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.MINESHAFT_MAYHEM,
     perk: {
-      name: 'Mineshaft Mayhem',
-      description: 'Receives one random buff on joining a %AQUA%Glacite Mineshaft%GRAY%:\n' +
-        '%GREEN%+5% %GRAY% chance for %BLUE%Suspicious Scrap\n' +
+      name: "Mineshaft Mayhem",
+      description:
+        "Receives one random buff on joining a %AQUA%Glacite Mineshaft%GRAY%:\n" +
+        "%GREEN%+5% %GRAY% chance for %BLUE%Suspicious Scrap\n" +
         `%GOLD%+100 ${StatString.MINING_FORTUNE}%GRAY%\n` +
         `%GOLD%+200 ${StatString.MINING_SPEED}%GRAY%\n` +
         `%GOLD%+10 ${StatString.COLD_RESISTANCE}%GRAY%\n` +
-        '%GREEN%-25% %GRAY%Pickaxe Ability cooldown',
-      requires: [HotmNode.SURVEYOR]
+        "%GREEN%-25% %GRAY%Pickaxe Ability cooldown",
+      requires: [HotmNode.SURVEYOR],
     },
-    position: {x: 6, y: 2},
-    type: PerkType.STATIC
+    position: { x: 6, y: 2 },
+    type: PerkType.STATIC,
   },
   // Hotm 9
   {
     id: HotmNode.METAL_HEAD,
     perk: {
-      name: 'Metal Head',
+      name: "Metal Head",
       description: `%GRAY%Grants %GOLD%+#{1} ${StatString.DWARVEN_METAL_FORTUNE}%GRAY%.`,
       maxLevel: 20,
-      perkFunc: l => ({first: l * 5, second: 0}),
+      perkFunc: (l) => ({ first: l * 5, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(4),
-      requires: [HotmNode.NO_STONE_UNTURNED, HotmNode.CRYSTALLINE]
+      requires: [HotmNode.NO_STONE_UNTURNED, HotmNode.CRYSTALLINE],
     },
-    position: {x: 1, y: 1},
-    type: PerkType.DYNAMIC
+    position: { x: 1, y: 1 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.RAGS_TO_RICHES,
     perk: {
-      name: 'Rags to Riches',
+      name: "Rags to Riches",
       description: `%GRAY%Grants %GOLD%+#{1} ${StatString.MINING_FORTUNE} %GRAY%while in a %AQUA%Glacite Mineshaft.`,
       maxLevel: 50,
-      perkFunc: l => ({first: l * 4, second: 0}),
+      perkFunc: (l) => ({ first: l * 4, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.05),
-      requires: [HotmNode.MINING_MASTER, HotmNode.STEADY_HAND]
+      requires: [HotmNode.MINING_MASTER, HotmNode.STEADY_HAND],
     },
-    position: {x: 3, y: 1},
-    type: PerkType.DYNAMIC
+    position: { x: 3, y: 1 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.EAGER_ADVENTURER,
     perk: {
-      name: 'Eager Adventurer',
+      name: "Eager Adventurer",
       description: `%GRAY%Grants %GOLD%+#{1} ${StatString.MINING_SPEED}%GRAY% while in a %AQUA%Glacite Mineshafts%GRAY%.`,
       maxLevel: 100,
-      perkFunc: l => ({first: l * 4, second: 0}),
+      perkFunc: (l) => ({ first: l * 4, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(2.3),
-      requires: [HotmNode.VANGUARD_SEEKER, HotmNode.SURVEYOR]
+      requires: [HotmNode.VANGUARD_SEEKER, HotmNode.SURVEYOR],
     },
-    position: {x: 5, y: 1},
-    type: PerkType.DYNAMIC
+    position: { x: 5, y: 1 },
+    type: PerkType.DYNAMIC,
   },
   // Hotm 10
   {
     id: HotmNode.GEMSTONE_INFUSION,
     perk: {
-      name: 'Gemstone Infusion',
-      description: '%GRAY%Increases the effectiveness of %GOLD%every Gemstone %GRAY%in your pick\'s Gemstone Slots by %GREEN%100% %GRAY%for %GREEN%20s%GRAY%.',
-      requires: [HotmNode.CRYSTALLINE]
+      name: "Gemstone Infusion",
+      description:
+        "%GRAY%Increases the effectiveness of %GOLD%every Gemstone %GRAY%in your pick's Gemstone Slots by %GREEN%100% %GRAY%for %GREEN%20s%GRAY%.",
+      requires: [HotmNode.CRYSTALLINE],
     },
-    position: {x: 0, y: 0},
-    type: PerkType.ABILITY
+    position: { x: 0, y: 0 },
+    type: PerkType.ABILITY,
   },
   {
     id: HotmNode.CRYSTALLINE,
     perk: {
-      name: 'Crystalline',
+      name: "Crystalline",
       description: `%GRAY%Increases your chances of finding a %AQUA%Glacite Mineshaft %GRAY%containing a %PURPLE%Gemstone Crystal %GRAY%by %GREEN%#{1}%%GRAY%.`,
       maxLevel: 50,
-      perkFunc: l => ({first: l * 0.5, second: 0}),
+      perkFunc: (l) => ({ first: l * 0.5, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.3),
-      requires: [HotmNode.METAL_HEAD, HotmNode.GIFTS_FROM_THE_DEPARTED]
+      requires: [HotmNode.METAL_HEAD, HotmNode.GIFTS_FROM_THE_DEPARTED],
     },
-    position: {x: 1, y: 0},
-    type: PerkType.DYNAMIC
+    position: { x: 1, y: 0 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.GIFTS_FROM_THE_DEPARTED,
     perk: {
-      name: 'Gifts from the Departed',
+      name: "Gifts from the Departed",
       description: `%GRAY%Gain a %GREEN%#{1}% %GRAY%chance to get an extra item when looting a %AQUA%Frozen Corpse%GRAY%.`,
       maxLevel: 100,
-      perkFunc: l => ({first: 0.2 * l, second: 0}),
+      perkFunc: (l) => ({ first: 0.2 * l, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(2.45),
-      requires: [HotmNode.CRYSTALLINE, HotmNode.MINING_MASTER]
+      requires: [HotmNode.CRYSTALLINE, HotmNode.MINING_MASTER],
     },
-    position: {x: 2, y: 0},
-    type: PerkType.DYNAMIC
+    position: { x: 2, y: 0 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.MINING_MASTER,
     perk: {
-      name: 'Mining Master',
+      name: "Mining Master",
       description: `%GRAY%Grants %DPURPLE%+#{1} ${StatString.PRISTINE}%GRAY%.`,
       maxLevel: 10,
-      perkFunc: l => ({first: l * 0.1, second: 0}),
-      powderFunc: p => Math.floor(Math.pow(p + 7, 5)),
-      requires: [HotmNode.GIFTS_FROM_THE_DEPARTED, HotmNode.HUNGRY_FOR_MORE, HotmNode.RAGS_TO_RICHES]
+      perkFunc: (l) => ({ first: l * 0.1, second: 0 }),
+      powderFunc: (p) => Math.floor(Math.pow(p + 7, 5)),
+      requires: [
+        HotmNode.GIFTS_FROM_THE_DEPARTED,
+        HotmNode.HUNGRY_FOR_MORE,
+        HotmNode.RAGS_TO_RICHES,
+      ],
     },
-    position: {x: 3, y: 0},
-    type: PerkType.DYNAMIC
+    position: { x: 3, y: 0 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.HUNGRY_FOR_MORE,
     perk: {
-      name: 'Dead Man\'s Chest',
+      name: "Dead Man's Chest",
       description: `%GRAY%Gain a %GREEN%#{1}% %GRAY%chance to spawn %GREEN%1 %GRAY%additional %AQUA%Frozen Corpse %GRAY%when you enter a %AQUA%Glacite Mineshaft%GRAY%.`,
       maxLevel: 50,
-      perkFunc: l => ({first: l, second: 0}),
+      perkFunc: (l) => ({ first: l, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.2),
-      requires: [HotmNode.MINING_MASTER, HotmNode.VANGUARD_SEEKER]
+      requires: [HotmNode.MINING_MASTER, HotmNode.VANGUARD_SEEKER],
     },
-    position: {x: 4, y: 0},
-    type: PerkType.DYNAMIC
+    position: { x: 4, y: 0 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.VANGUARD_SEEKER,
     perk: {
-      name: 'Vanguard Seeker',
+      name: "Vanguard Seeker",
       description: `%GRAY%Increases %PURPLE%Fairy Mineshaft %GRAY%chance with %WHITE%Vanguard Corpse %GRAY%by %GREEN%#{1}%%GRAY%.`,
       maxLevel: 50,
-      perkFunc: l => ({first: l, second: 0}),
+      perkFunc: (l) => ({ first: l, second: 0 }),
       powderFunc: floorOfNextPlusOneExp(3.1),
-      requires: [HotmNode.HUNGRY_FOR_MORE, HotmNode.EAGER_ADVENTURER]
+      requires: [HotmNode.HUNGRY_FOR_MORE, HotmNode.EAGER_ADVENTURER],
     },
-    position: {x: 5, y: 0},
-    type: PerkType.DYNAMIC
+    position: { x: 5, y: 0 },
+    type: PerkType.DYNAMIC,
   },
   {
     id: HotmNode.SHEER_FORCE,
     perk: {
-      name: 'Sheer Force',
+      name: "Sheer Force",
       description: `%GRAY%Grants %YELLOW%+200 ${StatString.MINING_SPREAD} %GRAY%for %GREEN%20s%GRAY%.`,
-      requires: [HotmNode.VANGUARD_SEEKER]
+      requires: [HotmNode.VANGUARD_SEEKER],
     },
-    position: {x: 6, y: 0},
-    type: PerkType.ABILITY
-  }
-]
+    position: { x: 6, y: 0 },
+    type: PerkType.ABILITY,
+  },
+];
 
 export enum Status {
   LOCKED,
   UNLOCKED,
   PROGRESSING,
-  MAXED
+  MAXED,
 }
