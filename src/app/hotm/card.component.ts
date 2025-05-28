@@ -1,4 +1,4 @@
-import { Component, inject, input } from "@angular/core";
+import { Component, inject, input, OnDestroy } from "@angular/core";
 import { HotmService } from "./hotm.service";
 import { BaseNode, castToLevelable } from "./hotm.model";
 import { Button } from "primeng/button";
@@ -109,7 +109,7 @@ import { FormsModule } from "@angular/forms";
   `,
   providers: [MessageService],
 })
-export class CardComponent {
+export class CardComponent implements OnDestroy {
   instance = input.required<BaseNode>();
   isLevelable = input.required<boolean>();
 
@@ -145,4 +145,9 @@ export class CardComponent {
   protected readonly Status = Status;
   protected readonly castToLevelable = castToLevelable;
   protected readonly formattedPowderString = formattedPowderString;
+
+  ngOnDestroy() {
+    // Clear any pending messages
+    this.msgServ.clear();
+  }
 }

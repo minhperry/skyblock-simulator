@@ -1,4 +1,4 @@
-import { computed, Injectable } from "@angular/core";
+import { computed, Injectable, OnDestroy } from "@angular/core";
 import {
   HotmNode,
   HotmTreeData,
@@ -11,7 +11,7 @@ import { BaseNode, LevelableNode, AbilityNode, StaticNode } from "./hotm.model";
 @Injectable({
   providedIn: "root",
 })
-export class HotmService {
+export class HotmService implements OnDestroy {
   grid: BaseNode[][] = Array.from({ length: 10 }, () => Array(7).fill(null));
 
   constructor() {
@@ -86,5 +86,10 @@ export class HotmService {
       .filter((node) => node !== null) // Filter nulls
       .filter((node) => node.status() !== Status.LOCKED) // Filter locked nodes
       .map((node) => node.id); // Map to ids
+  }
+
+  ngOnDestroy() {
+    // Clear the grid if needed
+    this.grid = [];
   }
 }
