@@ -6,8 +6,6 @@ import { HotmService } from "./hotm.service";
 import { CardComponent } from "./card.component";
 import { DialogService } from "primeng/dynamicdialog";
 import { FormsModule } from "@angular/forms";
-import { HttpClient } from "@angular/common/http";
-import { environment } from "../../environments/environment.development";
 import { Button } from "primeng/button";
 import { DropdownModule } from "primeng/dropdown";
 
@@ -15,7 +13,7 @@ import { DropdownModule } from "primeng/dropdown";
   selector: "sb-hotm",
   templateUrl: "./hotm.component.html",
   styleUrl: "./hotm.component.scss",
-  imports: [NgClass, CardComponent, FormsModule],
+  imports: [NgClass, CardComponent, FormsModule, Button, DropdownModule],
   providers: [DialogService],
 })
 export class HotmComponent {
@@ -23,6 +21,13 @@ export class HotmComponent {
   selectedPos: WritableSignal<Nullable<Position>> = signal(null);
 
   dialogVisible = false;
+
+  predefinedTrees = [
+    { label: "Powder Grinder", value: "powder_grinder" },
+    { label: "Mithril Miner", value: "mithril_miner" },
+    { label: "Gemstone Grinder", value: "gemstone_grinder" },
+    { label: "Balanced Setup", value: "balanced_setup" },
+  ];
 
   // Click handlers
 
@@ -35,7 +40,7 @@ export class HotmComponent {
   }
 
   //#region Load from backend
-  // Profile stuffs
+  /* Profile stuffs
   ign = "";
   profiles: Profile[] = [];
   selectedProfile = this.profiles[0];
@@ -63,6 +68,7 @@ export class HotmComponent {
         },
       });
   }
+  */
   //#endregion
 
   protected readonly format = formattedPowderNumber;
