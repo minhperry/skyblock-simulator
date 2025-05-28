@@ -65,13 +65,6 @@ export class HotmComponent {
   }
   //#endregion
 
-  predefinedTrees = [
-    { name: "Powder Grinder", value: "powder_grinder" },
-    { name: "Mithril Miner", value: "mithril_miner" },
-    { name: "Gemstone Grinder", value: "gemstone_grinder" },
-    { name: "Balanced Setup", value: "balanced_setup" },
-  ];
-
   protected readonly format = formattedPowderNumber;
   protected readonly PowderType = PowderType;
 }
