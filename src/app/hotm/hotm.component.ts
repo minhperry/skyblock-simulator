@@ -74,6 +74,7 @@ export class HotmComponent {
   protected readonly PowderType = PowderType;
 }
 
+/*
 function responseToProfileMapper(prof: ProfileResponse): Profile {
   let icon = "";
   switch (prof.gameMode) {
@@ -104,3 +105,4 @@ interface ProfileResponse {
   profileFruit: string;
   profileId: string;
 }
+*/
