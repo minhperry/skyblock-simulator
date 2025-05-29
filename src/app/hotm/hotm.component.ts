@@ -1,5 +1,5 @@
 import { Component, inject, signal, WritableSignal } from "@angular/core";
-import { formattedPowderNumber, Position, PowderType } from "./hotmData";
+import { formattedPowderNumber, Position, Status } from "./hotmData";
 import { Nullable } from "../../interfaces/types";
 import { NgClass } from "@angular/common";
 import { HotmService } from "./hotm.service";
@@ -7,16 +7,22 @@ import { CardComponent } from "./card.component";
 import { DialogService } from "primeng/dynamicdialog";
 import { FormsModule } from "@angular/forms";
 import { Select } from "primeng/select";
+import { LevelableNode, StaticNode } from "./hotm.model";
+import { Clipboard } from "@angular/cdk/clipboard";
+import { Toast } from "primeng/toast";
+import { MessageService } from "primeng/api";
 
 @Component({
   selector: "sb-hotm",
   templateUrl: "./hotm.component.html",
   styleUrl: "./hotm.component.scss",
-  imports: [NgClass, CardComponent, FormsModule, Select],
-  providers: [DialogService],
+  imports: [NgClass, CardComponent, FormsModule, Select, Toast],
+  providers: [DialogService, MessageService],
 })
 export class HotmComponent {
-  hotmServ = inject(HotmService);
+  protected hotmServ = inject(HotmService);
+  protected clipboard = inject(Clipboard);
+  protected msg = inject(MessageService);
   selectedPos: WritableSignal<Nullable<Position>> = signal(null);
 
   dialogVisible = false;
@@ -68,10 +74,39 @@ export class HotmComponent {
       });
   }
   */
+
   //#endregion
 
+  onExportClick() {
+    const exportData: string[] = [];
+    for (const row of this.hotmServ.grid) {
+      for (const cell of row) {
+        if (!cell) continue;
+        const status = cell.status();
+        if (cell instanceof LevelableNode) {
+          if (status !== Status.LOCKED) exportData.push(`${cell.id}:${cell.currentLevel()}`);
+        } else if (cell instanceof StaticNode) {
+          if (status !== Status.LOCKED) exportData.push(`${cell.id}`);
+        } else {
+          if (status !== Status.LOCKED) exportData.push(`${cell.id}`);
+        }
+      }
+    }
+    this.clipboard.copy(JSON.stringify(exportData));
+  }
+
+  onImportClick() {
+    navigator.clipboard.readText().then((text) => {
+      try {
+        const importData = JSON.parse(text) as string[];
+        console.log(importData);
+      } catch (e) {
+        console.error("Failed to parse import data:", e);
+      }
+    });
+  }
+
   protected readonly format = formattedPowderNumber;
-  protected readonly PowderType = PowderType;
 }
 
 /*
