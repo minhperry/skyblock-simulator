@@ -83,12 +83,13 @@ export class HotmComponent {
       for (const cell of row) {
         if (!cell) continue;
         const status = cell.status();
+        const pos = `${cell.position.x},${cell.position.y}`;
         if (cell instanceof LevelableNode) {
-          if (status !== Status.LOCKED) exportData.push(`${cell.id}:${cell.currentLevel()}`);
+          if (status !== Status.LOCKED) exportData.push(`${pos}:${cell.currentLevel()}`);
         } else if (cell instanceof StaticNode) {
-          if (status !== Status.LOCKED) exportData.push(`${cell.id}`);
+          if (status !== Status.LOCKED) exportData.push(`${pos}`);
         } else {
-          if (status !== Status.LOCKED) exportData.push(`${cell.id}`);
+          if (status !== Status.LOCKED) exportData.push(`${pos}`);
         }
       }
     }
@@ -99,9 +100,38 @@ export class HotmComponent {
     navigator.clipboard.readText().then((text) => {
       try {
         const importData = JSON.parse(text) as string[];
-        console.log(importData);
-      } catch (e) {
-        console.error("Failed to parse import data:", e);
+        for (const str of importData) {
+          const match = str.match(/^(?<x>\d+),(?<y>\d+)(:(?<level>\d+))?$/);
+
+          if (!match || !match.groups) {
+            this.msg.add({
+              severity: "error",
+              summary: "Invalid import format!",
+              detail: `The format "${str}" does not match the expected pattern.`
+            });
+            continue;
+          }
+
+          const x = parseInt(match.groups["x"], 10);
+          const y = parseInt(match.groups["y"], 10);
+          const level = match.groups["level"] ? parseInt(match.groups["level"], 10) : -1; // -1 for static nodes and abilities
+
+          const node = this.hotmServ.grid[y][x];
+
+          if (node instanceof LevelableNode) {
+            node.currentLevel.set(level);
+            console.log("Opened levelable node at", x, y, "with level", level);
+          } else {
+            node.onNodeOpened();
+          }
+        }
+      } catch {
+        this.msg.add({
+          severity: "error",
+          summary: "Import failed!",
+          detail: "The clipboard content is not valid JSON or does not match the expected format."
+        });
+        console.error("Import failed: Invalid JSON or format", text);
       }
     });
   }
