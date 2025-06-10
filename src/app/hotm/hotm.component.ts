@@ -89,6 +89,7 @@ export class HotmComponent {
         } else if (cell instanceof StaticNode) {
           if (status !== Status.LOCKED) exportData.push(`${pos}`);
         } else {
+          if (pos === "3,5") continue;
           if (status !== Status.LOCKED) exportData.push(`${pos}`);
         }
       }
@@ -107,7 +108,7 @@ export class HotmComponent {
             this.msg.add({
               severity: "error",
               summary: "Invalid import format!",
-              detail: `The format "${str}" does not match the expected pattern.`
+              detail: `The format "${str}" does not match the expected pattern.`,
             });
             continue;
           }
@@ -124,6 +125,7 @@ export class HotmComponent {
           } else {
             node.onNodeOpened();
           }
+          this.hotmServ.usedTokens++;
         }
       } catch {
         this.msg.add({
