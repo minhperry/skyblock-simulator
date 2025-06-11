@@ -14,59 +14,59 @@ import {NotFoundComponent} from './not-found/not-found.component';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: HomeComponent,
-    title: 'Main Menu'
+    title: "Main Menu",
   },
   {
-    path: 'terminal',
-    title: 'Floor 7 Terminals',
+    path: "terminal",
+    title: "Floor 7 Terminals",
     children: [
       {
-        path: 'panes',
-        component: PaneGameComponent
+        path: "panes",
+        component: PaneGameComponent,
       },
       {
-        path: 'numbers',
-        component: NumbergameComponent
+        path: "numbers",
+        component: NumbergameComponent,
       },
       {
-        path: 'colors',
-        component: ColorerComponent
+        path: "colors",
+        component: ColorerComponent,
       },
       {
-        path: '**',
-        component: TerminalComponent
-      }
-    ]
+        path: "**",
+        component: TerminalComponent,
+      },
+    ],
   },
   {
-    path: 'cowvsele',
+    path: "cowvsele",
     component: FarmingFortuneComponent,
-    title: 'Calculator'
+    title: "Calculator",
   },
   {
-    path: 'livemp',
+    path: "livemp",
     component: LiveMpComponent,
-    title: 'Live Magical Power Display'
+    title: "Live Magical Power Display",
   },
   {
-    path: 'todo',
+    path: "todo",
     component: TodoComponent,
-    title: 'To Do List'
+    title: "To Do List",
   },
   {
-    path: 'about',
+    path: "about",
     component: AboutComponent,
-    title: 'About'
+    title: "About",
   },
   {
-    path: 'fruit',
+    path: "fruit",
     component: FruitDiggingComponent,
-    title: 'Fruit Digging Game'
+    title: "Fruit Digging Game",
   },
   {
-    path: 'jerry',
+    path: "jerry",
     /*
     component: MayorCycleComponent,
     title: 'Jerry June 2025',
@@ -78,36 +78,36 @@ export const routes: Routes = [
     */
     children: [
       {
-        path: 'oct24',
+        path: "oct24",
         component: MayorCycleComponent,
-        title: 'Oct 24 Jerry Cycle',
+        title: "Oct 24 Jerry Cycle",
         data: {
           start: 1728227700,
-          month: 'October 2024',
-          order: ['Finnegan', 'Marina', 'Paul', 'Cole', 'Aatrox', 'Diana']
-        }
+          month: "October 2024",
+          order: ["Finnegan", "Marina", "Paul", "Cole", "Aatrox", "Diana"],
+        },
       },
       {
-        path: 'feb25',
+        path: "feb25",
         component: MayorCycleComponent,
-        title: 'Feb 25 Jerry Cycle',
+        title: "Feb 25 Jerry Cycle",
         data: {
           start: 1738941300,
-          month: 'February 2025',
-          order: ['Finnegan', 'Cole', 'Marina', 'Diana', 'Aatrox', 'Paul']
-        }
+          month: "February 2025",
+          order: ["Finnegan", "Cole", "Marina", "Diana", "Aatrox", "Paul"],
+        },
       },
       {
-        path: '**',
+        path: "**",
         component: MayorCycleComponent,
-        title: 'Jun 25 Jerry Cycle',
+        title: "Jun 25 Jerry Cycle",
         data: {
           start: 1749654900,
-          month: 'June 2025',
-          order: ['??', '??', '??', '??', '??', '??']
-        }
-      }
-    ]
+          month: "June 2025",
+          order: ["Cole", "??", "Marina", "??", "??", "??"],
+        },
+      },
+    ],
   },
   /*
   {
@@ -117,8 +117,8 @@ export const routes: Routes = [
   },
   */
   {
-    path: '**',
+    path: "**",
     component: NotFoundComponent,
-    title: '404 Not Found',
-  }
+    title: "404 Not Found",
+  },
 ];
