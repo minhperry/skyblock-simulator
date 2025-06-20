@@ -16,68 +16,75 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        label: 'Home',
-        icon: 'bi bi-house',
-        routerLink: '/'
+        label: "Home",
+        icon: "bi bi-house",
+        routerLink: "/",
       },
       {
-        label: 'Games',
-        icon: 'bi bi-joystick',
+        label: "Games",
+        icon: "bi bi-joystick",
         items: [
           {
-            label: 'Terminals',
+            label: "Terminals",
             items: [
-              {label: 'All terminals', routerLink: '/terminal'},
-              {label: 'Panes', routerLink: '/terminal/panes'},
-              {label: 'Numbers', routerLink: '/terminal/numbers'},
-              {label: 'Colors', routerLink: '/terminal/colors'},
-            ]
+              { label: "All terminals", routerLink: "/terminal" },
+              { label: "Panes", routerLink: "/terminal/panes" },
+              { label: "Numbers", routerLink: "/terminal/numbers" },
+              { label: "Colors", routerLink: "/terminal/colors" },
+            ],
           },
-          {separator: true},
-          {label: 'Carnival Fruit Digging', routerLink: '/fruit'}
-        ]
+          { separator: true },
+          { label: "Carnival Fruit Digging", routerLink: "/fruit" },
+        ],
       },
       {
-        label: 'Calculators',
-        icon: 'bi bi-calculator',
+        label: "Calculators",
+        icon: "bi bi-calculator",
         items: [
-          {label: 'Magical Power', routerLink: '/livemp'},
-          {separator: true},
-          {label: 'Moocow vs Elephant', routerLink: '/cowvsele'},
-          {separator: true},
-          {label: 'Heart of the Mountain', routerLink: '/hotm', disabled: true}
-        ]
+          { label: "Magical Power", routerLink: "/livemp" },
+          { separator: true },
+          { label: "Moocow vs Elephant", routerLink: "/cowvsele" },
+          { separator: true },
+          {
+            label: "Heart of the Mountain",
+            routerLink: "/hotm",
+            disabled: true,
+          },
+        ],
       },
       {
-        label: 'Calendar',
-        icon: 'bi bi-calendar',
+        label: "Calendar",
+        icon: "bi bi-calendar",
         items: [
-          {label: 'Jerry Jun25', routerLink: '/jerry'},
-          {label: 'Jerry Feb25 Archive', routerLink: '/jerry/feb25'},
-          {label: 'Jerry Oct24 Archive', routerLink: '/jerry/oct24'},
-        ]
+          { label: "Jerry Oct25", routerLink: "/jerry" },
+          { label: "Jerry Jun25 Archive", routerLink: "/jerry/jun25" },
+          { label: "Jerry Feb25 Archive", routerLink: "/jerry/feb25" },
+          { label: "Jerry Oct24 Archive", routerLink: "/jerry/oct24" },
+        ],
       },
       {
-        label: 'About',
-        icon: 'bi bi-info-circle',
+        label: "About",
+        icon: "bi bi-info-circle",
         items: [
-          {label: 'About this site', routerLink: '/about'},
-          {label: 'Source Code', url: 'https://github.com/minhperry/skyblock-simulator', target: '_blank'},
-          {label: 'API docs', routerLink: '/api/v2/docs'}
-        ]
+          { label: "About this site", routerLink: "/about" },
+          {
+            label: "Source Code",
+            url: "https://github.com/minhperry/skyblock-simulator",
+            target: "_blank",
+          },
+          { label: "API docs", routerLink: "/api/v2/docs" },
+        ],
       },
       {
-        label: 'Legacy',
-        icon: 'bi bi-archive',
-        items: [
-          {label: 'To-do', routerLink: '/todo'}
-        ]
+        label: "Legacy",
+        icon: "bi bi-archive",
+        items: [{ label: "To-do", routerLink: "/todo" }],
       },
       {
-        label: 'Support',
-        icon: 'bi bi-heart-fill !text-red-500',
-        url: 'https://ko-fi.com/minhperry',
-      }
+        label: "Support",
+        icon: "bi bi-heart-fill !text-red-500",
+        url: "https://ko-fi.com/minhperry",
+      },
     ];
   }
 }

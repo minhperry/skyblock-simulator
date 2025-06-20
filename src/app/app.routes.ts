@@ -98,13 +98,23 @@ export const routes: Routes = [
         },
       },
       {
-        path: "**",
+        path: "jun25",
         component: MayorCycleComponent,
         title: "Jun 25 Jerry Cycle",
         data: {
           start: 1749654900,
           month: "June 2025",
           order: ["Cole", "Finnegan", "Marina", "Aatrox", "Diana", "Paul"],
+        },
+      },
+      {
+        path: "**",
+        component: MayorCycleComponent,
+        title: "Oct 25 Jerry Cycle",
+        data: {
+          start: 1760368500,
+          month: "???",
+          order: ["??", "??", "??", "??", "??", "??"],
         },
       },
     ],
