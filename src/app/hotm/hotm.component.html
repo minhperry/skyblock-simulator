@@ -1,6 +1,4 @@
-<div
-  class="flex justify-center flex-col lg:flex-row container mx-auto pb-4 select-none px-[3%]"
->
+<div class="flex justify-center flex-col lg:flex-row container mx-auto pb-4 select-none px-[3%]">
   <!-- Left panel: the grid -->
   <div class="inventory-view container">
     @for (row of hotmServ.grid; let rwIdx = $index; track rwIdx) {
@@ -11,20 +9,13 @@
             (click)="onCellClick(colIdx, rwIdx)"
             [id]="'cell_' + colIdx + '_' + rwIdx"
             [ngClass]="{
-              selected:
-                selectedPos()?.x === colIdx && selectedPos()!.y === rwIdx,
+              selected: selectedPos()?.x === colIdx && selectedPos()!.y === rwIdx,
             }"
           >
-            <div
-              class="item-icon piece-icon"
-              [ngClass]="cell.cssClass()()"
-            ></div>
+            <div class="item-icon piece-icon" [ngClass]="cell.cssClass()()"></div>
           </div>
         } @else {
-          <div
-            class="inventory-slot"
-            [id]="'cell_' + colIdx + '_' + rwIdx"
-          ></div>
+          <div class="inventory-slot" [id]="'cell_' + colIdx + '_' + rwIdx"></div>
         }
       }
     }
@@ -32,10 +23,8 @@
   <!-- Right panel: the picker -->
   <div class="container flex justify-center flex-col max-lg:mt-4 gap-3">
     <!-- Tooltip box -->
-    <div
-      id="tooltip-box"
-      class="w-full bg-gray-800/40 p-3 rounded-md border min-h-[250px] flex flex-col items-center justify-center border-gray-500"
-    >
+    <div id="tooltip-box"
+         class="w-full bg-gray-800/40 p-3 rounded-md border min-h-[250px] flex flex-col items-center justify-center border-gray-500">
       @if (selectedPos()) {
         @let pos = selectedPos()!;
         @let selectedNode = hotmServ.grid[pos.y][pos.x];
@@ -67,37 +56,24 @@
         <h2 class="text-xl font-bold text-emerald-400 mb-4">Powders</h2>
         <div class="space-y-3">
           <div
-            class="flex items-center justify-between p-3 rounded-lg border border-slate-400/60 bg-white/10 backdrop-blur-md"
-          >
+            class="flex items-center justify-between p-3 rounded-lg border border-slate-400/60 bg-white/10 backdrop-blur-md">
             <span class="text-[#00AA00] font-semibold">Mithril</span>
-            <span class="text-[#00AA00] font-bold">{{
-              format(total.mithril)
-            }}</span>
+            <span class="text-[#00AA00] font-bold">{{ format(total.mithril) }}</span>
           </div>
           <div
-            class="flex items-center justify-between p-3 rounded-lg border border-slate-400/60 bg-white/10 backdrop-blur-md"
-          >
+            class="flex items-center justify-between p-3 rounded-lg border border-slate-400/60 bg-white/10 backdrop-blur-md">
             <span class="text-[#FF55FF] font-semibold">Gemstone</span>
-            <span class="text-[#FF55FF] font-bold">{{
-              format(total.gemstone)
-            }}</span>
+            <span class="text-[#FF55FF] font-bold">{{ format(total.gemstone) }}</span>
           </div>
           <div
-            class="flex items-center justify-between p-3 rounded-lg border border-slate-400/60 bg-white/10 backdrop-blur-md"
-          >
+            class="flex items-center justify-between p-3 rounded-lg border border-slate-400/60 bg-white/10 backdrop-blur-md">
             <span class="text-[#55FFFF] font-semibold">Glacite</span>
-            <span class="text-[#55FFFF] font-bold">{{
-              format(total.glacite)
-            }}</span>
+            <span class="text-[#55FFFF] font-bold">{{ format(total.glacite) }}</span>
           </div>
         </div>
         <div class="my-4 border-t border-gray-600"></div>
-        <div
-          class="flex flex-col items-center justify-center p-4 rounded-lg bg-indigo-700"
-        >
-          <span class="text-gray-200 text-lg font-bold tracking-wide">{{
-            hotmServ.usedTokens
-          }}</span>
+        <div class="flex flex-col items-center justify-center p-4 rounded-lg bg-indigo-700">
+          <span class="text-gray-200 text-lg font-bold tracking-wide">{{ hotmServ.usedTokens }}</span>
           <span class="text-gray-200 font-semibold text-sm">tokens used</span>
         </div>
       </div>
@@ -111,9 +87,7 @@
             (click)="hotmServ.freeMode = !hotmServ.freeMode"
             [ngClass]="
               'h-8 w-full font-semibold rounded-lg transition-colors flex items-center justify-center ' +
-              (hotmServ.freeMode
-                ? 'border border-green-600 bg-green-600 text-white hover:bg-green-700'
-                : 'border border-gray-500 bg-gray-700 text-sky-300 hover:bg-indigo-500/80 hover:text-gray-900')
+              (hotmServ.freeMode ? 'border border-green-600 bg-green-600 text-white hover:bg-green-700' : 'border border-gray-500 bg-gray-700 text-sky-300 hover:bg-indigo-500/80 hover:text-gray-900')
             "
           >
             Free Mode
@@ -129,31 +103,26 @@
         <div class="mb-6">
           <div class="space-y-3">
             <div>
-              <label
-                for="predefined-tree"
-                class="block mb-1 text-sm text-white font-semibold"
-              >
-                Load Predefined Tree
-              </label>
+              <label for="predefined-tree" class="block mb-1 text-sm text-white font-semibold"> Load Predefined
+                Tree </label>
               <p-select
+                [disabled]="true"
                 id="predefined-tree"
                 [options]="predefinedTrees"
                 placeholder="Select a tree"
-                [styleClass]="
-                  'w-full bg-gray-700 text-white border-white focus:ring-2 focus:ring-white rounded-lg'
-                "
+                [styleClass]="'w-full bg-gray-700 text-white border-white focus:ring-2 focus:ring-white rounded-lg'"
               ></p-select>
             </div>
             <div class="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                class="h-10 w-full border border-slate-400/60 bg-gray-700 text-slate-300 font-semibold rounded-lg transition-colors hover:bg-slate-300 hover:text-gray-900"
+              <button type="button"
+                      class="h-10 w-full border border-slate-400/60 bg-gray-700 text-slate-300 font-semibold rounded-lg transition-colors hover:bg-slate-300 hover:text-gray-900"
+                      (click)="onExportClick()"
               >
                 Export
               </button>
-              <button
-                type="button"
-                class="w-full border border-slate-400/60 bg-gray-700 text-slate-300 font-semibold rounded-lg transition-colors hover:bg-slate-300 hover:text-gray-900"
+              <button type="button"
+                      class="w-full border border-slate-400/60 bg-gray-700 text-slate-300 font-semibold rounded-lg transition-colors hover:bg-slate-300 hover:text-gray-900"
+                      (click)="onImportClick()"
               >
                 Import
               </button>
@@ -162,38 +131,9 @@
         </div>
       </div>
     </div>
-
-    <!-- Stats aggregator panel -->
-    <div
-      class="w-full bg-gray-800/40 p-6 rounded-md !border-gray-500 border !hidden"
-    >
-      <h2 class="text-xl font-bold text-lime-400 mb-4">Stats Aggregator</h2>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-        <div class="p-4 bg-gray-700/50 rounded-lg">
-          <p class="text-sm text-gray-400">Total Mining Speed</p>
-          <p class="text-xl font-bold text-white mt-1">0</p>
-        </div>
-        <div class="p-4 bg-gray-700/50 rounded-lg">
-          <p class="text-sm text-gray-400">Total Mining Fortune</p>
-          <p class="text-xl font-bold text-white mt-1">0</p>
-        </div>
-        <div class="p-4 bg-gray-700/50 rounded-lg">
-          <p class="text-sm text-gray-400">Total Powder Buffs</p>
-          <p class="text-xl font-bold text-white mt-1">0%</p>
-        </div>
-        <div class="p-4 bg-gray-700/50 rounded-lg">
-          <p class="text-sm text-gray-400">Pickaxe Ability Boost</p>
-          <p class="text-xl font-bold text-white mt-1">0%</p>
-        </div>
-        <div class="p-4 bg-gray-700/50 rounded-lg">
-          <p class="text-sm text-gray-400">Treasure Finder</p>
-          <p class="text-xl font-bold text-white mt-1">0%</p>
-        </div>
-        <div class="p-4 bg-gray-700/50 rounded-lg">
-          <p class="text-sm text-gray-400">Effective Tokens Used</p>
-          <p class="text-xl font-bold text-white mt-1">0</p>
-        </div>
-      </div>
-    </div>
   </div>
+
+  <p-toast
+    [breakpoints]="{ '920px': { width: '90%', right: '-5%', left: '5%' } }"
+  ></p-toast>
 </div>
