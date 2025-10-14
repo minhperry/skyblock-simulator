@@ -113,8 +113,8 @@ export const routes: Routes = [
         title: "Oct 25 Jerry Cycle",
         data: {
           start: 1760368500,
-          month: "???",
-          order: ["??", "??", "??", "??", "??", "??"],
+          month: "October 2025",
+          order: ["Aatrox", "Cole", "Marina", "??", "??", "??"],
         },
       },
     ],
