@@ -12,8 +12,11 @@
     font-weight: normal;
     // text-rendering: optimizeLegibility;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html { 
+  height: 100%;
+  color-scheme: dark;
+}
+body { height: 100%; margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 
