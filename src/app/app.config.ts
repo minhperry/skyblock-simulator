@@ -56,7 +56,10 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     providePrimeNG({
       theme: {
-        preset: PrimeNgPreset
+        preset: PrimeNgPreset,
+        options: {
+          darkModeSelector: ':root',
+        }
       }
     }),
     provideTanStackQuery(
